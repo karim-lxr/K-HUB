@@ -1,0 +1,286 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="Author" content="Remo Petritoli">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>Multiboot e WIN95 su più partizioni (parte 1)</title>
+</head>
+
+<body background="sfondo2.jpg" bgcolor="#C0C0C0" text="#000000"
+link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<h1><font size="5" face="Times New Roman"><strong>Multiboot e
+WIN95 su più partizioni</strong></font><font size="5"><strong>
+(parte 1)</strong></font></h1>
+
+<p><font face="Times New Roman">Leggo spesso richieste di
+utilizzatori di WIN95 che desiderano far coesistere al meglio
+DOS, WIN95 e magari WIN31.</font></p>
+
+<p><font face="Times New Roman">Purtroppo con la release di OSR2
+la cosa è diventata più difficile e costringe a ricorrere a
+trucchi che possono avere effetti negativi sulla fragile
+stabilita' di WIN95.</font></p>
+
+<p><font face="Times New Roman">Voglio illustrarvi la soluzione
+che ho adottato, con la speranza che sia utile a qualche
+sperimentatore. Per ora mi limiterò ad illustrare velocemente
+come effettuare l'installazione, con il proposito di trasformare
+queste brevi note in un HOWTO completo.</font></p>
+
+<p><font face="Times New Roman">L'articolo suggerisce anche (a
+chi mastica un po' il linux) come</font> <font
+face="Times New Roman">salvare i dati di WIN95 facendo il BACKUP
+compresso di una intera</font> unità<font face="Times New Roman">
+su un'altra partizione tramite il comando TAR del LINUX.</font></p>
+
+<p><font size="4"><strong>---- !!! ATTENZIONE PERICOLO !!!
+ATTENZIONE PERICOLO !!! --------</strong></font></p>
+
+<p><font face="Times New Roman">Ho utilizzato, facendogli
+parecchie modifiche ad hoc, un semplice</font> <font
+face="Times New Roman">programma freeware, &quot;</font><a
+href="multi2.html"><font face="Times New Roman">ACTIVATE</font></a><font
+face="Times New Roman">&quot;, disponibile anche in sorgente sia</font>
+<font face="Times New Roman">per MsDOS che per LINUX.</font></p>
+
+<p><strong>WARNING: QUESTO PROGRAMMA È POTENZIALMENTE MOLTO
+PERICOLOSO</strong><font face="Times New Roman"> per</font> <font
+face="Times New Roman">i dati contenuti nell'intero HD (in tutte
+le partizioni, primarie</font> <font face="Times New Roman">e
+logiche). Infatti va a modificare non solo il Master Boot</font> <font
+face="Times New Roman">Record (che sarebbe facilmente
+ripristinabile), ma anche settori</font> <font
+face="Times New Roman">chiave contenenti i parametri che
+definiscono le unit</font>à<font face="Times New Roman"> logiche</font>
+<font face="Times New Roman">nella partizione estesa.</font></p>
+
+<p><font face="Times New Roman">Se qualcosa va storto, si perdono
+sicuramente tutti i dati ed</font> <font face="Times New Roman">occorre
+ripartizionare e riformattare l'intero hard disk.</font> <font
+face="Times New Roman">Posso dirvi solo che lo uso senza problemi
+sul mio computer da</font> <font face="Times New Roman">un paio
+di mesi. </font><strong>SE VOLETE PROVARLO ED USARLO, LO FATE A
+VOSTRO ESCLUSIVO RISCHIO E PERICOLO</strong><font
+face="Times New Roman">. Comunque, dato che dovete</font> <font
+face="Times New Roman">partire da un HD completamente vuoto,
+prima di affidargli dati</font> <font face="Times New Roman">importanti
+tenetelo in prova un po' di tempo.</font></p>
+
+<hr>
+
+<p><font face="Times New Roman">Dato il modesto costo degli HD ad
+alta capacita', ne ho</font> <font face="Times New Roman">acquistato
+uno da 2.5G e l'ho diviso in 4 partizioni come</font> <font
+face="Times New Roman">appresso indicato.</font></p>
+
+<table border="0" cellpadding="4">
+    <tr>
+        <td>Part.</td>
+        <td>SIZE</td>
+        <td>TIPO</td>
+        <td>Sistema operativo ed uso</td>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>512MB</td>
+        <td>VFAT</td>
+        <td>WIN95 - lavoro</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>256MB</td>
+        <td>VFAT</td>
+        <td>WIN95 - prove</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>256MB</td>
+        <td>MSDOS</td>
+        <td>MsDOS 6.20 e DiLinux - lavoro</td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td>resto</td>
+        <td>partizione estesa</td>
+        <td>vedere in seguito</td>
+    </tr>
+</table>
+
+<hr>
+
+<p>Cancellare per prima cosa tutte le eventuali partizioni sullo
+HD. Poi eseguire i seguenti passi (illustro il mio caso).</p>
+
+<ol type="1" start="1">
+    <li>con FDISK creare una partizione primaria da 512M,
+        formattarla ed accertarsi che sia adatta all'impiego.</li>
+    <li>eseguire il comando &quot;ACTIVATE -&quot; in modo da
+        mascherare tutte le partizioni DOS presenti sullo HD.
+        (FDISK non permette di creare piu' di una partizione DOS
+        primaria)</li>
+    <li>ripetere i passi 1 e 2 per creare la seconda partizione.</li>
+    <li>ripetere il passo 1 (senza il 2) per creare la terza.</li>
+</ol>
+
+<hr>
+
+<p>Fermiamoci per ora a questo punto, senza creare la partizione
+estesa, e vediamo come utilizzare il disco cosi' formattato.</p>
+
+<p>Dando il comando ACTIVATE 1 viene impostato il flag attivo
+sulla partizione 1, disattivando quello delle altre.</p>
+
+<p>Ma la cosa interessante è che viene cambiato il flag che
+contrassegna il sistema operativo che ha creato le altre due
+partizioni primarie. Nel mio caso da 06h diventa 46h. Questo
+implica che al boot il DOS riconosce solo la partizione 1, dato
+che la 2 e la 3 gli appaiono create da un altro sistema
+operativo.</p>
+
+<p>I comandi ACTIVATE 2 o 3 fanno la stessa cosa, rendendo attiva
+e visibile al DOS solo la seconda o la terza partizione, dato che
+cambiano da 06h a 46h il flag delle altre due, mentre riportano
+da 46h a 06h il flag della partizione da attivare.</p>
+
+<p>È quasi come avere tre HD distinti montati su cassettini
+estraibili. In condizioni normali i dati sulle tre partizioni
+restano completamente separati. Si possono tranquillamente
+provare sulla partizione 2 giochi o programmi trovati sulle
+riviste, senza compromettere la funzionalità delle partizioni
+&quot;serie&quot;, di lavoro, nel mio caso la 1 e la 3. E se le
+cose si mettono male, è facile ripristinarla col TAR (v. in
+fondo)</p>
+
+<p>Ovviamente c'è sempre il rischio di fare una frittata gigante
+in caso di guasti hardware o in presenza di virus che vadano a
+scrivere sulle altre partizioni tramite il BIOS. Ma, per quello
+che ho visto, mi pare che WIN95 renda la cosa difficile.<br>
+</p>
+
+<hr>
+
+<h2>Come usare la partizione estesa</h2>
+
+<p>Appare subito una grossa limitazione di questo sistema: le tre
+partizioni primarie non possono comunicare tra loro, quindi è
+impossibile scambiare i dati tra le partizioni.</p>
+
+<p>Qui interviene la partizione estesa, che può essere creata
+con FDISK dopo il passo 4. La partizione estesa è una sorta di
+contenitore, che può contenere molte unità logiche, DOS e non.
+Vediamo cosa contiene quella del mio HD.</p>
+
+<table border="0" cellpadding="4">
+    <tr>
+        <td>D:</td>
+        <td>256MB</td>
+        <td>area scambio dati tra le tre partizioni primarie.</td>
+    </tr>
+    <tr>
+        <td>E:</td>
+        <td>256MB</td>
+        <td>programmazione sotto MSDOS.</td>
+    </tr>
+    <tr>
+        <td>F:</td>
+        <td>256MB</td>
+        <td>WIN 31 e relativi programmi, in fase di eliminazione.</td>
+    </tr>
+    <tr>
+        <td>G:</td>
+        <td>256MB</td>
+        <td>LINUX UMSDOS RedHat 4.0</td>
+    </tr>
+    <tr>
+        <td>--</td>
+        <td>364MB</td>
+        <td>LINUX EXT2 Backup di WIN95 col LINUX e TAR</td>
+    </tr>
+    <tr>
+        <td>--</td>
+        <td>32MB</td>
+        <td>LINUX SWAP</td>
+    </tr>
+</table>
+
+<p>Nel cambiare la partizione attiva, il programma ACTIVATE
+lascia sempre riconoscibile l'unità D:, che contiene i dati
+comuni a tutte le partizioni e permette un facile scambio dei
+dati tra le tre partizioni primarie.</p>
+
+<p>Le altre unità logiche (nel mio caso E:, F: e G:) sono
+riconoscibili solo quando viene attivata la partizione 3. In
+questo modo eventuali stranezze di WIN95 o di qualche gioco o
+programma mal fatto non possono corromperne i dati.</p>
+
+<hr>
+
+<h2>Anche il LINUX può essere utile</h2>
+
+<p>La soluzione proposta aiuta a risolvere un altro grosso
+problema, come salvare i dati. Dopo un po' di prove mi pare di
+aver accertato che il Backup di WIN95 non si presta a ricaricare
+tutto il sistema dopo un crash.</p>
+
+<p>Premetto che ci tengo molto all'integrità dei miei dati, e
+che faccio frequenti BK tramite unità a nastro montata su un
+altro computer. È il motivo che mi ha spinto a preferire
+l'UMSDOS per il LINUX: posso salvarne i dati come semplici files
+MSDOS.</p>
+
+<p>Per salvare i dati di WIN95 montiamo le prime due partizioni
+come VFAT su /HD-WORK e /HD-TEST, e diamo i comandi:</p>
+
+<blockquote>
+    <p>cd /HD-WORK<br>
+    tar cvfz /HD-EXT2/WORK.tgz .</p>
+</blockquote>
+
+<p>Troveremo il file archivio compresso sull'unità EXT2.</p>
+
+<p>A questo punto, qualora WIN95 cominci a dare i numeri, sarà
+molto facile ripristinare la configurazine salvata.</p>
+
+<blockquote>
+    <p>ACTIVATE 1 rendere attiva la prima partizione<br>
+    FORMAT C: /s /v rimetterci il sistema operativo<br>
+    ----- avviare linux -----<br>
+    cd /HD-WORK<br>
+    tar xvfz /HD-EXT2/WORK.tgz</p>
+</blockquote>
+
+<p>In pochi minuti avremo di nuovo WIN95 perfettamente
+reinstallato, senza doverci ammattire. La cosa è particolarmente
+utile per la partizione destinata alle prove.</p>
+
+<p>Si noti che, salvando i backup su un filesystem EXT2, questi
+sono inaccessibili al DOS ed a WIN95, quindi sono quasi al sicuro
+(salvo guasti allo HD).</p>
+
+<hr>
+
+<p>Congedo: siate indulgenti con questa esposizione affrettata e
+raffazzonata. Sono incredibilmente pigro e mi compiaccio di
+esserlo, e forse non mi sarei mai deciso a scrivere bene.</p>
+
+<p>Aspetto le vostre critiche costruttive per migliorare e
+rendere più chiara l'esposizione e più funzionale il
+programmino.</p>
+
+<p>&nbsp;</p>
+
+
+<p align="center">&nbsp;</p>
+
+<p align="center">Articolo scritto da <br>
+<a href="mailto:febo.ares@ntt.it"><font size="4"><strong>Remo
+Petritoli</strong></font></a></p>
+
+<p align="center">&nbsp;</p>
+
+</body>
+</html>

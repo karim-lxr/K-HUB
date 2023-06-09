@@ -1,0 +1,37 @@
+#!/bin/sh
+# Start/stop/restart the squid server daemon (squid).
+
+
+squid_start() {
+  if [ -x /usr/sbin/squid ]; then
+    echo "Starting SQUID:  /usr/sbin/squid"
+    /usr/sbin/squid -D &
+  fi
+}
+
+# Stop squid:
+squid_stop() {
+  killall squid
+}
+
+# Restart squid:
+squid_restart() {
+  squid_stop
+  sleep 1
+  squid_start
+}
+
+case "$1" in
+'start')
+  squid_start
+  ;;
+'stop')
+  squid_stop
+  ;;
+'restart')
+  squid_restart
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+

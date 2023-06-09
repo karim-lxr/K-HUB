@@ -1,0 +1,485 @@
+<HTML>
+<HEAD>
+<TITLE>Linux: Using the vi/vim editor: advanced features </TITLE>
+<LINK REL=STYLESHEET HREF="yolinux.css" TYPE="text/css">
+</HEAD>
+<BODY BGCOLOR="#CCCCCC" TEXT="#000000">
+<HR size=5>
+<P>
+<TABLE><TR><TD width="70%">
+<H1>YoLinux: Using the Linux vi/vim editor: advanced features </H1>
+</TD></TR><TR><TD valign="top" align="right">
+</TD></TR></TABLE>
+<P>
+<HR size=5>
+<P>
+This "<tt>vi</tt>" tutorial is intended for those who wish to master and advance their skills beyond
+the basic features of the basic editor. It covers buffers, "<tt>vi</tt>" command line 
+instructions, interfacing with UNIX commands, and ctags.
+The <tt>vim</tt> editor is an enhanced version of <tt>vi</tt>. The improvements are
+clearly noticed in the handling of tags.
+<P>
+The advantage of learning <tt>vi</tt> and learning it well is that one will find
+<tt>vi</tt> on all Unix based systems and it does not consume an inordinate amount of 
+system resources. Vi works great over slow network ppp modem connections and on 
+systems of limited resources. One can completely utilize vi without departing
+a single finger from the keyboard. (No hand to mouse and return to keyboard latency)
+<P>
+NOTE: Microsoft PC Notepad users who do not wish to use "<B>vi</B>" should use 
+"<B>gnp</B>" (Gnome Note Pad) on Linux. 
+This is very similar in operation to the Microsoft Windows editor, "Notepad".
+(Other Unix systems GUI editors: "dtpad", which can be found in 
+<tt>/usr/dt/bin/dtpad</tt> for AIX, vuepad on HP/UX, or xedit on all Unix systems.)
+<P>
+<HR>
+<P>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Basic "vi" features</BIG></B></TD></TR>
+</TABLE>
+<P>
+One edits a file in <TT>vi</TT> by issuing the command: <TT>vi file-to-edit.txt</TT>
+<P>
+The vi editor has three modes, command mode, insert mode and command line mode.
+<OL>
+<LI><B>Command mode:</B> letters or sequence of letters interactively command vi.
+    Commands are case sensitive. The ESC key can end a command.
+<LI><B>Insert mode:</B> Text is inserted. The ESC key ends insert mode and returns you
+    to command mode. One can enter insert mode with the "i" (insert), "a" (insert after), "A" (insert at end of line), "o" (open new line after current line) or "O" (Open line above current line) commands.
+<LI><B>Command line mode:</B> One enters this mode by typing ":" which puts the 
+    command line entry at the foot of the screen.
+</OL>
+<P>
+Partial list of interactive commands:
+<DL><DD>
+<B>Cursor movement:</B>
+<TABLE BORDER=1 cellpadding=2>
+<TR><TD>h/j/k/l </TD><TD> Move cursor left/down/up/right</TD></TR>
+<TR><TD>-/+ </TD><TD> Move cursor down/up in first column</TD></TR>
+<TR><TD>CNTL-d</TD><TD>Scroll down one half of a page</TD></TR>
+<TR><TD>CNTL-u</TD><TD>Scroll up one half of a page</TD></TR>
+<TR><TD>CNTL-f</TD><TD>Scroll forward one page</TD></TR>
+<TR><TD>CNTL-b</TD><TD>Scroll back one page</TD></TR>
+<TR><TD>M</TD><TD>Move cursor to middle of page</TD></TR>
+<TR><TD>H</TD><TD>Move cursor to top of page</TD></TR>
+<TR><TD>L</TD><TD>Move cursor to bottom of page</TD></TR>
+<TR><TD>w </TD><TD>Move cursor a word at a time </TD></TR>
+<TR><TD>0 (zero) </TD><TD>Move cursor to beginning of line </TD></TR>
+<TR><TD>$ </TD><TD>Move cursor to end of line </TD></TR>
+<TR><TD>G </TD><TD>Move cursor to end of file </TD></TR>
+</TABLE>
+<P>
+<B>Editing commands:</B>
+<TABLE BORDER=1 cellpadding=2>
+<TR><TD>i </TD><TD>Insert at cursor</TD></TR>
+<TR><TD>a </TD><TD>Append after cursor </TD></TR>
+<TR><TD>A </TD><TD>Append at end of line </TD></TR>
+<TR><TD>ESC </TD><TD>Terminate insert mode </TD></TR>
+<TR><TD>u</TD><TD>Undo last change </TD></TR>
+<TR><TD>U</TD><TD>Undo all changes to entire line </TD></TR>
+<TR><TD>o </TD><TD>Open a new line </TD></TR>
+<TR><TD>dd </TD><TD>Delete line </TD></TR>
+<TR><TD>D </TD><TD>Delete contents of line after cursor</TD></TR>
+<TR><TD>dw </TD><TD>Delete word </TD></TR>
+<TR><TD>cw </TD><TD>Change word </TD></TR>
+<TR><TD>x</TD><TD>Delete character at cursor </TD></TR>
+<TR><TD>r</TD><TD>Replace character </TD></TR>
+<TR><TD>R</TD><TD>Overwrite characters from cursor onward </TD></TR>
+<TR><TD>~</TD><TD>Change case of individual character </TD></TR>
+<TR><TD>/search_word{CR}</TD><TD>Search for search_word</TD></TR>
+<TR><TD>n</TD><TD>Find next occurrence of search_word</TD></TR>
+</TABLE>
+</DL>
+<P>
+Terminate session:
+<UL>
+<LI>Use command: ZZ
+    <BR>Save changes and quit.
+<LI>Use command line: "<TT>:wq</TT>"
+    <BR>Save (write) changes and quit.
+<LI>Use command line: "<TT>:q!</TT>"
+    <BR>Ignore changes and quit. No changes from last write will be saved.
+</UL>
+<P>
+<HR>
+<P>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Advanced "vi" features</BIG></B></TD></TR>
+</TABLE>
+<H3>Interactive Commands:</H3>
+<UL>
+   <LI><B>Marking a line:</B>
+   <DL>
+   <DD>Any line can be "Book Marked" for a quick cursor return.
+       <UL>
+         <LI>Type the letter "<B>m</B>" and any other letter to identify the line.
+         <LI>This "marked" line can be referenced by the keystroke sequence
+             "<B>'</B>" and the identifying letter.
+             <BR>
+             Example: "<B>mt</B>" will mark a line by the identifier "t".
+             <BR>
+             "<B>'t"</B> will return the cursor to this line at any time. 
+             <BR>
+             A block of text may be referred to by its marked lines.  i.e.<B>'t,'b </B> 
+       </UL>
+   </DL>
+
+   <LI><B>vi line buffers:</B>
+   <DL>
+   <DD>To capture lines into the buffer:
+      <UL>
+         <LI>Single line: "<B>yy</B>" - yanks a single line 
+             (defined by current cursor position) into the buffer
+         <LI>Multiple lines: "<B>y't</B>" - yanks from current cursor position to the line marked "t"
+         <LI>Multiple lines: "<B>3yy</B>" - yank 3 lines. Current line and two lines below it.
+      </UL>
+      Copy from buffer to editing session:
+      <UL>
+         <LI>"<B>p</B>" - place contents of buffer after current line defined by
+                   current cursor position.
+      </UL>
+   </DL>
+</UL>
+
+<H3>Command Line:</H3>
+<UL>
+   <LI><B>command options:</B>
+   <DL>
+   <DD> The vi command line interface is available by typing "<B>:</B>".
+        Terminate with a carriage return.
+        <BR>
+        Example commands:
+        <UL>
+          <LI><B>:set all</B> - display all settings of your session. 
+          <LI><B>:set ic</B>  - Change default to ignore case for text searches
+          <BR> Default is changed from noignorecase to ignorecase. (ic is
+               a short form otherwise type <B>set ignorecase</B>)
+          <LI>Common options to set:
+              <BR>
+              <TABLE BORDER=1 cellpadding=2>
+              <TR><TD>autoindent/noautoindent </TD><TD>ai/noai</TD> <TD> {CR} returns to indent of previous line</TD> </TR>
+              <TR><TD>autowrite/noautowrite </TD><TD>aw/noaw</TD> <TD> See tags</TD> </TR>
+              <TR><TD> errorbells/noerrorbells</TD><TD>eb/noeb</TD> <TD>Silence error beep </TD> </TR>
+              <TR><TD> flash/noflash</TD> <TD>fl/nofl</TD><TD> Screen flashes upon error (for deaf people or when noerrorbells is set)</TD> </TR>
+              <TR><TD> tabstop=8 </TD> <TD>ts</TD><TD> Tab key displays 8 spaces</TD> </TR>
+              <TR><TD>ignorecase/noignorecase </TD> <TD>ic/noic</TD><TD> Case sensitive searches</TD> </TR>
+              <TR><TD>number/nonumber </TD><TD>nu/nonu <TD> Display line numbers</TD> </TR>
+              <TR><TD> showmatch/noshowmatch</TD> <TD>no abbreviations </TD> <TD>Cursor shows matching ")" and "}"</TD></TR>
+              <TR><TD> showmode/noshowmode</TD> <TD>no abbreviations </TD> <TD>Editor mode is displayed on bottom of screen</TD></TR>
+              <TR><TD>taglength</TD><TD>tl</TD><TD>Default=0. Set significant characters</TD></TR>
+              <TR><TD>  closepunct='".,;)]}</TD> <TD> - </TD><TD> % key shows matching symbol. Also see showmatch</TD> </TR>
+              <TR><TD>linelimit=1048560 </TD> <TD> - </TD><TD> Maximum file size to edit</TD> </TR>
+              <TR><TD> wrapscan/nowrapscan</TD> <TD>ws/nows</TD><TD>Breaks line if too long </TD> </TR>
+              <TR><TD> wrapmargin=0/nowrapmargin</TD> <TD> wm/nowm</TD> <TD>Define right margin for line wrapping.</TR>
+              <TR><TD> list/nolist</TD> <TD> - </TD> <TD>Display all Tabs/Ends of lines.</TR>
+              </TABLE>
+        </UL>
+   </DL>
+<BR>
+   <LI><B>Executing Unix commands in vi:</B>
+   <DL>
+   <DD> Any UNIX command can be executed from the vi command line by
+        typing an "!" before the UNIX command.
+        <BR>
+        Examples: 
+        <UL>
+          <LI>"<B>:!pwd</B>" - shows your current working directory.
+          <LI>"<B>:r !date</B>" - reads the results from the date command
+              into a new line following the cursor.
+          <LI>"<B>:r !ls -1</B>" - Place after the cursor, the current 
+              directory listing displayed as a single column.
+        </UL>
+   </DL>
+
+   <LI><B>Line numbers:</B>
+   <DL>
+   <DD>
+       Lines may be referenced by their line numbers. 
+       The last line in the file can be referenced by the "$" sign.
+       <BR>
+       The entire file may be referenced by the block "<B>1,$</B>"
+       <BR>
+       The current line is referred to as "<B>.</B>"
+       <BR>
+       A block of text may be referred to by its marked lines.  
+       i.e. <B>5,38</B> or <B>'t,'b </B>
+       
+   </DL>
+ 
+   <LI><B>Sorting:</B>
+   <DL>
+   <DD> Example:<UL>
+          <LI>Mark a block of text at the top line and bottom line of
+              the block. i.e. "<B>mt</B>" and "<B>mb</B>" on two separate lines.
+          <LI><B>:'t,'b !sort</B>
+        </UL>
+   </DL>
+   <BR> 
+   <LI><B>Moving columns, manipulating fields and awk:</B>
+   <DL>
+   <DD> <B>:'t,. !awk '{print $3 " " $2 " " $1}' </B> 
+            - This will reverse the order of the columns in the block.
+   <BR>
+              <PRE>
+              aaa bbb ccc              ccc bbb aaa
+              xxx yyy zzz   becomes->  zzz yyy xxx
+              111 222 333              333 222 111
+              </PRE>
+   </DL>
+    
+   <LI><B>Formatting:</B>
+   <DL>
+   <DD>
+          <LI>Mark a block of text at the top line and bottom line of
+              the block. i.e. "<B>mt</B>" and "<B>mb</B>" on two separate lines.
+          <LI>Example: "<B>:'t,'b !nroff</B>"
+          <LI> You can insert nroff commands i.e.:
+          <UL>
+             <TABLE BORDER=1 cellpadding=2>
+             <TR><TD>.ce 3</TD><TD> Center the next three lines</TD></TR>
+             <TR><TD>.fi</TD> <TD> Fill text - left and right justify (default)</TD></TR> 
+             <TR><TD>.nf </TD> <TD> No Fill</TD></TR>
+             <TR><TD>.ls 2 </TD> <TD> Double line spacing</TD></TR>
+             <TR><TD>.sp </TD> <TD> Single line space</TD></TR>
+             <TR><TD>.sv 1.0i</TD> <TD> Vertical space at top of page space</TD></TR>
+             <TR><TD>.ns </TD> <TD> Turn off spacing mode</TD></TR>
+             <TR><TD>.rs </TD> <TD> Restore spacing mode</TD></TR>
+             <TR><TD>.ll 6.0i </TD> <TD> Line length = 6 inches</TD></TR>
+             <TR><TD>.in 1.0i </TD> <TD> Indent one inch</TD></TR>
+             <TR><TD>.ti 1.0i </TD> <TD> Temporarily one time only indent one inch</TD></TR>
+             <TR><TD>.pl 8.0i </TD> <TD> Page length = 8 inches</TD></TR>
+             <TR><TD>.bp </TD> <TD> Page break</TD></TR>
+             </TABLE>
+          </UL>
+          <P>
+<PRE>
+.fi
+.pl 2i
+.in 1.0i
+.ll 6.0i
+.ce
+Title to be centered
+.sp
+The following text bla bla bla bla bla bla bla bla bla bla 
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla 
+bla bla bla bla bla
+</PRE>
+          <P>
+          Becomes:
+<PRE>
+                         Title to be centered
+
+          The following text bla bla bla bla bla bla bla bla
+          bla  bla  bla  bla bla bla bla bla bla bla bla bla
+          bla bla bla bla bla bla bla bla bla  bla  bla  bla
+          bla  bla  bla  bla bla bla bla bla bla bla bla bla
+          bla bla bla bla bla bla bla bla bla  bla  bla  bla
+          bla bla bla bla
+
+
+
+
+</PRE>
+   </DL>
+    
+   <LI><B>Spell Checking:</B>
+   <DL>
+   <DD> <UL>
+        <LI>Mark a block of text by marking the top line and bottom line of
+        the block. i.e. "<B>mt</B>" and "<B>mb</B>" on two separate lines.
+        <LI><B>:'t,'b !spell</B> will cause the block to be replaced
+        with misspelled words.
+        <LI>Press "<B>u</B>" to undo.
+        <LI>Proceed to correct words misspelled.
+        </UL>
+   </DL>
+
+   <LI><B>Macros:</B>
+   <DL>
+   <DD><B>:map letter commands_strung_together</B>
+       <BR>
+       <B>:map</B> - lists current key mappings
+       <BR>
+       Example - <B>:map g n cwNEW_WORD{cntl-v}{esc}i{cntl-v}{CR}  </B>
+       <BR> This example would find the next search occurrence, change
+            the word and insert a line feed after the word.
+            The macro is invoked by typing the letter "g".
+       <P>
+       <UL>
+         <LI>Control/Escape/Carriage control characters must be prefixed
+             with CNTL-V.
+         <LI>Choose a letter which is not used or important.
+             (i.e. a poor choice would be "i" as this is used for insert)
+       </UL>
+   </DL>
+   <P> 
+   <LI><B>Double spacing:</B> 
+       <UL><LI><B>:%s/$/{CNTL-V}{CR}/g</B>
+           <BR> This command applies an extra carriage return at the end 
+           of all lines
+       </UL>
+   <P> 
+    
+   <LI><B>Strip blanks at end of line:</B> 
+       <UL><LI><B>:%s/{TAB}*$//</B>
+       </UL>
+   <P> 
+    
+   <LI><B>Strip DOS CNTL-M's:</B> 
+       <UL><LI><B>:1,$ s/{CNTL-V}{CNTL-M}//</B>
+       </UL>
+           <BR>Note: In order to enter a control character, one muust first
+           enter cntl-v. This is true throughout vi. For example, if searching 
+           for a control character (i.e. cntl-m): <TT>/cntl-v cntl-M</TT>
+           If generating a macro and you need to enter esc without exiting
+           the vi command line the esc must be prefixed with a cntl-v: 
+           <TT>cntl-v esc</TT>.
+   <P> 
+    
+   <LI><B>Editing multiple files:</B> 
+       <UL><LI><B>vi file1 file2 file3</B>
+           <li><b>:n</b> Edit next file (file2)
+           <li><b>:n</b> Edit next file (file3)
+           <li><b>:rew</b> Rewind to the first file (file1) 
+       </UL>
+</UL>
+   <P> 
+<HR>
+   <P> 
+    
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Tagging:</BIG></B></TD></TR>
+</TABLE>
+   <P> 
+This functionality allows one to jump between files to locate subroutines.
+   <DL>
+   <DD> <UL>
+          <LI><B>ctags *.h *.c</B> This creates a file names "tags".
+       </UL>
+   </DL>
+   <P>
+       Edit the file using <B>vi</B>.
+   <DL>
+   <DD> <UL>
+          <LI>Unix command line: <B>vi -t &nbsp; subroutine_name </B> This will
+              find the correct file to edit.
+          <BR>OR
+          <LI>Vi command line: <B>:tag subroutine_name </B> This will
+              jump from your current file to the file containing the
+              subroutine. (short form <B>:ta subroutine_name</B> )
+          <BR>OR
+          <LI>By cursor position: <B>CNTL-]</B>  Place cursor on the
+              first character of the subroutine name and press <B>CNTL-]</B>
+              This will jump to the file containing the subroutine.
+       </UL>
+   </DL>
+<P>
+   In all cases you will be entered into the correct file and the cursor
+   will be positioned at the subroutine desired.
+   <BR>
+   If it is not working properly look at the "tags" file created by <B>ctags</B>.
+   Also the tag name (first column) may be abbreviated for convenience.
+   One may shorten the significant characters using <B>:set taglength=number</B>
+   <BR>
+   A project may have a tags file which can be added and referred to by 
+   <B>:set tags=tags\ /ad/src/project1.tags</B> A "\" must separate
+   the file names.
+   <P>
+   <B>:set autowrite</B> will automatically save changes when jumping from
+   file to file, otherwise you need to use the <B>:w</B> command. 
+   <P>
+<B>vim tagging notes:</B> (These specific tag features not available in vi)
+<P>
+The vim editor will allow the user to jump back a level with <B>cntl-T</B>.
+<BR>
+When multiple entries exist in the tags file, such as a function declaration in 
+a header file and a function definition (the function itself), the operator can
+choose by issuing the following on the vim command line <B>:tselect <I>&lt;function-name&gt;</I></B>.
+The user will be presented with all the references to the function and the
+user will be prompted to enter the number associated with the appropriate one.
+<P>
+For the <A HREF="http://www.vim.org/html/runtime/doc/tagsearch.txt">complete info on vim/tags</A>.
+<P>
+<HR>
+<P>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>The ctags utility:</BIG></B></TD></TR>
+</TABLE>
+<P>
+There are more than one version of ctags out there. The original Unix version,
+the GNU version and the version that comes with vim. This discussion is about the one that comes with vim. (default with Red Hat)
+<P>
+For use with C++:
+<PRE>
+   <A HREF="http://node1.yo-linux.com/cgi-bin/man2html?cgi_command=ctags">ctags</A> --lang=c++ --c-types=+Ccdefgmnpstuvx *.cpp ../inc/*.h
+</PRE>
+<A NAME="EXRC"></A>
+<P>
+<HR>
+<P>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Defaults file:</BIG></B></TD></TR>
+</TABLE>
+<P>
+<B>$HOME/.exrc</B>
+   <DL>
+   <DD> Example:<PRE>
+         set autoindent
+         set wrapmargin=0
+         map g hjlhjlhjlhlhjl
+         "
+         " S = save current vi buffer contents and run spell on it,
+         "     putting list of misspelled words at the end of the vi buffer.
+         map S G:w!^M:r!spell %^M
+         colorscheme evening
+        </PRE> 
+   </DL>
+<P>
+Notes:
+<UL>
+<LI>Look in <TT>/usr/share/vim/vim61/colors/</TT> for available colorschemes.
+<LI>Alternate use of autoindent: <TT>set ai sw=3</TT>
+</UL>
+<P>
+<HR>
+<P>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Vim tip:</BIG></B></TD></TR>
+</TABLE>
+<P>
+Using a mousewheel with vim in an xterm. Place in file <TT>$HOME/.Xdefaults</TT>
+<DL><DD>
+<PRE>
+XTerm*VT100.Translations: #override \n\ 
+: string("0x9b") string("[64~") \n\ 
+: string("0x9b") string("[65~")
+</PRE>
+</DL>
+<P>
+<HR size=5>
+<TABLE border=0 cellpadding=2 cellspacing=0 width="100%">
+<TR bgcolor="ffcc33"><TD><B><BIG>Links:</BIG></B></TD></TR>
+</TABLE>
+<P>
+<UL>
+<LI><A HREF="http://www.vim.org">The vim home page</A>
+<LI><A HREF="http://linux.com/enhance/tuneup/database.phtml/Misc/2220.html">Getting VIM to Use Your Mouse Wheel</A> - by Marius Aamodt Eriksen
+<LI><A HREF="http://www.linuxpowered.com/html/tutorials/vi.html">VI Reference card</A>
+<LI><A HREF="http://www.cs.pdx.edu/~kirkenda/joy84.html">Interview with Bill Joy and the history of VI</A>
+<LI><A HREF="http://www.networkcomputing.com/unixworld/tutorial/009/009.html">Vi/Ex Editor tutorial</A>
+<LI><A HREF="http://www.jerrywang.net/vi/">Fast vi tutorial</A>
+</UL>
+<P>
+<HR size=5>
+<TABLE>
+<TR><TD valign=top width="60%">
+Return to <A HREF="http://yolinux.com">http://YoLinux.com home page</A>
+<BR>
+Return to <A HREF="index.html">YoLinux Tutorial Index</A>
+<P>
+<SMALL>Copyright &#169; 1999, 2000, 2001, 2002, 2003 by <I>Greg Ippolito</I></SMALL>
+</TD></TR></TABLE>
+<P>
+</BODY>
+</HTML>

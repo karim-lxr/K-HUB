@@ -1,0 +1,243 @@
+Easy Samba Server V 1.0
+
+by Lorenzo Allori <lallori@medici.org>
+
+This program is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+http://www.gnu.org/philosophy/license-list.html
+
+The Author does not have any responsability on theese scripts.
+
+
+INSTALL File:
+
+This File explains to you how to install samba under a Linux Box.
+
+I was testing this version of samba under Slackware Linux 8.0.
+
+First you get the sources from a samba mirror:
+
+$wget ftp://it.samba.org/pub/samba/samba-2.2.7a.tar.gz
+$wget ftp://it.samba.org/pub/samba/samba-2.2.7a.tar.asc
+$wget ftp://it.samba.org/pub/samba/samba-pubkey.asc
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+THIS IS VERY IMPORTANT:
+
+Compare the PGP signature for the source files before compile:
+
+$ pgp --import samba-pubkey.asc
+$ pgp --verify samba-2.2.7a.tar.gz
+
+You must receive a message like:
+
+Good Signature from Samba Distribution Verification Key.
+
+If not choose another mirror and redownload the package.
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+
+INSTALLATION INSTRUCTIONS
+
+
+1. Untarring and Compiling
+
+
+Now we can configure and compile:
+
+$ tar -xvzf samba-2.2.7a.tar.gz
+$ cd samba-2.2.7a
+$ cd source 
+
+$ ./configure --with-smbmount --mandir=/usr/man --with-logfilebase=/var/log/samba
+$ make -j 4 (double processor or P4 or P3) (if you do not have theese processors use make without -j 4)
+$ su
+# make install
+
+Now you have samba installed in $PREFIX /usr/local/samba
+
+Copy the file smbPDC.conf in /usr/local/samba/lib/ and rename it to
+/usr/local/samba/lib/smb.conf
+
+
+
+2. Configuring Samba as PDC
+
+
+a) First make sure you run the script ./smbinstdir.
+
+$ su
+# ./smbinstdir
+
+
+This script creates the directory structure for the samba PDC server.
+
+It creates all the Domain Server directories as follows:
+
+
+//NETBIOSANAMESAMBASERVER/	  -----> /home/samba/
+//NETBIOSNAMESAMBASERVER/netlogon -----> /home/samba/netlogon/
+//NETBIOSNAMESAMBASERVER/profiles -----> /home/samba/profiles/
+//NETBIOSNAMESAMBASERVER/tmp      -----> /home/samba/tmp/
+
+
+and gives the ownement of /home/samba/tmp to nobody:nogroup.
+
+
+b) Create the script logon.bat on a pc running windows cause it must be
+windows formatted not unix formatted.
+
+
+Ex. logon.bat:
+
+
+@echo off
+
+echo "Configuring time and date.."
+NET TIME \\NETBIOSNAMESAMBASERVER\ /SET /YES
+
+echo "Setting up Network drives.."
+NET USE Z: \\NETBIOSNAMESAMBASERVER\PUBLIC
+NET USE P: \\NETBIOSNAMESAMBASERVER\HOMES
+
+
+
+c) At this point you need to add users. To do so use the script "smbadduser".
+
+$ su
+# ./smbadduser testuser
+
+A "testuser" user will be added on the server. Remember that the password to use
+the first time you log on with a new user is: default.
+
+You enter this password and at your first logon you will be prompted for a
+new password.
+
+note:	do you want a suggestion on how to make usernames for your users?
+	I use this formula (developed by Fabio Landi),
+	because i have to deal with a large amount of american users.
+
+	username= 8 caracter long, first letter of their first name, first
+	letter of their middle name, their first 6 letters of their last
+	name.
+
+	If the name does not have the middle name, repeat the first letter
+	of the first name.
+	
+ Examples:
+
+	Ex. 1 (American Kind of Name: first name, middle name, lastname)  
+	Samuel Edward Johnson
+	
+	His username would be: sejohnso
+
+	Ex. 2 (European Name)
+	Lorenzo Allori
+
+	His username would be: llallori
+
+d) Remember to use the script "smbdeluser" to delete user:
+
+$ su
+# ./smbdeluser testuser
+
+The user will be deleted both from the unix passwd file and from samba smbpasswd
+file.
+
+
+
+
+
+3. Configuring the clients
+
+
+a) Win95/98/Me PCs.
+
+
+	On your desktop right click on Network Neighborhood and choose
+	properties.
+
+	1. Choose "Client for Microsoft Networks" (if not in there install
+	   it). Check the Box Called "Log on to Windows NT domain" and enter
+	   the domain name (under the smb.conf file the entry is workgroup
+	   so look to what you entered here and enter it in the text box whe
+	   are talking about).
+
+	2. reboot the machine
+
+
+
+	3. Inside the network neighborhood properties choose the "Access 
+	   Control" section on the top right of that window.
+	   Check the box "User-level access control", and enter the domain
+	   name.
+
+b) Windows NT workstations, Win2k, WinXp.
+
+
+	 
+	1.  WinNT
+	    
+	    Use the script included called "smbcltrust" to create Machine
+	    trust accounts. You have to use it for every NT machine you want
+	    to join the domain.
+	    
+	    Then follow this steps on the NT Machine (you need to be
+	    Administrator):
+	    
+	    
+	    - Enter the Network properties (From the control panel)
+	    
+	    - Click on "Identification" tab anche click "Change"
+	    
+	    - Enter the textboxes with Computer Name and Domain name.
+	      REMEMBER NOT TO CHECK THE BOX "Create a computer Account
+	      in the Domain".
+	      
+	    - Click OK
+	    
+	    - You should be ginve a message like: Welcome to the Domain blablabla
+	    
+	    - Reboot and log in a a Domain user
+
+	2.  Win 2000
+	    
+	    Do the same thing as win NT. (Wait for another version of this 
+	    how-to because i did not tried yet working with this os)*
+	    
+	3.  Win XP
+	
+	    Do the same thing as win NT. (Wait for another version of this
+	    how-to because i did not tried yet working with this os)*   
+	    
+	    
+
+TROUBLESHOOTING:
+
+
+- Remember that all the problems you will have copying stuff from a workstation
+  to one of the server shares like permissions and stuff, you have to act in
+  unix permissions, do not be mad using samba for filesystem permissions.
+
+  Unix usernames and gruop. If you followed this installation you have a group
+  called smbusers and to see your unix users you know how to mamage:
+
+  # cat /etc/passwd.
+
+
+
+
+
+
+HAVE FUN GUYS!
+
+Lorenzo
+
+
+NOTE: This version is only for samba 2.2.x (mainly 2.2.7a) not 3.x.
+
+

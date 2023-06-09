@@ -1,0 +1,35 @@
+20-giu-04
+NAMED CAPSET FAILED
+--------------------
+
+UNA SOLUZIONE
+You can just compile BIND9 without Linux cap support with a ./configure 
+option. IIRC, the option is --disable-linux-caps. 
+
+If you are seeing the error
+
+named: capset failed: Operation not permitted
+
+You need to do the following
+
+Download the source from http://www.isc.org
+Unpack the source
+Run ./configure --disable-linux-caps
+Compile the source (make)
+Install the binary (make install)
+
+2 SOLUZIONE
+
+To solve, try "modprobe capability", or build SECURITY_CAPABILITY into kernel.
+modprobe capability (and add it to modprobe.preload)
+
+
+reference: http://www.redhat.com/archives/fedora-list/2003-December/msg04226.html 
+CONFIG_SECURITY=y
+ CONFIG_SECURITY_CAPABILITIES=y
+ or 
+CONFIG_SECURITY=n 
+CONFIG_SECURITY_CAPABILITIES=n 
+or modprobe capability
+
+

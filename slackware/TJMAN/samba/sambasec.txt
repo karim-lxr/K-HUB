@@ -1,0 +1,100 @@
+Subject: Re: info-sicurezza-samba 
+From: Eleonora <info@x-os.it <mailto:info@x-os.it>> 
+Date: Sat, 1 Feb 2003 12:32:25 +0100 
+
+Il 11:00, sabato 1 febbraio 2003, matteo ha scritto:
+> ciao a tutti
+>
+> Tutto funziona perfettamente come voglio io, e cioe' i client riescono
+> ad accedere al server senza dover immettere nessuna password.
+> Ora pero' ho paura per la sicurezza generale:
+> e' rischioso utilizzare samba in questo modo?
+
+manda smb.conf e poi vediamo
+
+> ho provato ad inserire nel file smb.conf sia la stringa hostss allow che
+> quella hostss deny, ma nel caso in cui io debba inserire piu' domini o ip
+> come deve essere la sintassi che non l'ho trovata da nessuna parte?
+> ho provatro sia lasciando uno spazio tra un ip e l'altro sia con una
+> virgola, qualcuno mi puo' aiutare?
+
+le regole base sono:
+
+1) se in smb.conf hosts allow e hosts deny sono tralasciate
+   l'accesso e' consentito a tutti.
+
+2) se in global specifichi hosts allow e/o hosts deny
+   queste vengono applicate a tutte le share anche
+    se all'interno di queste sono def a loro volta
+   tali opz.
+
+3) se per una share e' definito solo hosts allow 
+    solo gli hosts indicati accedono tutti gli altri no
+
+4) se e' stata definita solo hosts deny tutti quelli che non
+  sono indicati accedono
+
+5) se sono definite entrambe allora un hosts per accedere
+  deve comparire in hosts allow e non in hosts deny se non
+  altrimenti non accede cmq.
+
+ATTENTO non negare l'accesso ad una sottorete e 
+poi metti un hosts di quella sottorete in hosts allow.
+(il viceversa e' ammissibile)
+
+ora supponiamo di voler consentire l'accesso alle due sottoreti
+192.168.1.0 e 192.168.2.0 
+allora devi scrivere
+
+hosts allow= 192.168.1.  192.168.2.
+
+e supponiamo di voler negare l'accesso a 192.168.1.5
+e 192.168.1.20 allora specificheremo anche
+
+hosts deny= 192.168.1.5 192.168.1.20
+
+ma e' opportuno configurare opportunamente anche bind interfaces
+only e interfaces.
+
+ad esempio posso mettere restrizioni di accesso ovespecifico quali reti 
+possono accedere al servizio SAMBA del
+tuo server con interf. 192.168.1.15 e 192.168.2.20
+
+Avendo inserito nel file di configurazione smb.conf le righe
+
+ interfaces=192.168.1.15/24 192.168.2.20/24 127.0.0.1/24
+ bind interfaces only = yes
+
+al nostro PC possono accedere solo i PC Windows appartenenti alle 2 retei 
+locali. Ricordo che /24 è equivalente a 255.255.255.0 (ossia è il numero di 
+bit a 1 della maschera).
+in questo caso rispetto a hosts deny vengono proprio
+ignorati i pacchetti il cui ip di origine non corrisponda
+agli ip di broadcast relativi all'opz. interfaces, vengono
+ignorati anche i pacchetti broadcast.
+
+interfaces diviene necessario se hai un server
+che risiede su + sottoreti (come sopra) altrimenti samba
+si configura solo per la prima interf. di rete
+eth0, quindi lo devi forzare tramite l'opz.
+interfaces.
+
+Una ulteriore protezione puo' essere inserita filtrando le porte dalla 137 
+alla 139 attraverso ipfwadm o ipchains.
+Per quanto riguarda ipfwadm occorre aggiungere le seguenti righe allo script 
+che gestische la sicurezza (ad esempio, in /etc/rc.local):
+
+ ipfwadm -I -P tcp -a deny -S any/0 137:139 -W eth0
+ ipfwadm -I -P udp -a deny -S any/0 137:139 -W eth0
+ ipfwadm -O -P tcp -a deny -S any/0 137:139 -W eth0
+ ipfwadm -O -P udp -a deny -S any/0 137:139 -W eth0
+  
+
+ Utilizzando, invece, ipchains si aggiungeranno le seguenti righe:
+
+ ipchains -A input -p tcp -j DENY --destination-port 137:139 -i eth0
+ ipchains -A input -p udp -j DENY --destination-port 137:139 -i eth0
+ ipchains -A output -p tcp -j DENY --destination-port 137:139 -i eth0
+ ipchains -A output -p udp -j DENY --destination-port 137:139 -i eth0
+   
+  

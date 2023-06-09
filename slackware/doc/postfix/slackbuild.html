@@ -1,0 +1,386 @@
+<html>
+<head><title>pacchetti slack</title></head>
+<body>
+
+<pre>
+Guida rapida alla creazione di pacchetti su Slackware v. 2.0
+
+1 - Introduzione
+2 - Mettiamoci al lavoro
+	- Creazione della directory
+	- Compilazione dei sorgenti
+	- Creazione del pacchetto
+3 - Opzioni "avanzate"
+	-	Creazione dello script doinst.sh
+	- Aggiungere una descrizione al pacchetto
+	- Ultimi consigli
+4 - Bibliografia & Webografia
+5 - Note generali
+	- Copyright
+	- Changelog
+	- Ringraziamenti
+	- About 
+
+
+
+
+1 - Introduzione
+
+Chi usa la distribuzione Linux Slackware, sa quanto sia semplice e lineare
+installare i pacchetti .tgz. Tuttavia non sempre è possibile reperire la
+versione già pacchettizzata di tutti i programmi in circolazione, inoltre alcune
+persone preferiscono compilare i programmi per la propria architettura o con
+personalizzazioni. Infine potrebbe tornare utile come backup sempre disponibile.
+A differenza degli altri formati di pacchettizzazione come .deb e .rpm, i
+pacchetti di slackware sono decisamente più semplici da preparare (del resto
+svolgono funzioni decisamente più elementari..). Nonostante questa semplicità, 
+girando in rete non ho mai trovato una guida chiara o esaustiva su questo 
+argomento, in proposito ho trovato qualcosa su
+
+http://www.linuxpackages.net/howto/howto.php?page=package
+
+Purtroppo questa guida non è il massimo della chiarezza, visto che non spiega
+passo passo le operazioni da eseguire, ma si limita a dare consigli. Così, con
+un po' di buona volontà, ho provato a crearne una, ora che ho visto come
+funziona, ho deciso di scrivere queste due righe per aiutare chiunque abbia
+intenzione di farsi i suoi pacchetti e, magari, distribuirli in rete a
+disposizione di tutti. Il sistema sulla quale svolgerò gli esempi è una 
+Slackware 8.1 (l'ultima al momento), ma il discorso non cambia per le versioni 
+precedenti, l'unica nota è che nella 8.1 il nome del pacchetto contiene anche il 
+tipo di architettura e opzionalmente la versione di build. A parte questo 
+particolare, quindi, non ci sono problemi se usate versioni più vecchie. Prima 
+di cominciare, vi consiglio di prendere i sorgenti di un programma che preferite 
+ed effettuare delle prove su quello.
+
+
+2 - Mettiamoci al lavoro
+
+- Creazione della directory di lavoro
+
+Se avete mai provato a scompattare un pacchetto slackware (è un semplice
+archivio in fondo), notereste che all'interno contiene le stesse directory nella
+quale verrano installati i file, quindi vuol dire che i programmi di pkgtool
+(installpkg, upgradepkg e uninstallpkg, ce ne sono altri ma questi sono i
+principali per la gestione dei pacchetti) non fanno altro che copiare ciò che
+trovano nel tgz nel corrispettivo path del sistema, ecco spiegato perchè
+bisogna trovarsi in "/" per installare :)
+Quindi per cominciare occorrerà una directory di lavoro, può essere anche la
+vostra stessa home, io ad esempio usavo
+
+~/packbuild
+
+poi ho capito che era piuttosto scomoda da gestire, così preferisco crearne una
+temporanea all'interno della directory dei sorgenti. Generalmente le directory
+di installazione sono sempre "/usr" o "/usr/local" e quindi mi basta lanciare il
+comando (anche da utente normale va bene comunque fino a questo punto)
+
+mkdir -p pkg/usr/local
+
+ovviamente "pkg/" si riferisce alla mia directory temporanea e sarà quella che
+useremo per l'installazione del programma. Quando sarà finita la creazione del
+pacchetto potremo rivuoverla con
+
+rm -r pkg/
+
+NOTA IMPORTANTE: non è detto che il programma che stiamo preparando debba per
+forza stare in "/usr/local", come non è detto che ci siano file da installare
+solo in quelle posizioni. Potrebbero esserci anche file che vanno in
+"/var","/etc". Più avanti vedremo come accertarsi di questi particolari.
+
+
+- Compilazione dei sorgenti
+
+Ora che sapete come e dove creare la directory, potrete procedere alla 
+scompattazione del programma, leggete i vari README, INSTALL e file del caso,
+procedete con i soliti comandi (se non dovessero essere questi, usate quelli 
+specificati nella documentazione a corredo del programma)
+
+./configure [eventuali_opzioni] && make
+
+Fin qui nulla di nuovo per chi ha già compilato almeno una volta un programma da 
+sorgenti. A questo punto, siamo nella fase "cruciale" dell'operazione, in genere
+è sufficente dare il comando "make install" per installare il programma nel 
+sistema, ma in questo caso si vuole "dirottare" il tutto verso la nostra 
+directory di lavoro. Createne quindi una dove volete come mostrato sopra. Per 
+essere sicuri delle directory necessarie, è consigliabile controllare il 
+Makefile, talvolta potreste trovare nomi differenti come Make.rules in proftpd, 
+e cercare la linea "prefix". Tale linea indica il percorso di installazione dei 
+futuri file. Potrebbero esserci anche altre voci riguardanti una directory per i 
+file di configurazione (solitamente "/etc"), file vari ("/var"). L'importante è 
+farci caso, basti sapere che a meno che si tratta di grossi programmi quali 
+server (smtp,http,ftp,bind, etc...) o ambienti grafici (KDE, GNOME) questo 
+genere di problema non vi si porrà neanche.
+Supponiamo allora di trovare nel nostro Makefile una riga del genere:
+
+prefix=/usr/local
+
+e supponiamo anche che la directory di lavoro scelta si trovi all'interno di 
+quella dei sorgenti precedentemente creata con il comando:
+
+mkdir -p pkg/usr/local
+
+basterà allora lanciare il comando "make" come segue:
+
+make prefix=/path_del_sorgente/pkg/usr/local install
+
+in questo modo avremo sovrascritto la destinazione originaria dei file con un 
+percorso da noi scelto. Nel caso poi ci siano anche altri percorsi specifici 
+indicati nel Makefile, come ad esempio
+
+sysconfdir=/etc
+localstatedir=/var
+rundir=/var/nome_programma
+
+sarà sufficente aggiungere le directory indicate a quelle già presenti in quella 
+di lavoro
+
+mkdir pkg/etc
+mkdir -p pkg/var/nome_programma
+
+e dare il "make" in questo modo:
+
+make prefix=/path_del_sorgente/pkg/usr/local \
+	sysconfig=/path_del_sorgente/pkg/etc \
+	localstatedir=/path_del_sorgente/pkg/var \
+	rundir=/path_del_sorgente/pkg/var/nome_programma
+
+Notate che ho usato il carattere "\" (backslash) per una questione di chiarezza,
+in realtà potrete darlo anche in una sola linea anzichè spezzarlo come ho fatto
+io. Potreste trovare altri nomi, l'importante è che sia chiaro il modo di 
+eseguire la procedura, perchè poi adattarla alle vostre esigenze diventa davvero
+semplice :)
+
+
+- Creazione del pacchetto
+
+Ricapitolando, abbiamo compilato e poi installato il programma in una directory 
+a nostro piacimento, ora non resta che entrarci e vi sembrerà di stare nella 
+"/", ed in effetti è così ;)
+Lanciate il comando (da utente root, altrimenti non funziona!)
+
+makepkg nomeprogramma-versione-architettura[-numerobuild].tgz
+es: makepkg myfirstpacket-1.0-i386-1.tgz
+
+>Searching for symbolic links:
+>No symbolic links were found, so we won't make an installation script.
+>You can make your own later in ./install/doinst.sh and rebuild the
+>package if you like.
+
+In caso ci fossero dei collegamenti simbolici, il programma "makepkg" vi
+propone di rimuoverli, essi verranno rigenerati tramite uno script creato
+automaticamente da makepkg (più avanti vedremo ulteriori aspetti di questo
+script).
+
+>This next step is optional - you can set the directories in your package
+>to some sane permissions. If any of the directories in your package have
+>special permissions, then DO NOT reset them here!
+>Would you like to reset all directory permissions to 755 (drwxr-xr-x) and
+>directory ownerships to root.root ([y]es, [n]o)? y
+
+Come si legge dal messaggio sopra, questo passaggio è opzionale, ovvero vi viene
+chiesto se volete impostare i permessi dei file all'utente root. Generalmente è
+consigliabile farlo tranne in presenza di applicazioni particolari che
+richiedono i permessi di utenti diversi da root (un esempio potrebbe essere
+il server di posta Qmail che gira in ambiente chroot, anche di questo parleremo
+avanti...)
+A questo punto, appena tornerete alla shell, avrete il vostro pacchetto pronto
+per essere installato, copiatelo in "/" e potrete dare finalmente il vostro
+
+installpkg <nome_pacchetto>.tgz
+
+FATE ATTENZIONE: nel caso il vostro pacchetto non soddisfi le vostre preferenze, 
+o semplicemente volete ricostruire il pacchetto con dei files aggiuntivi, 
+provvedete a rimuovere il vecchio file tgz, altrimenti il "makepkg" archivierà 
+anche quello!
+
+
+3 - Opzioni avanzate
+
+- Creazione dello script doinst.sh
+
+Fino ad ora ho spiegato la procedura standard della creazione di un pacchetto
+per Slackware ed ho rimandato il lettore a leggere più avanti alcune procedure 
+più avanzate. Come avevo già accennato, quasi tutti i pacchetti si creano con la 
+procedura sopra descritta, altri richiedono attenzioni particolari. Per fare un 
+esempio, prendiamo in considerazione il server di posta Qmail, questo demone 
+gira esclusivamente in un ambiente chroot per motivi di sicurezza. E' quindi
+necessario creare utenti ed un gruppo "ad hoc". In una situazione normale queste 
+operazioni vengono eseguite manualmente, ma nel caso dell'installazione da 
+pacchetto l'operazione non è molto pratica. Abbiamo già visto che il programma 
+"makepkg" nel caso incontri links simbolici propone di eliminarli fisicamente e 
+di inserire le istruzioni in uno script che si occuperà di ricrearli al momento 
+dell'installazione del pacchetto. Allo stesso modo quel file potremmo crearlo 
+noi inserendo i nostri comandi da eseguire, per rimanere nell'esempio di Qmail, 
+riporto una porzione dello script trovato nel pacchetto qmail-1.03:
+
+<begin>
+# Qmail install script by Robert Stan <robalo@opensys.ro>
+
+killall sendmail
+
+( cd usr/lib ; rm -rf sendmail )
+( cd usr/lib ; ln -sf /var/qmail/bin/sendmail sendmail )
+( cd usr/bin ; rm -rf sendmail )
+( cd usr/bin ; ln -sf /var/qmail/bin/sendmail sendmail )
+( cd usr/sbin ; mv sendmail sendmail.replaced )
+( cd usr/sbin ; ln -sf /var/qmail/bin/sendmail sendmail )
+
+# this one is kinda tricky
+chmod 622 var/qmail/queue/lock/trigger
+
+# remove GID's and UID's
+userdel alias
+userdel qmaild
+userdel qmaill
+userdel qmailp
+userdel qmailq
+userdel qmailr
+userdel qmails
+groupdel nofiles
+groupdel qmail
+
+# create GID's and UID's
+groupadd -g 96 nofiles
+groupadd -g 97 qmail
+useradd -g nofiles -u 91 -d /var/qmail/alias alias
+useradd -g nofiles -u 92 -d /var/qmail qmaild
+useradd -g nofiles -u 93 -d /var/qmail qmaill
+useradd -g nofiles -u 94 -d /var/qmail qmailp
+useradd -g qmail -u 95 -d /var/qmail qmailq
+useradd -g qmail -u 96 -d /var/qmail qmailr
+useradd -g qmail -u 97 -d /var/qmail qmails
+[...]
+<end>
+
+come potete notare, vengono eseguiti prima i comandi di cancellazione di
+eventuali utenti necessari e successivamente vengono ricreati, questo per 
+evitare eventuali problemi in caso di aggiornamento, rimozione o reinstallazione 
+del pacchetto.
+Per aggiungere questo script basta creare una directory "install/" all'interno 
+di quella di lavoro e successivamente editare o creare il file "doinst.sh", il 
+programma "installpkg" cercherà questo file in fase di installazione di un 
+pacchetto ed in caso lo trovi eseguirà i comandi in esso contenuto.
+
+
+- Aggiungere una descrizione al pacchetto
+
+Se siete delle persone meticolose o avete intenzione di distribuire il vostro 
+pacchetto ad altri utenti in rete, una buona idea è quella di aggiungere una 
+descrizione del pacchetto, avrete notato che i pacchetti ufficiali di Slackware 
+ne sono provvisti. Nulla di più facile, all'interno della directory "install/" 
+(che se non avete creato prima, dovrete farlo ora), basterà creare il file
+"slack-desc" rispettando questo piccolo schema (chiamato "handy ruler"):
+
+# commento non considerato
+             |-----handy-ruler-------------------------------------------|
+nomeprogramma: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+nomeprogramma: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+nomeprogramma: bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+nomeprogramma:
+
+Quello rappresentato sopra è un tipico schema di descrizione di un pacchetto 
+slackware. I caratteri "|" delimitano la lunghezza del commento, notate che il 
+primo deve essere posizionato sopra il carattere ":" sottostante. Ciò permette
+di formattare meglio il testo entro e non oltre il limite. E' buona norma, 
+inoltre, lasciare uno spazio dal ":".
+
+NOTA IMPORTANTE: le linee di descrizione DEVONO essere ESATTAMENTE 11 per una 
+corretta formattazione del testo!
+
+
+- Ultimi consigli
+
+A questo punto avete le conoscenze necessarie per creare correttamente un 
+pacchetto per slack. Solo alcuni consigli per rendervi la vita più facile o 
+magari renderla ad eventuali fruitori dei vostri pacchetti.
+
+1) Se il programma che avete pacchettizzato necessita di file di configurazione,
+potrebbe essere una buona idea, scriverne uno generico e metterlo in un'apposita
+directory creata (possibilmente una considerata di default) come ad esempio
+"usr/local/share/nomeprogramma" oppure "etc/". Nel caso si tratti di programmi
+che possono essere avviati tramite gli script rc.*, potrebbe tornarvi utile
+crearvelo al volo ed inserire anche quello, eviterete così di doverlo fare (o 
+farlo fare ad altri) nel momento in cui decidiate di installare quel pacchetto
+(tipico nei casi di reinstallazione del sistema...).
+2) E' buona norma, soprattutto se volete redistribuire il pacchetto, includere 
+la documenazione fornita con i sorgenti del programma poichè solitamente non
+viene installata dal "make install". Stesso discorso per note e licenze degli 
+autori.
+3) Capita spesso di trovarsi di fronte a programmi "noarch", come programmi 
+scritti in linguaggi di scripting (Perl e Python in particolare) che ovviamente 
+non hanno il Makefile, non disperate, se date uno sguardo tra i vari file 
+troverete di sicuro qualcosa adibito all'installazione di quei file, se così non 
+fosse potrete sempre eseguire questa procedura manualmente, in fondo ora
+dovreste saperlo fare :). Perderete qualche minuto in più ma avrete i vantaggi 
+di un pacchetto da gestire.
+
+
+4 - Bibliografia & webografia
+
+- man pages:
+pkgtool
+installpkg
+removepkg
+makepkg
+installpkg
+
+- http://www.linuxpackages.net/howto/howto.php?page=package
+
+5 - Note generali
+
+- Copyright
+
+Copyright (c) 2002 Andrea Pavoni ~ teknux at libero dot it.
+È garantito il permesso di copiare, distribuire e/o
+mo dificare questo documento secondo i termini della GNU GPL versione 2. Una 
+copia della licenza è disponibile presso http://www.gnu.org. Questa guida è una 
+documentazione gratuita, fornita così com'è, senza alcuna garanzia, nè 
+implicita, nè esplicita di adeguatezza ad un uso particolare o di 
+commerciabilità. L'autore non si assume alcuna responsbilità per eventuali danni 
+provocati da quanto contenuto.
+Per garantire una uniformità di questo documento, l'autore preferisce essere
+avvertito prima che vengano fatte delle modifiche, al solo scopo di tenere una 
+unica versione dell'opera. Pertanto chi vuole inserire delle modifiche e/o 
+aggiungere anche solo parte del testo è pregato di contattare l'autore il quale 
+si riserva la facoltà di giudizio.
+
+- Changelog
+
+22-07-2002: prima stesura del documento;
+27-07-2002: correzione di alcune inesattezze, ringrazio AcTive per questo;
+16-12-2002: riscrittura quasi totale del documento, ora è più fruibile (spero).
+
+
+- Ringraziamenti
+
+Vorrei ringraziare in primo luogo Pierluigi Previtali, mantainer di
+http://www.slack.z0.it, e AcTive per i loro passati tentativi di spiegarmi come
+si creassero i pacchetti su slack, purtroppo non ci sono riusciti, ma lo
+stimolo mi è rimasto ed ora spero possiate godere di questi frutti :)
+Altro ringraziamento particolare va ad Andrea Spitaleri (spiritello) che si è
+offerto di tradurre questa guida in inglese, avendo notato che molte persone non
+italiane cercassero una guida simile. Senza la sua proposta di traduzione
+probabilmente non avrei riscritto così accuratamente questa guida :PP
+Un vaffa*$%lo di cuore al tizio che tempo fa ha copiato questa guida tagliando
+accuratamente la parte relativa l'autore, il copyright ed i riferimenti web, un
+gesto davvero poco corretto.
+
+
+- About
+
+Questo documento è stato scritto con vim 6.1. Potrete trovare eventuali 
+aggiornamenti *ufficiali* presso
+
+http://unixware.sf.net
+http://www.slack.z00.it
+</pre>
+</body>
+</html>
+

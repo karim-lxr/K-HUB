@@ -1,0 +1,60 @@
+Linux boot con loadlin.exe
+
+loadlin.exe serve per due motivi:
+- fare il boot da windows, o DOS
+- effettuare l'installazione se il setup vede il CD-ROM sotto Win ma non sotto Linux
+
+****************************************************
+file contents
+
+
+read.me		this file
+
+CFG-multi	directory con esempi di config multipla autoexec.bat e config.sys
+
+Lboot.bat	batch per boot da DOs prompt
+
+linux.bat	choice batch
+
+linux.par	parametri di boot per loadlin.exe
+
+load.txt	help per loadlin
+
+loadlin.exe	eseguibile di boot
+
+Vmlinuz		my kernel SuSE 5.3 config il 20.09.98
+********************************************************
+
+
+per utilizzare loadlin.exe, bisogna disporre del kernel copiato dalla posizione originale del filesystem
+linux, ad una posizione sotto la partizione fat
+
+(quindi non si può effettuare il primo avvio)
+
+
+linux.par contiene la modalità di mount della root, il nome del kernel
+la posizione della partizione di root
+
+
+BOOT
+
+situazione 1.
+
+da prompt in modalità MS-DOS eseguire
+
+	loadlin @linux.par
+
+oppure mettere in C:\ un batch che lo faccia al posto nostro, p.es. lboot.bat
+
+
+situazione 2.
+
+creare un batch con il comando "choice", richiamato da autoexec.bat
+in prima linea " call c:\path\linux.bat
+sbizzarrirsi nelle varie possibilità di personalizzazione per la scelta di boot di sistema
+
+
+
+Reference:
+
+The Loadlin+Win95 mini-HOWTO

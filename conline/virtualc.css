@@ -1,0 +1,150 @@
+/* apply stylesheet on " revue   folio*/
+/* tj on avr 13 2001 */
+
+/* body generale*/
+body{
+ background-color: #FFFFFF;
+/*tipo di font generale*/
+font-family:arial,helvetica, "Sans-Serif";
+/*altezza del font*/
+font-size: 10pt;
+color:#000000;
+}
+
+/*titoli*/
+H1{
+font-size: 28pt;
+font-family:"times new roman";
+font-style:italic;
+color:#004080;
+text-align: center
+}
+
+/*sottotitoli*/
+H2{
+	font-size: 18pt;
+	font-family:"times new roman";
+	font-style:italic;
+	color:#004080;
+	text-align: center
+}
+
+/*variousi*/
+H3{
+	font-family: Arial, Helvetica, sans-serif;
+	color : #004080;
+	font-size: 10pt;
+	font-style: italic;
+	padding-top: 15px ;
+	padding-right: 15px ;
+   padding-bottom: 15px ;
+	padding-left:15px ;
+	font-weight : lighter;
+}
+
+
+
+/* paragrafo Riquadro, bianco */
+/* definito come class */
+/* Synopsys NomeTag.Nome.Classe */
+P
+{
+	/* larghezza riquadro */ 
+	width: 500px; 
+		/* sopra, distanza perc da sx,     ,dist da dx */
+	margin: 0px 15% 5px 15 px;
+		/* oggetti interni (testo) */
+	padding-top: 15px ;
+	padding-right: 10px ;
+	padding-bottom: 15px ;
+	padding-left:15px ;
+	
+	/*text color */
+	color : Black;
+	font-size: 10pt;
+}
+
+P.est
+{
+	/* larghezza riquadro */ 
+*width: 600px; 
+		/* sopra, distanza perc da sx,     ,dist da dx */
+	margin: 0px 15% 5px 15 px;
+		/* oggetti interni (testo) */
+	padding-top: 15px ;
+	padding-right: 10px ;
+	padding-bottom: 15px ;
+	padding-left:15px ;
+	
+	/*text color */
+	color : Black;
+	/*font-size: 8pt;*/
+}
+
+
+
+
+/* il testo assegnato alla spalla */
+H4{
+	color: Navy;
+	font-size: 10pt;
+	padding-left:15px ;
+	font-weight :lighter;
+}
+
+
+/* link navigator*/
+A:link.bar, A:visited.bar{
+text-decoration:none;
+color :#FFFFFF;
+font-size:10pt;
+}
+
+/*non supportato da opera 5.02 */
+/* non supportato da Netscape comm 4.72 */
+A:hover.bar{
+	text-decoration:underline;
+	color: #C00000;
+font-size:10pt;
+	*/
+}
+
+/*  link paragraph */
+A:link.para, A:visited.para{
+text-decoration:none;
+color :#000080;
+font-size: 10pt;
+
+/*padding-left:70px ;*/
+}
+A:hover.para{
+	text-decoration:underline;
+	color: Fuchsia;
+	font-size: 10pt;
+}
+
+/* link top */
+A:link.top, A:visited.top{
+text-decoration:none;
+color :#808080;
+}
+
+/*non supportato da opera 5.02 */
+/* non supportato da Netscape comm 4.72 */
+A:hover.top{
+text-decoration:underline;
+color:#000080;
+/*background:blue;	 */
+font-size: 10pt;
+}
+
+#mycode
+{
+color :#008000;	
+}
+
+#img
+{
+margin: 0px 0% 0px 40 px;
+padding-left:40px ;
+}

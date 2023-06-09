@@ -1,0 +1,1230 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>System Configuration</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Configuration"
+HREF="p621.html"><LINK
+REL="PREVIOUS"
+TITLE="Configuration"
+HREF="p621.html"><LINK
+REL="NEXT"
+TITLE="Selecting A Kernel"
+HREF="x948.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="p621.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x948.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="BASICCONFIG"
+>Chapter 4. System Configuration</A
+></H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c623.html#SYSTEMOVERVIEW"
+>System Overview</A
+></DT
+><DT
+><A
+HREF="x948.html"
+>Selecting A Kernel</A
+></DT
+><DT
+><A
+HREF="x1059.html"
+>Summary</A
+></DT
+></DL
+></DIV
+><P
+>Before you can configure the more advanced parts of your system, it's a good
+idea to learn how the system is organized and what commands can be used to
+search for files and programs.  It's also good to know if you need to compile
+a custom kernel and what the steps for doing that are.  This chapter will
+familiarize you with system organization and configuration files.  Then, you
+can move on to configuring the more advanced parts of the system.</P
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="SYSTEMOVERVIEW"
+>System Overview</A
+></H1
+><P
+>It's important to understand how a Linux system is put together before
+diving into the various configuration aspects.  A Linux system is 
+significantly different from a DOS or Windows system (or even a Macintosh), 
+but these sections will help you get acquainted with the layout so that you
+can easily configure your system to meet your needs.</P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="FSLAYOUT"
+>File System Layout</A
+></H2
+><P
+>The first noticeable difference between Slackware Linux and a DOS or
+Windows system is the filesystem.  For starters, we do not use drive
+letters to denote different partitions.  Under Linux, there is one main
+directory.  You can relate this to the C: drive under DOS.  Each partition
+on your system is mounted to a directory on the main directory.  It's kind
+of like an ever-expanding hard disk.</P
+><P
+>We call the main directory the root directory, and it's denoted with a
+single slash (<TT
+CLASS="FILENAME"
+>/</TT
+>).  This concept may 
+seem strange, but it actually makes life easy for you when you want to add 
+more space.  For example, let's say you run out of space on the drive that 
+has <TT
+CLASS="FILENAME"
+>/home</TT
+> on it.  Most people install
+Slackware and make one big root drive.  Well, since a partition can be
+mounted to any directory, you can simply go to the store and pick up a new
+hard drive and mount it to <TT
+CLASS="FILENAME"
+>/home</TT
+>.  
+You've now &#8220;grafted&#8221; on some more space to your system.  And all 
+without having to move many things around.</P
+><P
+>Below, you will find descriptions of the major top level directories
+under Slackware.</P
+><P
+></P
+><DL
+><DT
+><TT
+CLASS="FILENAME"
+>/bin</TT
+></DT
+><DD
+><P
+>Essential user programs are stored here.  These represent the bare
+minimum set of programs required for a user to use the system.
+Things like the shell and the filesystem commands 
+(<TT
+CLASS="FILENAME"
+>ls</TT
+>, <TT
+CLASS="FILENAME"
+>cp</TT
+>, and so on) are 
+stored here.  The <TT
+CLASS="FILENAME"
+>/bin</TT
+> 
+directory usually doesn't receive modification after installation.  
+If it does, it's usually in the form of package upgrades that we 
+provide.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/boot</TT
+></DT
+><DD
+><P
+>Files that are used by the Linux Loader (<SPAN
+CLASS="ACRONYM"
+>LILO</SPAN
+>).  
+This directory also receives little modification after an installation.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/cdrom</TT
+></DT
+><DD
+><P
+>Remember that all drives have to be mounted to a directory on the
+main root directory?  Well, <TT
+CLASS="FILENAME"
+>/cdrom</TT
+>
+is provided as a mount point for your CD-ROM drive.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/dev</TT
+></DT
+><DD
+><P
+>Everything in Linux is treated as a file, even hardware devices like
+serial ports, hard disks, and scanners.  In order to access these
+devices, a special file called a device node has to be present.  All 
+device nodes are stored in the 
+<TT
+CLASS="FILENAME"
+>/dev</TT
+> directory.  You will find
+this to be true across many UNIX-like operating systems.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/etc</TT
+></DT
+><DD
+><P
+>This directory holds system configuration files.  Everything from
+the X Window configuration file, the user database, to the system
+startup scripts.  The system administrator will become quite
+familiar with this directory over time.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/home</TT
+></DT
+><DD
+><P
+>Linux is a multiuser operating system.  Each user on the system is
+given an account and a unique directory for personal files.  This
+directory is called the user's &#8220;home&#8221; directory.  The 
+<TT
+CLASS="FILENAME"
+>/home</TT
+> directory is provided 
+as the default location for user home directories.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/lib</TT
+></DT
+><DD
+><P
+>System libraries that are required for basic operation are stored here.
+The C library, the dynamic loader, the ncurses library, and kernel
+modules are among the things stored here.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/lost+found</TT
+></DT
+><DD
+><P
+>When the system boots, the filesystems are checked for any errors.
+If errors are detected, the <B
+CLASS="COMMAND"
+>fsck</B
+> program is run 
+to see if any can be corrected.  The corrected parts of the filesystem 
+are written to the <TT
+CLASS="FILENAME"
+>/lost+found</TT
+> 
+directory.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/mnt</TT
+></DT
+><DD
+><P
+>This directory is provided as a temporary mount point for working
+on hard disks or removable drives.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/opt</TT
+></DT
+><DD
+><P
+>Optional software packages.  The idea behind 
+<TT
+CLASS="FILENAME"
+>/opt</TT
+> is that each software package 
+installs to <TT
+CLASS="FILENAME"
+>/opt/&lt;software package&gt;</TT
+>, which 
+makes it easy to remove later.  Slackware distributes some things in
+<TT
+CLASS="FILENAME"
+>/opt</TT
+> (such as KDE in
+<TT
+CLASS="FILENAME"
+>/opt/kde</TT
+>), but you are free to 
+add anything you want to <TT
+CLASS="FILENAME"
+>/opt</TT
+>.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/proc</TT
+></DT
+><DD
+><P
+>This is a unique directory.  It's not really part of the filesystem, 
+but a virtual filesystem that provides access to kernel 
+information.  Various pieces of information that the kernel wants you 
+to know are conveyed to you through &#8220;files&#8221; in the 
+<TT
+CLASS="FILENAME"
+>/proc</TT
+> directory.  You can also 
+send information to the kernel through some of these &#8220;files&#8221;.  
+Try doing <TT
+CLASS="USERINPUT"
+><B
+>cat /proc/cpuinfo</B
+></TT
+>.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/root</TT
+></DT
+><DD
+><P
+>The system administrator is known as &#8220;root&#8221; on the system.  
+root's home directory is kept in 
+<TT
+CLASS="FILENAME"
+>/root</TT
+> instead of 
+<TT
+CLASS="FILENAME"
+>/home/root</TT
+>.
+The reason is simple.  What if 
+<TT
+CLASS="FILENAME"
+>/home</TT
+> was a different
+partition from <TT
+CLASS="FILENAME"
+>/</TT
+> and it could not 
+be mounted?  root would naturally want to log in and repair the problem.  
+If his home directory was on the damaged filesystem, it would make it 
+difficult for him to log in.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/sbin</TT
+></DT
+><DD
+><P
+>Essential programs that are run by root and during the system bootup
+process are kept here.  Normal users will not run programs in this 
+directory.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/tmp</TT
+></DT
+><DD
+><P
+>The temporary storage location.  All users have read and write access to 
+this directory.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/usr</TT
+></DT
+><DD
+><P
+>This is the big directory on a Linux system.  Everything else pretty
+much goes here, programs, documentation, the kernel source code, and
+the X Window system.  This is the directory to which you will most
+likely be installing programs.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>/var</TT
+></DT
+><DD
+><P
+>System log files, cache data, and program lock files are stored
+here.  This is the directory for frequently-changing data.</P
+></DD
+></DL
+><P
+>You should now have a good feel for which directories contain what on the
+filesystem.  The next section will help you find specific files easily, so
+you don't have to do it by hand.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="FINDINGFILES"
+>Finding Files</A
+></H2
+><P
+>You now know what each directory holds, but it still doesn't really help
+you find things.  I mean, you could go looking through directories, but
+there are quicker ways.  There are four main file search commands
+available in Slackware.</P
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="WHICH"
+>which</A
+></H3
+><P
+>The first is the <B
+CLASS="COMMAND"
+>which</B
+>(1) command.  <B
+CLASS="COMMAND"
+>which</B
+> 
+is usually used to locate a program quickly.  It just searches your 
+<TT
+CLASS="ENVAR"
+>PATH</TT
+> and returns the first instance it finds and the directory 
+path to it.  Take this example:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>which bash</B
+></TT
+>
+   /bin/bash</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>From that you see that <TT
+CLASS="FILENAME"
+>bash</TT
+> is in the 
+<TT
+CLASS="FILENAME"
+>/bin</TT
+> directory.  This is a very
+limited command for searching, since it only searches your <TT
+CLASS="ENVAR"
+>PATH</TT
+>.</P
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="WHEREIS"
+>whereis</A
+></H3
+><P
+>The <B
+CLASS="COMMAND"
+>whereis</B
+>(1) command works similar to 
+<B
+CLASS="COMMAND"
+>which</B
+>, but can also search for man pages and source files.  
+A <B
+CLASS="COMMAND"
+>whereis</B
+> search for bash should return this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>whereis bash</B
+></TT
+>
+   bash: /bin/bash /usr/bin/bash /usr/man/man1/bash.1.gz</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This command not only told us where the actual program, but also where the
+online documentation is stored.  Still, this command is limited.  What if
+you wanted to search for a specific configuration file?  You can't use
+<B
+CLASS="COMMAND"
+>which</B
+> or <B
+CLASS="COMMAND"
+>whereis</B
+> for that.</P
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="FIND"
+>find</A
+></H3
+><P
+>The <B
+CLASS="COMMAND"
+>find</B
+>(1) command will search for anything.  I want to 
+search the entire system for the default <TT
+CLASS="FILENAME"
+>xinitrc</TT
+> file on 
+the system.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>find / -name xinitrc</B
+></TT
+>
+   ./var/X11R6/lib/xinit/xinitrc</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+><B
+CLASS="COMMAND"
+>find</B
+> will take a while to run, since it has to traverse the 
+entire root directory tree.  And if you run this command as a normal user, you 
+will probably get permission denied error messages for directories that only
+root can see.  But <B
+CLASS="COMMAND"
+>find</B
+> found our file, so that's good.  If 
+only it could be a bit faster...</P
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="LOCATE"
+>locate</A
+></H3
+><P
+>The <B
+CLASS="COMMAND"
+>locate</B
+>(1) command searches the entire filesystem, just 
+like the find command can do, but it searches a database instead of the actual 
+filesystem.  The database is set to automatically update at 4:40AM, so you 
+have a somewhat fresh listing of files on your system.  You can manually run 
+<B
+CLASS="COMMAND"
+>updatedb</B
+>(1) to update the locate database (before running
+<B
+CLASS="COMMAND"
+>updatedb</B
+> by hand, you must first <B
+CLASS="COMMAND"
+>su</B
+> to
+the <TT
+CLASS="USERINPUT"
+><B
+>nobody</B
+></TT
+> user).  Here's an example of 
+<B
+CLASS="COMMAND"
+>locate</B
+> in action:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>locate xinitrc</B
+></TT
+>   # we don't have to go to the root
+   /var/X11R6/lib/xinit/xinitrc
+   /var/X11R6/lib/xinit/xinitrc.fvwm2
+   /var/X11R6/lib/xinit/xinitrc.openwin
+   /var/X11R6/lib/xinit/xinitrc.twm</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>We got more than what we were looking for, and quickly too.  With these
+commands, you should be able to find whatever you're looking for on your
+Linux system.</P
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ETCRCD"
+>The /etc/rc.d Directory</A
+></H2
+><P
+>The system initialization files are stored in the 
+<TT
+CLASS="FILENAME"
+>/etc/rc.d</TT
+> directory.
+Slackware uses the BSD-style layout for its initialization files.  Each
+task or runlevel is given its own rc file.  This provides an organized
+structure that is easy to maintain.</P
+><P
+>There are several categories of initialization files.  These are system
+startup, runlevels, network initilization, and System V compatibility. As per
+tradition, we'll lump everything else into an &#8220;other&#8221; category.</P
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="SYSTEMSTARTUP"
+>System Startup</A
+></H3
+><P
+>The first program to run under Slackware besides the Linux kernel is 
+<B
+CLASS="COMMAND"
+>init</B
+>(8).  This program reads the 
+<TT
+CLASS="FILENAME"
+>/etc/inittab</TT
+>(5) file to see how to run the system. It 
+runs the <TT
+CLASS="FILENAME"
+>/etc/rc.d/rc.S</TT
+> script to prepare the system 
+before going into your desired runlevel. The <TT
+CLASS="FILENAME"
+>rc.S</TT
+> file 
+enables your virtual memory, mounts your filesystems, cleans up certain log 
+directories, initializes Plug and Play devices, loads kernel modules, 
+configures PCMCIA devices, sets up serial ports, and runs System V init 
+scripts (if found).  Obviously <TT
+CLASS="FILENAME"
+>rc.S</TT
+> has a lot on its 
+plate, but here are some scripts in 
+<TT
+CLASS="FILENAME"
+>/etc/rc.d</TT
+> that <TT
+CLASS="FILENAME"
+>rc.S</TT
+>
+will call on to complete its work: </P
+><P
+></P
+><DL
+><DT
+><TT
+CLASS="FILENAME"
+>rc.S</TT
+></DT
+><DD
+><P
+>This is the actual system initialization script.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.modules</TT
+></DT
+><DD
+><P
+>Loads kernel modules. Things like your network card, PPP support, 
+      and other things are loaded here. If this script finds 
+      <TT
+CLASS="FILENAME"
+>rc.netdevice</TT
+>, it will run that as well.
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.pcmcia</TT
+></DT
+><DD
+><P
+>Probes for and configures any PCMCIA devices that you might have 
+      on your system. This is most useful for laptop users, who probably have 
+      a PCMCIA modem or network card. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.serial</TT
+></DT
+><DD
+><P
+>Configures your serial ports by running the appropriate 
+      <B
+CLASS="COMMAND"
+>setserial</B
+> commands. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.sysvinit</TT
+></DT
+><DD
+><P
+>Looks for System V init scripts for the desired runlevel and runs 
+      them. This is discussed in more detail below. 
+      </P
+></DD
+></DL
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="RUNLEVELS"
+>Runlevel Initialization Scripts</A
+></H3
+><P
+>After system initialization is complete, <B
+CLASS="COMMAND"
+>init</B
+> moves on to 
+runlevel initialization.  A runlevel describes the state that your machine 
+will be running in.  Sound redundant?  Well, the runlevel tells 
+<B
+CLASS="COMMAND"
+>init</B
+> if you will be accepting multiuser logins or just a 
+single user, whether or not you want network services, and if you will be 
+using the X Window System or <B
+CLASS="COMMAND"
+>agetty</B
+>(8) to handle logins.  
+The files below define the different runlevels in Slackware Linux. </P
+><P
+></P
+><DL
+><DT
+><TT
+CLASS="FILENAME"
+>rc.0</TT
+></DT
+><DD
+><P
+>Halt the system (runlevel 0). By default, this is symlinked to 
+      rc.6. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.4</TT
+></DT
+><DD
+><P
+>Multiuser startup (runlevel 4), but in X11 with KDM, GDM, or 
+      XDM as the login manager. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.6</TT
+></DT
+><DD
+><P
+>Reboot the system (runlevel 6).</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.K</TT
+></DT
+><DD
+><P
+>Startup in single user mode (runlevel 1).</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.M</TT
+></DT
+><DD
+><P
+>Multiuser mode (runlevels 2 and 3), but with the standard text-based
+      login. This is the default runlevel in Slackware. 
+      </P
+></DD
+></DL
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="NETWORKINIT"
+>Network Initialization</A
+></H3
+><P
+>Runlevels 2, 3, and 4 will start up the network services.  The following 
+files are responsible for the network initialization: </P
+><P
+></P
+><DL
+><DT
+><TT
+CLASS="FILENAME"
+>rc.inet1</TT
+></DT
+><DD
+><P
+>Created by <B
+CLASS="COMMAND"
+>netconfig</B
+>, this file is responsible 
+      for configuring the actual network interface. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.inet2</TT
+></DT
+><DD
+><P
+>Runs after <TT
+CLASS="FILENAME"
+>rc.inet1</TT
+> and starts up basic 
+      network services. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.atalk</TT
+></DT
+><DD
+><P
+>Starts up AppleTalk services.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.httpd</TT
+></DT
+><DD
+><P
+>Starts up the Apache web server.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.samba</TT
+></DT
+><DD
+><P
+>Starts up Windows file and print sharing services.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.news</TT
+></DT
+><DD
+><P
+>Starts up the news server.</P
+></DD
+></DL
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="SYSV"
+>System V Compatibility</A
+></H3
+><P
+>System V init compatibility was introduced in Slackware 7.0. Many other 
+Linux distributions make use of this style instead of the BSD style. 
+Basically each runlevel is given a subdirectory for init scripts, whereas 
+BSD style gives one init script to each runlevel. </P
+><P
+>The <TT
+CLASS="FILENAME"
+>rc.sysvinit</TT
+> script will search for any System V 
+init scripts you have in <TT
+CLASS="FILENAME"
+>/etc/rc.d</TT
+> 
+and run them, if the runlevel is appropriate. This is useful for certain 
+commercial software packages that install System V init scripts and scripts 
+for BSD style init. </P
+></DIV
+><DIV
+CLASS="SECT3"
+><H3
+CLASS="SECT3"
+><A
+NAME="OTHERFILES"
+>Other Files</A
+></H3
+><P
+>The scripts described below are the other system initialization scripts. 
+They are typically run from one of the major scripts above, so all you need 
+to do is edit the contents. </P
+><P
+></P
+><DL
+><DT
+><TT
+CLASS="FILENAME"
+>rc.cdrom</TT
+></DT
+><DD
+><P
+>If enabled, this script will scan for a CD-ROM in a drive and 
+      mount it under <TT
+CLASS="FILENAME"
+>/cdrom</TT
+> if it 
+      finds one. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.gpm</TT
+></DT
+><DD
+><P
+>Starts up general purpose mouse services. Allows you to copy and 
+      paste at the Linux console. 
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.ibcs2</TT
+></DT
+><DD
+><P
+>Starts up the Intel Binary Compatibility support.  This is only
+      needed if you plan on running programs compiled on SCO UNIX, or other
+      commercial Intel UNIX flavors.  It is not needed to run Linux programs.
+      </P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.font</TT
+></DT
+><DD
+><P
+>Loads the custom screen font for the console.</P
+></DD
+><DT
+><TT
+CLASS="FILENAME"
+>rc.local</TT
+></DT
+><DD
+><P
+>Contains any specific startup commands for your system. This is 
+      empty after a fresh install, as it is reserved for local administrators. 
+      This script is run after all other initialization has taken place. 
+      </P
+></DD
+></DL
+><P
+>To enable a script, all you need to do is add the execute permissions to it
+with the <B
+CLASS="COMMAND"
+>chmod</B
+> command.  To disable a script, remove the 
+execute permissions from it.  For more information about 
+<B
+CLASS="COMMAND"
+>chmod</B
+>, see <A
+HREF="x2163.html"
+>the section called <I
+>Permissions</I
+> in Chapter 9</A
+>.</P
+></DIV
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="p621.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x948.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Configuration</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="p621.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Selecting A Kernel</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

@@ -1,0 +1,740 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Selecting A Kernel</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="System Configuration"
+HREF="c623.html"><LINK
+REL="PREVIOUS"
+TITLE="System Configuration"
+HREF="c623.html"><LINK
+REL="NEXT"
+TITLE="Summary"
+HREF="x1059.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c623.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 4. System Configuration</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1059.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="SELECTKERNEL"
+>Selecting A Kernel</A
+></H1
+><P
+>The kernel is the part of the operating system that provides hardware
+access, process control, and overall system control.  The kernel contains
+support for your hardware devices, so picking one for your system is an
+important setup step.</P
+><P
+>Slackware provides around sixty precompiled kernels that you can pick
+from, each with a standard set of drivers and additional specific drivers.  You
+can run one of the precompiled kernels or you can build your own kernel
+from source.  Either way, you need to make sure that your kernel has the
+hardware support your system needs.</P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="KERNELSDIR"
+>The /kernels Directory On The Slackware CD-ROM</A
+></H2
+><P
+>The precompiled Slackware kernels are available in the 
+<TT
+CLASS="FILENAME"
+>/kernels</TT
+> directory on the Slackware 
+CD-ROM or on the FTP site in the main Slackware directory.  The available 
+kernels change as new releases are made, so the documentation in that 
+directory is always the authoritative source.  The 
+<TT
+CLASS="FILENAME"
+>/kernels</TT
+> directory has subdirectories 
+for each kernel available.  The subdirectories have the same name as their 
+accompanying boot disk.  In each subdirectory you will find the following files:</P
+><DIV
+CLASS="INFORMALTABLE"
+><P
+></P
+><TABLE
+BORDER="0"
+CLASS="CALSTABLE"
+><TR
+><TH
+WIDTH="192"
+ALIGN="LEFT"
+VALIGN="TOP"
+>File</TH
+><TH
+ALIGN="LEFT"
+VALIGN="TOP"
+>Purpose</TH
+></TR
+><TR
+><TD
+WIDTH="192"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="FILENAME"
+>System.map</TT
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>The system map file for this kernel</TD
+></TR
+><TR
+><TD
+WIDTH="192"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="FILENAME"
+>bzImage</TT
+> (or <TT
+CLASS="FILENAME"
+>zImage</TT
+>)</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>The actual kernel image</TD
+></TR
+><TR
+><TD
+WIDTH="192"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="FILENAME"
+>config</TT
+></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>The source configuration file for this kernel</TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>To use a kernel, copy the <TT
+CLASS="FILENAME"
+>System.map</TT
+> and config files to 
+your <TT
+CLASS="FILENAME"
+>/boot</TT
+> directory and copy the kernel 
+image to <TT
+CLASS="FILENAME"
+>/vmlinuz</TT
+>.  Run <B
+CLASS="COMMAND"
+>/sbin/lilo</B
+>(8) to
+install LILO for the new kernel, and then reboot your system.  That's all there 
+is to installing a new kernel.</P
+><P
+>The kernels that end with a &#8220;.i&#8221; are IDE kernels.  That is, they 
+include no SCSI support in the base kernel.  The kernels that end with 
+&#8220;.s&#8221; are SCSI kernels.  They include all the IDE support in 
+.i kernels, plus SCSI support.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="KERNELCOMPILING"
+>Compiling A Kernel From Source</A
+></H2
+><P
+>The question &#8220;Should I compile a kernel for my system?&#8221; is often 
+asked by new users.  The answer is a definite maybe.  There are few instances 
+where you will need to compile a kernel specific to your system.  Most users 
+can use a precompiled kernel and the loadable kernel modules to achieve a fully
+working system.  You will want to compile a kernel for your system if you
+are upgrading kernel versions to one that we do not currently offer in
+Slackware, or if you have patched the kernel source to get special device
+support that is not in the native kernel source.</P
+><P
+>Building your own kernel is not that hard.  The first step is to make sure
+you have the kernel source installed on your system.  Make sure that you
+installed the packages from the K series during the installation.  You
+will also want to make sure you have the D series installed, specifically
+the C compiler, GNU make, and GNU binutils.  In general, it's a good idea
+to have the entire D series installed if you plan on doing any kind of
+development.  Now we are ready to build a kernel:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>su -</B
+></TT
+>
+   Password:
+   # <TT
+CLASS="USERINPUT"
+><B
+>cd /usr/src/linux</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The first step is to bring the kernel source into its base state.  We
+issue this command to do that:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>make mrproper</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Now you can configure the kernel for your system.  The current kernel
+offers three ways of doing this.  The first is the original text-based
+question and answer system.  It asks a bunch of questions and then builds
+a configuration file.  The problem with this method is that if you mess
+up, you must start over.  The method that most people prefer is the menu
+driven one.  Lastly, there is an X-based kernel configuration tool.  Pick
+the one you want and issue the appropriate command:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>make config</B
+></TT
+>       (text-based Q&amp;A version)
+   # <TT
+CLASS="USERINPUT"
+><B
+>make menuconfig</B
+></TT
+>   (menu driven, text-based version)
+   # <TT
+CLASS="USERINPUT"
+><B
+>make xconfig</B
+></TT
+>      (X-based version, make sure you are in X first)</TT
+></PRE
+></TD
+></TR
+></TABLE
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 4-1. The menu-driven kernel configuration program.</B
+></P
+><P
+><IMG
+SRC="grfx/make.menuconfig.gif"></P
+></DIV
+><P
+>New users will probably find <TT
+CLASS="USERINPUT"
+><B
+>menuconfig</B
+></TT
+>
+to be the easiest to use.  Help screens are provided that explain the various 
+parts of the kernel.  After configuring your kernel, exit the configuration 
+program.  It will write the necessary configuration files.  Now we can prepare
+the source tree for a build:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>make dep</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>make clean</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The next step is to compile the kernel.  First try issuing the 
+<TT
+CLASS="USERINPUT"
+><B
+>zImage</B
+></TT
+> command below.  That will fail if your 
+kernel is too large.  Don't worry, you can still build it with the 
+<TT
+CLASS="USERINPUT"
+><B
+>bzImage</B
+></TT
+> command.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>make zImage</B
+></TT
+>      (try this first)
+   # <TT
+CLASS="USERINPUT"
+><B
+>make bzImage</B
+></TT
+>     (if make zImage fails, issue this command)</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This may take a while, depending on your CPU speed.  During the build
+process, you will see the compiler messages.  After building the kernel
+image, you will want to build any parts of the kernel that you flagged as
+modular.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>make modules</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>We can now install the kernel and modules that you compiled.  To install
+the kernel on a Slackware system, these commands should be issued:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>mv /vmlinuz /vmlinuz.old</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cat arch/i386/boot/zImage &gt; /vmlinuz</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>mv /boot/System.map /boot/System.map.old</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cp System.map /boot/System.map</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Replace the <TT
+CLASS="USERINPUT"
+><B
+>zImage</B
+></TT
+> with <TT
+CLASS="USERINPUT"
+><B
+>bzImage</B
+></TT
+> 
+if you had to build a big kernel.  You will want to edit 
+<TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> and add a section to boot your old kernel 
+in case your new one does not work.  After doing that, run 
+<B
+CLASS="COMMAND"
+>/sbin/lilo</B
+> to install the new boot block.  You can now 
+reboot with your new kernel.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="USINGMODULES"
+>Using Kernel Modules</A
+></H2
+><P
+>Kernel modules are another name for device drivers that can be inserted
+into a running kernel.  They allow you to extend the hardware supported by
+your kernel without needing to pick another kernel or compile one
+yourself.</P
+><P
+>Modules can also be loaded and unloaded at any time, even when the system
+is running.  This makes upgrading specific drivers easy for system
+administrators.  A new module can be compiled, the old one removed, and
+the new one loaded, all without rebooting the machine.</P
+><P
+>Modules are stored in the <TT
+CLASS="FILENAME"
+>/lib/modules/&lt;<TT
+CLASS="REPLACEABLE"
+><I
+>kernel version</I
+></TT
+>&gt;</TT
+> directory on your 
+system.  They can be loaded at boot time through the 
+<TT
+CLASS="FILENAME"
+>rc.modules</TT
+> file.  This file is very well commented and 
+offers examples for major hardware components.  To see a list of modules that 
+are currently active, use the <B
+CLASS="COMMAND"
+>lsmod</B
+>(1) command:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>lsmod</B
+></TT
+>
+   Module                  Size  Used by
+   parport_pc              7220   0 
+   parport                 7844   0  [parport_pc]</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>You can see here that I only have the parallel port module loaded.  To
+remove a module, you use the <B
+CLASS="COMMAND"
+>rmmod</B
+>(1) command.  Modules can 
+be loaded by the <B
+CLASS="COMMAND"
+>modprobe</B
+>(1) or <B
+CLASS="COMMAND"
+>insmod</B
+>(1)
+command.  <B
+CLASS="COMMAND"
+>modprobe</B
+> is usually safer because it will load 
+any modules that the one you're trying to load depends on.</P
+><P
+>A lot of users never have to load or unload modules by hand.  They use the
+kernel autoloader for module management.  All you have to do is uncomment
+the <B
+CLASS="COMMAND"
+>/sbin/kerneld</B
+>(8) line in 
+<TT
+CLASS="FILENAME"
+>/etc/rc.d/rc.modules</TT
+> and the autoloader will start up.  It 
+will take care of loading and unloading modules as you request them.  A request 
+just involves trying to access that device.</P
+><P
+>More information can be found in the man pages for each of these commands,
+plus the <TT
+CLASS="FILENAME"
+>rc.modules</TT
+> file.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c623.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1059.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>System Configuration</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c623.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Summary</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

@@ -1,0 +1,3 @@
+- samba-3.0.5-i486-2 dont need libattr.so contained in XFSprog (SGI journaled filesystem)
+- samba-3.0.6-i486-1.tgz an above dont work with script nedd -s (silent) option 
+- smbpasswd305.tgz binary smbpasswd compatiblle -s (silent) option for all new samba version

@@ -1,0 +1,6 @@
+
+NetworK time Server
+use the following ntp server:
+time.ien.it (ip address: 193.204.114.231) located in Italy
+
+

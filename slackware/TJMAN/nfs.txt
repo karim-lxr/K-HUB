@@ -1,0 +1,19 @@
+lato server:
+deamon nfs in esecuzione (rc.config)
+esportare le dir condivise in /etc/exports
+
+per la home p.e
+
+/home/guido/dati *.technojuice.lan(rw)
+
+opzioni
+ro  read only
+rw read write
+
+
+showmount -e   lista dir esportate
+showmount -a   lista client e dir in usoaxelaxel
+
+
+comando lato client
+mount -t nfs <ip_della_macchina>/path_origine /path_destin

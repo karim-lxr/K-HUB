@@ -1,0 +1,200 @@
+LINUX KERNEL 2.6 LINUX KERNEL 2.6 Security SecurityQuesta è la 
+            versione .html del file contenuto in 
+            http://carapax.crema.unimi.it/eventi/ld2003/pdf/cornelli.pdf.
+            G o o g l e crea automaticamente la versione .html dei documenti 
+            durante la scansione del Web.
+            Per inserire un segnalibro o un collegamento alla pagina, utilizzare 
+            il seguente 
+            URL:http://www.google.com/search?q=cache:tvgKsMAr6sMJ:carapax.crema.unimi.it/eventi/ld2003/pdf/cornelli.pdf+selinux&hl=it&lr=lang_it
+
+
+            Google non è collegato agli autori di questa pagina e non è 
+            responsabile del suo contenuto.
+                  Sono state evidenziate le seguenti parole chiave: selinux 
+
+
+
+
+      Page 1
+Crema, 29 Ottobre 2003Crema, 29 Ottobre 2003LINUX DAY 2003LINUX DAY 2003LINUX 
+KERNEL 2.6LINUX KERNEL 2.6SecuritySecuritydi Fabrizio Zeno Cornellidi Fabrizio 
+Zeno Cornelli<fabrizio@cornelli.lo.it><fabrizio@cornelli.lo.it>
+
+      Page 2
+22Cosa c'era nel 2.4Cosa c'era nel 2.4●Il kernel “vanilla” non dispone di molte 
+Il kernel “vanilla” non dispone di molte funzionalita' orientata alla 
+sicurezza.funzionalita' orientata alla sicurezza.●Sono disponibili moltissime 
+patch per migliorare Sono disponibili moltissime patch per migliorare la 
+sicurezza del sistema:la sicurezza del sistema:●GRSecurity (Security)GRSecurity 
+(Security)●International (Crypto)International (Crypto)●LIDS (MAC)LIDS 
+(MAC)●SE-Linux (MAC)SE-Linux (MAC)●Non e' possibile metterle tutte d'accordo.Non 
+e' possibile metterle tutte d'accordo.
+
+      Page 3
+33Cosa c'è nel 2.6Cosa c'è nel 2.6●Il nuovo kernel mette a disposizione molte Il 
+nuovo kernel mette a disposizione molte funzioni nativamente, senza la necessità 
+di dover funzioni nativamente, senza la necessità di dover ricorrere a patch 
+esterne spesso in conflitto tra ricorrere a patch esterne spesso in conflitto 
+tra loro o di cui non è garantita la stabilità.loro o di cui non è garantita la 
+stabilità.●In particolare sono state aggiunte:In particolare sono state 
+aggiunte:●Crypto-APICrypto-API●Crypto-loop supportCrypto-loop support●Security 
+Labels su Ext2/3 e ptsSecurity Labels su Ext2/3 e pts●Different security 
+models...Different security models...
+
+      Page 4
+44Crypto-APICrypto-API●Sono state integrate all'interno del kernel Sono state 
+integrate all'interno del kernel alcune funzionalità di crittografia.alcune 
+funzionalità di crittografia.●In particolare c'è il supporto di funzioni sia di 
+In particolare c'è il supporto di funzioni sia di funzioni digest che di 
+cifratura.funzioni digest che di cifratura.●Digest: HMAC, MD4/5, SHA fino a 512 
+bitDigest: HMAC, MD4/5, SHA fino a 512 bit●Cipher: 3DES, BlowFish, TwoFish, AES, 
+CastCipher: 3DES, BlowFish, TwoFish, AES, Cast●Supporto crittografico ad 
+IPSecSupporto crittografico ad IPSec
+
+      Page 5
+55Crypto-loop supportCrypto-loop support●Uno degli usi più semplici ed utili 
+delle Uno degli usi più semplici ed utili delle funzioni di cifratura consiste 
+nel costituire funzioni di cifratura consiste nel costituire dei 
+crypto-filsystem.dei crypto-filsystem.●La procedura prevede la configurazione di 
+La procedura prevede la configurazione di una particolare istanza di loop, da 
+una particolare istanza di loop, da associare ad un filesystem.associare ad un 
+filesystem.●Ogni volta che occorra montare il disco Ogni volta che occorra 
+montare il disco occorre specificare la password corretta.occorre specificare la 
+password corretta.
+
+      Page 6
+66Crypto-loop exampleCrypto-loop example●Creare un filesystem crittato di 
+100Mb:Creare un filesystem crittato di 100Mb:# modprobe cryptoloop# modprobe 
+cryptoloop# modprobe aes# modprobe aes# dd if=/dev/zero of=/tmp/crypto.fs bs=1M 
+count=100# dd if=/dev/zero of=/tmp/crypto.fs bs=1M count=100# losetup -e aes 
+/dev/loop0 /tmp/crypto.fs# losetup -e aes /dev/loop0 
+/tmp/crypto.fsPassword:Password:# mke2fs /dev/loop0# mke2fs /dev/loop0●Montare 
+un filesystem crittato:Montare un filesystem crittato:# losetup -e aes 
+/dev/loop0 /tmp/crypto.fs# losetup -e aes /dev/loop0 /tmp/crypto.fs# mount 
+/dev/loop0 /mnt/crypto# mount /dev/loop0 /mnt/crypto
+
+      Page 7
+77ECMECM●(Too) Easy Cryptofilesystem Manager(Too) Easy Cryptofilesystem 
+Manager●Utility per la creazione di CFSUtility per la creazione di CFS●Supporta 
+file e deviceSupporta file e device●Permette di montare partizioni 
+crittatePermette di montare partizioni crittate●Gestisce autonomamente i device 
+loopGestisce autonomamente i device loop●Utility appena abbozzata, ma 
+GPL!Utility appena abbozzata, ma GPL!
+
+      Page 8
+88ACL e Security Labels su ACL e Security Labels su Ext2/3 Ext2/3 ●Attributi 
+estesi associati agli inode che Attributi estesi associati agli inode che 
+permettono una granularita' maggiore permettono una granularita' maggiore nella 
+definizione dei permessi.nella definizione dei permessi.●Possono essere usati da 
+moduli di Possono essere usati da moduli di sicurezza, come ad esempio 
+SE-Linuxsicurezza, come ad esempio SE-Linux●Supporto delle ACL Posix.Supporto 
+delle ACL Posix.●http://acl.bestbits.at/http://acl.bestbits.at/
+
+      Page 9
+99ACLACL●Access Control ListAccess Control List●Ad ogni file e' possibile 
+associare una lista Ad ogni file e' possibile associare una lista di permessi 
+aggiuntivi al classico controllo di permessi aggiuntivi al classico controllo 
+degli accessi discrezionale.degli accessi discrezionale.●Le ACL sono un superset 
+del controllo Le ACL sono un superset del controllo classicoclassico●POSIX 
+1003.1e, strumenti IRIX likePOSIX 1003.1e, strumenti IRIX like●chacl, getfacl, 
+setfacl, acl(5)chacl, getfacl, setfacl, acl(5)●Supporto su alcuni fs: Ext2/3, 
+Xfs, JfsSupporto su alcuni fs: Ext2/3, Xfs, Jfs
+
+      Page 10
+1010ACL ExampleACL Example# touch prova# touch prova# setfacl -m u:zeno:rw- 
+prova# setfacl -m u:zeno:rw- prova# setfacl -m u:zeno:rwx .# setfacl -m 
+u:zeno:rwx .# su zeno -c “touch pippo”# su zeno -c “touch pippo”# su zeno -c 
+“echo ciao >> prova”# su zeno -c “echo ciao >> prova”# echo “segreto da non dire 
+a zeno” > secret# echo “segreto da non dire a zeno” > secret# chmod 777 secret# 
+chmod 777 secret# setfacl -m u:zeno:--- secret# setfacl -m u:zeno:--- secret# 
+echo “eheheh” | write zeno# echo “eheheh” | write zeno
+
+      Page 11
+1111Different security models:Different security models:●Socket Security 
+HooksSocket Security Hooks●Root Plug supportRoot Plug support●NSA SeLinuxNSA 
+SeLinux
+
+      Page 12
+1212Socket Security HooksSocket Security Hooks●Aggiunge alle socket degli 
+identificativi Aggiunge alle socket degli identificativi SID (Security IDs).SID 
+(Security IDs).●Permette di definire politiche di controllo Permette di definire 
+politiche di controllo degli accessi sulle singole socket, degli accessi sulle 
+singole socket, aumentando la granularita' dei filtri.aumentando la granularita' 
+dei filtri.●E' possibile definire regole che E' possibile definire regole che 
+impediscano solo a certi utenti di spedire impediscano solo a certi utenti di 
+spedire messaggi tcp verso certe porte...messaggi tcp verso certe 
+porte...●http://www.nsa.gov/selinux/doc/module/x2042.htmhttp://www.nsa.gov/selinux/doc/module/x2042.htmll
+
+      Page 13
+1313Root Plug supportRoot Plug support●Impedisce l'esecuzione di programmi 
+Impedisce l'esecuzione di programmi euid=0 se non e' presente una chiave usb 
+euid=0 se non e' presente una chiave usb definita dall'utente.definita 
+dall'utente.●Ogni dispositivo USB e' identificato da una Ogni dispositivo USB e' 
+identificato da una coppia di id: vendor e product.coppia di id: vendor e 
+product.●Il modulo viene inizializzato con questi Il modulo viene inizializzato 
+con questi valori.valori.●Inutilizzabile su server in produzione.Inutilizzabile 
+su server in 
+produzione.●http://www.linuxjournal.com/article.php?sid=6279http://www.linuxjournal.com/article.php?sid=6279
+
+      Page 14
+1414NSA SeLinuxNSA SeLinux●L' Agenzia per la sicurezza Nazionale degli L' 
+Agenzia per la sicurezza Nazionale degli USA rilascia una versione irrobustita 
+di USA rilascia una versione irrobustita di Linux, che viene inclusa nel kernel 
+2.6.Linux, che viene inclusa nel kernel 2.6.●Aggiunge una politica di sicurezza 
+Aggiunge una politica di sicurezza mandatoria a quella discrezionale mandatoria 
+a quella discrezionale migliorando confidenzialita' e integrita'migliorando 
+confidenzialita' e integrita'●Include RBAC e MAC.Include RBAC e MAC.●Richiede un 
+framework complesso, difficile Richiede un framework complesso, difficile da 
+configurareda configurare●Si puo' essere root e al contempo Si puo' essere root 
+e al contempo impossibilitati a fare qualunque cosa!impossibilitati a fare 
+qualunque cosa!
+
+      Page 15
+1515SeLinuxSeLinux●Normalmente l'utente root ha pieni poteri.Normalmente 
+l'utente root ha pieni poteri.●La sicurezza classica di un sistema consiste La 
+sicurezza classica di un sistema consiste in una struttura che renda difficile 
+scalare i in una struttura che renda difficile scalare i permessi verso 
+root.permessi verso root.●SeLinux definisce dei Domini, dentro i SeLinux 
+definisce dei Domini, dentro i quali ad ogni Oggetto vengono dati dei quali ad 
+ogni Oggetto vengono dati dei permessipermessi●Questi permessi sono codificati 
+in una Questi permessi sono codificati in una policy: FLASKpolicy: FLASK●Role 
+Based Access Control (RBAC) Role Based Access Control (RBAC) ●TE (Type 
+Enforcement)TE (Type Enforcement)●MAC (Mandatory Access Control)MAC (Mandatory 
+Access Control)
+
+      Page 16
+1616Obiettivi di FlaskObiettivi di Flask●Protezione degli accessi rawProtezione 
+degli accessi raw●Protezione dell'integrita' del kernel e del Protezione 
+dell'integrita' del kernel e del sistema software di base e dei logsistema 
+software di base e dei log●Confinare i danni potenziali in domini Confinare i 
+danni potenziali in domini chiusi, dai quali non si possa uscirechiusi, dai 
+quali non si possa uscire●Regolare l'uso di /proc e /tmpRegolare l'uso di /proc 
+e /tmp●Regolare l'uso di X11 e Netscape...Regolare l'uso di X11 e Netscape...
+
+      Page 17
+1717Tipi, Domini, RuoliTipi, Domini, Ruoli●Ad ogni oggetto e' associato un tipo: 
+Ad ogni oggetto e' associato un tipo: device_t, memory_device_t, tmp_t, 
+icmp_socket_t ...device_t, memory_device_t, tmp_t, icmp_socket_t ...●Ogni 
+processo appartiene ad un dominio: Ogni processo appartiene ad un dominio: 
+kernel.te, initrc.te, inetd.te, passwd.te, user.te kernel.te, initrc.te, 
+inetd.te, passwd.te, user.te ●La policy definisce i permessi di accesso La 
+policy definisce i permessi di accesso dei domini sui tipi e le transizioni 
+possibili dei domini sui tipi e le transizioni possibili tra domini. tra domini. 
+●Sono definiti dei ruoli: Sono definiti dei ruoli: system_r, user_r, staff_r, 
+system_r, user_r, staff_r, sysadm_rsysadm_r●Ogni ruolo puo' entrare solo in 
+certi Ogni ruolo puo' entrare solo in certi domini.domini.
+
+      Page 18
+1818InstallazioneInstallazioneL'installazione prevede diverse 
+fasi:L'installazione prevede diverse fasi:●Compilazione del kernel con certe 
+Compilazione del kernel con certe funzionalita' abilitatefunzionalita' 
+abilitate●Installazione del frameworkInstallazione del framework●Installazione 
+di versioni adeguate di cron, Installazione di versioni adeguate di cron, ssh, 
+login, ecc...ssh, login, ecc...●Configurazione delle policy di 
+sistemaConfigurazione delle policy di sistema●Applicazione delle policy sul 
+filesystem Applicazione delle policy sul filesystem (per ora solo Ext2/3)(per 
+ora solo Ext2/3)●Fine Tuning ed Enforcement.Fine Tuning ed Enforcement.
+
+      Page 19
+The EndThe EndGrazie per l’attenzione...Grazie per l’attenzione...e buon 
+divertimento! :-) e buon divertimento! :-) 

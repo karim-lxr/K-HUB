@@ -1,0 +1,58 @@
+rem **************************************************************
+rem *										     *
+rem *				technojuice - 1998			     *
+rem *										     *
+rem *	  CONFIG.SYS  menu sample for Linux boot with loadlin      *
+rem *										     *
+rem **************************************************************
+
+		
+ [menu] 
+             menuitem=Linux, Boot to Linux  
+             menuitem=Win, Boot to Windows 98 
+             menucolor=3,0  
+             menudefault=Win,5  
+             
+[linux] 
+             shell=C:\loadlin\loadlin.exe c:\loadlin\vmlinuz root=/dev/sda1 ro
+             [win] 
+            
+             
+device=C:\WINDOWS\COMMAND\display.sys con=(ega,,1)
+Country=041,850,C:\WINDOWS\COMMAND\country.sys
+
+
+
+rem ****************************
+rem *       PARAMETER OPTION   *
+REM ****************************
+
+
+rem PATH:
+rem [linux] menu : cave your loadline path and your real kernel "vmlinuz"
+
+
+rem FORMAT OPTION
+rem menucolor=n1,n2 n1=text n2=background
+rem menudefault=..., 5  time wait for start default 
+
+
+rem colors:
+
+rem  0 = no color (black)
+rem  1 = blue
+rem  2 = green
+rem  3 = azzurro
+rem  4 = red
+rem  5 = cyan
+rem  6 = orange
+rem  7 = grey
+rem  8 = violet
+rem  9 = black
+rem 10 = green shock
+rem 11 = chiaro azzurro
+rem 12 = red/brown
+rem 13 = rosa
+rem 14 = orange chiaro
+rem 15 = white
+rem 16 = grey scuro

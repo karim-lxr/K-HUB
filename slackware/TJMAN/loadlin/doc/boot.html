@@ -1,0 +1,593 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Boot, principi generali</title>
+</head>
+<body link="#0000ff" vlink="#0000ff" alink="#0000ff" bgcolor="#ffffff">
+<p align=right>
+<font size=+3 color="#ff0000">
+<i>Articoli</i>
+</font>
+<hr>
+<p align=center>
+<font size=+2 color="#0000ff">Il Boot di Linux</font>
+<p align=center>
+Ristampato con il permesso del Linux Journal
+</p>
+<p align=left>
+
+Questo articolo descrive i passi compiuti per avviare il kernel di
+Linux. Bench&eacute; questo tipo di informazioni non sia rilevante per
+la funzionalit&agrave; del sistema, risulta interessante vedere come
+le diverse architetture eseguono la fase di "boot".
+
+<p>
+ Un computer &egrave; un apparato molto complesso, ed il suo sistema
+operativo &egrave; uno strumento elaborato che nasconde le
+complessit&agrave; hardware per fornire un ambiente semplice e
+standardizzato all'utente finale. All'accensione del sistema,
+comunque, il software di sistema deve lavorare in un ambiente
+limitato, e deve caricare il kernel usando questo ambiente dalle
+scarse funzionalit&agrave;. Di seguito viene descritta la fase di boot
+per tre diverse piattaforme: l'antiquato PC e i pi&ugrave; recenti
+calcolatori basati su Alpha e Sparc. Il PC occuper&agrave; la maggior
+parte dello spazio in questo articolo perch&eacute; &egrave; ancora la
+piattaforma pi&ugrave; diffusa, ed anche perch&eacute; &egrave; quella
+pi&ugrave; difficile da avviare. Purtroppo in questo articolo del
+Kernel Korner non troverete alcun codice d'esempio, perch&eacute; il
+linguaggio Assembly &egrave; diverso su ciascuna piattaforma ed
+&egrave; di difficile comprensione per la maggior parte dei lettori.
+
+
+<h3>Il calcolatore all'accensione</h3>
+
+<p>
+ Per consentire al computer di poter fare qualcosa quando viene
+acceso, il sistema &egrave; progettato in modo che il processori inizi
+ad eseguire le istruzioni del suo firmware.  Il firmware &egrave; il
+"software non rimovibile" che si trova nella ROM del sistema; alcune
+case produttrici lo chiamano BIOS (Basic Input-Output System) per
+sottolineare il suo ruolo, altri lo chiamano PROM o "flash" per
+accentuare la sua implementazione in hardware, altri ancora lo
+chiamano "console" per focalizzare l'attenzione sull'interazione con
+l'utente.
+
+<p>
+ Solitamente il firmware verifica che l'hardware lavori correttamente,
+recupera una parte del kernel dalla memoria di massa e lo esegue.
+Questa prima parte del kernel deve caricare la parte rimanente ed
+inizializzare tutto il sistema. In questo articolo non tratter&ograve; le
+problematiche del firmware, e mi limiter&ograve; a considerare il codice del
+kernel, il cui sorgente &egrave; distribuito all'interno di Linux.
+
+
+<h3>Il PC</h3>
+
+<p>
+ Al momento dell'accensione, il microprocessore x86 (anche i recenti
+Pentium Pro) &egrave; solo un processore a 16 bit che vede solo 1 MB
+di memoria. Questo ambiente &egrave; chiamato "modalit&agrave; reale",
+ed esiste per esigenze di compatibilit&agrave; con microprocessori
+pi&ugrave; vecchi della stessa famiglia. Tutto ci&ograve; che
+costituisce un sistema completo &egrave; vincolato a risiedere in
+questo spazio d'indirizzamento: il firmware, il buffer video, lo
+spazio per le schede di espansione e un po' di RAM (i maledetti
+640kB).
+
+<p>
+ Per rendere le cose pi&ugrave; difficili, il firmware del PC
+pu&ograve; caricare solo mezzo kilobyte di codice, e stabilisce la sua
+configurazione di memoria prima del caricamento di questo primo
+settore.  Qualunque sia il supporto di memorizzazione usato per il
+boot, il primo settore della partizione di boot viene caricato in
+memoria all'indirizzo 0x7c00, dove l'esecuzione inizia.  Quello che
+succede a 0x7c00 dipende dal boot loader usato. Di seguito
+analizzeremo tre situazioni: nessun boot loader, lilo, loadlin.
+
+<h3>Avviare <code>zImage</code> e <code>bzImage</code></h3>
+
+<p>
+ Sebbene sia abbastanza raro avviare il sistema senza un boot loader,
+si pu&ograve; fare copiando il "raw kernel" (il file chiamato
+<code>zImage</code>) direttamente su un floppy. Un comando del tipo
+``<code>cat zImage > /dev/fd0</code>'' funzioner&agrave; perfettamente
+su Linux, anche se su altri sistemi Unix l'unico modo sicuro per
+scrivere sul floppy &egrave; usare il comando
+<code>dd</code>. L'immagine "raw" sul floppy cos&igrave; creata
+pu&ograve; essere configurata usando il comando <code>rdev</code>, ma
+questo &egrave; al di fuori dell'argomento trattato qui.
+
+<p>
+  Il file <code>zImage</code> &egrave; l'immagine compressa del kernel
+e si trova in <code>arch/i386/boot</code> dopo aver compilato il
+kernel con il comando <code>make zImage</code> o <code>make
+boot</code> (il secondo comando &egrave; quello che preferisco,
+perch&eacute; funziona anche sulle altre piattaforme). Se abbiamo
+costruito una "big zImage" invece, il file si chiama
+<code>bzImage</code> e si trova nella stessa directory.
+
+<p>
+ Avviare un kernel x86 &egrave; un compito complesso a causa del
+limite imposto alla memoria disponibile (in modalit&agrave; reale. Il
+kernel di Linux cerca di massimizzare l'uso dei 640 kB bassi
+sposandosi pi&ugrave; volte all'interno della memoria. Ma vediamo in
+dettaglio i passi compiuti da un kernel zImage; i seguenti nomi di
+file sono tutti relativi ad <code>arch/i386/boot</code>.
+
+<ul>
+
+<li>Il primo settore (eseguito a 0x7c00) sposta se stesso
+all'indirizzo 0x90000 e carica in sequenza alcuni settori ulteriori di
+codice, ottenendoli dal dispositivo usato per il boot tramite funzioni
+del firmware.  La parte rimanente del kernel viene poi caricata
+all'indirizzo 0x10000. Questo comporta che la dimensione massima
+consentita sia di mezzo mega di dati (ma questa &egrave; l'immagine
+compressa).  Il codice del boot sector si trova in
+<code>bootsect.S</code>, ed &egrave; un file Assembly in
+modalit&agrave; reale.
+
+<li>Poi, il codice all'indirizzo 0x90200 (definito in
+<code>setup.S</code>) si prende cura di alcune inizializzazioni
+hardware e consente di cambiare la modalit&agrave; testo di default
+(<code>video.S</code>). La selezione del modo testo &egrave; diventata
+una opzione di compilazione dal kernel 2.1.9 in poi.
+
+<li>Pi&ugrave; tardi, tutto il kernel viene spostato da
+0x10000 (64K) a 0x1000 (4K). Questo spostamento sovrascrive i dati del
+BIOS immagazzinati in RAM e, da questo momento in poi, non sar&agrave;
+pi&ugrave; possibile eseguire chiamate al BIOS.  La prima pagina
+fisica non viene toccata perch&eacute; &egrave; la cosiddetta "pagina
+zero" (zero-page), usata per la gestione della memoria virtuale.
+
+<li>A questo punto <code>setup.S</code> passa in modalit&agrave;
+protetta (protected mode) e salta a 0x1000, dove risiede il
+kernel. Tutta la memoria disponibile pu&ograve; essere finalmente
+vista, ed il sistema pu&ograve; cominciare a funzionare.
+
+</ul>
+
+<p>
+ I passi visti in precedenza rappresentavano tutta la fase di avvio
+quando i kernel erano abbastanza piccoli da poter stare in mezzo
+megabyte (negli indirizzi tra 0x10000 e 0x90000).  Quando il kernel era
+piccolo esso risiedeva a 0x1000, ma la continua aggiunta di
+funzionalit&agrave; lo ha portato a superare il mezzo mega: il codice
+che si trova all'indirizzo 0x1000 non &egrave; pi&ugrave; il vero
+kernel Linux, ma piuttosto il codice relativo alla decompressione del
+programma <code>gzip</code>.  I seguenti passi sono poi necessari per
+decomprimere il vero kernel ed eseguirlo:
+
+<ul>
+
+<li>Il codice a 0x1000 &egrave; <code>compressed/head.S</code>, ed il
+suo ruolo &egrave; decomprimere il kernel: esso chiama la funzione
+<code>decompress_kernel()</code>, definita in
+<code>compressed/misc.c</code>, la quale chiama <code>inflate()</code>
+che scrive il suo output all'indirizzo 0x100000 (un mega). La memoria
+alta adesso viene vista, poich&eacute; il microprocessore &egrave;
+definitivamente fuori dal suo limitato ambiente iniziale (il modo
+reale).
+
+<li>Dopo la decompressione, head.S salta al vero inizio del kernel. Il
+codice attinente si trova in <code>../kernel/head.S</code>, fuori
+dalla directory <code>boot</code>. La fase di boot &egrave; ora
+finita, e <code>head.S</code> (il codice che si trova in 0x100000,
+quello che si trovava in 0x1000 prima dell'introduzione del kernel
+compresso) pu&ograve; completare l'inizializzazione del
+microprocessore e chiamare <code>start_kernel()</code>. Da questo
+punto in poi, tutto il codice &egrave; scritto in C.
+
+</ul>
+
+I vari movimenti di dati che avvengono durante la fase di boot sono
+rappresentati in figura.
+
+<hr>
+<img src="boot-lj.gif" border=2><br>
+<hr>
+
+<p>
+ I passi descritti in precedenza valgono nell'assunzione che il kernel
+compresso non occupi pi&ugrave; di mezzo mega. Bench&acute; questa
+ipotesi sia realizzata nella maggior parte dei casi, un sistema pieno
+di device driver e di filesystem compilati staticamente nel kernel
+pu&ograve; tranquillamente eccedere questo limite (questo sottolinea
+ancora una volta l'importanza della modularizzazione del kernel).  Ad
+esempio, il limite pu&ograve; venir superato dai dischi di
+installazione del sistema: questi kernel devono contenere molti driver
+e superano facilmente il mezzo mega. Per poter avviare sistemi di
+queste dimensioni occorre qualche nuovo trucco. La soluzione adottata
+si chiama <code>bzImage</code>, ed &egrave; stata introdotta dalla
+versione 1.3.73 del kernel.
+
+<p>
+  Un kernel <code>bzImage</code> viene generato dal comando
+"<code>make bzImage</code>", invocato dalla directory principale dei
+sorgenti del kernel. Questo tipo di immagine del kernel si avvia in
+modo molto simile alla <code>zImage</code>, con alcune piccole
+differenze:
+
+<ul>
+
+<li>Quando il sistema viene all'indirizzo 0x10000, una piccola routine
+di supporto viene invocata ogni volta che un blocco da 64 kB viene
+letto dal disco. La routine di supporto sposta i blocchi di dati nella
+memoria alta usando una speciale chiamata del BIOS. Solo i BIOS
+abbastanza recenti implementano questa funzionalit&agrave;, e per
+questo il comando "<code>make boot</code>" genera ancora la
+<code>zImage</code> (almeno al momento in cui questo articolo viene
+scritto, ma in futuro potrebbe cambiare).
+
+<li><code>setup.S</code> non sposta pi&ugrave; il sistema a 0x1000
+(4k), ma salta direttamente ad eseguire il codice all'indirizzo
+0x100000 (1M), dopo essere passato in modalit&agrave; protetta.
+L'indirizzo di "un mega" &egrave; quello dove i dati sono stati
+spostati dalla chiamata BIOS descritta nel passo precedente.
+
+<li>Il decompressore, che si trova all'indirizzo "un mega" scrive
+l'immagine del kernel decompresso in memoria bassa finch&eacute;
+questa non &egrave; piena, poi scrive in memoria alta dopo l'immagine
+compressa. I due pezzi sono in seguito riassemblati all'indirizzo
+0x100000 (un mega). Sono necessari molti spostamenti di memoria per
+eseguite questo lavoro correttamente, ma non &egrave; il caso di
+scendere in ulteriori dettagli.
+
+</ul>
+
+<p>
+ La regola per costruire le <code>bzImage</code> si pu&ograve; trovare
+nel <code>Makefile</code>: essa interessa molti file contenuti in
+<code>arch/i386/boot</code>. Una bella caratteristica di
+<code>bzImage</code> &egrave; che quando <code>kernel/head.S</code>
+viene eseguito non si accorger&agrave; del lavoro addizionale, e tutto
+continuer&agrave; come nel caso di <code>zImage</code>.
+
+<h3>Lilo</h3>
+
+<p>
+ La maggior parte degli utenti di Linux-x86 non avviano il kernel dal
+floppy, e usano piuttosto il Linux Loader (LiLo) dall'hard disk. Lilo
+sostituisce parte del processo descritto in precedenza, in modo da
+essere in grado di avviare un kernel sparso in tutto un disco. Questo
+consente all'utente di avviare un file di kernel da una partizione,
+senza utilizzare il floppy.
+
+<p>
+ In pratica, Lilo usa i servizi del BIOS per caricare i singoli
+settori dal disco e poi salta a setup.S. In altre parole, Lilo sistema
+le cose in memoria come fa <code>bootsect.S</code> per il raw kenrel;
+in questo modo il meccanismo di avvio tradizionale pu&ograve; essere
+completato senza problemi.  Lilo &egrave; anche in grado di gestire la
+linea di comando del kernel e questa &egrave; gi&agrave; una buona
+ragione per evitare di avviare il raw kernel dal floppy.
+
+<p>
+ Per avviare una <code>bzImage</code> tramite Lilo, &egrave;
+necessario disporre almeno della versione 18 di Lilo. Versioni
+pi&ugrave; vecchie non sono in grado di caricare segmenti di codice in
+memoria alta, operazione necessaria per caricare immagini grosse.
+
+<p>
+ Il principale svantaggio di Lilo sta nel suo uso del BIOS per
+caricare il sistema. Questo obbliga ad avere il kernel e altri file
+rilevanti in dischi che siano visti dal BIOS, e all'interno di questi
+solo nei primi 1024 cilindri (i BIOS pi&ugrave; recenti aggirano
+questo limite giocando sporco con i parametri del disco, ma questo
+comporta che la tabella delle partizioni non rispecchi la geometria
+del disco: questo dischi non potranno pi&ugrave; essere usati su
+calcolatori pi&ugrave; vecchi).  Come si vede, usando il firmware dei
+PC ci si rende facilmente conto di quanto tale architettura sia
+obsoleta.
+
+<p>
+ Anche chi non usa Lilo, pu&ograve; apprezzare i file di
+documentazione distribuiti con il suo codice sorgente. Essi contengono
+molte informazioni interessanti sul processo di boot del PC e spiegano
+come fronteggiare quasi tutte le situazioni possibili.
+
+<h3>Loadlin</h3>
+
+Se si vuole avviare il Sistema Operativo (maiuscolo) da un altro
+sistema operativo (minuscolo), allora Loadlin &egrave; lo strumento da
+usare. Il programma &egrave; simile a Lilo in quanto carica il kernel
+da una partizione del disco e quindi salta a <code>setup.S</code>. E`
+differente da Lilo in quanto non solo deve sottostare alle limitazioni
+del BIOS, ma deve anche sbarazzarsi di una configurazione di memoria
+prestabilita senza compromettente la stabilit&agrave; del
+sistema. D'altro canto, Loadlin non &egrave; limitato alla lunghezza
+di mezzo kB perch&eacute; non &egrave; un boot sector ma un completo
+file di codice eseguibile.
+
+<p>
+ La versione 1.6 del programma e le successive sono in grado di
+caricare immagini <code>bzImage</code>.
+
+<p>
+  Loadlin &egrave; in grado di passare una linea di comando al kernel
+e per questo &egrave; flessibile quanto Lilo; la maggior parte delle
+volte un utente di Loadlin</code> finir&agrave; per scrivere un file
+<code>linux.bat</code> che passi per passare una linea del comando
+completa a Loadlin quando il comando <code>linux</code> viene
+invocato.
+
+<p>
+ Loadlin pu&ograve; anche essere usato per trasformare un qualunque PC
+connesso in rete in una macchina Linux: a questo fine &egrave; solo
+necessario disporre di un'immagine del kernel predisposta per montare
+la "partizione di root" via NFS, l'eseguibile Loadlin ed un file
+<code>linux.bat</code> che contenga i corretti indirizzi
+Internet. Ovviamente serve anche un server NFS correttamente
+configurato, ma ogni macchina Linux pu&ograve; adempire questo
+compito. Per esempio, la seguente linea di comando commuta il PC della
+mia ragazza alfred.unipv.it in una workstation:
+
+<pre>
+<code>
+loadlin c:\zimage rw nfsroot=/usr/root/alfred \
+   nfsaddrs=193.204.35.117:193.204.35.110:193.204.35.254:255.255.255.0:alfred.unipv.it
+</code>
+</pre>
+
+
+<h3>Ulteriori informazioni</h3>
+
+<p>
+ Come si pu&ograve; immaginare, il codice non &egrave; cos&igrave;
+semplice come pu&ograve; apparire: in realt&agrave; esso deve
+occuparsi di molti dettagli, come passare al kernel la linea di
+comando, ricordarsi quale tecnica di boot viene utilizzata e
+cos&igrave; via. Il lettore curioso pu&ograve; guardare il codice
+sorgente per saperne di pi&ugrave; e leggere i commenti degli autori
+contenuti nel codice. Si trovano molte informazioni nei commenti e
+spesso sono anche divertenti da leggere.
+
+<p>
+ Personalmente non credo che qualcuno avr&agrave; mai bisogno di
+modificare il codice di boot, in quanto le cose diventano molto
+pi&ugrave; interessanti quando il sistema &egrave; completamente
+attivo: a quel punto si possono sfruttare tutte le potenzialit&agrave;
+del microprocessore e tutta la RAM disponibile senza impazzire con
+problemi troppo di basso livello.
+
+<h3>L'Alpha</h3>
+
+<p>
+ La piattaforma Alpha &egrave; molto pi&ugrave; matura del PC e il suo
+firmware riflette questa maturit&agrave;. La mia esperienza con Alpha
+&egrave; limitata al firmware ARC, che del resto &egrave; il
+pi&ugrave; diffuso.
+
+<p>
+ Dopo aver compiuto il solito riconoscimento dei dispositivi, il
+firmware visualizza un menu di boot che permette di scegliere cosa
+avviare. Il firmware &egrave; in grado di leggere una partizione del
+disco (ma solo una partizione FAT), in questo modo l'utente &egrave;
+in grado di avviare un file, senza bisogno di smanettare con il boot
+sector e dover costruire una mappa dei blocchi del disco.
+
+<p>
+ Il file che viene avviato &egrave; di solito
+<code>linload.exe</code>, il quale carica Milo (il "Mini Loader", il
+cui nome &egrave; uno scherzoso riferimento alla dimensione del
+programma). Per poter avviare Linux tramite il firmware ARC occorre
+avere una piccola partizione FAT sul disco rigido, per contenere
+<code>linload.exe</code> e Milo. Il kernel Linux non ha comunque
+bisogno di avere accesso alla partizione, a meno che non si debba
+aggiornare Milo, per cui il supporto per il filesystem FAT pu&ograve;
+essere lasciato fuori dal kernel senza per questo avere problemi.
+
+<p>
+ In pratica, l'utente pu&ograve; scegliere tra diverse
+possibilit&agrave;: il menu di boot pu&ograve; essere configurato per
+avviare Linux di default, e Milo pu&ograve; addirittura essere
+trasferito nella memoria flash della macchina, in modo da poter fare a
+meno della partizione FAT. In ogni caso, alla fine il controllo viene
+passato a Milo.
+
+<p>
+ Il programma Milo &egrave; in qualche modo una versione ridotta del
+kernel Linux: contiene gli stessi device driver di Linux ed il
+supporto per alcuni filesystem; a differenza del kernel per&ograve;
+non supporta la gestione dei processi e include il codice per
+l'inizializzazione dell'Alpha. Milo &egrave; in grado di impostare ed
+attivare la memoria virtuale, e pu&ograve; caricare un file sia da una
+partizione ext2 che da un disco iso9660. Il "file" in questione viene
+caricato all'indirizzo virtuale <code>0xfffffc0000300000</code> e
+viene eseguito.  L'indirizzo virtuale usato &egrave; quello dove deve
+girare il kernel Linux: &egrave; improbabile che Milo sia usato per
+caricare qualcosa che non sia Linux, con l'eccezione del programma
+<code>fmu</code> (flash management utility) usato per salvare Milo
+nella flash ROM. <code>fmu</code> viene compilato per partire dallo
+stesso indirizzo virtuale del kernel ed &egrave; distribuito insieme a
+Milo).
+
+<p>
+  E` interessante notare che Milo include anche un piccolo emulatore
+386 ed alcune funzionalit&agrave; del BIOS del PC. Questo supporto
+&egrave; necessario per eseguire l'autoinizializzazione delle
+periferiche ISA/PCI (le schede PCI, sebbene pretendano di essere
+indipendenti dal microprocessore, usano il codice macchina Intel nelle
+loro ROM).
+
+<p>
+ Ma, se Milo fa tutto di questo, cosa &egrave; lasciato al kernel Linux?
+
+<p>
+ Molto poco, in effetti. Il primo codice del kernel ad essere eseguito
+in Linux-Alpha &egrave; <code>arch/alpha/kernel/head.S</code>, il
+quale no fa altro che impostare alcuni puntatori e saltare a
+<code>start_kernel()</code>.  In effetti, <code>kernel/head.S</code>
+per Alpha &egrave; molto pi&egrave; corto dell'equivalente sorgente
+per x86.
+
+<p>
+  Per chi non vuole usare Milo c'&egrave; un'altra alternativa, anche
+se non molto conveniente. In <code>arch/alpha/boot</code> risiedono i
+sorgenti di un "raw loader" che viene compilato usando il comando
+"<code>make rawboot</code>" dalla directory principale dei sorgenti
+Linux.  Il programma &egrave; in grado di caricare un file da una
+regione sequenziale di una periferica (il floppy o il disco rigido)
+usando le chiamate del firmware.
+
+<p>
+  In pratica, il raw loader svolge un compito simile a quello che
+<code>bootsect.S</code> svolge per la piattaforma PC, e questo obbliga
+a copiare il kernel su di un floppy o una partizione raw.  Dovrebbe
+essere evidente come non ci siano veri motivi per provare questa
+tecnica, che &egrave; piuttosto complessa e non offre la
+flessibilit&agrave; offerta da Milo. Personalmente non so neppure se
+questo loader funzioni ancora: il "PALcode" usato da Linux &egrave;
+esportato da Milo ed &egrave; diverso da quello ha esportato dal
+firmware ARC. Il PALcode &egrave; una libreria di funzioni di basso
+livello, usata dai microprocessori Alpha per implementare la
+paginazione e altre operazioni di basso livello.  Se il PALcode attivo
+implementa operazioni diverse da quelle che il software si aspetta, il
+sistema non pu&ograve; funzionare.
+
+<h3>La Sparc</h3>
+
+<p>
+ Avviare una macchina Sparc &egrave; simile ad avviare un Alpha dal
+punto di vista dell'utente, mentre &egrave; simile ad avviare un PC
+dal punto di vista software.
+
+<p>
+ L'utente vede che il firmware carica un programma e lo esegue, il
+programma a sua volta pu&ograve; recuperare un file da una partizione
+del disco e decomprimerlo. Il "programma" in questione si chiama Silo,
+e pu&ograve; leggere un file sia da partizioni ext2 che ufs (SunOS,
+Solaris).  A differenza di Milo (e similmente a Lilo), Silo pu&ograve;
+avviare anche un altro sistema operativo. Con Alpha non c'&egrave;
+bisogno questa funzionalit&agrave; in quanto il firmware &egrave;
+gi&agrave; in grado di avviare diversi sistemi operativi: quando Milo
+esegue, la scelta &egrave; gi&agrave; stata fatta (ed &egrave; la
+Scelta Giusta).
+
+<p>
+ Quando un calcolatore Sparc parte, il firmware carica un boot sector
+dopo aver eseguito la verifica dell'hardware e l'inizializzazione dei
+dispositivi. E` interessante notare come i dispositivi Sbus sono
+effettivamente indipendenti dalla piattaforma ed il loro programma di
+inizializzazione &egrave; codice Forth portabile, piuttosto che
+linguaggio macchina di un particolare microprocessore.
+
+<p>
+  Il boot sector che viene caricato &egrave; quello che si trova in
+<code>/boot/first.b</code> nel filesystem Linux-Sparc, ed e' composta
+da 512 byte.  Tale settore viene caricato all'indirizzo 0x4000 ed il
+suo ruolo &egrave; quello di recuperare dal disco
+<code>/boot/second.b</code> e metterlo all'indirizzo 0x280000 (2.5
+MB); la scelta di questo indirizzo dipende dal fatto che le specifiche
+della Sparc richiedono che almeno 3 MB di RAM siano mappati durante la
+fase di boot.
+
+<p>
+ Tutto il resto del lavoro viene fatto dal boot loader di secondo
+livello: esso &egrave; linkato con <code>libext2.a</code> per poter
+accedere alle partizioni di sistema, e pu&ograve; quindi caricare
+un'immagine del kernel dal filesystem Linux.  <code>second.b</code>
+pu&ograve; anche decomprimere l'immagine perch&eacute; include
+<code>inflate.c</code>, dal programma <code>gzip</code>.
+
+<p>
+ Il codice di <code>second.b</code> utilizza un file di configurazione
+chiamato <code>/etc/silo.conf</code>, la cui struttura &egrave; molto
+simile al <code>lilo.conf</code> dei PC. Siccome il file viene letto
+durante la fase di boot, non occorre re-installare la mappa del kernel
+quando se ne aggiunge uno nuovo (a differenza di quanto si fa sul PC).
+Quando Silo mostra il suo prompt l'utente pu&ograve; di scegliere una
+qualsiasi immagine del kernel (o una altro sistema operativo)
+specificati in silo.conf, oppure si pu&ograve; specificare un percorso
+completo (una coppia device/pathname) in modo da caricare un'altra
+immagine di kernel senza dovere editare il file di configurazione.
+
+<p>
+  Silo carica il file che viene avviata all'indirizzo 0x4000. Questo
+significa che il kernel deve essere pi&ugrave; piccolo di 2.5 MB: se
+&egrave; pi&ugrave; grande, Silo si rifiuter&agrave; di caricarlo per
+non sovrascrivere la sua propria immagine. Nessun kernel per
+Linux-Sparc concepibile attualmente pu&ograve; essere pi&ugrave;
+grande di questo limite, a meno di compilarlo con "<code>-g</code>"
+per avere le informazioni di debugging disponibili. In questo caso
+bisogna usare il comando <code>strip</code> per ridurre l'immagine
+prima di passarla a Silo.  Alla fine, Silo decomprime il kernel e lo
+rimappa, posizionando l'immagine all'indirizzo virtuale
+<code>0xf0004000</code>. Il codice che viene eseguito dopo Silo
+&egrave; (come si pu&ograve; immaginare)
+<code>arch/sparc/kernel/head.S</code>. Il sorgente include tutta le
+tabelle di "trap" per il microprocessore ed il codice necessario per
+preparare il computer e chiamare <code>start_kernel()</code>. La
+versione per Sparc di <code>head.S</code> risulta abbastanza grande.
+
+
+<h3>Da <code>start_kernel()</code> in poi</h3>
+
+<p>
+ Dopo che l'inizializzazione specifica per l'architettura &egrave;
+completata, <code>init/main.c</code> prende il controllo del
+microprocessore (qualunque sia il processore).  La funzione
+<code>start_kernel()</code> chiama subito <code>setup_arch()</code>,
+che &egrave; l'ultima funzione dipendente dall'architettura. A
+differenza dell'altro codice, comunque, <code>setup_arch()</code>
+pu&ograve; sfruttare tutte le caratteristiche del microprocessore, ed
+&egrave; un codice molto pi&ugrave; facile da comprendere rispetto a
+quelli descritti in precedenza. La funzione &egrave; definita in
+<code>kernel/setup.c</code> sotto ciascuna architettura supportata.
+
+<p>
+  <code>strart_kernel()</code>, poi, inizializza tutti i sottosistemi
+dei kernel (IPC, networking, buffer cache, ecc.). Dopo aver completato
+l'inizializzazione, queste due linee completano la funzione:
+
+<pre>
+<code>
+kernel_thread(init, NULL, 0);
+cpu_idle(NULL);
+</code>
+</pre>
+
+<p>
+ Il thread <code>init</code> &egrave; il processo numero 1: esso monta
+la partizione di root ed esegue <code>/linuxrc</code> se
+<code>CONFIG_INITRD</code> &egrave; stato attivato in compilazione; la
+funzione quindi esegue il programma <code>init</code>. Se init non
+viene trovato, allora viene eseguito <code>/etc/rc</code>. In
+generale, l'uso di <code>/etc/rc</code> &egrave; sconsigliato, in
+quanto <code>init</code> &egrave; molto pi&egrave; flessibile di uno
+script di shell nel gestire la configurazione del sistema. In effetti,
+la versione 2.1.32 del kernel ha rimosso l'invocazione di
+<code>/etc/rc</code> come obsoleta.
+
+<p>
+  Se n&eacute; <code>init</code> n&eacute; <code>/etc/rc</code>
+possono essere eseguiti, o se terminano, allora la funzione esegue
+<code>/bin/sh</code> ripetutamente (ma dalla 2.1.21 in poi la shell viene
+eseguita una volta solo). Questa funzionalit&agrave; esiste solo come
+salvaguardia in caso di problemi: se  l'amministratore del sistema rimuove o
+corrompe init per errore, o se viene tolto dal kernel il supporto per gli
+eseguibili a.out, dimenticandosi che il vecchio init non &egrave; stato
+ricompilato, allora si apprezzer&agrave;  di avere almeno una shell
+attiva dopo aver fatto reboot.
+
+<p>
+  Il kernel non ha nulla da fare dopo aver lanciato il processo numero
+1, e tutto il resto &egrave; gestito nello spazio utente (da <code>init</code>,
+<code>/etc/rc</code> o <code>/bin/sh</code>).
+
+<p>
+ E il processo 0?  Si &egrave; visto come il cosiddetto "idle task" esegue
+<code>cpu_idle()</code>: questa funzione chiama <code>idle()</code> in un ciclo
+senza fine. La funzione <code>idle()</code> &egrave; dipendente dall'architettura
+e, solitamente, si occupa di spegnere il microprocessore per ridurre i
+consumi ed aumentare la durata del processore stesso.
+
+<p align=right>
+di
+<a href="mailto:rubini@linux.it?Subject=PJ: boot"><cite>Alessandro Rubini</cite></a>
+traduzione di
+<a href="mailto:am@onion.it?Subject=PJ: boot"><cite>Andrea Mauro</cite></a>
+</p>
+
+<hr>
+</body>
+</html>

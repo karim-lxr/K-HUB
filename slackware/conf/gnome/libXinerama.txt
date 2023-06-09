@@ -1,0 +1,13 @@
+to resolve this dependencies case broken install gnome
+
+AFAIK libXinerama is part of Xfree and should be installed on your system. If you do a "locate libXinerama" then you should see /usr/X11R6/lib/libXinerama.a. I've had the same problem with X not wanting to start after removing and installing KDE. The solution (pillaged from another site) was to do this as root:
+
+cd /usr/X11R6/lib
+ld --whole-archive -share -o libXinerama.so.1 libXinerama.a
+ln -s libXinerama.so.1 libXinerama.so
+/sbin/ldconfig
+
+after restart your X. Your mileage may vary.
+
+
+

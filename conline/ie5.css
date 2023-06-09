@@ -1,0 +1,123 @@
+	/**	
+	 *	Mambo Site Server Open Source Edition Version 3.0.6
+	 *	Dynamic portal server and Content managment engine
+	 *	04-05-2001
+ 	 *
+	 *	Copyright (C) 2000 - 2001 Miro Contruct Pty Ltd
+	 *	Distributed under the terms of the GNU General Public License
+	 *	This software may be used without warrany provided these statements are left 
+	 *	intact and a "Powered By Mambo" appears at the bottom of each HTML page.
+	 *	This code is Available at http://sourceforge.net/projects/mambo
+	 *
+	 *	Site Name: Mambo Site Server Open Source Edition Version 3.0.6
+	 *	File Name: ie5.css
+	 *	Developers: Danny Younes - danny@miro.com.au
+	 *				Nicole Anderson - nicole@miro.com.au
+	 *	Date: 27/07/2001
+	 * 	Version #: 3.0.6
+	 *	Comments:
+	**/
+a {
+	font: normal 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #006699;
+}
+
+a:hover {
+	color: #CC0000;
+	text-decoration: none;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+a:active {
+	text-decoration:underline;
+	color: red;
+ 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+}
+
+.date {
+	font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+	text-align: right;
+	}
+	
+.backcolor {
+	background-color: #FF8100;
+ 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+	}
+	
+.searchColor {
+	background-color: #FFFFFF;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif
+	}
+
+.componentHeading {
+	font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #333333;
+	text-align: left;
+	}
+
+.footer {
+	font: 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #FFFFFF;
+}
+
+.button {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	font-size: 9px;
+	color: #FFFFFF;
+	background-color: #666699;
+}
+
+.articlehead{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	text-color: #000000;
+ 	color: #333333
+}
+
+.tihead{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bolder;
+	text-color: #000000;
+	color: #333333
+}
+
+.post {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	text-color: #666666;
+	bacground: #FFFFFF;
+	}
+	
+.bold {
+	font: bold 11px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	}
+	
+.subhead {
+	font: 12px Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #666666;
+	text-align: center;
+	}
+	
+.smalldark {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 10px; color: #000000; font-weight: normal}
+.small {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 10px; color: #FF8302; font-weight: normal}
+.newsarticle {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 11px; color: #333333; text-align: left}
+td {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 11px; color: #333333}
+.poll {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 11px; color: #666666; line-height: 14px}
+.smallgrey { font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 10px; color: #666666; font-weight: normal }
+.subhead1 { font-family: Arial, Helvetica, Univers, 'Zurich BT', sans-serif; font-size: 16px; color: rgb(102,102,102); font-weight: bold; text-align: left;}
+
+.articleheadWhite{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.whitetext {  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; font-size: 11px; color: #ffffff}h1 {  font: bold 18px Arial, Helvetica, sans-serif; color: #999999}

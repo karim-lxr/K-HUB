@@ -1,0 +1,20 @@
+; sample Msdos.sys for boot Linux with DOS promt
+;
+[Paths]
+WinDir=C:\WINDOWS
+WinBootDir=C:\WINDOWS
+HostWinBootDrv=C
+
+[Options]
+BootMulti=1
+; BootGUI 0 boot your system in vommand line, (DOS prompt)
+; type the name of your batch file for start Linux
+; or
+; type "win" if you choose Windows9x for start
+BootGUI=0
+DoubleBuffer=1
+AutoScan=1
+WinVer=4.10.1998
+;join the follow line for speedy boot, this option NOT load the Windows logo at boot
+Logo=0
+;

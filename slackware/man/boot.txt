@@ -1,0 +1,112 @@
+
+la discussione senza fine cioe' 
+
+"metodi di avvio bsd contro metodi sys-V" 
+
+ovvero uno dei motivi per cui preferisco la slack.... 
+
+La teoria
+
+La slackware usa scripts di inizializzazione in stile BDS, ma supporta anche il SysV molte 
+altre distro usano scripts di inizializzazione System-V, tutte e due i tipi di scripts sono 
+umanamente leggibili in quanto essenzialmente scripts di shell,non programmi compilati.
+La principale differenza sta' nel modo in cui sono strutturati.
+Gli script sys-v in genere prendono argomenti come start, stop,restart, preceduti dal 
+nome script; quindi si potra' usare qualcosa come 
+-- /etc/init.d/bind start -- 
+per avviare il processo bind e 
+-- /etc/init.d/bind stop -- 
+per fermare il processo bind. Inoltre il sys-v fa' un ampio uso dei collegamenti simbolici per
+organizzare il processo di boot, per esempio ci possono essere in -- /etc/rc.d/rc.4/ -- vari 
+collegamenti simbolici allo script in esecuzione in altre directory.I collegamenti simbolici 
+vengono denominati S10network, S25xdm, e cosi' via , dove S significa avvia il servizio (start
+il corrispondente e' ferma il servizio K kill), e il numero designa l'ordine sequenziale di 
+esecuzione dello script. Il grosso vantaggio degli scripts sys-V e che possono essere 
+configurati in modo da automatizzare in modo trasparente molti compiti, per esempio se si passa
+dal runlevel 4 al runlevel 6 ci potrebbe essere un collegamento simbolico in 
+-- /etc/rc.d/rc.6/ -- chiamato K75bind, che fermera' il processo se il file a cui il 
+collegamento punta contiene istruzioni adatte. Il grosso svantaggio del sys-V e' che puo' 
+generare scripts molto complessi. Se io volessi aggiungere a mano un servizio sarei costretto a
+scrivere uno script che mi gestisca almeno l'avvio e l'arresto del processo. Dopo dovrei porre 
+attenzione nel settare i collegamenti simbolici in ogni runlevel dove il servizio deve essere 
+avviato, e se io avessi la necessita' di inserire un script di avvio tra due scripts 
+precedentemente numerati, dovrei rinominare tutti gli scripts di numero superiore 
+(se S10xx e S11xx esistono e vorrei avviare yy tra i due dovrei rinominare i collegamenti 
+simbolici per avere la sequenza corretta S10xx S11yy S12xx). 
+Puo' risultare altrettanto macchinoso alterare in modo temporaneo il processo di boot sys-V, 
+infatti volendo escludere un servizio in modo temporaneo all'avvio successivo, il metodo piu' 
+semplice consisterebbe nel rimuovere il collegamento simbolico S10xx.Niente di complesso, ma se
+io volessi escludere quel servizio da ogni runlevel, dovrei cancellare i collegamenti simbolici
+in tutte le directory.In seguito per ripristinare il servizio dovrei ricreare a mano tutti i 
+collegamenti simbolici.Questo da alcuni e' considerato un livello di complessita' extra, al 
+gia' complicato processo di boot, ed e' per questo che al Slackware usa un sistema di avvio 
+stile BSD. Gli scripts di avvio in style BSD sono semplici scripts di shell che vengono 
+eseguiti in maniera sequenziale e non richiedono argomenti come start e stop. Vengono mandati 
+in esecuzione quando il sistema entra nel runlevel che controllano e niente altro. Uno degli 
+svantaggi del sistema BSD consiste nel dover elaborare un metodo per controllare i servizi. 
+Per esempio se si volesse arrestare il servizio bind dovremmo elaborare il risultato del 
+comando -- ps ax | grep named -- che ci restituirebbe il PID da arrestare (kill) non avendo 
+creato uno script che reagisca ai comandi start,stop. Il principale vantaggio degli scripts BSD
+consiste nell'essere facilmente leggibili e modificabili, per esempio se io volessi aggiungere
+un nuovo servizio zzz, basterebbe aggiungere la linea -- /usr/local/bin/zzz -- al file 
+-- /etc/rc.d/rc.local -- ,e il servizio si avviera' al runlevel che esegue rc.local. 
+Se io volessi un servizio solo nel runlevel 4, basterebbe inserire il comando in 
+-- /etc/rc.d/rc.4 -- (che qui non e' una directory ma un file). Volendo cambiare l'ordine di 
+esecuzione, basterebbe spostare il comando prima o dopo la posizione voluta all'interno del 
+file con un semplice editor di testo, senza dimenticare che basterebbe il simbolo di commento 
+prima del comando per escluderlo temporaneamente dal boot. Quindi i gusti sono gusti, e ogni 
+distro sceglie uno dei due metodi, personalmente con la slackware, rinuncio a un minimo di 
+usabilita' (start,stop e propagazione) in favore della linearita' e semplicita'. 
+
+La pratica
+
+Accesa la macchina, una volta finito il processo di boot del bios, il sistema cerchera' di 
+accedere al primo settore della periferica di boot (hd, floppy, cdrom, ecc.) dove si aspetta 
+di trovare un bootloader cioe' un programma, nel mio caso LILO (LInuxLOader ma potremmo usare
+GRUB), che ha il compito di caricare il kernel nella memoria e far partire il padre di tutti i
+processi init, se digitiamo un ps ax | grep 1 avremo la conferma che il primo processo mandato
+in esecuzione dal kernel e quindi con PID 1 (ProcessID) e' init. Subito dopo essere stato 
+avviato init carica in lettura il file inittab che contiene le istruzioni per l'avvio della
+macchina, e precisamente a quale runlevel deve essere avviata la macchina e dove sono i file
+di configurazione dei runlevel.
+Un runlevel definisce tutti i servizi che devono essere resi disponibili dalla macchina in un
+dato momento, cioe' come deve operare la macchina. I runlevels sono designati da lettere o 
+numeri che possono variare leggermente a seconda delle distribuzioni, nella Slackware sono i
+seguenti
+Runlevel 0 => Arresto del sistema
+Runlevel 1 => Modalita' utente singolo, generalmente usata durante la manutenzione
+Runlevel 2 => Inutilizzato
+Runlevel 3 => Multiutente con login da console
+Runlevel 4 => Multiutente con login grafico (XDM, GDM, KDM)
+Runlevel 5 => Inutilizzato
+Runlevel 6 => Riavvio del sistema
+Runlevel S => Modalita' utente singolo
+
+A parte inittab (/etc/inittab)tutti i file di configurazione si trovano nella directory
+/etc/rc.d/ e i piu' importanti sono:
+rc.0 => Link simbolico a rc.6 
+rc.M => Lo script comune ai livelli multiutente 2, 3 e 5 
+rc.K => Il runlevel utente singolo 
+rc.S => Lo script di inizializzazione del sistema 
+rc.4 => Lo script per il runlevel 4 per il login grafico 
+rc.6 => Lo script per il riavvio o lo spegnimento del sistema
+rc.inet1 => E' il responsabile dell'avvio dei servizi di rete fondamentali come 
+	    l'assegnazione del numero IP fisso o DHCP
+rc.inet2 =>avvia i servizi di rete come NFS, ssh ecc.
+rc.local => E' il file dove mettere tutti i comandi che vogliamo vengano eseguiti all'avvio
+            un po' come l'autoexec.bat del dos 
+
+I rimanenti scripts rc.* sono responsabili dell'avvio di servizi accessori per disabilitarli
+basta usare il comando chmod e togliere il permesso di esecuzione.
+Per cambiare il runlevel al volo potete usare il comando telinit seguito dal numero del 
+runlevel desiderato es:
+telinit 3
+
+E con questo per adesso e' tutto
+pierluigi
+z00keepers of
+www.z00.it
+www.slack.z00.it
+slack@slack.z00.it
+GPL2 2002
+

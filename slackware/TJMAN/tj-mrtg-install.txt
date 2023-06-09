@@ -1,0 +1,212 @@
+6-ago-03
+
+Overview installazione:
+
+- gd-lib installate
+- install configur SNMP (ucd-snmp  per SuSE)
+- install sources mrtg in /usr/local/src
+- crea configurazione test con cfgmaker
+- implementa devices or services + default su sample mrtg.cfg
+- crea index.html su base mrtg-cfg con indexmaker evt aggiusta
+- mettere in cron ./mrtg ogni 5 min
+
+------------------------
+install GD-Lib boutell ¦
+------------------------------------------------------------------------------------
+
+tutti i pacchetti sources in /usr/local/src
+prefisso base:/usr/local
+
+zlib: edit Makefile   ./configure; make test; make install
+
+libpng; edit /scripts/makefile.linux (zlib and path path)
+	copy /scripts/makefile.linux in sources Makfile
+	make test; make install
+
+jpeg: ./configure; ocho CR like Dos (convert and set permission configure +makefile)
+, check Makefile; make test; make install
+
+freetype: ./configure  --prefix=/usr/local
+	   make; make install
+
+libgd: ./configure  (prefix default is /usr/local) ; make; make install
+----------------------------------------------------------------------------------------
+
+
+-----------------
+SNMP - ucd-snmp ¦
+-------------------------------------------------
+configurazione minima in /etc/snmp.conf, altrimenti MRTG rischia di non poter leggere dati snmp
+
+
+-------------snmp.conf----------------->
+
+
+################################
+# Access Control	       #
+################################
+
+#rwcommunity mysecret 127.0.0.1
+rocommunity public 192.168.1.0/24
+
+# incl/excl subtree mask
+view all included 1.80
+
+################################
+# System Contact Information   #
+################################
+
+syslocation  Server used by technojuice
+syscontact guido <guido@technojuice.org>
+
+-------------end--snmp.conf--------------->
+parte con script /etc/inid.d/snmpd {status¦start¦stop¦reload}
+
+PATHS:
+/usr/sbin/snmpd			=> daemon
+/etc/snmp.conf			=> cfg snmp
+/etc/inid.d/snmpd 		=> init script
+/usr/lib/ucd-snmp/agents	=> fornisce dati oggetti snmp localhost
+
+si interrogano gli oggetti 'snmp' con '/usr/bin/snmpwalk hostname community' (es. public)
+
+
+---------------
+ install MRTG ¦
+-----------------------------------------------------
+
+untar in /usr/local/src 'tar -zxvf mrtg-2.x.x.tar.gz'
+./configure; make ; make install
+se le librerie xono installate come in precedenza, configure non ha bisogno di opzioni,
+e va ad installare MRTG in usr/local/mrtg-2 con arborescenza:
+/bin /doc /lib /man /share
+utile la creazione di una directory per testare configurazioni es. 'test' in mrtg-2
+
+creare le dir per output:
+es. /srv/www/htdocs/mrtg da proteggere con .htaccess e le subdir:
+/img	=> icone png  provenienti da mrtg-2/share/icons
+/log  => da proteggere con .htaccess 'Deny from all'
+/script => per cfg e .pl da proteggere con .htaccess 'Deny from all'
+
+
+-------------------------------
+ configure MRTG with cfgmaker ¦
+-----------------------------------------------------------------
+
+preparare il template per mrtg in webdirectory/script/mrtg.cfg
+il template deve contenere almeno:
+
+-----------------/srv/www/htdocs/mrtg/script/mrtg.cfg------------>
+# configurazione MRTG on technojuice
+# last mod 08 05 2003
+# to guido@technojuice.org
+
+#-----------General------------------
+# absolute path
+Htmldir: /srv/www/htdocs/mrtg
+Imagedir:/srv/www/htdocs/mrtg/img
+Logdir: /srv/www/htdocs/mrtg/log
+
+Language: italian
+#-----------End General--------------
+
+#------ Defaults---------------------
+Forks:4
+XSize[_]: 500
+Ysize[_]: 150
+Colours[_]: --#7aafff,--#1000ff,--#006600,--#ff00ff
+Extension[_]: php
+Weekformat[_]:V
+
+#------End Defaults-----------------
+
+----------end-sample-mrtg.cfg------------------------------>
+
+procedere al rilevamento dei propri oggetti snmp:
+nella dir test eseguire
+/usr/local/mrtg-2/bin/cfgmaker  public@hostname > test
+il file test contiene il rilevamento delle interfacce di rete in localhost,
+per ognuna é possibile utilizzare i record 'as is' da copiare in mrtg.cfg.
+Spesso i rilievi per devices ADSL (ppp0 ecc) necessitano di aggiustamento
+larghezza di banda.
+
+servizi e altro possono essere inseriti utilizzando script appositi da inserire 
+in mrtg/script vedi `mrtg-scripts.tgz`
+
+rilevamento interfaccia di rete per mrtg.cfg
+----------------da test ----------------------------
+### Interface 1 >> Descr: 'eth0' | Name: 'LAN' | Ip: '192.168.1.1' | Eth: '00-04-75-c2-54-f0' ###
+Target[localhost_1]: 1:public@localhost:
+SetEnv[localhost_1]: MRTG_INT_IP="192.168.1.1" MRTG_INT_DESCR="eth0"
+MaxBytes[localhost_1]: 1250000
+Options[localhost_1]: nopercent,growright,noinfo
+MaxBytes[localhost_1]: 1250000
+Kilo[localhost_1]:1024
+Ylegend[localhost_1]: bytes per secondo
+ShortLegend[localhost_1]: b/s
+Legend1[localhost_1]: Flusso in ingresso
+Legend2[localhost_1]: Flusso in uscita
+LegendI[localhost_1]: Entrata:
+Legend0[localhost_1]: Uscita:
+Title[localhost_1]: Ethernet Interface
+PageTop[localhost_1]: <H1>Traffic Analysis for Ethernet Interface eth0</H1>
+------------end eth0 da test ------------------
+
+- il tag PageTop, titolo del grafico, dev'essere well formed (<H1></H1>)altrimenti da errori 
+- i tag MaxBytes e MaxBytes devono contenere valori validi (non inferiori) altrimenti non vanno
+
+
+-----da-test-ppp0------------------------------
+#------ppp0 by snmp-------------------
+Target[localhost_2]: 2:public@localhost:
+Options[localhost_2]: nopercent,growright,noinfo
+Maxbytes[localhost_2]: 65536
+AbsMax[localhost_2]: 100000
+Kilo[localhost_2]:1024
+Ylegend[localhost_2]: byte/s
+ShortLegend[localhost_2]: b/s
+Legend1[localhost_2]: Traffico ADSL in ingresso
+Legend2[localhost_2]: Traffico ADSL in uscita
+LegendI[localhost_2]: Ingresso:
+LegendO[localhost_2]: Uscita:
+Title[localhost_2]: flussi ADSL
+PageTop[localhost_2]: <H1>Traffico ADSL</H1>
+#------End ppp0 snmp------------------------
+
+
+Esempio di grafico ottenuto da script 'webstat.pl
+
+#---------Apache traffic-----------------------
+Target[apache_bytes]: `/srv/www/htdocs/mrtg/script/webstat.pl hits`
+Options[apache_bytes]: nopercent, growright, noinfo, nobanner, noi
+MaxBytes[apache_bytes]:16000 
+AbsMax[apache_bytes]:20000 
+YLegend[apache_bytes]: byte/s
+ShortLegend[apache_bytes]: b/s
+LegendO[apache_bytes]: Traffico Apache:
+Legend2[apache_bytes]: Traffico Apache
+Title[apache_bytes]: Traffico server Apache
+PageTop[apache_bytes]: <H1>Traffico server Apache</H1>
+WithPeak[apache_bytes]: wmy
+Legend4[apache_bytes]: Traffico max Apache
+#------------End Apache Traffic------------------
+
+ogni oggetto di configurazione crea il corrispettivo 'file.php'
+contenente il grafico png ed file di log con viste giornaliere, sett. mens. ann.
+
+
+----------------------------------
+create index.html con indexmaker ¦
+---------------------------------------------------
+per la consultazione agevole, é possibile creare in webservedir un index che raggruppa
+per ogni oggetto monitorato il grafico giornaliero, in grado di likarsi al file php
+dell'oggetto. questo si ottiene con /usr/local/mrtg-2/bin/indexmaker:
+
+/usr/local/mrtg-2/bin/indexmaker /srv/www/htdocs/mrtg/script/mrtg.cfg > /srv/www/htdocs/mrtg/index.html
+
+ottenuto qualcosa di definitivo, può essere utile modificarlo (viste - header, footer ecc.).
+i file oggetto, possono essere direttamente richiamati da nagios
+
+
+
+

@@ -1,0 +1,101 @@
+28-feb-02
+
+CONFIGURAZIONE PROFILI SAMBA 2.22 - WIN2000 PRO
+------------------------------------------------
+
+Per default w2k attiva i profili, w2k server li gestisce in modo leggermente diverso; esistono profili:
+
+- local: installati sul pc, NTUSERS.DAT
+- roaming: seguono l'utente, installati in rete,NTUSERS.DAT locale più NTUSERS.DAT utente remoto  
+- mandatory: obbediscono ad un profilo obbligatorio non modificabile e riassunto in NTUSERS.MAN remoto più NTUSERS.DAT locale
+  occupa circa 350 kb con una configurazione minima
+
+il profilo effettivo utilizzato dall'utente, consiste nella fusione del NTUSERS.MAN di rete con NTUSERS.DAT
+locale, particolare attenzione deve quindi essere posta nell'installazione iniziale della macchina, 
+in particolare localizzazione internazionale, altrimenti, anche dopo correzione, tutti gli errori vengono ereditati nel profilo.
+
+
+PROFILI SU WIN2000 PRO
+----------------------
+
+localmente i profili vengono creati in:
+
+- -Documents and Settings
+     ¦
+     ¦--All Users => ntuser.pol (stabilisce le policies utenti)
+     ¦
+     ¦--Default User => NTUSER.DAT (profilo principale, viene usato o fuso nei nuovi profili ed eredita gli errori)
+     ¦
+     ¦--username => profilo utente locale (username é il nome dell'utente)=>NTUSER.DAT
+     ¦
+     ¦--username.NET => profilo utente di rete (dove NET é nome del dominio, contiene profilo fuso)=>NTUSER.MAN
+
+
+
+- ogni profilo utente, ha la seguente struttura directory:
+
+--USERNAME
+    ¦
+    ¦--Cookies
+    ¦--Dati applicazioni
+    ¦--Desktop
+    ¦--Documenti
+    ¦--Impostazioni Locali
+    ¦--Menu Avvio
+    ¦--Modelli
+    ¦--Preferiti
+    ¦--Recent
+    ¦--Risorse di rete
+    ¦--Risorse di stampa
+    ¦--SendTo
+
+
+
+REQUISITI SAMBA
+---------------
+
+smb.conf
+
+- per roaming profiles:
+  logon path = \\%N\profiles\%u
+ 
+  dove %N é serverName e %u é utente
+
+in questo dopo la creazione della directory aperta in scrittura 'profiles', ogni utente creerà in questa un profilo dal nome corrispondente
+allo username di rete, in caso contrario il profilo verrà creato nella home dell'utente con il nome 'profile'
+bisogna inserire anche la configurazione dello share:
+
+[profiles]
+comment = roaming profile 
+path = /what/you/want
+guest ok = yes
+browseable = no
+writeable = yes
+create mask = 0777
+directory mask = 0777
+security mask = 0777
+directory security mask = 0777
+
+il tutto deve essere aperto in scrittura, per aggiornare i profili, o comunque la prima volta che viene creato
+
+
+- per mandatory profiles:
+  logon path = \\%N\profile
+ 
+  dove %N é serverName 
+
+in questo dopo la creazione della directory aperta in scrittura 'profile',verrà copiato il profilo standard che si intende utilizzare.
+su win2kpro (impostazioni -> pannello di controllo -> sistema -> profili utente -> copia su -> [profile])
+In seguito occorre rinominare il profilo  NTUSER.DAT della directory 'profile' in  NTUSER.MAN(datory) 
+
+Il profilo tipo, si ottiene creando un nuovo utente locale provvisorio, attribuire ad esso le autorizzazioni desiderate,
+e dopo copia profilo lo si può anche eliminare
+
+CAVE:
+----
+sistemare comunque da administrator, sulle macchine il registry di Internet Explorer e la localizzazione perfetta durante l'installazione
+
+
+
+
+

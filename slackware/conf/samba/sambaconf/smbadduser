@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# Script for addind users on a Samba Server used as a PDC.
+# by Lorenzo Allori <lallori@medici.org>
+
+# This program is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+
+# http://www.gnu.org/philosophy/license-list.html
+
+# The Author does not have any responsability on theese scripts
+
+
+
+# Creating Samba Users Group
+#/usr/sbin/groupadd smbusers
+
+# Starting....
+
+if [ $UID = "0" ]; then
+    
+    # Creating Samba Users Group
+    
+    ./grcontrol
+    
+    if [ ! -e $PWD/tmp.smb ]; then
+    	/usr/sbin/groupadd smbusers
+    else
+	echo "Here we go!"
+    rm tmp.smb
+    fi
+
+    # Starting Making the Accounts
+
+    echo
+    echo -n "Enter the [Login name] for new samba user : "
+    read USER
+    if [ -z "$USER" ]; then
+    echo "Come on, man, you can't leave the login field empty..."
+    exit
+    fi
+
+    echo
+    echo -n "Enter the [Real name] for the new samba user []: "
+    read REAL
+    if [ -z "$REAL" ]; then
+    echo "It's better you do not leave this field empty!"
+    exit
+    fi
+
+    # Creating UNIX account on the UNIX server
+
+    /usr/sbin/useradd -g smbusers $USER -c "$REAL" -s /bin/false -d /home/samba/users/$USER -m -k /etc/skel.smb
+    
+    # Creating real account for Samba with password the users will be
+    # prompted to change when the first log on the network.
+
+    /usr/local/samba/bin/smbpasswd -a $USER default
+else
+    echo ""
+    echo "Come on, man... you need to be root to run this script!"
+    echo ""
+fi

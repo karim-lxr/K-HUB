@@ -1,0 +1,414 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Filesystem Structure</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Using Slackware Linux"
+HREF="p1888.html"><LINK
+REL="PREVIOUS"
+TITLE="Summary"
+HREF="x2124.html"><LINK
+REL="NEXT"
+TITLE="Permissions"
+HREF="x2163.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x2124.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x2163.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="FILESYSTEM"
+>Chapter 9. Filesystem Structure</A
+></H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c2127.html#OWNERSHIPS"
+>Ownership</A
+></DT
+><DT
+><A
+HREF="x2163.html"
+>Permissions</A
+></DT
+><DT
+><A
+HREF="x2265.html"
+>Links</A
+></DT
+><DT
+><A
+HREF="x2280.html"
+>Mounting Devices</A
+></DT
+><DT
+><A
+HREF="x2339.html"
+>NFS Mounts</A
+></DT
+><DT
+><A
+HREF="x2349.html"
+>Summary</A
+></DT
+></DL
+></DIV
+><P
+>We have already discussed the directory structure in Slackware Linux.  You
+are able to find files and directories that you need.  But there is more
+to the filesystem than just the directory structure.</P
+><P
+>Linux is a multiuser operating system.  Every aspect of the system is
+multiuser, even the filesystem.  The system stores information like who
+owns a file and who can read it.  There are other unique parts about the
+filesystems, such as links and NFS mounts.  This section explains these,
+as well as the multiuser aspects of the filesystem.</P
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="OWNERSHIPS"
+>Ownership</A
+></H1
+><P
+>   The filesystem stores ownership information for each file and directory on
+   the system.  This includes what owner and group own a particular file.
+   The easiest way to see this information is with the <B
+CLASS="COMMAND"
+>ls</B
+> 
+   command:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ls -l /usr/bin/wc</B
+></TT
+>
+   -rwxr-xr-x   1 root     bin    7368 Jul 30  1999 /usr/bin/wc</TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   We are interested in the third and fourth columns.  These contain the 
+   username and group name that owns this file.  We see that the user 
+   &#8220;root&#8221; and the group &#8220;bin&#8221; own this file.
+   </P
+><P
+>   We can easily change the file owners with the
+   <B
+CLASS="COMMAND"
+>chown</B
+>(1) (which means &#8220;change owner&#8221;)
+   and <B
+CLASS="COMMAND"
+>chgrp</B
+>(1) (which means &#8220;change
+   group&#8221;) commands.  To change the file owner to 
+   &#8220;daemon&#8221;, we would use <B
+CLASS="COMMAND"
+>chown</B
+>:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>chown daemon /usr/bin/wc</B
+></TT
+></TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   To change the group owner to &#8220;root&#8221;, we would use 
+   <B
+CLASS="COMMAND"
+>chgrp</B
+>:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>chgrp root /usr/bin/wc</B
+></TT
+></TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   We can also use <B
+CLASS="COMMAND"
+>chown</B
+> to specify the user and group 
+   owners for a file:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>chown daemon.root /usr/bin/wc</B
+></TT
+></TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   File ownership is a very important part of using a Linux system, even if
+   you are the only user.  You sometimes need to fix ownerships on files and
+   device nodes.
+   </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x2124.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x2163.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Summary</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="p1888.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Permissions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

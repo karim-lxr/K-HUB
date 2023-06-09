@@ -1,0 +1,1 @@
+smbmount //server/share /mount/point -o password=pass ro (per read only

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.70)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>Direttive httpd</TITLE>
+<META NAME="description" CONTENT="Direttive httpd">
+<META NAME="keywords" CONTENT="tj-htaccess">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="tj-htaccess.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="node2.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html73"
+  HREF="node4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next" SRC="next.png"></A> 
+<A NAME="tex2html67"
+  HREF="node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up" SRC="up.png"></A> 
+<A NAME="tex2html61"
+  HREF="node2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous" SRC="prev.png"></A> 
+<A NAME="tex2html69"
+  HREF="node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents" SRC="contents.png"></A> 
+<A NAME="tex2html71"
+  HREF="node10.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index" SRC="index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html74"
+  HREF="node4.html">Direttive .htaccess</A>
+<B> Up:</B> <A NAME="tex2html68"
+  HREF="node2.html">Configurazione di htaccess</A>
+<B> Previous:</B> <A NAME="tex2html62"
+  HREF="node2.html">Configurazione di htaccess</A>
+ &nbsp; <B>  <A NAME="tex2html70"
+  HREF="node1.html">Indice</A></B> 
+ &nbsp; <B>  <A NAME="tex2html72"
+  HREF="node10.html">Indice analitico</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00210000000000000000">
+Direttive httpd</A>
+</H1>
+
+<UL>
+<LI>configurazione APACHE, in /etc/httpd/httpd.conf
+<BR>
+abilitare nella sezione
+ &lt;DIRECTORY&gt; la direttiva: AllowOverride AuthConfig di default impostata su 'none'.
+
+<P>
+</LI>
+<LI>creazione file delle password:
+<BR>
+da /usr/bin chiamare il binario htpasswd; la prima volta che viene utilizzato occorre il parametro -c  
+<I>'<A NAME="15"></A>&nbsp;-c /etc/httpd/newpasswordfile username'</I>, dove il path corrisponde alla destinazione del file delle password chiamato per default 'htpasswd' ma potrebbe anche essere un file nascosto, username &#233; il primo utente creato, ripetere per ogni utente la procedura senza il
+<BR>
+parametro&nbsp;-c. La modifica <A NAME="16"></A> viene effettuata invocando htpasswd nuovo 'username' passwordfile creato in precedenza. 
+
+<P>
+</LI>
+<LI>creazione della directory con accesso autorizzato: 
+semplicemente aggiungendo un file nascosto <A NAME="17"></A> alla directory che si intende proteggere. 
+</LI>
+</UL>
+
+<P>
+<BR><HR>
+<ADDRESS>
+guido venturini
+2003-10-20
+</ADDRESS>
+</BODY>
+</HTML>

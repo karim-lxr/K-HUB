@@ -1,0 +1,760 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Package Utilities</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Slackware Package Management"
+HREF="c3984.html"><LINK
+REL="PREVIOUS"
+TITLE="Slackware Package Management"
+HREF="c3984.html"><LINK
+REL="NEXT"
+TITLE="Making Packages"
+HREF="x4132.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c3984.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 16. Slackware Package Management</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x4132.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="PACKAGEUTILS"
+>Package Utilities</A
+></H1
+><P
+>   There are four main utilities for package management.  They perform
+   installation, removal, and upgrades of packages.
+   </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="PKGTOOL"
+>pkgtool</A
+></H2
+><P
+>      <B
+CLASS="COMMAND"
+>pkgtool</B
+>(8) is a menu-driven program that allows 
+      installation and removal of packages.  The main menu looks like this:
+      </P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 16-1. Pkgtool's main menu.</B
+></P
+><P
+><IMG
+SRC="grfx/pkgtool.gif"></P
+></DIV
+><P
+>      Installation is offered from the current directory, another directory, or
+      from floppy disks.  Simply select the installation method you want and
+      <B
+CLASS="COMMAND"
+>pkgtool</B
+> will search that location for valid packages 
+      to install.
+      </P
+><P
+>      You may also view a list of installed packages, which would look like
+      this:
+      </P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 16-2. Pkgtool view mode.</B
+></P
+><P
+><IMG
+SRC="grfx/pkgtool.view.gif"></P
+></DIV
+><P
+>      If you want to remove packages, select the remove option and you will be
+      presented with a checklist of all the installed packages.  Flag the ones
+      you want to remove and select OK.  <B
+CLASS="COMMAND"
+>pkgtool</B
+> will 
+      remove them.
+      </P
+><P
+>      Some users prefer this utility to the command line utilities.  However, it
+      should be noted that the command line utilities offer many more options.
+      Also, the ability to upgrade packages is only offered through the command
+      line utilities.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="INSTALLPKG"
+>installpkg</A
+></H2
+><P
+>      <B
+CLASS="COMMAND"
+>installpkg</B
+>(8) handles installation of new packages 
+      on the system.  The syntax is as follows:
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>[ROOT=&lt;path&gt;] installpkg [option] &lt;package name&gt;...</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      Three options are provided for <B
+CLASS="COMMAND"
+>installpkg</B
+>.  
+      Only one option can be used at a time.
+      </P
+><DIV
+CLASS="TABLE"
+><P
+><B
+>Table 16-1. installpkg Options</B
+></P
+><TABLE
+BORDER="0"
+CLASS="CALSTABLE"
+><TR
+><TH
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Option</TH
+><TH
+ALIGN="LEFT"
+VALIGN="TOP"
+>Effects</TH
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-m</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               Performs a <B
+CLASS="COMMAND"
+>makepkg</B
+> operation on the current 
+               directory.
+            </TD
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-warn</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               Shows what would happen if you installed the specified
+               package.  This is useful for production systems so you can see
+               exactly what would happen before installing something.
+            </TD
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-r</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               Recursively install all packages in the current directory
+               and down.  The &lt;package name&gt; can use wildcards, which
+               would be used as the search mask when recursively
+               installing.
+            </TD
+></TR
+></TABLE
+></DIV
+><P
+>      If you pass the <TT
+CLASS="ENVAR"
+>ROOT</TT
+> environment variable before 
+      <B
+CLASS="COMMAND"
+>installpkg</B
+>, that path will be used for the root 
+      directory.  This is useful for setting up new drives for your root 
+      directory.  They will typically be mounted to 
+      <TT
+CLASS="FILENAME"
+>/mnt</TT
+> or something other than 
+      <TT
+CLASS="FILENAME"
+>/</TT
+>.
+      </P
+><P
+>      The installed package database entry is stored in 
+      <TT
+CLASS="FILENAME"
+>/var/log/packages</TT
+>.  The 
+      &#8220;entry&#8221; is really just a plain text file, one for each 
+      package.  If the package has a postinstallation script, it is written to 
+      <TT
+CLASS="FILENAME"
+>/var/log/scripts/&lt;packagename&gt;</TT
+>.
+      </P
+><P
+>      You may specify several packages or use wildcards for the package name.  
+      Be advised that <B
+CLASS="COMMAND"
+>installpkg</B
+> will not tell you if you 
+      are overwriting an installed package.  It will simply install right on 
+      top of the old one.  If you want to ensure that old files from the 
+      previous package are safely removed, use <B
+CLASS="COMMAND"
+>upgradepkg</B
+>.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="REMOVEPKG"
+>removepkg</A
+></H2
+><P
+>      <B
+CLASS="COMMAND"
+>removepkg</B
+>(8) handles removing installed packages 
+      from the system.  The syntax is as follows:
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>[ROOT=&lt;path&gt;] removepkg [option] &lt;package name&gt;...</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      Four options are provided for <B
+CLASS="COMMAND"
+>removepkg</B
+>.  
+      Only one option may be used at a time.
+      </P
+><DIV
+CLASS="TABLE"
+><P
+><B
+>Table 16-2. removepkg Options</B
+></P
+><TABLE
+BORDER="0"
+CLASS="CALSTABLE"
+><TR
+><TH
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Option</TH
+><TH
+ALIGN="LEFT"
+VALIGN="TOP"
+>Effects</TH
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-copy</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               The package is copied to the preserved packages directory.
+               This creates a tree of the original package without removing
+               it.
+            </TD
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-keep</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               Saves temporary files created during the removal.   Really
+               only useful for debugging purposes.
+            </TD
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-preserve</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               The package is removed, but copied to the preserved
+               packages directory at the same time.
+            </TD
+></TR
+><TR
+><TD
+WIDTH="96"
+ALIGN="LEFT"
+VALIGN="TOP"
+>-warn</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>               Shows what would happen if you removed the package.
+            </TD
+></TR
+></TABLE
+></DIV
+><P
+>      If you pass the <TT
+CLASS="ENVAR"
+>ROOT</TT
+> environment variable before 
+      <B
+CLASS="COMMAND"
+>removepkg</B
+>, that path will be used for the root 
+      directory.  This is useful for setting up new drives for your root 
+      directory.  They will typically be mounted to 
+      <TT
+CLASS="FILENAME"
+>/mnt</TT
+> or something other than 
+      <TT
+CLASS="FILENAME"
+>/</TT
+>.
+      </P
+><P
+>      <B
+CLASS="COMMAND"
+>removepkg</B
+> looks at the other installed packages and 
+      only removes files unique to the package you specify.  It will also scan 
+      the postinstallation script for the specified package and remove any 
+      symbolic links that were created by it.
+      </P
+><P
+>      During the removal process, a status report is displayed.  After the
+      removal, the package database entry is moved to 
+      <TT
+CLASS="FILENAME"
+>/var/log/removed_packages</TT
+> and the postinstallation 
+      script is moved to <TT
+CLASS="FILENAME"
+>/var/log/removed_scripts</TT
+>.
+      </P
+><P
+>      Just as with <B
+CLASS="COMMAND"
+>installpkg</B
+>, you can specify several 
+      packages or use wildcards for the package name.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="UPGRADEPKG"
+>upgradepkg</A
+></H2
+><P
+>      <B
+CLASS="COMMAND"
+>upgradepkg</B
+>(8) will upgrade an installed Slackware 
+      package.  The syntax is as follows:
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>[ROOT=&lt;path&gt;] upgradepkg &lt;package name&gt;...</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      or
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>[ROOT=&lt;path&gt;] upgradepkg \
+   &lt;old package name&gt;%&lt;new package name&gt;</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      <B
+CLASS="COMMAND"
+>upgradepkg</B
+> works by first installing the new package 
+      and then removing the old package so that old files are no longer around 
+      on the system.  If the upgraded package name has changed, use the percent
+      sign syntax to specify the old package (the one that is installed) and 
+      the new package (the one you are upgrading it to).
+      </P
+><P
+>      If you pass the <TT
+CLASS="ENVAR"
+>ROOT</TT
+> environment variable before 
+      <B
+CLASS="COMMAND"
+>upgradepkg</B
+>, that path will be used for the root 
+      directory.  This is useful for setting up new drives for your root 
+      directory.  They will typically be mounted to <TT
+CLASS="FILENAME"
+>/mnt</TT
+> 
+      or something other than <TT
+CLASS="FILENAME"
+>/</TT
+>.
+      </P
+><P
+>      <B
+CLASS="COMMAND"
+>upgradepkg</B
+> is not flawless.  You should always 
+      back up your configuration files.  If they get overwritten, you'll
+      still have a copy of the originals for any needed repair work.
+      </P
+><P
+>      Just as with <B
+CLASS="COMMAND"
+>installpkg</B
+> and 
+      <B
+CLASS="COMMAND"
+>removepkg</B
+>, you can specify several packages or 
+      use wildcards for the package name.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="RPM2TGZ"
+>rpm2tgz/rpm2targz</A
+></H2
+><P
+>      The Red Hat Package Manager is a popular packaging system available today.
+      Many software distributors are offering their products in RPM format.
+      Since this is not our native format, we do not recommend people rely on
+      them.  However, some things are only available as an RPM (even the
+      source).
+      </P
+><P
+>      We provide a program that will convert RPM packages to our native .tgz 
+      format.  This will allow you to extract the package (perhaps with 
+      <B
+CLASS="COMMAND"
+>explodepkg</B
+>) to a temporary directory and examine 
+      its contents.
+      </P
+><P
+>      The <B
+CLASS="COMMAND"
+>rpm2tgz</B
+> program will create a Slackware package 
+      with a .tgz extension, while <B
+CLASS="COMMAND"
+>rpm2targz</B
+> creates an 
+      archive with a .tar.gz extension.
+      </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c3984.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x4132.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Slackware Package Management</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c3984.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Making Packages</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

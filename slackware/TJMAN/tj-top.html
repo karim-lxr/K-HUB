@@ -1,0 +1,282 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Top man page , apr 04</title>
+ 
+</head>
+
+ <body bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000" leftmargin="40">
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Info process, top command</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel. apr-03-2004
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.net</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+
+
+<!-- Abstract listed -->
+<h2>Mostra i processi che usano più CPU e memoria</h2>
+ 
+<a name="toc"><b>Table of Contents</b></a>
+<ul>
+<li><a name="toc0" href="#sect0">Nome</a></li>
+<li><a name="toc1" href="#sect1">Sintassi</a></li>
+<li><a name="toc2" href="#sect2">Descrizione</a></li>
+<li><a name="toc3" href="#sect3">Opzioni</a></li>
+<li><a name="toc4" href="#sect4">Descrizione Dei Campi</a></li>
+<li><a name="toc5" href="#sect5">Comandi Interattivi</a></li>
+<li><a name="toc6" href="#sect6">Le schermate Fields e Order</a></li>
+<li><a name="toc7" href="#sect7">File di Configurazione</a></li>
+<li><a name="toc8" href="#sect8">Note</a></li>
+<li><a name="toc9" href="#sect9">File</a></li>
+<li><a name="toc10" href="#sect10">Vedere Anche</a></li>
+<li><a name="toc11" href="#sect11">Bachi</a></li>
+<li><a name="toc12" href="#sect12">Autore</a></li>
+</ul>
+ 
+ 
+ 
+</p><h2><a name="sect0" href="#toc0">Nome </a></h2>
+top - mostra i processi che usano più CPU  
+<h2><a name="sect1" href="#toc1">Sintassi </a></h2>
+<b>top</b> [<b>-</b>] [<b>d</b> <i>delay</i>] 
+[<b>q</b>] [<b>c</b>] [<b>S</b>] [<b>s</b>] [<b>i</b>]  
+<h2><a name="sect2" href="#toc2">Descrizione </a></h2>
+<b>top</b> fornisce in tempo reale istantanee 
+dell'attività del processore. Mostra una lista dei task del sistema che 
+fanno un uso più intenso della CPU, e può mettere a disposizione un'interfaccia 
+interattiva per manipolare i processi. Può ordinare i task in base all'uso 
+della CPU, all'uso della memoria e al tempo d'esecuzione. <b>top</b> può essere 
+meglio configurato rispetto al top standard del pacchetto procps. Molte 
+feature possono essere selezionate con comandi interattivi o specificandole 
+nel file di configurazione personale o dell'intero sistema. Si veda sotto 
+per ulteriori informazioni. <p>
+ 
+</p><h2><a name="sect3" href="#toc3">Opzioni </a></h2>
+
+<dl><dt><b>d </b>  </dt><dd> Specifica l'intervallo tra gli 
+aggiornamenti della schermata. Lo si può cambiare con il comando interattivo 
+ <b>s</b>. </dd><dt><b>q </b>  </dt><dd> Fa si che <b>top</b> si aggiorni senza nessun ritardo. Se il chiamante 
+ha i privilegi del superuser, top gira alla più alta priorità possibile. 
+</dd><dt><b>S </b>  </dt><dd> Specifica il <i>cumulative mode </i>, nel quale ogni processo è mostrato 
+con il tempo di CPU che conprende anche quello speso dai figli che sono 
+già terminati. È come il flag <b>-S</b> di <b><a href="http://ildp.pluto.linux.it/man/man1/ps.1.html">ps</a></b><a href="http://ildp.pluto.linux.it/man/man1/ps.1.html">(1)</a>
+. Si veda sotto la discussione del 
+comando interattivo <b>S</b>. </dd><dt><b>s </b>  </dt><dd> Dice a <b>top</b> di girare in <i>secure mode </i>. Ciò disabilita 
+i pericoli potenziali dei comandi interattivi (vedere sotto). Un  <b>top</b> sicuro 
+è una cosa elegante da lasciar girare in un terminale di scorta. </dd><dt><b>i </b>  </dt><dd> Avvia 
+<b>top</b> ignorando qualsiasi processo idle o zombie. Si veda sotto il comando 
+interattivo  <b>i</b>. </dd><dt><b>c </b>  </dt><dd> Mostra la riga di comando invece del solo nome del 
+comando. Il comportamento di default è stato cambiato in quanto questo 
+sembra essere più utile. </dd></dl>
+ 
+<h2><a name="sect4" href="#toc4">Descrizione Dei Campi </a></h2>
+<b>top</b> mostra una varietà 
+di informazioni sullo stato del processore. La schermata di default è aggiornata 
+ogni 5 secondi, ma questo può essere cambiato con l'opzione <b>d</b> in riga di 
+comando o con il comando interattivo <b>s</b>. 
+<dl><dt><b>uptime </b>  </dt><dd> Questa riga mostra da 
+quanto tempo il sistema è ``su'', e i tre carichi medi del sistema. I carichi 
+medi sono il numero medio di processi pronti per essere eseguiti durante 
+gli ultimi 1, 5 e 15 minuti. Questa riga è come l'output di  <b><a href="http://ildp.pluto.linux.it/man/man1/uptime.1.html">uptime</a></b><a href="http://ildp.pluto.linux.it/man/man1/uptime.1.html">(1)</a>
+. La 
+visualizzazione dell'uptime può essere disattivata (e riattivata) con il 
+comando interattivo <b>l</b>. </dd><dt><b>processes </b>  </dt><dd> Il numero totale di processi in esecuzione 
+quando è stato fatto l'ultimo aggiornamento. Questo è poi suddiviso nel 
+numero di task che sono running, sleeping, stopped, o undead. La visulizzazione 
+di processes e states può essere disattivata (e riattivata) con il comando 
+interattivo <b>t</b>. </dd><dt><b>CPU states </b>  </dt><dd> Mostra la percentuale del tempo di CPU speso 
+in user mode, system mode, niced task, e idle. (I niced task sono solo 
+quelli il cui valore nice è negativo.) Il tempo speso in niced task sarà 
+contato anche in system e user time, così il totale sarà più del 100%. 
+La visulizzazione di processes e states può essere disattivata (e riattivata) 
+con il comando interattivo <b>t</b>.<b></b> </dd><dt><b>Mem </b>  </dt><dd> Statistiche sull'uso della memoria, 
+incluse la memoria complessiva disponibile, la memoria libera (free), 
+la memoria condivisa (shrd), e la memoria usata per i buffer. La visualizzazione 
+della memoria può essere disattivata (e riattivata) con il comando interattivo 
+<b>m</b>. </dd><dt><b>Swap </b>  </dt><dd> Statistiche sulla swap, incluse lo spazio di swap totale, lo 
+spazio di swap disponibile, e lo spazio di swap usato. Questo e  <b>Mem</b> sono 
+in pratica l'output di  <b><a href="http://ildp.pluto.linux.it/man/man1/free.1.html">free</a></b><a href="http://ildp.pluto.linux.it/man/man1/free.1.html">(1)</a>
+. </dd><dt><b>PID </b>  </dt><dd> Il process ID di ognuno dei task. 
+</dd><dt><b>PPID </b>  </dt><dd> Il parent process ID di ognuno dei task. </dd><dt><b>UID </b>  </dt><dd> Lo user ID del 
+proprietario del task. </dd><dt><b>USER </b>  </dt><dd> Il nome utente del proprietario del task. 
+</dd><dt><b>PRI </b>  </dt><dd> La priorità del task. </dd><dt><b>NI </b>  </dt><dd> Il valore nice del task. Valori negativi 
+corrispondono a priorità più basse.  </dd><dt><b>SIZE </b>  </dt><dd> Sono qui mostrati la dimensione, 
+in Kbyte, del codice del task più i dati più lo stack. </dd><dt><b>TSIZE </b>  </dt><dd> La dimensione 
+del codice del task. Da strani valori per i processi del kernel e non funziona 
+per i processi ELF. </dd><dt><b>DSIZE </b>  </dt><dd> Dimensione di Data + Stack. Non funziona per 
+i processi ELF. </dd><dt><b>TRS </b>  </dt><dd> Dimensione del text residente. </dd><dt><b>SWAP </b>  </dt><dd> Dimensione 
+della porzione del task swappata. </dd><dt><b>D </b>  </dt><dd> Dimensione della pagine marcate 
+dirty. </dd><dt><b>LIB </b>  </dt><dd> Dimensione delle library page usate. Non funziona per i processi 
+ELF. </dd><dt><b>RSS </b>  </dt><dd> È qui mostrato l'ammontare, in Kbyte, delle memoria fisica usata 
+del task. Per i processi ELF sono qui contate anche le library page usate, 
+mentre ciò non è fatto per gli a.out. </dd><dt><b>SHARE </b>  </dt><dd> L'ammontare della memoria 
+condivisa usata del task. </dd><dt><b>STAT </b>  </dt><dd> È qui mostrato lo stato del processo. 
+Lo stato è  <b>S</b> per sleeping, <b>D</b> per uninterruptible sleep, <b>R</b> per running, 
+<b>Z</b> per zombie, oppure <b>T</b> per stopped o traced. Questi stati sono seguiti 
+da <b>&lt;</b> per un processo con un valore di nice negativo, da <b>N</b> per un processo 
+con un valore di nice positivo, da <b>W</b> per un processo swappato (questo 
+non funziona correttamente per i processi kernel). </dd><dt><b>WCHAN </b>  </dt><dd> A seconda dalla 
+disponibilità di  <i>/boot/psdatabase</i> o della kernel link map <i>/boot/System.map</i> 
+mostra l'indirizzo o il nome della funzione kernel sulla quale il task 
+è in sleep. </dd><dt><b>TIME </b>  </dt><dd> Il tempo di CPU totale usato dal task da quando è partito. 
+Se è abilitato il cumulative mode, include anche il tempo di CPU usato 
+dai suoi processi figlio che sono terminati. Il cumulative mode lo si può 
+abilitare con l'opzione <b>S</b> in riga di comando oppure con il comando interattivo 
+ <b>S</b>.<b></b> L'etichetta sulla riga di header sarà cambiata in  <b>CTIME</b>. </dd><dt><b>%CPU </b>  </dt><dd> La 
+porzione del task del tempo di CPU dall'ultimo aggiornamento della schermata, 
+espressa come percentuale del tempo di CPU totale. </dd><dt><b>%MEM </b>  </dt><dd> La porzione 
+del task della memoria fisica. </dd><dt><b>COMMAND </b>  </dt><dd> La riga di comando del task; 
+sarà troncata se è troppo lunga per essere mostrata in una riga. Sarà mostrata 
+la riga di comando completa per i task in memoria, mentre sarà mostrata 
+solo il nome del programma fra parentesi per i task swappati (per esempio, 
+"(getty)"). </dd><dt><b>A , WP </b>  </dt><dd> questi campi del top kmem non sono supportati. </dd></dl>
+ 
+<h2><a name="sect5" href="#toc5">Comandi 
+Interattivi </a></h2>
+Mentre  <b>top</b> è in esecuzione sono riconosciuti diversi comandi 
+``single-key''. Alcuni sono disabilitati se è stata data l'opzione  <b>s</b> in riga 
+di comando. 
+<dl><dt><b>^L </b>  </dt><dd> Cancella e riscrive la schermata. </dd><dt><b>h  o <b>? </b>  </b></dt><dd> Mostra un schermata 
+d'aiuto che da una breve sommario dei comandi, e lo stato dei secure e 
+cumulative mode. </dd><dt><b>k </b>  </dt><dd> Killa un processo. Sarà chiesto il PID del task, e 
+il signal da inviare. Per un kill normale, inviare il signal 15. Per un 
+kill sicuro, ma piuttosto brutale, inviare il signal 9. Il signal di default, 
+come per  <b><a href="http://ildp.pluto.linux.it/man/man1/kill.1.html">kill</a></b><a href="http://ildp.pluto.linux.it/man/man1/kill.1.html">(1)</a>
+, è il 15, <b>SIGTERM</b>. Questo comando non è disponibile in 
+secure mode. </dd><dt><b>i </b>  </dt><dd> Ignora i processi idle e zombie.  </dd><dt><b>n  o <b># </b>  </b></dt><dd> Cambia il 
+numero di processi da mostrare. Sarà chiesto di inserire un numero. Ciò 
+ignora la determinazione automatica del numero di processi da mostrare, 
+basata sulla misura delle dimensioni della finestra. Se è specificato 0, 
+allora top mostrerà tanti processi quanti ce ne stanno sullo schermata; 
+è il default. </dd><dt><b>q </b>  </dt><dd> Esce. </dd><dt><b>r </b>  </dt><dd> Re-nice un processo. Sarà chiesto il PID del 
+task, e il nuovo valore del nice. L'inserimento di un valore positivo fa 
+si che il processo sia ``niced'' ad un valore negativo, e perda di priorità. 
+Se  <b>top</b> è eseguito da root, può essere immesso un valore negativo che 
+assegna ad un processo una priorità più alta di quella normale. Questo 
+comando non è disponibile in secure mode. </dd><dt><b>S </b>  </dt><dd> Abilita il cumulative mode, 
+l'equivalente di <b>ps -S</b>, cioè, i tempi di CPU comprenderanno anche i processi 
+figlio defunct. Per alcuni programmi, come i compilatori, che lavorano 
+con fork in molti task separati, il modo normale li fa apparire meno esigenti 
+di quello che in realtà sono. Per gli altri, come le shell e  <b>init</b>, questo 
+comportamento è corretto. In ogni caso, si provi il cumulative mode per 
+una visione alternativa dell'uso della CPU. </dd><dt><b>s </b>  </dt><dd> Cambia l'intervallo tra 
+gli aggiornamenti. Sarà chiesto di inserire l'intervallo temporale, in secondi, 
+tra gli aggiornamenti. Valori frazionari sono riconosciuti fino ai microsecondi. 
+L'inserimento di 0 causa un aggiornamento continuo. Si noti che valori bassi 
+causano delle schermate praticamente illeggibili, e un grosso incremento 
+del carico. Questo comando non è disponibile in secure mode. </dd><dt><b>f  o <b>F </b>  </b></dt><dd> Aggiunge 
+o rimuove campi da mostrare nella schermata. Si veda sotto per ulteriori 
+informazioni. </dd><dt><b>o  o <b>O </b>  </b></dt><dd> Cambia l'ordine dei campi visualizzati. Si veda sotto 
+per ulteriori informazioni.  </dd><dt><b>l </b>  </dt><dd> Disabilita (riabilita) la visualizzazione 
+delle informazioni sul carico medio e l'uptime. </dd><dt><b>m </b>  </dt><dd> Disabilita (riabilita) 
+la visualizzazione delle informazioni sulla memoria.  </dd><dt><b>t </b>  </dt><dd> Disabilita (riabilita) 
+la visualizzazione delle informazioni sui processi e sullo stato della 
+CPU. </dd><dt><b>c </b>  </dt><dd> Disabilita (riabilita) la visualizzazione del nome del comando 
+o dell'intera riga di comando. </dd><dt><b>M </b>  </dt><dd> Ordina i task in base all'uso di memoria 
+residente. </dd><dt><b>P </b>  </dt><dd> Ordina i task in base all'uso della CPU (default). </dd><dt><b>T </b>  </dt><dd> Ordina 
+i task in base al tempo (o al tempo comulativo). </dd><dt><b>W </b>  </dt><dd> Scrive la configurazione 
+corrente sul file <i>~/.toprc</i>. Questo è il modo raccomandato per scrivere il 
+file di configurazione di top. </dd></dl>
+ 
+<h2><a name="sect6" href="#toc6">Le schermate Fields e Order </a></h2>
+Dopo aver premuto 
+<b>f</b>, <b>F</b>, <b>o</b> o <b>O</b> sarà mostrata una schermata che specifica l'ordine dei campi 
+nella riga superiore e una breve descrizione del contenuto dei campi. La 
+stringa dell'ordine dei campi usa la seguente sintassi: se la lettera nella 
+stringa dei campi corrispondente al campo è maiuscola, il campo sarà mostrato. 
+Ciò è mostrato anche da un asterisco davanti alla descrizione del campo. 
+L'ordine dei campi corrisponde all'ordine nella stringa. Dalla schermata 
+Fields si può abilitare o disabilitare la visualizzazione di un campo 
+premendo la lettera corrispondente. Dalla schermata Order è possibile spostare 
+un campo a sinistra premendo la corrispondente lettera maiuscola, a destra 
+premendo la minuscola.  
+<h2><a name="sect7" href="#toc7">File di Configurazione </a></h2>
+Top legge la sua configurazione 
+di default da due file, <i>/etc/toprc</i> e <i>~/.toprc</i>. Il file di configurazione 
+globale può essere usato per restringere l'uso di top al secure mode per 
+gli utenti non privilegiati. Se si desidera ciò, il file dovrebbe contenere 
+su un'unica riga una 's' per specificare il secure mode e un numero d (2&lt;=d&lt;=9) 
+per il delay di default (in secondi). Il file si configurazione personale 
+contiene due righe. La prima riga contiene lettere maiuscole e minuscole 
+che specificano quali campi e in quale ordine devono essere visualizzati. 
+Le lettere corrispondono alle lettere nelle schermate Fields e Order di 
+top. Sebbene non sia molto istruttivo, è raccomandato di selezionare i 
+campi e l'ordine da un processo top in esecuzione e poi salvare usando 
+il comando interattivo <i>W</i>. La seconda riga è più interessante (e importante). 
+Contiene informazioni sulle altre opzioni. Si noti che se si è salvata 
+una configurazione in secure mode, non si avrà un top ``insicuro'' senza rimuovere 
+la 's' minuscola dalla seconda riga del proprio <i>~/.toprc</i>. Un numero specifica 
+l'intervallo di tempo tra due aggiornamenti,  una 'S' maiuscola il cumulative 
+mode, una 'i' minuscola il no-idle mode. Come in modo interattivo, una 'm', 
+'l' e 't' minuscole sopprimono la visulizzazione delle informazioni sulla 
+memoria, sull'uptime, sui processi e sullo stato della CPU, rispettivamente. 
+Attualmente la modifica dell'ordinamento di default (in base all'uso della 
+CPU) non è supportata.  
+<h2><a name="sect8" href="#toc8">Note </a></h2>
+Questo <b>top</b> basato su <b>proc</b> funziona leggendo 
+i file nel filesystem <b>proc</b>, montato su <i>/proc</i>. Se <i>/proc</i> non è montato, <b>top</b> 
+non funzionerà. <p>
+<b>%CPU</b> mostra la percentuale cputime/realtime nell'intervallo 
+temporale tra gli aggiornamenti. Per il primo aggiornamento, è usato un 
+intervallo corto, e <b>top</b> stesso domina l'uso della CPU. Dopo di questo,  
+<b>top</b> andrà sotto, e sarà disponibile una stima più realistica dell'uso della 
+CPU. </p><p>
+I campi <b>SIZE</b> e <b>RSS non contano le page table </b> e la <b>task_struct</b> del 
+processo; questi sono almeno 12K di memoria che è sempre residente. <b>SIZE</b> 
+è la dimensione virtuale del processo (code+data+stack). </p><p>
+Si ricordi che 
+un processo deve morire affinché il suo tempo sia registrato in quello 
+del padre in cumulative mode. Forse un comportamento più utile sarebbe 
+di risalire da ogni processo, aggiungendo il tempo, ma ciò sarebbe più 
+oneroso, e probabilmente proibitivo. In ogni caso ciò potrebbe rendere 
+il comportamento di  <b>top</b> incompatibile con <b>ps</b>.  
+</p><h2><a name="sect9" href="#toc9">File </a></h2>
+<i>/etc/toprc</i> File di 
+configurazione globale. <p>
+ <i>~/.toprc</i> File di configurazione personale.  
+</p><h2><a name="sect10" href="#toc10">Vedere 
+Anche </a></h2>
+<b><a href="http://ildp.pluto.linux.it/man/man1/ps.1.html">ps</a></b><a href="http://ildp.pluto.linux.it/man/man1/ps.1.html">(1)</a>
+, <b><a href="http://ildp.pluto.linux.it/man/man1/free.1.html">free</a></b><a href="http://ildp.pluto.linux.it/man/man1/free.1.html">(1)</a>
+, <b><a href="http://ildp.pluto.linux.it/man/man1/uptime.1.html">uptime</a></b><a href="http://ildp.pluto.linux.it/man/man1/uptime.1.html">(1)</a>
+, <b><a href="http://ildp.pluto.linux.it/man/man1/kill.1.html">kill</a></b><a href="http://ildp.pluto.linux.it/man/man1/kill.1.html">(1)</a>
+, <b><a href="http://ildp.pluto.linux.it/man/man1/renice.1.html">renice</a></b><a href="http://ildp.pluto.linux.it/man/man1/renice.1.html">(1)</a>
+.  
+<h2><a name="sect11" href="#toc11">Bachi </a></h2>
+Se la finestra 
+è più piccola di 70x7,  <b>top</b> non formatterà correttamente le informazioni. 
+Molti campi hanno ancora problemi con i processi ELF. La schermata di aiuto 
+non è ancora ottimizzata per finestre con meno di 25 righe.  
+<h2><a name="sect12" href="#toc12">Autore </a></h2>
+<b>top</b> 
+è stato scritto originariamente da Roger Binns, basandosi sul programma 
+ps di Branko Lankester (lankeste@fwi.uva.nl). Robert Nation (nation@rocket.sanders.lockheed.com) 
+lo ha significativamente riscritto per usare il filesystem proc, basandosi 
+sul programma ps (proc-based) di Michael K Johnson (johnsonm@sunsite.unc.edu). 
+Diverse modifiche, incluso l'inserimento dei secure e cumulative mode, 
+e una pulizia generale, sono state fatte da Michael Shields (mjshield@nyx.cs.du.edu). 
+<br>
+ Pesantemente cambiato per includere il supporto per i campi configurabili 
+e altre nuove opzioni. Ulteriore pulizia e uso della nuova interfaccia 
+readproc di Helmut Geyer (Helmut.Geyer@iwr.uni-heidelberg.de). </p><p>
+
+</body>
+</html>

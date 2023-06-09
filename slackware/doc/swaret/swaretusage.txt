@@ -1,0 +1,352 @@
+Table of Contents
+-----------------
+1. If I got a Question, what should I do?
+2. When do I need to use the Command: 'swaret --update'?
+3. Example for action: update
+4. Example for action: upgrade
+5. Example for action: install
+6. Example for action: reinstall
+7. Example for action: remove
+8. Example for action: get
+9. Example for action: dep
+10. Example for action: resume
+11. Example for action: list
+12. Example for action: search
+13. Example for action: show 
+14. Example for action: changelog
+15. Example for action: set
+16. Example for action: gpg 
+17. Example for action: log
+18. Example for action: purge
+19. Example for action: check
+20. Various Example: Install all Packages with one Command
+21. Various Example: Download all Patches with one Command
+22. Various Example: Track and Fix all missing Libraries
+23. Various Example: Upgrade only XFree86 Fonts and Docs Packages, and Exclude other XFree86 Packages
+24. Various Example: Exclude kernel, lilo and other vital Packages during Upgrade Procedure
+25. Various Example: Install 'French' Language File
+
+
+1.
+Q: I got a question, what should I do?
+A: The best thing is to forward you to the swaret Forum,
+http://www.swaret.org and post your Question.
+For more information, 
+swaret --faq
+swaret --manual
+swaret --manual -c
+
+2.
+Q: When do I need to use the Command: 'swaret --update'?
+A: You need to --update every time there are new
+Packages and/or Patches and/or Sources out there.
+If you don't --update the List Files regularly,
+you won't be able to get the latest Files.
+You can always use the Command, 'swaret --changelog',
+which will Show the latest ChangeLog.
+The ChangeLog is a Log File which gives you Information
+about the latest Changes to Slackware Linux.
+You can also check for changes at http://www.slackware.com/changelog/.
+
+3.
+--update <> EXAMPLE:
+===================================
+With this action, you can update the List Files.
+If DESCRIPTIONS is set to 1 in /etc/swaret.conf,
+it is also possible to fetch the Descriptions File
+for Packages, Extra Packages, and Patches.
+
+4.
+--upgrade <> EXAMPLE:
+===================================
+With this action, you can Upgrade Packages.
+Each time there are new things out there,
+remember to --update. So, if you want
+to Upgrade the openssl Packages, use this:
+swaret --upgrade openssl. Suppose you want 
+to Upgrade Extra Package bittorrent, use:
+swaret --upgrade bittorrent. You can
+always use the --changelog action to check 
+out if there are new things out there.
+Let say you want to Upgrade all Packages
+matching Keyword 'gnome', do it like this:
+swaret --upgrade gnome. You want to Upgrade
+all KDE Packages automatically, use this:
+swaret --upgrade kde -a.
+For Upgrading all Packages, you can use:
+'swaret --upgrade'.
+
+5.
+--install <> EXAMPLE:
+===================================
+With this action, you can Install Packages,
+or Patches. Suppose you want 
+to Install all Packages matching Keyword
+'kde', use: swaret --install kde. And you
+would like to Install 'xfree86' also, use:
+swaret --install xfree86. You should also 
+not forget to Install the latest Abiword
+Word Processor, do it like this:
+swaret --install abiword -a (automatically).
+Ouch, you want also to install xcdroast to
+burn CD's. xcdroast is an Extra Package,
+so Install it with: swaret --install xcdroast.
+There is a Patch available for OpenSSH,
+Install it with: swaret --install openssh -p.
+If there is a previous Version installed
+of the OpenSSL Package, swaret will Upgrade it,
+else swaret will Install the new OpenSSL Patch.
+You can also use --upgrade ;-)
+
+6.
+--reinstall <> EXAMPLE:
+===================================
+With this action, you can Re-Install installed 
+Packages or Patches. Suppose you want to
+Re-Install the whole Base System, use this:
+swaret --reinstall a/ -a (automatically).
+You want to Re-Install everything of gnome,
+because your gnome Installation is f*cked up,
+do it like this: swaret --reinstall gnome.
+You want to Re-Install xcdroast, use this:
+swaret --reinstall xcdroast.
+
+7.
+--remove <> EXAMPLE:
+===================================
+With this action, you can Remove
+installed Packages or Patches.
+You want to Remove all KDE, gnome and xfree86
+Packages automatically, use:
+swaret --remove kde,gnome,xfree86 -a
+
+8.
+--get <> EXAMPLE:
+===================================
+With this action, you can Get Packages, Patches
+and/or Sources. Let say you want to Get
+Packages matching Keyword glibc,
+use: swaret --get glibc.
+You also need to Get all Packages
+matching Keyword bin-: swaret --get bin-.
+You have mounted my CD-ROM Drive to /mnt/cdrom
+and added file:/mnt/cdrom as ROOT in
+/etc/swaret.conf, this means you can use Local Files.
+To Get all available KDE Packages from CD-ROM,
+use: swaret --get kde -a (automatically).
+You want to compile OpenSSH and Apache+PHP yourself,
+Get the Sources with: swaret --get openssh,apache,php -s
+and use the 'SlackBuild' Scripts which are also
+saved in the swaret Sources Cache Directory
+(default: /var/swaret/sources).
+Get all Packages to Upgrade automatically,
+use: swaret --get -au ; Get all Packages
+matching Keyword 'openssl' to Upgrade:
+use: swaret --get openssl -au.
+
+9.
+--dep <> EXAMPLE:
+===================================
+With this action, you can Track Missing
+Libraries and Fix them. Let say your
+GIMP Installation is f*cked up, and it's
+missing some Libraries, you can use:
+swaret --dep gnome. 
+If there are NO DEP_ROOT Variable(s) defined
+in /etc/swaret.conf, swaret will Fetch the
+MANIFEST Package(s) from available Mirrors
+and create the Libraries List itself.
+Suppose you got a Local Copy of
+Slackware Linux in the Directory
+/mnt/slackware (maybe mounted with
+iso9660, smbfs or nfs), you can comment
+all the DEP_ROOT Variables in /etc/swaret.conf
+and swaret will build the Libraries List
+itself ;-) Remember to set NIC to 'lo' in
+/etc/swaret.conf if you want to use
+Local Files (Local Repository).
+If you want to Dependency Check
+Everything, use '--dep'.
+
+10
+--resume <> EXAMPLE:
+===================================
+With this action, you can Resume broken
+Packages, Patches, and Sources
+found in the swaret Packages or Sources Cache Directory.
+Resume all Packages: swaret --resume
+Resume all Patches: swaret --resume -p
+Resume all Sources: swaret --resume -s
+
+11.
+--list <> EXAMPLE:
+===================================
+With this action, you can List installed
+and available Packages, Patches and/or Sources.
+List all available Sources, use:
+swaret --list -s. 
+Suppose you want to List all Patches
+which are not installed yet, use:
+swaret --list -np. If you want to know which
+Packages or Patches are installed 
+on your System, use: swaret --list -i.
+You want to see all available Packages out there?
+Use: swaret --list.
+
+12.
+--search <> EXAMPLE:
+===================================
+With this action, you can Search installed
+or available Packages, Patches and/or Sources.
+Let say you want to Search for all
+available Sources matching Keyword KDE, use:
+swaret --search kde -s. 
+Suppose you want to Search for all Packages
+matching Keyword 'open', so use:
+swaret --search open. If you want to know which
+Packages matching Keyword 'kernel' are installed 
+on your System, use:
+swaret --search kernel -i. If you need to know
+which KDE Packages aren't installed yet,
+use: swaret --search kde -n.
+Search for available Packages evolution,
+and mozilla: swaret --search evolution,mozilla
+
+13.
+--show <> EXAMPLE:
+===================================
+With this action, you can View the
+Description for available or installed
+Packages, Extra Packages and/or Patches.
+You want to View the Description for the
+installed KDE Packages, so use: 
+swaret --show kde -i. You want to View the
+Description for all available Gnome 
+Packages, so use: swaret --show gnome.
+Show Description for xcdroast and mplayer:
+swaret --show xcdroast,mplayer.
+Remember, you need to set up DESCRIPTIONS 
+to 1 in /etc/swaret.conf and restart --update.
+
+14.
+--changelog <> EXAMPLE:
+===================================
+With this action, you can View the latest ChangeLog.
+
+15.
+--set <> EXAMPLE:
+===================================
+Disable DESCRIPTIONS: swaret --set DESCRIPTIONS=0
+Disable Dependency Check: swaret --set DEPENDENCY=0
+Disable Search Libraries: swaret --set DSEARCHLIB=0
+Change Network Interface to ppp0: swaret --set NIC=ppp0
+Disable REPOS_ROOT URL's: swaret --set REPOS_ROOT=0
+Disable ROOT URL: ftp://ftp.swaret.org:
+swaret --set ROOT=ftp://ftp.swaret.org=0
+For more information, use: 'swaret --set' and hit ENTER.
+
+16.
+--gpg <> EXAMPLE:
+===================================
+With this action, you can Import
+a Public GPG Key. I fetched the GPG Key
+which I found in the Slackware Root.
+I will import it with this Command:
+swaret --gpg -i GPG-KEY
+
+17.
+--log <> EXAMPLE:
+===================================
+With this action, you can View
+the Log File, and if you use the -t
+option you can tail the Log File
+/var/log/swaret. To clear the
+swaret Log File, use:
+'swaret --log -c'
+
+18.
+--purge <> EXAMPLE:
+===================================
+With this action, you can Purge Files.
+Lets say you want to Purge all Packages, 
+use: swaret --purge. You want also to Purge
+Sources, use: swaret --purge -s.
+You would like to Purge the Cache Directory
+with Files which are older then 4 Weeks,
+use this Command: swaret --purge -w 4.
+You would like to Purge the Sources Cache
+Directory with Files which are older then
+14 Days, so use: swaret --purge -ds 14.
+
+19.
+--check <> EXAMPLE:
+===================================
+Make Connection to the Internet (swaret.org)
+using 'wget' and figure out if there is a new
+Version available of swaret.
+
+20.
+VARIOUS EXAMPLE <> Install all Packages with one Command.
+===================================
+Simply use the following Command:
+swaret --install -a (Install All Packages automatically).
+(Saved in swaret Packages Cache Directory, default: /var/swaret)
+
+21.
+VARIOUS EXAMPLE <> Download all Patches with one Command.
+===================================
+swaret --get -ap
+(Download All Patches automatically).
+(Saved in swaret Packages Cache Directory, default: /var/swaret)
+
+22.
+VARIOUS EXAMPLE <> Track all missing Libraries and Fix missing Libraries.
+===================================
+swaret --dep -a (Start Dependency Check automatically)
+If swaret cannot Track the missing Libraries, 
+you can always set DSEARCHLIB in /etc/swaret.conf to 1.
+When starting the Dependency Check again, 
+swaret will Search on your entire System
+for the missing Libraries and add the 
+necessary Directories to /etc/ld.so.conf.
+(And swaret will restart ldconfig automatically of course)
+swaret will use the 'find' program to Search
+for missing Libraries, if you want to use the 'slocate'
+Command, you can set DSEARCHM to 1 in /etc/swaret.conf! ;-)
+You should also keep your 'slocate' Database up-to-date
+with the 'updatedb' Command.
+
+23.
+VARIOUS EXAMPLE <> Upgrade only XFree86 Fonts and Docs Packages, 
+VARIOUS EXAMPLE <> and Exclude other XFree86 Packages.
+===================================
+- You can do this with Exclude Method:
+Edit /etc/swaret.conf and alter the EXCLUDE Variable(s) by 
+adding the Keyword 'xfree86[docs,fonts]'.
+Start the Upgrade Procedure and it will Upgrade Packages
+matching xfree86-docs and xfree86-fonts,
+and skip the other XFree86 Packages.
+- You can do this with multiple Keywords:
+swaret --upgrade xfree86-docs,xfree86-fonts
+
+24.
+VARIOUS EXAMPLE <> Exclude kernel, lilo and other vital Packages
+VARIOUS EXAMPLE <> during Upgrade Procedure.
+===================================
+The Upgrade Procedure will run with EXCLUDE method.
+Add the Keywords 'kernel' and 'lilo' 
+to the EXCLUDE Variable(s) in /etc/swaret.conf.
+When you start the Upgrade Procedure it will Upgrade
+all installed Packages (matching a Keyword),
+but not the Packages which have been excluded
+(matching the EXCLUDE Variable(s) found in /etc/swaret.conf).
+
+25.
+VARIOUS EXAMPLE <> Install 'French' Language File
+===================================
+Copy /usr/share/swaret-VERSION/swaret.lang.FRANCAIS to
+/etc/swaret.lang and start using swaret.
+If it is not available, take a look at
+http://www.swaret.org/?menu=i18n and
+save the French Language File as /etc/swaret.lang,
+and start using swaret.

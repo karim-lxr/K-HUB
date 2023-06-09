@@ -1,0 +1,200 @@
+Installiamo courier-imap
+
+- Premessa
+Courier-Imap fornisce l'implementazione di ben 4 servizi: imap-4, secure imap, pop-3 e secure
+pop. Prima di iniziare a installare courier-imap, assicuriamoci di non avere un altro server pop
+attivo. Controlliamo il file /etc/inetd.conf e in presenza della linea dove viene attivato il
+pop, mettiamo (se non c'è gia) un # , per commentare questa linea e per far si che alla
+prossima lettura del superserver inetd non rivenga attivato tale servizio. A questo punto,
+se abbiamo commentato questa riga, ricarichiamo inetd. Per far ciò utilizziamo 
+
+
+--------------------------------------------------------------------------------
+
+Il server IMAP ordinario di default sta in ascolto alla porta 143 
+Il server IMAP con tunneling SSL di default sta in ascolto alla porta 993 
+Il server POP3 ordinario di default sta in ascolto alla porta 110 
+Il server POP3 con tunneling SSL di default sta in ascolto alla porta 995 
+
+protocolli Imap e Pop devono solamente essere disponibili attraverso sessioni sicure SSL, 
+e vanno quindi configurati come Imaps (porta 993) e Pops (porta 995) e non in chiaro 
+sulle porte 143 e 110. 
+
+
+ ps ax | grep inetd | grep -v grep
+
+In questo modo vediamo il PID di inetd, e provvediamo a ricaricarlo con:
+
+ kill -HUP numero_PID
+
+
+
+
+Configurazione IMAP sicuro con due file imapd.cnf, pop3d.cnf
+
+# vim /usr/local/etc/courier-imap/imapd.cnf
+
+
+#------------inizio imapd.cnf -------------------------------
+
+RANDFILE = /usr/local/share/courier-imap/imapd.rand
+
+[ req ]
+default_bits = 1024
+encrypt_key = yes
+distinguished_name = req_dn
+x509_extensions = cert_type
+prompt = no
+
+[ req_dn ]
+C=IT
+ST=N/A
+L=Milano
+O=Organizzazione.it
+OU=Home Laboratory
+CN=myhost.home.int
+emailAddress=mario@home.int
+
+
+[ cert_type ]
+nsCertType = server
+
+#------------fine imapd.cnf -------------------------------
+
+
+
+
+ vim /usr/local/etc/courier-imap/pop3d.cnf
+
+#------------inizio pop3d.cnf -------------------------------
+
+RANDFILE = /usr/local/share/courier-imap/pop3d.rand
+
+[ req ]
+default_bits = 1024
+encrypt_key = yes
+distinguished_name = req_dn
+x509_extensions = cert_type
+prompt = no
+
+[ req_dn ]
+C=IT
+ST=N/A
+L=Milano
+O=Organizzazione.it
+OU=Home Laboratory
+CN=myhost.home.int
+emailAddress=mario@home.int
+
+
+[ cert_type ]
+nsCertType = server
+
+#------------fine pop3d.cnf -------------------------------
+
+Ricordarsi che in entrambi i files nella sezione [ req_dn ] il campo C (nel mio esempio "C=IT")
+ deve essere di 2 lettere (es: IT, US, FR etc.).
+Il campo CN non deve essere vuoto ma deve contenere l'esatto FQDN che il client IMAP utilizzera' 
+per fare riferimento al server IMAP 
+
+Modificati i due file creo i certificati per IMAP e POP3 servers, 
+con le utility: 
+ /usr/local/sbin/mkimapdcert
+/usr/local/sbin/mkpop3dcert
+
+
+Risultato: Generating a 1024 bit RSA private key
+-------------------------------------
+mkimapdcert -> MD5 Fingerprint= ...
+mkpop3dcert -> MD5 Fingerprint= ...
+
+
+
+
+Creo i links ai file corretti di startup
+
+# cd /usr/local/etc/rc.d
+# ln -s /usr/local/libexec/courier-imap/imapd-ssl.rc imapd-ssl.sh
+# ln -s /usr/local/libexec/courier-imap/pop3d-ssl.rc pop3d-ssl.sh
+
+
+Rinomino i file di default della distribuzione 
+
+# cd /usr/local/etc/courier-imap
+
+mv authdaemonrc.dist authdaemonrc
+mv imapd.dist imapd
+mv pop3d.dist pop3d
+
+
+Testo la partenza dei demoni
+
+# /usr/local/etc/rc.d/imapd-ssl.sh start
+# /usr/local/etc/rc.d/pop3d-ssl.sh start
+
+Modifico i vari file per far si che stiano in ascolto uncicamente sull'interfacci LAN, (non accessibile da internet) 
+
+es: 
+# vim /usr/local/etc/courier-imap/imapd
+
+ADDRESS=192.168.0.1
+
+
+--------------------------------------------------------------------------------
+
+L'utenete ricevera' un errore dal suo client quando tentera' di collegarsi al server
+imap sino a quando non sara' creato l'albero Maildir nella sua home. Postfix lo crea 
+correttamente in automatico alla prima email ricevuta. 
+
+Ma per far si che l'utente si possa collegare da subito senza attendere l'arrivo 
+della "prima email" creo direttamente la struttura Maildir tramite il comando "maildirmake" 
+
+Fermo postfix 
+
+# postfix stop
+
+...e procedo con la creazione delle directory Maildir per ogni utente del sistema	
+
+# /usr/local/bin/maildirmake ~user/Maildir
+
+esempio:
+
+# maildirmake ~mario/Maildir
+
+e crea 
+
+/home/mario/Maildir
+            |-cur
+            |-new
+            |-tmp
+
+
+Per fare in modo che ad ogni futuro nuovo utente venga automaticamente creata questa struttura eseguire: 
+
+# maildirmake /usr/share/skel/Maildir 
+Ricordarsi che il comando maildirmake crea le directory con root come proprietario
+ (con permessi 700) quindi dopo il comando 
+
+# maildirmake ~mario/Maildir
+
+sara' opportuno eseguire il comando
+
+# chown -R mario:users /home/mario/Maildir	    
+
+In caso contrario l'utente non riuscira' a collegarsi al server di posta. 
+Con l'utente come proprietario i permessi a 700 vanno benissimo 
+
+
+3.6.2 Configurazione del demone IMAP
+Volendo smanettare il file /etc/courier/imapd 
+é commentato in ogni sua parte ed é piuttosto esaustivo, prenderemo percio in considerazione solo qualche
+opzione da modificare:
+ADDRESS=0
+Settato a 0 permette l'accesso da qualunque IP; se si vuole, si puo' restringere l'accesso, ad esempio
+solo locale:
+ADDRESS=127.0.0.1
+IMAP_CHECK_ALL_FOLDERS=1
+Settato ad 1 permette al client IMAP di controllare la posta in tutte le cartelle e non solo in quella
+principale. Utilissima nel nostro caso, visto che utilizziamo più cartelle (grazie a procmail).
+
+

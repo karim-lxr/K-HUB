@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type"
+content="text/html; charset=iso-8859-1">
+<meta name="Author" content="Remo Petritoli">
+<meta name="GENERATOR" content="Microsoft FrontPage 2.0">
+<title>Multiboot e WIN95 su più partizioni (parte 2)</title>
+</head>
+
+<body background="sfondo2.jpg" bgcolor="#C0C0C0" text="#000000"
+link="#0000EE" vlink="#551A8B" alink="#FF0000">
+
+<p><font size="5" face="Times New Roman"><strong>Multiboot e
+WIN95 su più partizioni</strong></font><font size="5"><strong>
+(parte 2)</strong></font></p>
+
+<p>Questa seconda parte contiene le istruzioni per l'impiego del
+programma ACTIVATE ed alcuni esempi di autoexec.bat e config.sys
+per il cambio di configurazione dal menù di avvio. </p>
+
+<p><a href="ACTIVATE.ZIP">ACTIVATE.ZIP</a> 8.978 04/09/97 16.05</p>
+
+<p>Il programma è scritto in C ed è stato compresso con DIET. </p>
+
+<hr>
+
+<p><strong>WARNING: QUESTO PROGRAMMA È POTENZIALMENTE MOLTO
+PERICOLOSO</strong> per i dati contenuti nell'intero HD (in tutte
+le partizioni, primarie e logiche). Infatti va a modificare non
+solo il Master Boot Record (che sarebbe facilmente
+ripristinabile), ma anche settori chiave contenenti i parametri
+che definiscono le unità logiche nella partizione estesa. </p>
+
+<p>Se qualcosa va storto, si perdono sicuramente tutti i dati ed
+occorre ripartizionare e riformattare l'intero hard disk. Posso
+dirvi solo che lo uso senza problemi sul mio computer da tre
+mesi. <strong>SE VOLETE PROVARLO ED USARLO, LO FATE A VOSTRO
+ESCLUSIVO RISCHIO E PERICOLO</strong>. Comunque, dato che dovete
+partire da un HD completamente vuoto, prima di affidargli dati
+importanti tenetelo in prova un po' di tempo. </p>
+
+<p>Se il programma è usato solo per controllare le partizioni
+primarie e vi è una sola unità logica (che in questo caso resta
+sempre attiva) viene toccato solo il MBR, che è facilmente
+ripristinabile; in questo caso i rischi risultano molto ridotti. </p>
+
+<p>&nbsp;</p>
+
+<hr>
+
+<p>Nel seguito al posto di 1 si può sostituire 2 o 3, ovvero il
+nome di qualsiasi partizione primaria. </p>
+
+<p>Il programma va a modificare il byte di identificazione delle
+sole partizioni MsDos. Non ne è previsto l'uso con la fat a 32
+bit. </p>
+
+<p>Non si può cambiare lo status della partizione dalla finestra
+DOS di Win95, ma bisogna uscire da WIN e tornare al DOS puro. </p>
+
+<hr>
+
+<p>ACTIVATE mostra lo status delle partizioni </p>
+
+<p>ACTIVATE 1 attiva la prima partizione (idem per 2 o 3) lascia
+invariato lo status della partizione estesa </p>
+
+<p>ACTIVATE 1+ attiva la prima partizione. Riattiva la partizione
+estesa se era disattivata </p>
+
+<p>ACTIVATE 1- attiva la prima partizione. Disattiva la
+partizione estesa se era attiva. </p>
+
+<p>ACTIVATE /e+ Attiva la partizione estesa se non era attiva.
+Lascia invariata la partizione primaria. </p>
+
+<p>ACTIVATE /e- Disattiva la partizione estesa se era attiva.
+Lascia invariata la partizione primaria. </p>
+
+<p>ACTIVATE - disattiva tutte le partizioni, primarie ed estese.
+tutte le partizioni MsDos non sono più riconosciute. per
+riattivarle dare il comando &quot;activate 1&quot; (per rimettere
+in funzione solo la partizione primaria) o &quot;activate
+1+&quot; (per riattivare anche quella estesa). </p>
+
+<p>ACTIVATE 1 /R attiva la prima partizione primaria e, dopo una
+attesa di 5 secondi, resetta il computer. </p>
+
+<p>Il RESET (con lo switch /r oppure /R) è realizzato nel modo
+molto primitivo che era in uso nei lontani tempi degli 8088. In
+pratica scrive 0x1234 alla locazione 0x0000:0x0472 e, dopo un
+ritardo di 5 secondi, salta alla locazione di memoria
+0xFFFF:0x0000. </p>
+
+<p>Il ritardo di 5 secondi serve per dar tempo al bios di
+scrivere i settori modificati sullo HD. Sui computer che mi sono
+capitati questo sistema va ancora bene, ma se avete problemi
+usate il reset manuale e tenetemi informato. Dato che il
+programma richiede che WIN95 non sia attivo e che ci si trovi
+sotto DOS puro, è probabile che vada ancora bene. </p>
+
+<hr>
+
+<p>In pratica in un uso normale mettere il comando di cambio di
+partizione attiva sul menù di avvio, prima di avviare win95 </p>
+
+<p>Riporto nel seguito i miei files CONFIG.SYS ed AUTOEXEC.BAT
+Non sono niente di speciale, di sicuro possono essere migliorati,
+ma potranno essere utili come punto di partenza per le prove. </p>
+
+<hr>
+
+<p>CONFIG.SYS</p>
+
+<p align="left">[MENU]<br>
+menucolor 15,1<br>
+menuitem=WIN95, Windows95 256M (WIN95 e prove)<br>
+menuitem=DOS71, MsDOS 7.10 (Windows 95)<br>
+menuitem=DOS62, MsDOS 6.20<br>
+menuitem=LINUX-G, LINUX (UmsDos - G: - RedHAT 4.0)<br>
+menuitem=LINUX-EXT2, LINUX (Ext2FS - HDA9 - RedHat 4.1)<br>
+menuitem=FULL95, Windows95 512M (FULL95)<br>
+menudefault=WIN95, 5 </p>
+
+<p align="left">[LINUX-G]<br>
+shell=d:\loadlin\loadlin2.exe d:\loadlin\bzimage root=/dev/hda8
+rw vga=2 </p>
+
+<p align="left">[LINUX-EXT2]<br>
+shell=d:\loadlin\loadlin2.exe d:\loadlin\bzimage root=/dev/hda9
+ro vga=2 </p>
+
+<p align="left">[DOS71]<br>
+device=C:\WINDOWS\HIMEM.SYS device=C:\WINDOWS\EMM386.EXE ram
+dos=high,umb<br>
+Country=039,850,C:\WINDOWS\COMMAND\country.sys
+devicehigh=C:\BIN\CR_ATAPI.SYS /D:OEMCD001<br>
+devicehigh=C:\WINDOWS\COMMAND\ANSI.SYS rem
+devicehigh=Z:\WINDOWS\IFSHLP.SYS </p>
+
+<p align="left">[WIN95]<br>
+rem include tutti i comandi base del DOS include DOS71 </p>
+
+<p align="left">[FULL95]</p>
+
+<p align="left">[DOS62]<br>
+rem non fare nulla, agiscono su AUTOEXEC.BAT </p>
+
+<p align="left">[COMMON] </p>
+
+<hr>
+
+<p><strong>AUTOEXEC.BAT</strong></p>
+
+<pre>@echo off 
+rem questo primo comando è essenziale per rimettere in modo testo
+C:\WINDOWS\COMMAND\MODE CO80
+C:\WINDOWS\COMMAND\MODE CON: LINES=43</pre>
+
+<pre>if not %CONFIG%==FULL95 goto WIN1
+rem
+rem qui siamo ancora in modalità DOS pura, senza WINDOWS95
+rem
+d:\bin\activate 1 /r
+rem se non si usa /R, mettere qui pause ed un messaggio di reset manuale
+rem il computer comunque non prosegue oltre, ma si resetta. </pre>
+
+<pre>:WIN1
+if not %CONFIG%==DOS62 goto WIN2
+d:\bin\activate 3 /r </pre>
+
+<pre>:WIN2
+lh keyb it,,C:\WINDOWS\COMMAND\keyboard.sys
+lh C:\WINDOWS\COMMAND\MSCDEX /D:OEMCD001 /L:D
+lh C:\WINDOWS\COMMAND\DOSKEY
+prompt $e[0;1;5;40;35m[WIN95]$e[0;37m $p$g$e[0;37;40m </pre>
+
+<pre>set PATH=C:\WINDOWS;C:\WINDOWS\COMMAND
+if exist D:\BIN\NUL PATH=%PATH%;D:\BIN;
+if exist C:\BIN\NUL PATH=C:\BIN;%PATH%
+set dircmd=/ogd /a /l /p </pre>
+
+<pre>if %CONFIG%==WIN95 c:\bin\win.bat </pre>
+
+<pre>:WIN3 </pre>
+
+<hr>
+
+<p>C:\BIN\WIN.BAT</p>
+
+<p>@echo off <br>
+c:\windows\win.com <br>
+rem questo primo comando è essenziale per rimettere in modo
+testo<br>
+C:\WINDOWS\COMMAND\MODE CO80<br>
+C:\WINDOWS\COMMAND\MODE CON: LINES=43 </p>
+
+<p>rem rimette a posto il cursore con la mia utility DOS.EXE<br>
+dos /c &gt;nul </p>
+
+<p>echo.<br>
+echo Digitare WIN se si desidera tornare a WIN95<br>
+echo.</p>
+
+<p>&nbsp;</p>
+
+
+<p align="center">&nbsp;</p>
+
+<p align="center">Articolo scritto da <br>
+<a href="mailto:febo.ares@ntt.it"><font size="4"><strong>Remo
+Petritoli</strong></font></a></p>
+
+<p align="center">&nbsp;</p>
+
+</body>
+</html>

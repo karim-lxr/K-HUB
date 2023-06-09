@@ -1,0 +1,291 @@
+#!/bin/sh
+# $Id: nss_ldap.SlackBuild,v 1.4 2006/10/27 10:31:12 root Exp root $
+# Copyright (c) 2006 Eric Hameleers <alien@slackware.com>
+# -----------------------------------------------------------------------------
+#
+# Slackware SlackBuild script 
+# ===========================
+# By:        Eric Hameleers <alien@slackware.com>
+# For:       nss_ldap
+# Descr:     The LDAP Nameservice Switch 'NSS' module
+# URL:       http://www.padl.com/OSS/nss_ldap.html
+# Needs:     openldap-client, cyrus-sasl, openssl
+# Changelog:
+# 249-1:     10/Mar/2006 by Eric Hameleers <alien@slackware.com>
+#            * Initial build.
+# 253-1:     20/sep/2006 by Eric Hameleers <alien@slackware.com>
+#            * Update.
+# 
+# Run 'sh SlackBuild --cleanup' to build a Slackware package.
+# The package (.tgz) plus descriptive .txt file are created in /tmp .
+# Install using 'installpkg'. 
+#
+# -----------------------------------------------------------------------------
+
+# --- INIT ---
+# Set initial variables:
+
+PRGNAM=nss_ldap
+VERSION=${VERSION:-257}
+ARCH=${ARCH:-i486}
+BUILD=1
+
+DOCS="ANNOUNCE AUTHORS COPYING ChangeLog CVSVersionInfo.txt NEWS README doc/*"
+
+SOURCE="${PRGNAM}-${VERSION}.tar.gz"
+SRCURL="http://www.padl.com/download/${PRGNAM}.tgz"
+
+# Where do we look for sources?
+CWD=`pwd`
+SRCDIR=`dirname $0`
+[ "${SRCDIR:0:1}" == "." ] && SRCDIR=${CWD}/${SRCDIR}
+
+# Place to build (TMP) package (PKG) and output (OUTPUT) the program:
+TMP=${TMP:-/tmp/build}
+PKG=$TMP/package-$PRGNAM
+OUTPUT=${OUTPUT:-/tmp}
+
+
+##
+## --- with a little luck, you won't have to edit below this point --- ##
+##
+
+# Exit the script on errors:
+set -e
+trap 'echo "$0 FAILED at line $LINENO!" | tee $CWD/error-${PRGNAM}.log' ERR
+# Catch unitialized variables:
+set -u
+P1=${1:-1}
+
+# Slackware 11 and up need other option (gcc > 3.3.x)
+if [ `gcc -dumpversion | tr -d  '.' |cut -c 1-2` -gt 33 ]; then
+  MOPT=tune
+else
+  MOPT=cpu
+fi
+
+case "$ARCH" in
+  i386)      SLKCFLAGS="-O2 -mtune=i386 -m${MOPT}=i686"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  i486)      SLKCFLAGS="-O2 -mtune=i486 -m${MOPT}=i686"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  s390)      SLKCFLAGS="-O2"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  powerpc)   SLKCFLAGS="-O2"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+  x86_64)    SLKCFLAGS="-O2 -fPIC"
+             SLKLDFLAGS="-L/usr/lib64"; LIBDIRSUFFIX="64"
+             ;;
+  athlon-xp) SLKCFLAGS="-mtune=athlon-xp -O3 -pipe -fomit-frame-pointer"
+             SLKLDFLAGS=""; LIBDIRSUFFIX=""
+             ;;
+esac
+
+if [ ! -d $TMP/tmp-$PRGNAM ]; then
+  mkdir -p $TMP/tmp-$PRGNAM # location to build the source
+elif [ "$P1" != "--oldbuild" ]; then
+  # If the "--oldbuild" parameter is present, we keep
+  #  the old build files and continue;
+  # By default we remove the remnants of previous build and continue:
+  rm -rf $TMP/tmp-$PRGNAM/*
+fi
+
+if [ "$PKG" = "" -o "$PKG" = "/" ] ; then
+  echo "Please provide a sane value for the variable 'PKG'."
+  exit 1
+elif [ ! -d $PKG ]; then
+  mkdir -p $PKG  # place for the package to be built
+else
+  rm -rf $PKG/*  # We always erase old package's contents:
+fi
+
+if [ ! -d $OUTPUT ]; then
+  mkdir -p $OUTPUT  # place for the package to be saved
+fi
+
+# --- SOURCE FILE AVAILABILITY ---
+
+if ! [ -f ${SRCDIR}/${SOURCE} ]; then
+  if ! [ "x${SRCURL}" == "x" ]; then
+    echo "Source '${SOURCE}' not available yet... will download now:"
+    wget -nv -O "${SRCDIR}/${SOURCE}" "${SRCURL}" || true
+    if [ $? -ne 0 ]; then
+      echo "Downloading '${SOURCE}' failed... aborting the build."
+      mv -f "${SRCDIR}/${SOURCE}" "${SRCDIR}/${SOURCE}".FAIL
+      exit 1
+    fi
+  else
+    echo "File '${SOURCE}' not available... aborting the build."
+    exit 1
+  fi
+fi
+
+if [ "$P1" == "--download" ]; then
+  echo "Download complete."
+  exit 0
+fi
+
+
+# --- PACKAGE BUILDING ---
+
+echo "++"
+echo "|| $PRGNAM-$VERSION"
+echo "++"
+
+cd $PKG
+
+# Explode the package framework:
+if [ -f $SRCDIR/_$PRGNAM.tar.gz ]; then
+  explodepkg $SRCDIR/_$PRGNAM.tar.gz
+fi
+
+cd $TMP/tmp-$PRGNAM
+
+
+# --- TARBALL EXTRACTION,PATCH,MODIFY ---
+
+echo "Extracting the source archive(s) for $PRGNAM..."
+if `file $SRCDIR/${SOURCE} | grep -q ": bzip2"`; then
+  tar -xjvf $SRCDIR/${SOURCE} || true
+elif `file $SRCDIR/${SOURCE} | grep -qi ": zip"`; then
+  unzip $SRCDIR/${SOURCE} || true
+elif `file $SRCDIR/${SOURCE} | grep -qi ": 7-zip"`; then
+  7za -x $SRCDIR/${SOURCE} || true
+else
+  tar -xzvf $SRCDIR/${SOURCE} || true
+fi
+if [ $? -ne 0 ]; then
+  echo "Error in unpacking '${SOURCE}!' Aborting..."
+  exit $?
+fi
+cd ${PRGNAM}-${VERSION} || \
+(echo "The VERSION of the ${PRGNAM} archive is not ${VERSION}! Update the SlackBuild script!"; exit 1)
+
+chown -R root.root *
+find . -perm 777 -exec chmod 755 {} \;
+
+
+# --- BUILDING ---
+
+echo Building ...
+
+# The option "--enable-paged-results" to the configure command is needed for
+# use in ActiveDirectory environments with more than 1024 user entries:
+LDFLAGS="$SLKLDFLAGS" \
+CFLAGS="$SLKCFLAGS" \
+./configure --prefix="" \
+            --libdir=/lib${LIBDIRSUFFIX} \
+            --datadir=/usr/share \
+            --localstatedir=/var \
+            --sysconfdir=/etc \
+            --mandir=/usr/man \
+            --includedir=/usr/include \
+            --with-ldap-lib=openldap \
+            --enable-rfc2307bis \
+            --enable-schema-mapping \
+            --enable-paged-results \
+            --enable-shared \
+            $ARCH-slackware-linux \
+            2>&1 | tee $CWD/configure-${PRGNAM}.log
+make 2>&1 | tee $CWD/make-${PRGNAM}.log
+
+#
+# Install all the needed stuff to the package dir
+#
+# Use installwatch if available:
+if `which installwatch  > /dev/null 2>&1`; then
+  installwatch -o $CWD/install-${PRGNAM}.log make DESTDIR=$PKG install
+else
+  make DESTDIR=$PKG install 2>&1 |tee $CWD/install-${PRGNAM}.log
+fi
+
+mv $PKG/etc/ldap.conf $PKG/etc/ldap.conf.new
+#cp nsswitch.ldap $PKG/etc/nsswitch.ldap.new
+mv $PKG/etc/nsswitch.ldap $PKG/etc/nsswitch.ldap.new
+
+
+# --- INSTALL SCRIPT ---
+
+mkdir -p $PKG/install
+cat <<EOINS > $PKG/install/doinst.sh
+# Handle the incoming configuration files:
+config() {
+  for infile in \$1; do
+    NEW="\$infile"
+    OLD="\`dirname \$NEW\`/\`basename \$NEW .new\`"
+    # If there's no config file by that name, mv it over:
+    if [ ! -r \$OLD ]; then
+      mv \$NEW \$OLD
+    elif [ "\`cat \$OLD | md5sum\`" = "\`cat \$NEW | md5sum\`" ]; then
+      # toss the redundant copy
+      rm \$NEW
+    fi
+    # Otherwise, we leave the .new copy for the admin to consider...
+  done
+}
+
+config etc/ldap.conf.new
+config etc/nsswitch.ldap.new
+EOINS
+
+
+# --- DOCUMENTATION ---
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a $DOCS $PKG/usr/doc/$PRGNAM-$VERSION
+chmod -R a-w $PKG/usr/doc/$PRGNAM-$VERSION/*
+
+# Move incorrectly installed man pages, if any
+[ -d $PKG/usr/share/man ] && \
+  mv $PKG/usr/share/man $PKG/usr/ && rmdir $PKG/usr/share
+# Compress the man page(s)
+[ -d $PKG/usr/man ] && \
+  find $PKG/usr/man -name "*.?" -type f -exec gzip -9f {} \;
+
+# Strip binaries
+( cd $PKG
+  find . | xargs file | grep "executable" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+  find . | xargs file | grep "shared object" | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+)
+
+
+# --- OWNERSHIP, RIGHTS ---
+
+chmod -R o-w $PKG
+
+
+# --- PACKAGE DESCRIPTION ---
+
+mkdir -p $PKG/install
+cat $SRCDIR/slack-desc > $PKG/install/slack-desc
+if [ -f $SRCDIR/doinst.sh ]; then
+  cat $SRCDIR/doinst.sh >> $PKG/install/doinst.sh
+fi
+if [ -f $SRCDIR/slack-required ]; then
+  cat $SRCDIR/slack-required > $PKG/install/slack-required
+fi
+
+
+# --- BUILDING ---
+
+# Build the package:
+cd $PKG
+makepkg --linkadd y --chown n $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.tgz  2>&1 | tee $CWD/makepkg-${PRGNAM}.log
+(cd $OUTPUT && md5sum ${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.tgz > ${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.tgz.md5)
+cat $PKG/install/slack-desc | grep "^${PRGNAM}" > $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.txt
+if [ -f $PKG/install/slack-required ]; then
+  cat $PKG/install/slack-required > $OUTPUT/${PRGNAM}-${VERSION}-${ARCH}-${BUILD}.dep
+fi
+
+
+# --- CLEANUP ---
+
+# Clean up the extra stuff:
+if [ "$P1" = "--cleanup" ]; then
+  rm -rf $TMP/tmp-$PRGNAM
+  rm -rf $PKG
+fi

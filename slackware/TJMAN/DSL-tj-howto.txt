@@ -1,0 +1,45 @@
+9 settembre 2001 Connessione ADSL Bluewin
+
+- DNS installato su server in forwarding
+- suse 7.1 kernel 2.2 because 2.4 non funge (interfaccia ppod)
+
+- eth0 su rete interna
+- eth1 su esterno, No gateway, DHCP assign
+
+- start yes deamon pppoed in rc.config
+
+- configure pw in /etc/ppp/  chap-secret et al
+
+- define eth1 quale interfaccia in ppoed.conf
+
+comandi adsl-start, adsl-stop , adsl-status
+
+su eth1 viene configurata dal deamon un'interfaccia virtuale ppp0
+
+impostare le ipchains.rules secondo necessità
+
+
+//////////--> bluewin account provvisorio
+auth.Connessione  ADSL  generale
+
+userid	bwreg@bluewin.ch
+pw		go4it
+
+///////////////
+
+
+////////////////////////// ppoed.conf prime righe
+
+# When you configure a variable, DO NOT leave spaces around the "=" sign.
+
+# Ethernet card connected to ADSL modem
+ETH=eth1
+
+# ADSL user name.  You may have to supply "@provider.com"  Sympatico
+# users in Canada do need to include "@sympatico.ca"
+# Sympatico uses PAP authentication.  Make sure /etc/ppp/pap-secrets
+# contains the right username/password combination.
+# For Magma, use xxyyzz@magma.ca
+#USER=bxxxnxnx@sympatico.ca
+//////////////////////////////////////////////////////////////////
+

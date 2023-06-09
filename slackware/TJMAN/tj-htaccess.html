@@ -1,0 +1,200 @@
+<!doctype html public "-//w3c//dtd html 3.2//en">
+
+<html>
+
+<head>
+<title>Configure htaccess</title>
+<meta name="GENERATOR" content="Arachnophilia 4.0">
+<meta name="FORMATTER" content="Arachnophilia 4.0">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Configure and options Htaccess</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel. 0.1   mar-05-2001
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.com</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+
+
+<!-- Abstract listed -->
+<h3>
+Autenticazione accesso WEB. Questo documento descrive l'implementazione delle direttive di 
+accesso WEB mediante password
+</h3>
+<ul>
+	<li> configurazione APACHE, in <code>/etc/httpd</code>,	nel file <code>httpd.conf</code>
+	 abilitare nella sezione <code>&lt;DIRECTORY&gt;</code> la direttiva:<br>
+	<code>AllowOverride AuthConfig</code>
+	<br>
+	di default impostata su "none"
+
+<br><br>
+
+
+	<li>creazione file delle password
+	<br>
+	da <code>/usr/bin</code> chiamare il binario <code>htpasswd</code>
+	la prima volta che viene utilizzato occorre il parametro -c
+	<br>
+	<code>htpasswd -c /etc/httpd/users username</code>
+	<br>
+	dove il path corrisponde alla destinazione del file delle password
+	chiamato di default "users" ma potrebbe anche essere un file nascosto
+	e username é il primo utente creato, ripetere per ogni utente la procedura
+	senza il parametro -c, la modifica password viene effettuata invocando
+	<code>htpasswd 'username'</code> esistente.
+<br>
+<br>
+<li>creazione della directory con accesso autorizzato:
+<br>
+semplicemente aggiungendo un file nascosto .htaccess 	alla directory che si intende proteggere
+</ul>
+<br>
+<h3>Alcune direttive utilizzabili nel file <code>.HTACCESS</code>
+</h3>
+<ul>
+	<li><code>Options</code> Opzioni varie
+<li><code>ErrorDocument</code> Personalizza la risposta in caso si verifichino condizioni di errore
+	<li><code>DefaultType</code> Definisce il tipo/sottotipo mime predefinito per la directory
+	<li><code>AuthName</code> Nome o descrizione di una zona soggetta ad autenticazione.
+	<li><code>AuthType</code> Definizione del tipo di autenticazione (Basic)
+	<li><code>require</code> Dichiarazione degli utenti autorizzati all'autenticazione
+	<li><code>order</code> Ordine di valutazione delle direttive deny e allow
+	<li><code>deny</code> Specifica gli host a cui viene negato l'accesso
+	<li><code>allow</code> Specifica gli host a cui viene concesso l'accesso
+</ul>
+
+
+<!-- Synop -->
+<h2>Synopsys</h2>
+
+<!-- table snopsys 1 -->
+<table  width="100%" border="0" >
+<caption align=left><i>Valid users</i></caption>
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 1 Column 2 -->
+		<td >
+		<pre>
+	AuthUserFile /etc/httpd/users
+	AuthName "commento"
+	AuthType Basic
+	&lt;Limit GET&gt;
+	require valid-user
+	&lt;/Limit&gt;
+		</pre>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td valign=top>
+		autorizza TUTTI gli utenti iscritti nel files 'users'
+		</td>
+	</tr>
+	
+<!-- second row -->
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 2 Column 2 -->
+		<td >
+	<code>
+	AuthUserFile /etc/httpd/users<br>
+	AuthGroupFile /etc/httpd/htgroup<br>
+	AuthName ByPassword<br>
+	AuthType Basic<br>
+	&lt;Limit GET&gt;<br>
+	require group my-users<br>
+	&lt;/Limit&gt;
+	</code>
+		</td>
+		<!-- Row 2 Column 3 -->
+		<td >
+		Per facilitare la gestione di utenti che accedono a directory protette, possiamo realizzare dei gruppi
+               e inserirli in un file chiamato <code>.htgroup</code>, il quale non contiene alcuna password. La sintassi dei record
+               che compongono questo file è molto semplice, infatti raggruppa alcuni utenti, i cui nominativi e password sono 
+		specificati nel file delle password 'users'. Sintassi: <code>nomegruppo: utente1 utente2 utenteN </code>
+</td>
+	</tr>
+</table>
+<br>
+
+<!-- table snopsys 2 -->
+<table  width="100%" border="0" >
+<caption align=left><i>User</i></caption>
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 1 Column 2 -->
+		<td >
+		<code>
+	AuthUserFile /etc/httpd/users<br>
+	AuthName "commento"<br>
+	AuthType Basic<br>
+	&lt;Limit GET&gt;<br>
+	require user pippo<br>
+	&lt;/Limit&gt;<br>
+
+		</code>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+		Solo l'utente 'pippo' potrà accedere alla directory.	
+		</td>
+	</tr>
+</table><br>
+
+<table>
+<caption align=left><i>php.ini directives</i></caption>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 2 Column 2 -->
+		<td >
+		<code>
+		php3_auto_prepend_file /path_to_phplib/prepend.php3 <br>
+	 	php3_include_path /pat_to_phplib:/other_path/include:. 
+		</code>
+		</td>
+		<!-- Row 2 Column 3 -->
+		<td >
+		consente la modifica di  direttive presenti in php.ini localmente		
+</td>
+	</tr>
+</table>
+<br><br><br>
+<i>note</i>
+<br><br>
+le direttive 'options' in .htaccess, possono avere la precedenza sulle impostazioni globali date da httpd.conf, 
+conseguentemente sono convenienti per abilitare localmente alcune impostazioni soprattutto in mancanza della
+possibilità di modificare httpd.conf
+</body>
+
+</html>

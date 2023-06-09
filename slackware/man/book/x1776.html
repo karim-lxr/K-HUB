@@ -1,0 +1,853 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Dual Booting</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Booting"
+HREF="c1710.html"><LINK
+REL="PREVIOUS"
+TITLE="LOADLIN"
+HREF="x1765.html"><LINK
+REL="NEXT"
+TITLE="Summary"
+HREF="x1885.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1765.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 7. Booting</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1885.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="DUALBOOT"
+>Dual Booting</A
+></H1
+><P
+>   Many users set up their computers to boot Slackware Linux and another
+   operating system.  We've described several typical dual boot scenarios
+   below, in case you are having difficulty setting up your system.
+   </P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="WINDOWS9X"
+>Windows 9x/DOS</A
+></H2
+><P
+>      Setting up a computer with both Windows 9x and Linux is probably the most
+      common dual boot scenario.  There are numerous ways you can setup the
+      booting, but this section will cover two.
+      </P
+><P
+>      Often times when setting up a dual boot system, a person will devise a
+      perfect plan for where everything should go but mess up the installation
+      order.  It is very important to understand that operating systems need to
+      be installed in a certain order for a dual boot setup to work.  Linux
+      always offers control over what, if anything, gets written to the Master 
+      Boot Record.  Therefore, it's always advisable to install Linux last.
+      Windows should be installed first, since it will always write its booter
+      to the Master Boot Record.
+      </P
+><DIV
+CLASS="SIMPLESECT"
+><H3
+CLASS="SIMPLESECT"
+><A
+NAME="AEN1783"
+>Using LILO</A
+></H3
+><P
+>         Most people will want to use LILO to chose between Linux and 
+         Windows.  As stated above, you should install Windows first, then 
+         Linux.
+         </P
+><P
+>         Let's say you have a 47GB IDE hard disk as the only drive in your 
+         system.  Let's also say that you want to give half of that space to 
+         Windows and half of that space to Linux.  This will present a problem 
+         when trying to boot Linux.  I do not know the specific geometry of 
+         the drive, but chances are that 23.5GB down the drive will be well 
+         past the 1024th cylinder.  A better layout for this drive would be:
+         </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+> 
+   1GB   Windows boot (C:)
+   1GB   Linux root (/)
+   22.5  Windows misc (D:)
+   22.5  Linux /usr (/usr)</TT
+>
+         </PRE
+></TD
+></TR
+></TABLE
+><P
+>         You would also want to set aside an adequate amount of space for a 
+         Linux swap partition.  The unwritten rule is to use twice the amount 
+         of RAM you have in disk space.  A 64MB system would have 128MB of 
+         swap, and so on.
+         </P
+><P
+>         With your partitions layed out, you should proceed to install Windows.
+         After that is set up and working, you should install Linux.  The LILO
+         installation needs special attention.  You will want to select the 
+         &#8220;expert&#8221; mode for installing LILO.
+         </P
+><P
+>         Begin a new LILO configuration.  You will want to install it to 
+         Master Boot Record so that it can be used to choose between the two 
+         operating systems.  From the menu, add your Linux partition and add 
+         your Windows (or DOS) partition.  Once that's complete, you can 
+         install LILO.
+         </P
+><P
+>         Reboot the computer.  LILO should load and wait for user interaction.  
+         You can press Alt to get the <TT
+CLASS="COMPUTEROUTPUT"
+>boot:</TT
+> 
+         prompt.  Type the name of the operating system you want to load 
+         (these names were selected when you setup LILO).  If you forgot the 
+         name, press <B
+CLASS="KEYCAP"
+>Tab</B
+> to get a list of operating systems 
+         that you can boot.
+         </P
+><P
+>         You can configure LILO even further by editing the 
+         <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> file on your Linux partition.  
+         You can set it up to display a text menu, and always present the 
+         prompt.  For example, if I wanted my LILO display to do this:
+         </P
+><DIV
+CLASS="INFORMALEXAMPLE"
+><P
+></P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   System Boot Menu
+   ================
+   1 - Linux
+   2 - Windows
+
+   LILO boot:</PRE
+></TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>         My <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> file would look like this:
+         </P
+><DIV
+CLASS="INFORMALEXAMPLE"
+><P
+></P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   # LILO configuration file
+
+   boot = /dev/hda
+   vga = normal
+   message = /boot/message
+
+   image = /vmlinuz
+      root = /dev/hda2
+      label = 1
+      read-only
+
+   other = /dev/hda1
+      label = 2
+      table = /dev/hda</PRE
+></TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>         And my <TT
+CLASS="FILENAME"
+>/boot/message</TT
+> file would look like this:
+         </P
+><DIV
+CLASS="INFORMALEXAMPLE"
+><P
+></P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   System Boot Menu
+   ================
+   1 - Linux
+   2 - Windows</PRE
+></TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>         LILO is quite a configurable boot loader.  It's not just limited to 
+         booting Linux or DOS.  It can boot just about anything.  The man 
+         pages for <B
+CLASS="COMMAND"
+>lilo</B
+>(8) and 
+         <B
+CLASS="COMMAND"
+>lilo.conf</B
+>(5) provide more detailed information.
+         </P
+><P
+>         What if LILO doesn't work?  There are instances where LILO just 
+         won't work on a particular machine.  Fortunately, there is another 
+         way to dual boot Linux and Windows.
+         </P
+></DIV
+><DIV
+CLASS="SIMPLESECT"
+><H3
+CLASS="SIMPLESECT"
+><A
+NAME="AEN1812"
+>Using LOADLIN</A
+></H3
+><P
+> This method can be used if LILO doesn't work on your system, 
+         or if you just don't want to set up LILO.  This method is also ideal 
+         for the user that reinstalls Windows often.  Each time you reinstall 
+         Windows, it will overwrite the Master Boot Record, thus destroying any
+         LILO installation.  With LOADLIN, you are not subject to that 
+         problem.  The biggest disadvantage is that you can only use LOADLIN 
+         to boot Linux.
+         </P
+><P
+>         With LOADLIN, you can install the operating systems in any order 
+         desired.  Be careful about installing things to the Master Boot Record,
+         you do not want to do that.  LOADLIN relies on the Windows partition
+         being bootable.  So during the Slackware installation, make sure you
+         skip the LILO setup.
+         </P
+><P
+>         After installing the operating systems, copy the 
+         <TT
+CLASS="FILENAME"
+>lodlinX.zip</TT
+> (where &#8220;X&#8221; is a version
+         number, such as &#8220;16a&#8221;) file from root's home directory to 
+         your Windows partition.  Also copy your kernel image to the Windows 
+         partition.  You will need to be in Linux for this to work.  This 
+         example shows how to do this:
+         </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>mkdir /win</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>mount -t vfat /dev/hda1 /win</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>mkdir /win/linux</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cd /root</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cp loadlin* /win/linux</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cp /vmlinuz /win/linux</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>cd /win/linuz</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>unzip loadlin16a.zip</B
+></TT
+></TT
+>
+         </PRE
+></TD
+></TR
+></TABLE
+><P
+>         That will create a <TT
+CLASS="FILENAME"
+>C:\LINUX</TT
+> directory on your 
+         Windows partition (assuming it's <TT
+CLASS="FILENAME"
+>/dev/hda1</TT
+>) and 
+         copy over the necessary stuff for LOADLIN.  After doing this, you 
+         will need to reboot into Windows to setup a boot menu.
+         </P
+><P
+>         Once in Windows, get to a DOS prompt.  First, we need to make sure the
+         system is set to not boot into the graphical interface.
+         </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   C:\&gt;<TT
+CLASS="USERINPUT"
+><B
+>cd \</B
+></TT
+>
+   C:\&gt;<TT
+CLASS="USERINPUT"
+><B
+>attrib -r -a -s -h MSDOS.SYS</B
+></TT
+>
+   C:\&gt;<TT
+CLASS="USERINPUT"
+><B
+>edit MSDOS.SYS</B
+></TT
+></TT
+>
+         </PRE
+></TD
+></TR
+></TABLE
+><P
+>         Add this line to the file:
+         </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+>   <TT
+CLASS="USERINPUT"
+><B
+>BootGUI=0</B
+></TT
+>
+         </PRE
+></TD
+></TR
+></TABLE
+><P
+>         Now save the file and exit the editor.  Now edit 
+         <TT
+CLASS="FILENAME"
+>C:\AUTOEXEC.BAT</TT
+> so we can add a boot menu.  The 
+         following provides an example of what a boot menu block in 
+         <TT
+CLASS="FILENAME"
+>AUTOEXEC.BAT</TT
+> would look like:
+         </P
+><DIV
+CLASS="INFORMALEXAMPLE"
+><P
+></P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="PROGRAMLISTING"
+>   cls
+   echo System Boot Menu
+   echo.
+   echo 1 - Linux
+   echo 2 - Windows
+   echo.
+   choice /c:12 "Selection? -&gt; "
+   if errorlevel 2 goto WIN
+   if errorlevel 1 goto LINUX
+   :LINUX
+   cls
+   echo "Starting Linux..."
+   cd \linux
+   loadlin c:\linux\vmlinuz root=/dev/hda2 ro
+   goto END
+   :WIN
+   cls
+   echo "Starting Windows..."
+   win
+   goto END
+   :END</PRE
+></TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>         The key line is the one that runs LOADLIN.  We tell it the kernel 
+         to load, the Linux root partition, and that we want it mounted 
+         read-only initially.
+         </P
+><P
+>         The tools for these two methods are provided with Slackware Linux.  
+         There are numerous other booters on the market, but these should work 
+         for most dual boot setups.  
+         </P
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="WINDOWSNT"
+>Windows NT</A
+></H2
+><P
+>      This is the second most common dual booting situation.  Windows NT
+      presents several more problems than dual booting between Windows 9x and
+      Linux.  The one we are most concerned with is if the Master Boot Record is
+      overwritten with LILO, NT will not boot successfully.  Therefore, we must 
+      use the OS Loader that comes with Windows NT.  The steps below show how
+      you should setup a Windows NT and Linux dual boot system.
+      </P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>            Install Windows NT
+         </P
+></LI
+><LI
+><P
+>            Install Linux, making sure LILO is installed to the superblock 
+            of the Linux partition
+         </P
+></LI
+><LI
+><P
+>            Get the first 512 bytes of the Linux root partition and store 
+            it on the Windows NT partition
+         </P
+></LI
+><LI
+><P
+>            Edit <TT
+CLASS="FILENAME"
+>C:\BOOT.INI</TT
+> under Windows NT to add a 
+            Linux option
+         </P
+></LI
+></OL
+><P
+>      Installing Windows NT should be fairly straightforward, as should
+      installing Linux.  From there, it gets a little more tricky.  Grabbing the
+      first 512 bytes of the Linux partition is easier than it sounds.  You will
+      need to be in Linux to accomplish this.  Assuming your Linux partition is
+      <TT
+CLASS="FILENAME"
+>/dev/hda2</TT
+>, issue this command:
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>dd if=/dev/hda2 of=/tmp/bootsect.lnx bs=1 count=512</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      That's it.  Now you need to copy <TT
+CLASS="FILENAME"
+>bootsect.lnx</TT
+> 
+      to the Windows NT partition.  
+      Here's where we run into another problem.  Linux does not have stable 
+      write support for the NTFS filesystem.  If you installed Windows NT and
+      formatted your drive as NTFS, you will need to copy this file to a FAT 
+      floppy
+      and then read from it under Windows NT.  If you formatted the Windows NT 
+      drive as FAT, you can simply mount it under Linux and copy the file over.
+      Either way, you will want to get <TT
+CLASS="FILENAME"
+>/tmp/bootsect.lnx</TT
+> 
+      from the Linux drive to <TT
+CLASS="FILENAME"
+>C:\BOOTSECT.LNX</TT
+> on the 
+      Windows NT drive.
+      </P
+><P
+>      The last step is adding a menu option to the Windows NT boot menu.  Under
+      Windows NT open a command prompt.
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   C:\WINNT&gt;<TT
+CLASS="USERINPUT"
+><B
+>cd \</B
+></TT
+>
+   C:\&gt;<TT
+CLASS="USERINPUT"
+><B
+>attrib -r -a -s -h boot.ini</B
+></TT
+>
+   C:\&gt;<TT
+CLASS="USERINPUT"
+><B
+>edit boot.ini</B
+></TT
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      Add this line to the end of the file:
+      </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+>   <TT
+CLASS="USERINPUT"
+><B
+>C:\bootsect.lnx="Slackware Linux"</B
+></TT
+>
+      </PRE
+></TD
+></TR
+></TABLE
+><P
+>      Save the changes and exit the editor.  When you reboot Windows NT, you
+      will have a Linux option on the menu.  Choosing it will boot into Linux.
+      </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="LINUX"
+>Linux</A
+></H2
+><P
+>      Yes, people really do this.  This is definitely the easiest dual boot
+      scenario.  You can simply use LILO and add more entries to the
+      <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> file.  That's all there is to it.
+      </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1765.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1885.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>LOADLIN</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1710.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Summary</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

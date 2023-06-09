@@ -1,0 +1,423 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+  <HEAD>
+    <META name="generator" content="HTML Tidy, see www.w3.org">
+    <TITLE>Configurazione di Postfix</TITLE>
+    <META name="GENERATOR" content=
+    "Modular DocBook HTML Stylesheet Version 1.61 ">
+    <LINK rel="HOME" title="Quick&amp;Easy Configuration HOWTO" href=
+    "index.html">
+    <LINK rel="UP" title="Postfix" href="postfix.html">
+    <LINK rel="PREVIOUS" title="Postfix" href="postfix.html">
+    <LINK rel="NEXT" title="Disattivazione e disinstallazione di Sendmail"
+    href="disattivazionesendmail.html">
+  </HEAD>
+
+  <BODY class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink=
+  "#840084" alink="#0000FF">
+    <DIV class="NAVHEADER">
+      <TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+        <TR>
+          <TH colspan="3" align="center"><EM>Quick&amp;Easy Configuration
+          HOWTO</EM></TH>
+        </TR>
+
+        <TR>
+          <TD width="10%" align="left" valign="bottom"><A href=
+          "postfix.html">Indietro</A></TD>
+
+          <TD width="80%" align="center" valign="bottom">Capitolo 5.
+          Postfix</TD>
+
+          <TD width="10%" align="right" valign="bottom"><A href=
+          "disattivazionesendmail.html">Avanti</A></TD>
+        </TR>
+      </TABLE>
+      <HR align="LEFT" width="100%">
+    </DIV>
+
+    <DIV class="SECT1">
+      <H1 class="SECT1"><A name="CONFIGURAZIONEPOSTFIX">5.1. Configurazione
+      di Postfix</A></H1>
+
+      <P>Innanzitutto assicuratevi che parta ad ogni avvio, controllate che
+      in <B class="KEYCAP">/etc/rc.d/init.d</B> (o l'equivalente della vostra
+      distribuzione) ci sia lo script <B class="COMMAND">postfix</B> e date
+      <B class="COMMAND">chkconfig --add postfix</B>, oppure aggiungete <B
+      class="COMMAND">postfix start</B> a <B class=
+      "KEYCAP">/etc/rc.d/rc.local</B> (o equivalente).</P>
+
+      <P>Modificate <B class="KEYCAP">/etc/postfix/aliases</B> in modo che la
+      posta indirizzata all'utente root venga ricevuta da un utente realmente
+      esistente (è pericoloso gestire la posta da root, potreste perderla
+      tutta, ricordatelo!), inserendo o modificando l'ultima riga come
+      segue:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+# Basic system aliases -- these MUST be present.
+MAILER-DAEMON:  postmaster
+postmaster: root
+
+# General redirections for pseudo accounts.
+bin:        root
+daemon:     root
+games:      root
+ingres:     root
+nobody:     root
+system:     root
+toor:       root
+uucp:       root
+
+# Well-known aliases.
+manager:    root
+dumper:     root
+operator:   root
+
+# trap decode to catch security attacks
+decode:     root
+
+# Person who should get root's mail
+root:          nome_utente_esistente
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>Consiglio di lasciare che postfix contatti l'SMTP del vostro
+      provider, perché sempre più spesso i server per evitare lo spam fanno
+      dei controlli sull'origine dei messaggi tramite delle interrogazioni ai
+      DNS, e a meno che non abbiate registrato un dominio vostro, NON vi
+      troveranno altrimenti, e la posta resterà nel vostro spool! Consiglio
+      inoltre di impostare l'opzione <B class=
+      "KEYCAP">defer_transports=smtp</B> in <B class=
+      "KEYCAP">/etc/postfix/main.cf</B> per evitare che postfix continui ad
+      interrogare internet per cercare di inviare la posta: a collegamento
+      avvenuto potete usare <B class="COMMAND">sendmail -q</B> o <B class=
+      "COMMAND">postfix flush</B> per inviare tutto (potete inserire il
+      comando in <B class="KEYCAP">/etc/ppp/ip-up</B>, in modo da fare tutto
+      in automatico a connessione stabilita). Il comando <B class=
+      "COMMAND">mailq</B> (o <B class="COMMAND">sendmail -bp</B>) vi fornisce
+      informazioni sullo stato del vostro spool SMTP, quali e quanti messaggi
+      sono ancora accodati e altro ancora. Per sapere quando la coda è vuota,
+      potete usare il seguente script:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+#!/bin/sh
+/usr/sbin/sendmail -q
+sleep 10
+while mailq | grep '^[^ ]*\*' &gt;/dev/null
+do
+    sleep 10
+done
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>Altri comandi utili sono <B class="COMMAND">postfix start</B> (avvia
+      postfix), <B class="COMMAND">postfix reload</B> (per far sì che postfix
+      rilegga il file di configurazione dopo eventuali cambiamenti), <B
+      class="COMMAND">postfix stop</B> (ferma postfix), <B class=
+      "COMMAND">postfix check</B> (controlla la configurazione di postfix).
+      Ecco un esempio di file <B class="KEYCAP">/etc/postfix/main.cf</B> (le
+      poche righe da modificare sono indicate all'inizio del file, e
+      eventuali altri parametri presenti nel vostro file <B class=
+      "KEYCAP">main.cf</B> possono essere lasciati al loro valore di
+      default):</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+#- file di configurazione principale di Postfix
+
+#- I parametri che DOVETE cambiare sono i seguenti, seguendo le istruzioni
+#- date nel file. In particolare, per il relayhost, fate il comando seguente:
+#- nslookup smtp.vostro.provider
+#- per conoscere l'IP dell'SMTP del vostro provider, e sostituitelo tra le
+#- parentesi quadre, LASCIANDOLE!
+#- "myhostname", "mydomain" e "relayhost"
+
+#- la directory della coda di postfix
+queue_directory = /var/spool/postfix
+
+#- la directory dove risiedono i programmi di postfix (gli RPM di solito li
+#- installano in /usr/sbin, cambiate di conseguenza per altre installazioni)
+program_directory = /usr/sbin
+
+#- la directory dove risiedono tutti i programmi del tipo postXXX
+command_directory = $program_directory
+
+#- la directory che contiene i demoni di postfix
+daemon_directory = /usr/lib/postfix
+
+#- il possessore dei processi di postfix. Usate un utente dedicato, con
+#- privilegi minimi, e che non sia daemon o nobody, e CREATELO!!!
+mail_owner = postfix
+
+#- i privilegi di default dell'agente di smistamento locale
+default_privs = nobody
+
+#- la directory di spool di default, dove finiscono le email in arrivo
+mail_spool_directory = /var/spool/mail
+
+#- il programma usato per lo smistamento locale delle email. Correggete
+#- eventualmente il path. In genere per sicurezza è meglio richiamare
+#- procmail quì, piuttosto che da fetchmail
+mailbox_command = /usr/bin/procmail
+
+#- il nome COMPLETO del vostro host, compreso il dominio
+myhostname = pingu.mrshark.home
+
+#- il nome del vostro dominio
+mydomain = mrshark.home
+
+#- il dominio che risulterà l'origine per le email smistate localmente
+myorigin = $mydomain
+
+#- l'elenco di domini che postfix condidererà locali, per i queli cioè
+#- verranno smistate le email direttamente, senza interpellare l'esterno
+mydestination = $myhostname, localhost.$mydomain, $mydomain
+
+#- le interfacce di rete da cui accettare email, in genere tutte
+inet_interfaces = all
+
+#- il banner riportato da postfix quando lo si contatta
+smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
+
+#- il metodo di trasporto delle email usato di default
+default_transport = smtp
+
+#- l'elenco degli IP delle reti attaccate al computer, ritenute come locali.
+#- Per un computer singolo basta solo 127.0.0.0/8, mentre per reti più ampie
+#- aggiungete le relative sottoreti, usando le maschere opportune
+mynetworks = 127.0.0.0/8, 192.168.0.0/24
+
+#- l'SMTP del vostro provider, cui verranno inviate le email in uscita.
+#- Se volete che postfix contatti direttamente l'SMTP di destinazione,
+#- commentate la riga seguente. Le [] evitano la risoluzione del nome
+#- da parte del DNS, accelerando le operazioni (se inserite l'ip è meglio)
+relayhost = [mail.libero.it]
+
+#- disabilita la risoluzione dei nomi di dominio. Se usate quest'opzione,
+#- DOVETE usare l'indirizzo IP dell'SMTP del vostro provider per il parametro
+#- relayhost visto in precedenza (usate "nslookup smtp.vostro.provider" ...)
+disable_dns_lookups = yes
+
+#- informa il postmaster di possibili problemi con il mail-server
+notify_classes = resource, software, bounce, policy, protocol
+
+#- questo evita connessioni indesiderate spontanee via PPP
+defer_transports = smtp
+
+#- questi lasciateli come sono, indicano i limiti per le operazioni simultanee
+local_destination_concurrency_limit = 2
+default_destination_concurrency_limit = 10
+
+#- riscrive gli header mascherandoli, in modo che appaiano come tutti
+#- provenienti come da un unico host, utile sia in dial-up che in rete.
+#- Usatelo in unione ai file XXX_canonical, spiegati di seguito
+masquerade_domains = $mydomain
+
+#- l'elenco degli alias di sistema
+alias_maps = hash:$config_directory/aliases
+alias_database = hash:$config_directory/aliases
+
+#- usate questi file per specificare come riscrivere gli indirizzi in uscita
+#- (in seguito è presente un esempio). Potete usare il solo canonical sia per
+#- gli indirizzi in ingresso che per quelli in uscita, oppure usare i file
+#- sender_canonical e recipient_canonical per essere più precisi. Se presenti
+#- tutti, comunque il file canonical è l'ultimo ad essere processato, perché
+#- il più generico. In genere basta usare solo il file sender_canonical,
+#- commentate gli altri. Se ad esempio inviate una email come utente locale pippo,
+#- verrà riscritta in uscita come se fosse inviata da pippo@libero.it, per esempio
+#canonical_maps = hash:$config_directory/canonical
+#recipient_canonical_maps = hash:$config_directory/recipient_canonical
+sender_canonical_maps = hash:$config_directory/sender_canonical
+
+#- usate questo file per riscrivere gli indirizzi delle email in ingresso, in modo
+#- che se contengono uno dei vostri indirizzi email pubblici, vengano riscritti
+#- come se fossero diretti al vostro utente locale indicato (un esempio in seguito)
+virtual_maps = hash:$config_directory/virtual
+
+#- anti-spam! Confronta gli header delle email con quelli riconosciuti come spammers,
+#- e in tal caso scarta l'email. Rallenta leggermente il processo! La prima riga
+#- definisce i server usati per il controllo, la seconda e la terza impongono delle
+#- restrizioni, la quarta definisce un file aggiuntivo in cui inserire delle espressioni
+#- regolari tramite le quali scartare a priori email potenzialmente pericolose, come il
+#- famoso virus I-Love-You. NON va fatto il postmap! La quinta richiede che l'MTA invii
+#- un comando HELO per stabilire la connessione, cosa che i software di spam di solito
+#- non fanno, mentre gli MTA veri fanno quasi sempre!
+maps_rbl_domains = blackholes.mail-abuse.org, dialups.mail-abuse.org, rbl.maps.vix.com, dul.maps.vix.com
+smtpd_client_restrictions = permit_mynetworks, reject_maps_rbl, reject_unknown_hostname
+smtpd_sender_restrictions = permit_mynetworks, reject_unknown_sender_domain
+#header_checks = regexp:$config_directory/header_checks
+smtpd_helo_required = yes
+
+#- Se volete un backup TOTALE di tutto quello che passa attraverso Postfix,
+#- togliete il commento dalla riga seguente e modificate l'indirizzo email.
+#- L'indirizzo indicato riceverà in copia nascosta (BCC) tutte le email!!!
+#always_bcc = indirizzo.email@backup.com
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <DIV class="NOTE">
+        <BLOCKQUOTE class="NOTE">
+          <P><B>Nota:</B> Se volete gestire più domini virtuali sul vostro
+          server, per fare in modo che le email che dovrebbero essere
+          smistate in locale non vadano a zonzo per internet prima di essere
+          consegnate, dovete elencare TUTTI i domini che sono LOCALI nella
+          direttiva <B class="KEYCAP">mydestination</B>, separandoli con
+          virgole.</P>
+        </BLOCKQUOTE>
+      </DIV>
+
+      <P>Ora create i file per far corrispondere i vostri indirizzi email ai
+      vostri utenti locali. Si tratta dei file <B class=
+      "KEYCAP">/etc/postfix/sender_canonical</B> (che contiene gli indirizzi
+      che verranno inseriti nel campo from per ogni utente al posto di
+      <EM>utente@vostra.macchina</EM>) e <B class=
+      "KEYCAP">/etc/postfix/virtual</B> (che stabilisce a quali utenti locali
+      vadano inviate le email in base all'indirizzo remoto contenuto). Come
+      esempi ecco i miei file. Questo è il mio <B class=
+      "KEYCAP">/etc/postfix/sender_canonical</B>:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+root    mrshark@libero.it
+mrshark mrshark@libero.it
+antonio mrshark@libero.it
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>e questo il mio <B class="KEYCAP">/etc/postfix/virtual</B> (tutte le
+      email dai miei indirizzi finiscono all'utente locale
+      <EM>mrshark</EM>):</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+mrshark@linuxfan.com    mrshark
+mrshark@libero.it       mrshark
+mrshark@tiscalinet.it   mrshark
+antonio.fragola@tin.it  mrshark
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>Ogni volta che modificate <B class="KEYCAP">/etc/postfix/aliases</B>
+      dovete rigenerare il database dando il comando:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+postalias /etc/postfix/aliases
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>mentre se modificate il file <B class=
+      "KEYCAP">/etc/postfix/sender_canonical</B> date:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+postmap /etc/postfix/sender_canonical
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>oppure per <B class="KEYCAP">/etc/postfix/virtual</B> date:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+postmap /etc/postfix/virtual
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>Dopo ogni modifica a qualcuno di questi tre file, dovete riavviare
+      postfix con il comando <B class="COMMAND">postfix reload</B>. Ricordate
+      di installare e configurare anche un <EM>MDA</EM>, come <B class=
+      "COMMAND">procmail</B>, per far smistare la posta in arrivo in mailbox
+      diverse piuttosto che in una sola di default.</P>
+
+      <P>Se volete un'analisi dei log di postfix, potete usare il programma
+      in perl <B class="COMMAND">pflogsumm</B>, scaricabile da <A href=
+      "http://home.msen.com/~jimsun/postfix_contrib.html" target=
+      "_top">http://home.msen.com/~jimsun/postfix_contrib.html</A>, inserendo
+      con <B class="COMMAND">crontab -e</B> una riga tipo la seguente:</P>
+
+      <TABLE border="0" bgcolor="#E0E0E0" width="100%">
+        <TR>
+          <TD>
+<PRE class="PROGRAMLISTING">
+0 2 * * * /path/to/pflogsumm.pl -d today /var/log/maillog | mail -s "Postfix Mail Report" root
+     
+</PRE>
+          </TD>
+        </TR>
+      </TABLE>
+
+      <P>L'utente indicato alla fine della riga precedente riceverà delle
+      email contenenti un'analisi dei log di postfix.</P>
+    </DIV>
+
+    <DIV class="NAVFOOTER">
+      <HR align="LEFT" width="100%">
+
+      <TABLE width="100%" border="0" cellpadding="0" cellspacing="0">
+        <TR>
+          <TD width="33%" align="left" valign="top"><A href=
+          "postfix.html">Indietro</A></TD>
+
+          <TD width="34%" align="center" valign="top"><A href=
+          "index.html">Partenza</A></TD>
+
+          <TD width="33%" align="right" valign="top"><A href=
+          "disattivazionesendmail.html">Avanti</A></TD>
+        </TR>
+
+        <TR>
+          <TD width="33%" align="left" valign="top">Postfix</TD>
+
+          <TD width="34%" align="center" valign="top"><A href=
+          "postfix.html">Risali</A></TD>
+
+          <TD width="33%" align="right" valign="top">Disattivazione e
+          disinstallazione di Sendmail</TD>
+        </TR>
+      </TABLE>
+    </DIV>
+  </BODY>
+</HTML>
+

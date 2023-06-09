@@ -1,0 +1,473 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>email</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Basic Network Commands"
+HREF="c3044.html"><LINK
+REL="PREVIOUS"
+TITLE="FTP Clients"
+HREF="x3130.html"><LINK
+REL="NEXT"
+TITLE="lynx"
+HREF="x3286.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x3130.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 13. Basic Network Commands</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x3286.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="EMAIL"
+>email</A
+></H1
+><P
+>Electronic mail is one of the most popular things one can do on the
+Internet.  In 1998, it was reported that more electronic mail was sent
+than regular mail.  It is indeed common and useful.</P
+><P
+>Under Slackware, we provide a standard mail server, and several mail
+clients.  All of the clients discussed are text-based.  A lot of Windows
+users may be against this, but you will find that a text based client is
+very convienent, especially when checking mail remotely.</P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="PINE"
+>pine</A
+></H2
+><P
+><B
+CLASS="COMMAND"
+>pine</B
+>(1) is not <B
+CLASS="COMMAND"
+>elm</B
+>.  Or so the saying 
+goes.  The University of Washington created their program for Internet news 
+and email out of a need for an easy mail reader for their students.  
+<B
+CLASS="COMMAND"
+>pine</B
+> is one of the most popular email clients in use today
+and is available for nearly every flavor of 
+<SPAN
+CLASS="TRADEMARK"
+>Unix</SPAN
+> and even 
+<SPAN
+CLASS="TRADEMARK"
+>Windows</SPAN
+>.</P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 13-2. The Pine main menu.</B
+></P
+><P
+><IMG
+SRC="grfx/pine.gif"></P
+></DIV
+><P
+>You will see a menu of commands and a row of command keys at the bottom.  
+<B
+CLASS="COMMAND"
+>pine</B
+> is indeed a complex program, so we will not discuss 
+every feature about it here.</P
+><P
+>To see what's in your inbox, type <B
+CLASS="KEYCAP"
+>i</B
+>.  Your messages are 
+listed with their date, author, and subject.  Highlight the message you want 
+and press <B
+CLASS="KEYCAP"
+>enter</B
+> to view it.  Pressing <B
+CLASS="KEYCAP"
+>r</B
+> will 
+start a reply to the message.  Once you have written the response, type 
+<TT
+CLASS="USERINPUT"
+><B
+>Ctrl+X</B
+></TT
+> to send it.  You can press <B
+CLASS="KEYCAP"
+>i</B
+> to 
+get back to the message listing.</P
+><P
+>If you want to delete a message, press <B
+CLASS="KEYCAP"
+>d</B
+>.  It will mark the 
+highlighted message for deletion.  <B
+CLASS="COMMAND"
+>pine</B
+> deletes the mail 
+when you exit the program.  <B
+CLASS="COMMAND"
+>pine</B
+> also lets you store your 
+mail in folders.  You can get a listing of folders by pressing 
+<B
+CLASS="KEYCAP"
+>l</B
+>.  At the message listing, press <B
+CLASS="KEYCAP"
+>s</B
+> to save 
+it to another folder.  It will ask for the folder name to write the message to.</P
+><P
+><B
+CLASS="COMMAND"
+>pine</B
+> offers many, many features; you should definitely 
+have a look at the man page for more information.  It will contain the latest 
+information about the program.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ELM"
+>elm</A
+></H2
+><P
+><B
+CLASS="COMMAND"
+>elm</B
+>(1) is another popular text-based email client.  Though 
+not quite as user friendly as <B
+CLASS="COMMAND"
+>pine</B
+>, it's definitely been 
+around a lot longer.</P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 13-3. Elm main screen.</B
+></P
+><P
+><IMG
+SRC="grfx/elm.gif"></P
+></DIV
+><P
+>By default, you are placed in your inbox.  The messages are listed with
+the message number, date, sender, and subject.  Use the arrow keys to
+highlight the message you want.  Press Enter to read the message.</P
+><P
+>To compose a new message, type <B
+CLASS="KEYCAP"
+>m</B
+> at the main screen.  The 
+<B
+CLASS="KEYCAP"
+>d</B
+> key will flag a message for deletion.  And the 
+<B
+CLASS="KEYCAP"
+>r</B
+> key will reply to the current message you are reading.  All 
+of these keys are displayed at the bottom of the screen with a prompt.</P
+><P
+>The man page discusses <B
+CLASS="COMMAND"
+>elm</B
+> in more detail, so you will 
+probably want to consult that before using <B
+CLASS="COMMAND"
+>elm</B
+>.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="MAILX"
+>mailx</A
+></H2
+><P
+><B
+CLASS="COMMAND"
+>mailx</B
+>(1) is a command line driven mail client.  It is very 
+primitive and offers pretty much nothing in the way of user interfaces.  
+However, <B
+CLASS="COMMAND"
+>mailx</B
+> is handy for times when you need to quickly 
+mail something, scripting a bulk mailer, or something similar.</P
+><P
+>The basic command line is:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>mailx -s &lt;subject&gt; &lt;to-addr&gt;</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+><B
+CLASS="COMMAND"
+>mailx</B
+> reads the message body from standard input.  So you 
+can cat a file into this command to mail it, or you can just type text and hit 
+<TT
+CLASS="USERINPUT"
+><B
+>ctrl+D</B
+></TT
+> when finished with the message.</P
+><P
+>Here is an example of mailing a program source file to another person.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>cat randomfunc.c | mailx -s "Here's that function" \
+   asdf@example.net</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The man page explains more of what <B
+CLASS="COMMAND"
+>mailx</B
+> can do, so you 
+will probably want to have a look at that before using it.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x3130.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x3286.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>FTP Clients</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c3044.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>lynx</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

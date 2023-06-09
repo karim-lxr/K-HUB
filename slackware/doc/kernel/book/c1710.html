@@ -1,0 +1,451 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Booting</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Configuration"
+HREF="p621.html"><LINK
+REL="PREVIOUS"
+TITLE="Summary"
+HREF="x1705.html"><LINK
+REL="NEXT"
+TITLE="LOADLIN"
+HREF="x1765.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1705.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1765.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="BOOTING"
+>Chapter 7. Booting</A
+></H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c1710.html#LILO"
+>LILO</A
+></DT
+><DT
+><A
+HREF="x1765.html"
+>LOADLIN</A
+></DT
+><DT
+><A
+HREF="x1776.html"
+>Dual Booting</A
+></DT
+><DT
+><A
+HREF="x1885.html"
+>Summary</A
+></DT
+></DL
+></DIV
+><P
+>The process of booting your Linux system can sometimes be easy and
+sometimes be difficult.  Many users install Slackware on their computer
+and that's it.  They just turn it on and it's ready to use.  Others,
+however, must use another operating system for certain tasks, so they need
+both operating systems available on the machine.</P
+><P
+>This section covers using LILO and Loadlin, the two booters included with
+Slackware.  It also explains some typical dual booting scenarios and how
+you could go about setting it up.</P
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="LILO"
+>LILO</A
+></H1
+><P
+>   The Linux Loader, or LILO, is the most popular booter in use on Linux
+   systems.  It is quite configurable and can easily be used to boot other
+   operating systems.
+   </P
+><P
+>   Slackware Linux comes with a menu-driven configuration utility called
+   <B
+CLASS="COMMAND"
+>liloconfig</B
+>.  This program is first run during the 
+   setup process, but you can invoke it later by typing 
+   <B
+CLASS="COMMAND"
+>liloconfig</B
+> at the prompt.
+   </P
+><P
+>   LILO reads its settings from the <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+>(5)
+   file.  It is not read each time you boot up, but instead is read each time
+   you install LILO.  LILO must be reinstalled to the boot sector each time you 
+   make a configuration change. <B
+CLASS="COMMAND"
+>liloconfig</B
+> will help you 
+   build the configuration file so that you can install LILO for your system.
+   If you prefer to edit <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> by hand, then
+   reinstalling LILO just involves type <B
+CLASS="COMMAND"
+>/sbin/lilo</B
+> at the
+   prompt.
+   </P
+><P
+>   When you first invoke <B
+CLASS="COMMAND"
+>liloconfig</B
+>, it will look like this:
+   </P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 7-1. The initial liloconfig screen.</B
+></P
+><P
+><IMG
+SRC="grfx/liloconfig.first.gif"></P
+></DIV
+><P
+>   If this is your first time setting up LILO, you should pick 
+   &#8220;simple&#8221;.  Otherwise, you might find &#8220;expert&#8221; 
+   to be faster if you are familiar with LILO and Linux.  Selecting 
+   &#8220;simple&#8221; will begin the LILO configuration.
+   </P
+><P
+>   If kernel frame buffer support is compiled into your kernel, 
+   <B
+CLASS="COMMAND"
+>liloconfig</B
+> will ask which video resolution you would 
+   like to use.  This is the resolution that is also used by the XFree86 
+   frame buffer server.  If you do not want the console to run in a special 
+   video mode, selecting normal will keep the standard 80x25 text mode in use.
+   </P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 7-2. Liloconfig asking what video mode to use for the framebuffer.</B
+></P
+><P
+><IMG
+SRC="grfx/liloconfig.framebuffer.gif"></P
+></DIV
+><P
+>   The next part of the LILO configuration is selecting where you want it
+   installed.  This is probably the most important step.  The list below
+   explains the installation places:
+   </P
+><P
+></P
+><DL
+><DT
+>Root</DT
+><DD
+><P
+>This option installs LILO to the beginning of your Linux root
+         partition.  This is the safest option if you have other operating
+         systems on your computer.  It ensures that any other booters are not
+         overwritten.  The disadvantage is that LILO will only load from here
+         if your Linux drive is the first drive on your system.
+         </P
+></DD
+><DT
+>Floppy</DT
+><DD
+><P
+>This method is even safer than the previous one.  It creates a
+         boot floppy that you can use to boot your Linux system.  This keeps the
+         booter off the hard disk entirely, so you only boot this floppy when
+         you want to use Slackware.
+         </P
+></DD
+><DT
+>MBR</DT
+><DD
+><P
+>You will want to use this method if Slackware is the only
+         operating system on your computer, or if you will be using LILO to
+         choose between multiple operating systems on your computer.
+         </P
+><DIV
+CLASS="CAUTION"
+><P
+></P
+><TABLE
+CLASS="CAUTION"
+WIDTH="90%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="images/caution.gif"
+HSPACE="5"
+ALT="Caution"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>            This option will overwrite any other booter you have in the MBR.
+            </P
+></TD
+></TR
+></TABLE
+></DIV
+></DD
+></DL
+><P
+>   After selecting the installation location, <B
+CLASS="COMMAND"
+>liloconfig</B
+> 
+   will write the
+   configuration file and install LILO.  That's it.  If you select the
+   &#8220;expert&#8221; mode you will receive a special menu.  This menu 
+   allows you to tweak the <TT
+CLASS="FILENAME"
+>/etc/lilo.conf</TT
+> file, add 
+   other operating systems to your boot menu, and set LILO to pass special
+   kernel parameters at boot time.  The expert menu looks like this:
+   </P
+><DIV
+CLASS="FIGURE"
+><P
+><B
+>Figure 7-3. liloconfig &#8220;expert&#8221; mode.</B
+></P
+><P
+><IMG
+SRC="grfx/liloconfig.expert.gif"></P
+></DIV
+><P
+>   Whatever your system configuration is, setting up a working boot loader is
+   easy. <B
+CLASS="COMMAND"
+>liloconfig</B
+> makes setting it up a cinch.  However, 
+   there are instances where LILO just won't work on a system.  Fortunately, 
+   there are other options.
+   </P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1705.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1765.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Summary</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="p621.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>LOADLIN</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

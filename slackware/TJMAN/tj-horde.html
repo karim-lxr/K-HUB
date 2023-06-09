@@ -1,0 +1,292 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+
+	<STYLE TYPE="text/css">
+	<!--
+P	 {
+			margin-bottom : 0cm ;
+			Margin-Left : 2.000000cm ;
+			Margin-Right : 2.000000cm;
+
+			widows : 2 ;
+			orphans : 2  ;
+			Font-Family : arial ;
+			Font-Size : 12pt ;
+			Color : black
+		}
+
+H1	 {
+
+			margin-bottom : 0.11cm ;
+			widows : 2 ;
+			orphans : 2  ;
+			Font-Family : Times New Roman, serif ;
+			Font-Size : 16pt
+		}
+
+H2	 {
+
+			margin-bottom : 0.11cm ;
+			widows : 2 ;
+			orphans : 2  ;
+			Font-Family : Times New Roman, serif ;
+			Font-Size : 12pt ;
+			Font-Style : Italic;
+			color: blue
+		}
+
+H3	 {
+			margin-top : 0cm ;
+			margin-bottom : 0cm ;
+			font-weight : medium ;
+			widows : 2 ;
+			orphans : 2 ;
+			page-break-before : auto  ;
+			Font-Family : Times New Roman, serif ;
+			Font-Size : 11pt
+
+		}
+
+@page	 {
+
+			margin-top : 12.5cm ;
+			margin-bottom : 2cm  ;
+			Margin-Left : 2.000000cm ;
+			Margin-Right : 2.000000cm
+		}
+
+-->
+
+</STYLE>
+
+<title>tj horde install</title>
+<meta name="GENERATOR" content="Arachnophilia 4.0">
+<meta name="FORMATTER" content="Arachnophilia 4.0">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Imp-Horde install</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel.  nov-01-2000
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.com</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+</head>
+
+<body>
+<br>
+<h2>package</h2>
+<ul>
+<li>phplib-7.2b.tar.gz
+<li>horde-1.2.3.tar.gz
+<li>imp-2.2.3.tar.gz
+</ul>
+<br>
+<h2>tj packages</h2>
+<ul>
+<li>old-horde-tj-2.0.1.tgz
+<li>tj-horde-imp-2.2.3.tgz
+</ul>
+<p>
+old-orde package, dont' require phplib, but doesnt work with php > 4.x, tj-horde-imp, is a tarball
+containt all feature, and SuSE tree layout, use with caution and read <a href="#README">TJREADME</a>
+</p>
+
+<h2>tested on :</h2>
+<ul>
+<li>phpmod 3.016
+<li>phpmod 4.03
+</ul>
+
+<h2>Required Layout (SuSE WEB)</h2>
+<pre>
+
+/
+/ETC/HTTPD/  (php3.ini or php.ini)
+¦
+¦
+/USR/LOCAL
+             ¦
+             ¦______/PHP  (phplib)
+             ¦
+             ¦
+             ¦___________/HTTPD/HTDOCS/  (web root )
+                                     ¦
+                                     ¦
+                                     ¦________/HORDE   (moved untared files)
+                                                 ¦ 
+                                                 ¦_________/IMP (moved untared files)
+
+
+
+</pre>
+<br>
+<h2>flowsheet:</h2>
+<p>
+Untar:
+1) horde,
+2) imp in horde tree
+
+<br>move PHPLIB from HORDE in  /usr/local
+<br>make setup configurable with ./install.sh in HORDE tree
+<br>dump in MySQL the script.sql and reload grant
+<br>modify local.inc in PHPLIB , see sample below
+<br>modify php3.ini or php.ini, see sample below, and
+restart apache
+<br>point with your browser yoursite/horde/test.php3
+<br>make sure with the test run properly without error, see samples below
+if this is good, now chmod 000 setup.php3 in HORDE tree, 
+now imp works!</p>
+
+<h2>modify php3.ini</h2>
+
+<table bgcolor="#F0F0F0"border="0">
+<tr>
+    <td>
+
+<pre>
+;;;;;;;;;;;;;;;;;
+; Data Handling ;
+;;;;;;;;;;;;;;;;;
+magic_quotes_gpc        = Off		; magic quotes for incoming GET/POST/Cookie data
+magic_quotes_runtime    = Off		; magic quotes for runtime-generated data, e.g. data from SQL, from exec(), etc.
+magic_quotes_sybase     = Off		; Use Sybase-style magic quotes (escape ' with '' instead of \')
+track_vars             	= On		; enable $HTTP_GET_VARS[], $HTTP_POST_VARS[] and $HTTP_COOKIE_VARS[] arrays
+; automatically add files before or after any PHP 3.0 document
+auto_prepend_file=/usr/local/php/prepend.php3
+auto_append_file	=
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+; Paths and Directories ;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+include_path=.:/usr/local/php
+#include_path =                  ; UNIX: "/path1:/path2"  Windows: "\path1;\path2"
+
+</pre>
+	</td>
+</tr>
+</table>
+<p>essentially: Data Handling and Include_path, Warning path synopsis make with exact separator<code>[ .:/ ]</code>, 
+the php directory contain the /horde/phplib includes files, out of web root directory :-)</p>
+&nbsp;<br>
+<h2>modify local.inc</h2>
+<div align=center>
+<table bgcolor="#F0F0F0"border="0">
+<tr>
+    <td>
+<pre>
+
+/*
+ * $Horde: horde/phplib/local.inc,v 1.3.2.7 2000/09/21 13:48:43 bjn Exp $
+ *
+ * Please read through this file's comments to make sure the settings
+ * reflect your desired configuration.
+ */
+
+
+/*
+ * Session storage definition
+ *
+ */
+
+/* To use an SQL database, uncomment and edit the following: */
+class HordeDB extends DB_Sql {
+  var $Host = 'localhost';
+  var $Database = 'horde';
+  var $User = 'hordemgr';
+  var $Password = 'hordemgr';
+  var $Port = '';
+#
+#  function halt($msg) {
+#    // Printing here causes race condition trouble, so don't.
+#    //printf("<b>Database error (HordeDB):</b> %s<br>\n", $msg);
+#  }
+}
+#
+class HordeCT extends CT_Sql {
+  var $database_class = 'HordeDB';         // Which database class to use...
+  var $database_table = 'active_sessions'; // and find our data in this table.
+}
+
+/*
+ * The following classes define our session, authentication, and user
+ * properties.  You probably don't need to make any changes to them.
+ */
+class HordeSession extends Session { var $classname = 'HordeSession'; 
+  var $cookiename     = '';           // defaults to classname
+  var $magic          = 'chuckmIMP';  // ID seed
+  var $mode           = 'cookie';     // We propagate session IDs with cookies
+  var $fallback_mode  = 'get';
+  var $lifetime       = 0;            // 0 = do session cookies, else minutes
+  var $that_class     = 'HordeCT';    // name of data storage container
+  var $gc_probability = 5;
+  var $allowcache     = 'no';         // don't allow any caching of pages
+}
+
+class HordeSessionCached extends HordeSession {
+  var $allowcache     = 'private';    // allow private caching of pages
+}
+
+</pre>
+	</td>
+</tr>
+</table>
+</div>
+<p>Uncomment ONLY the above statement, this config work correctly with MySQL</p>
+<br><br>
+<h2>Execute test</h2>
+<p>execute de script <website>/horde/test.php3, before you runnig imp, the answer of diagnostic its good for debug,
+if the configuration iots properly, this is the only <a href="./DOC/testok/test1.html">correct output</a>  </p>
+<h2>Modify database password</h2>
+<p>in mod PHP 4.03 pl1, a  database connection with default db password, make a security hole and doesnt work,
+fix it in MySQL db, table users, for horde user. And change data in /usr/local/php, /horde/imp/default.php3
+<br>
+
+<A NAME="README">.</A>
+<pre>
+TJREADME nov-2000
+package tj
+
+
+///////////////////////
+* Only web layout SuSE*
+///////////////////////
+
+untar in " / " (root filesystem), will produce:
+
+- copy and paste
+/etc/httpd/ (samples of php3.ini.horde, httpd.conf.horde)
+
+- includes phplib
+/usr/local/phlib 
+
+- complete horde-imp
+/usr/local/httpd/htdocs/horde/imp
+
+- this readme and other stuff
+/usr/local/httpd/htdocs/tjhordedoc
+</pre>
+
+
+</body>
+</html>

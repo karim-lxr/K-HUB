@@ -1,0 +1,73 @@
+Date:    27.03.2002 18:03
+From:    Pierre Bouvier
+To:      <samba-fr@phobos.ac-grenoble.fr>
+Copy:    
+Subject: Re: [samba-fr] Probl  
+
+
+Le 27/03/02 17:54, « Alex CUILLERIER » <llexus@wanadoo.fr> a écrit :
+
+Pour une machine en w2k il n'est pas nécessaire de faire des changements
+dans la base de registre
+
+
+Pierre
+
+
+> Super les modifs dans la base de registres... je sais ce qu'il me reste à
+> faire ce soir!
+> :)
+> Vous parlez de WinXP depuis tout à l'heure... faut-il aussi ajouter ces
+> modifications dans la base de registres sur un client Win2000pro qui voudrait
+> joindre un pdc samba-linux??
+> 
+>> Messsage du 27/03/2002 16:13
+>> De :  <samba-fr@phobos.ac-grenoble.fr>
+>> A :  <samba-fr@phobos.ac-grenoble.fr>
+>> Copie à : 
+>> Objet : Re: [samba-fr] Probl
+>> 
+>> On 27/Mar/2002 13:19:03, Pierre Bouvier  wrote:
+>> Pour un xp pro, il faut aller dans la base  de registre et changer certains
+>> paramètres qui sont
+>> HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\Netlogon\Parameter
+>> Resquirestrongkey=dword:00000000
+>> Resquiresignorseal=dword:00000000
+>> HKEY_LOCAL_MACHINE\SYSTEM\ControlSet002\Services\Netlogon\Parameter
+>> Resquirestrongkey=dword:00000000
+>> Resquiresignorseal=dword:00000000
+>> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Netlogon\Parameter
+>> Resquirestrongkey=dword:00000000
+>> Resquiresignorseal=dword:00000000
+>> Après normalement cela marche
+>> 
+>> 
+>> Merci; j'avais déjà modifié le premier paramètre (Resquiresignorseal) mais
+>> pas le deuxième. Je vais essayer.
+>> 
+>> Amitiés
+>> 
+>> 
+>> 
+>> ______________________________________________________
+>> Jose Sanchez
+>> (utilisateur vérifié de sanchez-j.nom.fr)
+>>  
+>> 
+>> 
+>> 
+>> 
+>> 
+>> 
+>> [ message.footer (1 Ko)]
+> 
+> 
+> 
+> Want to subscribe / unsubcribe / get archive  ?
+> Go to http://listes.ac-grenoble.fr/wws/info/samba-fr
+>               
+
+
+Want to subscribe / unsubcribe / get archive  ?
+Go to http://listes.ac-grenoble.fr/wws/info/samba-fr
+                

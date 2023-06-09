@@ -1,0 +1,15 @@
+# TJ 2004 dec 10 
+./configure \
+--with-upstype=smartups \
+--with-upscable=940-0024C \
+--with-serial-dev=/dev/ttyS0 \  
+--prefix=/usr \
+--sbindir=/sbin \
+--sysconfdir=/etc/apcupsd \
+--with-cgi-bin=/var/www/cgi-bin \
+--enable-cgi \
+--with-css-dir=/var/www/htdocs/apcupsd/css \
+--with-log-dir=/var/log/apcupsd \
+--enable-pthreads \
+--enable-powerflute \
+

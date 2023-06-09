@@ -1,0 +1,407 @@
+9-mag-04
+
+Localizzazione
+---------------
+Si ottiene un elenco dei nomi utilizzabili per definire la localizzazione con il comando seguente:
+$ locale -a[Invio]
+'locale'  permette di conoscere l'impostazione del proprio sistema di localizzazione 
+
+LANG permette di definire la localizzazione predefinita per le variabili del gruppo LC_* che non siano state definite
+#!/bin/sh #
+ LANG=de_CH.iso88591 
+ export LANG
+
+Alcune opzioni 
+-a | --all-locale 	
+Emette l'elenco di tutti i nomi utilizzabili nelle definizioni di localizzazione.
+
+-m | --charmaps 	
+Emette l'elenco di tutti i nomi riferiti a definizioni di mappe di caratteri
+
+
+localizzazione samba 3.0
+--------------------
+backward compat. per PDC OK
+Per le corrispondenze degli accenti, soprattutto nelle migrazioni da samba perecedenti
+
+verifica charset installato
+Run testparm -v | grep "dos charset"
+
+si può forzare smb.conf  con le direttive
+
+unix charset=	ISO8859-1
+display charset=	UTF-8
+dos charset=	CP850
+
+
+installazione pacchetti
+-----------------------
+pkgtool
+Slackware fornisce un programma interattivo, dialog based, per gestire i tuoi pacchetti
+Puoi usare pkgtool per gestire l'aggiunta e la rimozione dei pacchetti dal tuo sistema. 
+
+
+
+installpkg 
+
+Scrivendo installpkg [nomepacchetto].tgz puoi installare pacchetti sul tuo sistema. Ci sono anche
+ alcune opzioni che è possibile dare: 
+-warn: genera una specie di report di quello che accadrebbe se tu installassi il pacchetto e spedice 
+ il report allo 'standard output'. 
+-m: crea un pacchetto con il nome che specifichi dai files, le directories, e le subdirectories nella dir corrente. 
+-r: installa i contenuti della directory corrente e le sotto directories come se fosse un pacchetto
+ con il nome che tu specifichi.
+
+upgradepkg 
+
+Aggiorna un pacchetto che è già installato con il pacchetto specificato.
+ Se i pacchetti hanno lo stesso nome,
+ allora dovrai solo eseguire upgradepkg nomepacchetto per l'aggiornamento.
+ Se il nuovo pacchetto ha un nome diverso da quello
+ già presente sul sistema, allora dovrai usare upgradepkg nomevecchio%nomenuovo.
+ Non aggiungere spazi tra i nomi dei due pacchetti
+
+removepkg 
+
+Nella sua forma più semplice, removepkg rimuoverà il pacchetto con il nome che tu specifichi.
+ La sintassi generale è removepkg nomepacchetto
+. Esistono anche alcune opzioni che è possibile specificare: 
+-warn: genera un report di quello che accadrebbe se tu rimuovesse il pacchetto e lo spedisce 
+ allo 'standard out'. Non rimuove il pacchetto. 
+-preserve: questa opzione ricostituirà il 'subtree' del pacchetto sotto /tmp/preserved_packages/nomepacchetto,
+ dove nomepacchetto è il nome del pacchetto che specifichi. 
+-copy: questo ricostruisce una copia del pacchetto sotto /tmp/preserved_packages/nomepacchetto, 
+ma non lo rimuove (ha lo stesso effetto di -warn -preserve). 
+-keep: salva i files temporanei creati da removepkg. Utile per propositi di debug.
+
+
+Apache 2.0
+-----------
+
+./configure --prefix=/www --enable-mods-shared=all --enable-so --enable-speling --enable-ssl --with-ssl=/usr/local/openssl
+make 
+make install
+
+
+SWARET
+-------
+dependencies bc-1.06-i386-2.tgz
+
+To Install: installpkg swaret-1.6.2-noarch-1.tgz
+To Upgrade: upgradepkg swaret-1.6.2-noarch-1.tgz 
+edit /etc/swaret.conf.new! and rename swaret.conf
+
+USAGE:
+
+swaret --update  			#genera lista pacchetti disponibili per
+
+swaret --upgrade -a 		# prima produce lista e poi upgrada tutto
+
+swaret --upgrade <pacchetto>	# upgrada pacchetto
+
+swaret --get <pacchetto		# installa nuovo package e propone dipendenze
+
+swaret --show <pacchetto> -i	# info su pacchetto installato
+
+CPAN
+------
+inizializza con
+perl -MCPAN -e shell
+perl -MCPAN -e 'install nome::modulo'
+
+
+installa SSLeay
+
+perl -MCPAN -e 'install Net::SSLeay'
+nella root cpan modulo SSLeavy make install
+
+
+
+1) COME FACCIO A SAPERE SE HO INSTALLATO UN PACCHETTO?
+---------------------------------------------------------
+
+Ho notato che sepesso viene chiesto come fare a sapere quali
+pacchetti sono stati installati sulla propria Slackware Box.
+Bene!! niente di piu' sempice chiaro lineare e palese :)
+Basta eseguire il seguente comando:
+
+ls /var/adm/packages/
+
+Se si vuole essere più raffinati si puo' usare un comando
+del tipo:
+
+ls /var/adm/packages/ | grep partedelnomedelpacchetto
+oppure ...
+ls /var/adm/packages/*partedelnomedelpacchetto*
+
+Bene direte voi! Ma se voglio sapere in quale di questi
+pacchetti è contenuto il tal file ... come faccio?
+Azz...!! Questa è piu' difficile ma si puo' fare :)
+Tutti i file presenti in /var/adm/packages contengono
+l'lenco di file installati dai singoli pacchetti. Quindi
+si puo' provare un qualcosa del genere:
+
+cd /var/adm/packages
+for file in `ls`; do grep -l "filechestocercando" $file; done
+
+Questo vi darà il nome del pacchetto/i che installa il
+file che state cercando :)
+Bene, ma non vi vedo ancora soddisfatti! Come faccio
+per i pacchetti che non ho ancora installato??
+Il tal programma mi richiede la tal libreria ....in quale 
+pacchetto la trovo?
+RiAzz..!! Sempre piu' difficile, ma anche questa se po' fa' :)
+Prendete il vostro CD della Slack e lo mettete nel lettore
+poi:
+
+mount /cdrom
+cd /cdrom/slackware
+for file in `ls */*.txt`; do grep -l "libCheMiServe" $file; done
+
+Piu' semplice a dirsi che a farsi e soprattutto .. lunghino :)
+
+Ma c'è di più, molto di piu'!!! Quando rimuovete un
+pacchetto (con le vostre manine pelose) e vi accorgete che
+in quel pacchetto c'era un file, una lib o un comando
+fondamentale per la vostra esistenza, non disperate!!!
+Provate a dare un occhio in /var/adm/removed_packages/.
+Troverete le prove dei vostri misfatti (con tanto di 
+impronte digitali :).
+
+
+2) STAMPARE
+------------
+
+Tanti tanti tanti hanno chiesto come si fa a stampare in Slackware.
+E io mi domando ... ma le mail di Patrick Volkerding non le legge
+nessuno????
+E si! Se qualcuno di voi ci ha fatto caso, subito dopo l'instal-
+lazione l'utente root riceve una mail di Patrick Volkerding che
+da alcuni suggerimenti su come configurare alcune cosucce, tra
+le quali, ovviamente, la stampante :)
+Per chi avesse ignorato/cancellato questa mail la riposto in 
+allegato.
+Comunque il problema della stampa si risolve con pochi semplici 
+passi:
+
+- Installate tutti i pacchetti di apsfilter:
+su -
+Password: <passwordsegretadiroot>
+mount /cdrom
+cd /cdrom/slackware/ap/
+installpkg apsfilter-*.tgz
+
+- Setup di apsfilter
+cd /usr/share/apsfilter/
+./SETUP
+
+- Verifica e riavvio di lpd (opzionale)
+ps aux | grep lpd
+(se non ricevete un messaggio del tipo : ... lpd Waiting
+allora lanciate semplicemente : /usr/sbin/lpd )
+killall -HUP lpd
+
+
+MAKE BOOT DISK
+---------------
+
+Inserite un floppy digitate: 
+fdformat /dev/fd0h1440  or ls /dev/fd* se manca periferica
+uname -r da la versone attuale del kernel
+
+makebootdisk apre prog interattivo con prompts per posizione kernel e sistema di avvio: syslinux or lilo
+verifica funzionamento
+
+
+Posizioni Kernel Slack
+----------------------
+in genere é presente il file vmlinuz-VERSIONE_KERNEL ,per la Slackware vmlinuz 
+
+/vmlinuz
+/boot/vmlinuz (corretta)
+/usr/src/linux/arch/i386/boot/zImage or bzImage
+/usr/src/linux/arch/i386/boot/compressed/zImage or bzImage
+
+
+Ricompilazione Kernel
+---------------------
+controllo contenuto  /usr/src  con ls -l 
+- rimuovere il link simbolico linux -> kernel_ver/
+- se si ricompila é meglio fare backup di cd /lib/modules/ kernel_ver/
+si può anche modificare il file "Makefile" nella riga che definisce la variabile EXTRAVERSION, se modificassi la 
+variabile cosi': EXTRAVERSION = PP verrebbero decompressi i moduli in una directory /lib/modules/VERSIONE_KERNEL-PP
+evitando di sovrascrivere la cartella gia' presente
+
+scaricare i nuovi sorgenti con lynx da www.kernel.org, scegliendo l'opzione F (full source)
+e decomprimere in /usr/src la tarball bz2 con tar -jxvf <linux-ver.tar.bz2>
+
+comando make menuconfig genera da shell l'interfaccia ncurses per le opzioni di compilazione
+Indicazioni per la lingua
+# Native Language Support
+CONFIG_NLS_DEFAULT="iso8859-15" (DEFAULT NLS OPTION) mod manuale
+CONFIG_NLS_CODEPAGE_437=m
+CONFIG_NLS_CODEPAGE_850=m
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_15=m
+CONFIG_NLS_UTF8=m
+
+save configuration to an alternate file per terminare menuconfig con nome proposto più  kernel_ver
+
+make dep Crea le dipendenze per la compilazione dei sorgenti
+make clean Esegue un clean
+make bzImage Crea l'immagine del kernel che verra' caricata al boot
+make modules Compila i moduli
+make modules_install Copia i moduli in /lib/modules/$KERNEL_VERSION
+
+ricreare il link simbolico eliminato in precedenza dove kernel_ver é il nuovo kernel 
+ln -s linux-kernel_ver linux
+
+cp /usr/src/linux/System.map /boot/System.map-kernel_ver
+ln -s /boot/System.map-KERNEL_VERSION /boot/System.map 
+
+
+
+
+cp /usr/src/linux/.config /boot/config-kernel_ver
+ln -s /boot/config-kernel_ver/boot/config
+
+cp /usr/src/linux/arch/i386/boot/bzImage /boot/bzImage-VERSIONE_KERNEL
+CAVE: no vmlinux (é altra cosa)
+
+
+LILO
+----
+aggiungi nuovo kernel, lasciando le precedendi impost. a lilo.conf
+
+posizione dove verrà installato lilo
+boot=/dev/hda (se MBR)
+boot=/dev/fd0 (se floppy)
+
+# nuovo kernel
+image=/boot/vmlinuz-kernel_ver
+root=/dev/hda4 
+label=Slakernel_ver
+
+reinstallare lilo -v 
+
+
+Patrick Volkerding
+------------------
+
+-- Remember those screens you saw while each package was installing? You
+   can see all the information (and more) again. The simplest way is to use
+   the 'pkgtool' utility to view the package contents. Another way is to use
+   'less' or a text editor to read the files in /var/log/packages and
+   /var/log/scripts (this is the method I use).
+
+-- You may need to make some changes to the /etc/rc.d/rc.serial script if
+   you're using serial ports other than /dev/ttyS0 or /dev/ttyS1 (com1: and
+   com2: under DOS), or if these ports use non-standard IRQs.
+
+   I suggest using the section about halfway through that lets you set up
+   the ports manually. Here's an example of how I set up the ports on my
+   machine for /dev/ttyS0 and /dev/ttyS2:
+
+   # These are the standard COM1 through COM4 devices
+   #
+   ${SETSERIAL} /dev/ttyS0 uart 16450 port 0x3F8 irq 4
+   # ${SETSERIAL} /dev/ttyS1 uart 16450 port 0x2F8 irq 3
+   ${SETSERIAL} /dev/ttyS2 uart 16450 port 0x3E8 irq 5
+   # ${SETSERIAL} /dev/ttyS3 uart 16450 port 0x2E8 irq 3
+
+   You'll also need to uncomment the line in /etc/rc.d/rc.S that starts the
+   rc.serial script.
+
+-- If you've got hardware such as a CD-ROM drive or ethernet that doesn't
+   seem to work with Linux, it's possible that the kernel you're using
+   doesn't contain the needed support.  In that case, you can do one of
+   two things:
+
+      1.  Recompile your kernel, including the needed driver(s).
+      2.  Load the support with kernel modules.  This is probably the
+          simplest way to handle the situation.  Just edit
+          /etc/rc.d/rc.modules so that it loads the modules you need.
+
+-- If you're on a standalone LAN without a nameserver, make sure you
+   don't have a nameserver line in /etc/resolv.conf, or you may experience
+   delays with many network commands as they attempt to query the bogus
+   nameserver.
+
+-- Want to run NFS? You'll to install the portmap and nfs-utils
+   packages.  Then, edit your /etc/exports to allow NFS access. (see 'man
+   exports' for examples)  Once you've set up /etc/exports, the NFS
+   daemons should run automatically at boot.
+
+-- Do you have an IDE based CD-RW drive?  If so, you'll need to use
+   the SCSI emulation kernel module, which will allow your drive to look
+   like a SCSI CD burner to cdrdao, cdrecord, and other Linux CD
+   burning applications.  This module is loaded by default, but you'll
+   also need to pass an option to the kernel telling it to use SCSI
+   emulation for a specific device, otherwise the ATAPI driver will be
+   used.  Let's say your CD-RW drive is /dev/hdc, then you'd want to pass
+   the "hdc=ide-scsi" option to the kernel.  You can do this with an
+   append command in /etc/lilo.conf:
+     append="hdc=ide-scsi"
+   After editing lilo.conf, you must run lilo to reinstall it.
+   You can also pass the hdc=ide-scsi option on a bootdisk command line.
+
+-- A lot of people ask me how to set up their printer under Linux.  In my
+   opinion, the best method is to set up Apsfilter, a system that allows
+   you to print many file formats (DVI, PS, PDF, text) by just sending
+   them to the print spooler with lpr.  To set this up, do the following
+   steps:
+
+   1.  Make sure you're loading the parallel driver in /etc/rc.d/rc.modules.
+       This should be done by default.
+   2.  Install the LPD printer software.  This is the "lprng" package on the
+       A series.  Odds are it's already been installed.
+   3.  You'll probably want to have the TCP/IP subsystem installed and
+       configured (at least for loopback).  The "tcpip" package is part of
+       the N series, and the "netconfig" script is used to do a basic TCP/IP
+       configuration.
+   4.  Apsfilter uses a variety of other filters that it expects to find
+       installed.  You'll want to install the "ghostscript" and
+       "gnu-gs-fonts" packages on the AP series to add Ghostscript if you
+       want the ability to print PostScript documents.  You'll also need
+       the "libjpeg" package from the L series for JPEG image support.  If
+       you want to print DVI files, install at least the default TeX
+       packages from the T series.
+   5.  Install the apsfilter package.  This package is part of the AP series,
+       so if you've done a full installation then it's already installed.
+       Otherwise, find the package in the ap directory and install it:
+
+           installpkg apsfilter-*.tgz
+
+   6.  Change into the /usr/share/apsfilter/ directory, and run the SETUP
+       program:
+
+           ./SETUP
+
+       It'll write your /etc/printcap, and you'll be all set to start
+       printing.  Once you've got it working, you can also use netatalk and
+       Samba to provide print services to Macs and Windows machines on the
+       local network with your Linux box.
+
+-- If you have a busmouse or a USB mouse, you'll need to load a mouse
+   driver module before your mouse will work.  These days, most mice are
+   serial (with a 9 pin trapazoidal plug) or PS/2 (with a 6 pin round
+   plug), and don't need a module, but if you think your mouse might need
+   a special driver, read the comments in /etc/rc.d/rc.modules to see
+   which one is needed, and edit the file to load it at boot time.  Or,
+   compile a new kernel with built in support for your mouse and install
+   that.
+
+-- To get your machine on the net with a modem and PPP, you need to install
+   the "tcpip" and "ppp" packages.  Your machine should be configured at
+   least with loopback using the "netconfig" utility.  Also, be sure the
+   serial port your modem uses is correctly configured.  If in doubt,
+   take a look through /etc/rc.d/rc.serial.  Then, use "pppsetup" to
+   configure the dialup process.  (Additional documentation on pppsetup
+   can be found in /usr/doc/pppsetup)
+
+-- If you installed the F series, there will be lots of FAQs (lists of
+   Frequently Asked Questions with answers) /usr/doc/Linux-FAQs/, and
+   HOWTOs (files explaining how to do a particular Linux task), in
+   /usr/doc/Linux-HOWTOs/ and /usr/doc/Linux-mini-HOWTOs/. These should be
+   helpful in getting you going with Linux.  They cover most system admin
+   tasks in a lot more detail than this little email does. :^)

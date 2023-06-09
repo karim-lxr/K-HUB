@@ -1,0 +1,193 @@
+Postfix on you workstation!
+
+questo manualetto e' stato esplicitamente scritto per un mio problema sul
+server www.autistici.org / www.inventati.org ma dovrebbe valere anche su
+altre macchine (che permettono l'invio tramite smtp criptato).
+
+tenendo presente che:
+- chi esegue questa configurazione e' l'utente root
+- il nome della macchina del seguente HOWTO e' 'barakus'
+- la mailbox di questo esempio e' @inventati.org
+- il server smtp e' smtp.autisitci.org
+
+
+la seguente configurazione e' stata testata su un laptop Sony Vaio con
+distribuzione Debian sid.
+
+software necessari per testare il tutto:
+mutt				
+fetchmail			
+procmail		
+postfix			
+postfix-tls
+libsasl2
+libsasl-digestmd5-plain
+libsasl-modules-plain
+openssl
+libsasl2-modules
+
+una volta installato il software e le librerie possiamo iniziare la
+configurazione dei vari files:
+
+root@barakus:~# cd /etc/postfix/
+
+root@barakus:~# vim main.cf
+
+#######################################################################
+# see /usr/share/postfix/main.cf.dist for a commented, fuller
+# version of this file.
+
+# Do not change these directory settings - they are critical to Postfix
+# operation.
+
+command_directory = /usr/sbin
+daemon_directory = /usr/lib/postfix
+program_directory = /usr/lib/postfix
+
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+setgid_group = postdrop
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+myhostname = cioccolata
+myorigin = inventati.org
+mydestination = barakus, localhost
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+relayhost = smtp.autistici.org
+mynetworks = 127.0.0.0/8
+mailbox_command = procmail -a "$EXTENSION"
+mailbox_size_limit = 0
+recipient_delimiter = +
+
+smtp_tls_cert_file = /etc/postfix/certs/postfix-mille.crt
+smtp_tls_CAfile = /etc/postfix/certs/CAcert-db.pem
+smtp_tls_key_file = /etc/postfix/certs/postfix.key
+smtp_use_tls = yes
+smtp_sasl_password_maps=hash:/etc/postfix/sasl_pwd
+smtp_sasl_auth_enable= yes
+smtp_sasl_security_options=
+#######################################################################
+
+mentre la prima parte e' standard in qualsiasi postfix funzionante, la
+seconda serve per farsi autenticare sul server remoto.
+
+prima di compilare al meglio main.cf sono necessari alcuni passaggi molto
+importanti.
+
+creare i certificati, per fare questo devi
+
+ creare key: 
+openssl genrsa -rand file_casuale -out postfix.key 1024
+
+ creiamo la cartella /etc/postfix/certs per i vari certificati e ci
+mettiamo postfix.key
+
+ creare postfix.crt:
+openssl req -new -key postfix.key -out postfix.crt
+
+una volta creato postfix.crt va inviato ad un amministratore del server
+per essere 'firmato' in modo da essere riconosciuti quando si spedisce
+un messaggio, una volta ricevuto dall'amministratore il nostro file firmato
+lo si posizionera' in /etc/postfix/certs con proprietario root
+
+ scaricare la CA di autistici:
+http://www.autistici.org/ca/CAcert.crt
+CAcert.crt lo rinominiamo in CAcert-db.pem
+
+a questo punto ci troviamo in questa situazione: 
+abbiamo creato una cartella certs all'interno di /etc/postfix/
+
+una volta ricevuto il file firmato dall'amministratore del server,
+con un ls vediamo questo:
+
+root@barakus:/etc/postfix/certs# ls
+CAcert-db.pem  postfix-mille.crt  postfix.crt  postfix.key
+   ^^^                ^^^             ^^^          ^^^
+    |                  |               |            |
+		|                  |               |            |Chiave privata
+		|                  |               |Chiave non firmata (non serve)
+		|                  |Chiave firmata
+		|Certification Authoriti del server
+
+
+tornando al /etc/postfix/main.cf vediamo a cosa servono i vari files:
+
+smtp_tls_cert_file = /etc/postfix/certs/postfix-mille.crt
+smtp_tls_CAfile = /etc/postfix/certs/CAcert-db.pem
+smtp_tls_key_file = /etc/postfix/certs/postfix.key
+
+passiamo al file sasl_pwd
+
+root@barakus:~# cd /etc/postfix/
+
+root@barakus:~# vim sasl_pwd
+
+#######################################################################
+
+smtp.autistici.org      login:password
+
+#######################################################################
+
+la prima parte e' banalmente il server smtp, la seconda sono la tua login
+e password in chiaro, nel senso che devi scrivere proprio il tuo nome utente
+e password in un file (leggibile solo da root)
+
+se avete altri account fa lo stesso, e' sufficiente metterne uno per farvi
+riconoscere e spedirete lo stesso.
+
+una volta fatto questo dovrete soltanto lanciare alcuni comandi:
+
+postmap /etc/postfix/virtual
+postmap /etc/postfix/sasl_pwd
+
+per creare i relativi database
+
+e infine 
+
+postfix stop
+postfix start
+
+per stoppare e startare postfix
+
+se avete eseguito correttamente tutte le procedure a questo punto sarete
+in grado di inviare i vostri messaggi di posta elettronica in criptato.
+
+ad alcnune persone e' capitato di incontrare problemi nella configurazione,
+la prima cosa da fare e' controllare i log in /var/log/mail.log, uno dei
+problemi riscontrati puo' essere il seguente:
+
+[data] [host] postfix/smtp[27554]: TLS connection established to
+smtp.autistici.org: TLSv1 with cipher EDH-RSA-DES-CBC3-SHA (168/168
+bits)
+
+[data] [host] postfix/smtp[27554]: warning: SASL authentication failure:
+No worthy mechs found
+
+[data] [host] postfix/smtp[27554]: 5888DAFE39: to=<destinatario>,
+relay=smtp.autistici.org[213.140.29.37], delay=313, status=deferred
+(Authentication failed: cannot SASL authenticate to server
+smtp.autistici.org[213.140.29.37]: no mechanism available)
+
+per risolvere devi fare:
+
+root@barakus:~# ldconfig -v | grep libplain.so
+
+se non ottieni nessun output, allora devi aggiungere al file
+/etc/ld.so.conf una riga con il path del file libplain.
+Ad esempio lanciando il comando
+
+root@barakus:~# dpkg -L libsasl2-modules | grep libplain.so
+
+dovresti ottenere "/usr/lib/sasl2/libplain.so"
+
+quindi aggiungi /usr/lib/sasl2 al file /etc/ld.so.conf, e lancia
+ldconfig.
+
+tenete comunque presente che se dall'altra parte, il server su cui sta
+l'indirizzo a cui spedite, non viene supportata la crittazione il vostro
+messaggio passera' comunque in chiaro.
+
+un grazie particolare a le persone che ho stressato per riuscire a scrivere
+questo doc ;)

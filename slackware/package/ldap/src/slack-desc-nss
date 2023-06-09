@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.  Line
+# up the first '|' above the ':' following the base package name, and the '|'
+# on the right side marks the last column you can put a character in.  You must
+# make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':'.
+
+        |-----handy-ruler------------------------------------------------------|
+nss_ldap: nss_ldap (The LDAP Nameservice Switch 'NSS' module)
+nss_ldap:
+nss_ldap: This package includes a LDAP access client: nss_ldap. Nss_ldap is a
+nss_ldap: set of C library extensions which allows X.500 and LDAP directory
+nss_ldap: servers to be used as a primary source of aliases, ethers, groups,
+nss_ldap: hosts, networks, protocol, users, RPCs, services and shadow passwords,
+nss_ldap: (instead of or in addition to using PAM or NIS). 
+nss_ldap: Packaged by KAR sept 2007
+nss_ldap:
+nss_ldap: nss_ldap home: http://www.padl.com/OSS/nss_ldap.html
+nss_ldap:

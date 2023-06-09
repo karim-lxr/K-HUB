@@ -1,0 +1,14 @@
+body {
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 90%;
+}
+
+p {
+	font-family: verdana,arial,helvetica,sans-serif;
+}
+
+b{
+	margin-left: 35px;
+	font-size : 16px;
+	font-weight : bolder;
+}

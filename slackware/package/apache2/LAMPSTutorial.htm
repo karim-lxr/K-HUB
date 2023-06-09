@@ -1,0 +1,965 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>LAMPS Tutorial - Linux, Apache 2.0, MySQL, PHP4, Mod_Perl, PostgreSQL, PDFLib and Mod_SSL HowTo</title>
+<meta name="keywords" content="lamps, howto, tutorial, linux, help, webserver, apache2, apache 2, php, perl, gd, mysql, mod_perl, module, perl, freetype, SSL, https, postgresql, pdf, pdflib, php4, compile, install, explanation, problem, problems, error, errors">
+<meta name="description" content="Installation HowTo for a Linux Server with Apache 2.0 webserver, PHP, Mod-Perl, Mod-SSL, MySQL Database Server, PostgreSQL Database Server and PDFLib.">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="content-language" content="en">
+<meta name="copyright" content="copyright 2002 eFactory">
+<meta name="author" content="Christian Stengel">
+<meta name="publisher" content="eFactory Internet-Agentur, Duesseldorf">
+<script language="JavaScript1.2" src="js/action.js">
+</script>
+<script language="JavaScript1.2">
+<!--
+window.defaultStatus = "LAMPS Tutorial";preloadEnglishPage();
+function popen(site,name,prop) {
+open(site,name,prop);
+}
+// -->
+
+</script>
+<link rel="stylesheet" href="js/efactory.css">
+
+</head>
+
+<body bgcolor="#808080" background="pix/back.gif" link="#401111" vlink="#401111" alink="#401111" topmargin="1">
+
+<div align="center">
+
+<!-- logoheader -->
+<table width="782" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff"><tr><td>
+
+	<table border="0" cellpadding="0" cellspacing="1" bgcolor="#ffffff">
+	
+		<tr><td align="right" bgcolor="#152836"><img src="pix/dot_152836.gif" width="1" height="16" border="0" alt=""></td><td><img src="pix/logo_line.gif" width="150" height="16" border="0" alt=""></td></tr>
+
+		<tr><td><img src="pix/header_01.gif" width="629" height="29" border="0" alt=""></td><td><a href="http://www.efactory.de/profil.shtml" target="_blank" onmouseover="M('100');return true;"><img src="pix/logo_main.gif" width="150" height="29" border="0" alt="eFactory Internetagentur"></a></td></tr>
+		
+		<tr><td align="left" bgcolor="#152836"><a href="/" onmouseover="Pix('b7',7,'1');return true;" onmouseout="Pix('b7',7,'0');return true;"><img src="pix/b_deutsch.gif" width="148" height="16" border="0" alt="LAMPS Tutorial - Deutsche Version" name="b7"></a></td><td><img src="pix/logo_line.gif" width="150" height="16" border="0" alt=""></td></tr>
+		
+	</table>
+	
+</td></tr></table>
+<!-- end logoheader -->
+
+
+
+<!-- main -->
+<table width="782" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+
+<tr><td valign="top">
+
+	<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+	
+		<!-- left -->
+		<tr><td width="140" valign="top" background="pix/back_menu.gif">
+			
+			<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+				<tr><td colspan="2" valign="top"><img src="pix/dot_ffffff.gif" width="140" height="13" border="0" alt=""><br></td></tr>
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+				<a href="e-index.shtml" onmouseover="Pix('b0',0,'1');return true;" onmouseout="Pix('b0',0,'0');return true;"><img src="pix/bl_lamps.gif" width="140" height="16" border="0" alt="LAMPS Tutorial" name="b0"></a></td></tr>
+				
+				<tr><td colspan="2" valign="top">
+				<img src="pix/dot_ffffff.gif" width="140" height="1" border="0" alt=""><br></td></tr>
+				
+				<tr><td colspan="2" valign="top" height="6"  background="pix/back_menu.gif">
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+						
+				<!-- Untermenü-Buttons -->
+				<a href="e-index.shtml" onmouseover="Pix('b8',8,'1');return true;" onmouseout="Pix('b8',8,'0');return true;"><img src="pix/bm_introduction.gif" width="140" height="16" border="0" alt="LAMPS Tutorial Introduction" name="b8"></a><br>
+				
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+				
+				<!-- Untermenü-Buttons -->
+				<a href="e-lamps-1-3.shtml" onmouseover="Pix('b2',2,'1');return true;" onmouseout="Pix('b2',2,'0');return true;"><img src="pix/bm_lamps_1_3.gif" width="140" height="16" border="0" alt="LAMPS Tutorial v1.3" name="b2"></a><br>
+				
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+				
+				<!-- Untermenü-Buttons -->
+				<a href="e-lamps-2-0.shtml" onmouseover="Pix('b4',4,'1');return true;" onmouseout="Pix('b4',4,'1');return true;"><img src="pix/bm_lamps_2_0_on.gif" width="140" height="16" border="0" alt="LAMPS Tutorial v2.0" name="b4"></a><br>
+				
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+				
+				<!-- Untermenü-Buttons -->
+				<a href="e-archive.shtml" onmouseover="Pix('b10',10,'1');return true;" onmouseout="Pix('b10',10,'0');return true;"><img src="pix/bm_archive.gif" width="140" height="16" border="0" alt="LAMPS Tutorial Archive" name="b10"></a><br>
+				
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/back_menu.gif">
+
+				<!-- Untermenü-Buttons -->
+				<a href="e-references.shtml" onmouseover="Pix('b9',9,'1');return true;" onmouseout="Pix('b9',9,'0');return true;"><img src="pix/bm_references.gif" width="140" height="16" border="0" alt="References" name="b9"></a><br>
+				
+				</td></tr>
+				
+			</table>
+			
+			
+		</td>
+		<!-- end left -->
+		
+		<!-- end main -->
+		<td width="481" valign="top" rowspan="2">
+		
+			<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+			
+				<tr><td><img src="pix/dot_ffffff.gif" width="10" height="10" border="0" alt=""></td>
+				<td width="457" align="right"><font face="Arial,Verdana,Geneva,Helvetica,sans-serif" size="1" color="#737373" class="TEXTSMALLGREY">LAMPS Tutorial<br></font><img src="pix/dot_5c6971.gif" width="457" height="1" border="0" alt=""><br></td>
+				<td><img src="pix/dot_ffffff.gif" width="10" height="10" border="0" alt=""></td></tr>
+
+			</table>
+			
+			<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+			
+				<tr><td><img src="pix/dot_ffffff.gif" width="20" height="1" border="0" alt=""></td>
+
+				<td><br>
+					
+					<!-- Headline-1 -->
+					
+					<a name="top"></a>
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" color="#555555"><h1>LAMPS Tutorial 2.0 (v2.0.4)</h1></font>
+					
+				</td>
+				
+				<td><img src="pix/dot_ffffff.gif" width="20" height="1" border="0" alt=""></td></tr>
+				
+				<tr><td></td><td>
+					
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT">
+					
+					<!-- Text -->
+					This tutorial is about the compilation, installation and configuration of a LAMPS server.<br><br>
+					In case this tutorial contains mistakes, I would appreciate a message to <a href="mailto:stengel@eFactory.de">stengel@eFactory.de</a>.<br><br>
+<strong>New:</strong><br>
+New versions of all packages and some bugfixes and simplifications.
+
+					</font>
+					
+				</td></tr>
+				
+				<tr><td></td><td>
+				
+					<!-- Headline -->
+					
+					<a name="inhalt"></a>
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" color="#401111"><br><br><h2>1. LAMPS Tutorial Content</h2></font>
+					
+				</td><td></td></tr>
+				
+				<tr><td></td><td>
+				
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT">
+
+<a href="#inhalt"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">1. LAMPS Tutorial Content</a><br><br>
+
+<a href="#zutaten"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">2. The Ingredients and where to find them</a><br>
+
+		<a href="#linux"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">Linux</a><br>
+		<a href="#apache"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">Apache</a><br>
+		<a href="#mysql"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">MySQL</a><br>
+		<a href="#postgresql"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PostgreSQL</a><br>
+		<a href="#php"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PHP</a><br>
+		<a href="#mod-perl"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">mod_perl</a><br>
+		<a href="#openssl"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">OpenSSL</a><br>
+		<a href="#pdflib"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PDFLib</a><br><br>
+
+
+<a href="#auspacken"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">3. Preparation - Unpacking the Ingredients</a><br><br>
+
+<a href="#backen"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">4. Cooking - Compilation and Installation</a><br>
+
+		<a href="#inst-mysql"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">MySQL</a><br>
+		<a href="#inst-postgresql"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PostgreSQL</a><br>
+		<a href="#inst-openssl"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">OpenSSL</a><br>
+		<a href="#inst-apachessl"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">Apache and SSL</a><br>
+		<a href="#inst-pdflib"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PDFLib</a><br>
+		<a href="#inst-php"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">PHP</a><br>
+		<a href="#inst-modperl"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">mod_perl</a><br>
+		<a href="#inst-sonst"><img src="pix/a_right2.gif" width="20" height="10" border="0" alt="">Miscellaneous and Configuration</a><br><br>
+
+					</font>
+					
+				</td><td></td></tr>
+				
+				
+				<tr><td></td><td>
+				
+					<!-- Headline -->
+					
+					<a name="zutaten"></a>
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" color="#401111"><br><br><h2>2. The Ingredients and where to find them</h2></font>
+					
+				</td><td></td></tr>
+				
+				<tr><td></td><td>
+				
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT">
+
+
+
+<a name="linux"></a>
+
+	<br><b class="big">Linux</b><br><br>
+	Basically, it does not matter which Linux distribution you use. I have chosen Mandrake 7.2 to write this tutorial and verified it with RedHat 7.0, 7.2, 7.3 and Debian 3.0.<br><br>
+	I will not explain the installation here, because that would go beyond the scope of this tutorial. Normally, clicking through it is sufficient to get a run capable Linux server system. Don't forget to install the development packages as well. In case one has forgot something, the packet can always be installed later on.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://linux.tucows.com/distribution.html'" onmouseover="status='http://linux.tucows.com/distribution.html';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Linux distributions on Tucows</a><br>
+	<a href="JavaScript:document.location.href='http://www.mandrake.com'" target="_blank" onmouseover="status='http://www.mandrake.com';return true;" onmouseout="status='';return true;"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">www.mandrake.com</a><br>
+	<a href="JavaScript:document.location.href='http://www.redhat.com'" target="_blank" onmouseover="status='http://www.redhat.com';return true;" onmouseout="status='';return true;"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">www.redhat.com</a><br>
+	<a href="JavaScript:document.location.href='http://www.debian.com'" target="_blank" onmouseover="status='http://www.debian.com';return true;" onmouseout="status='';return true;"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">www.debian.com</a><br>
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="apache"></a>
+
+<br><b class="big">Apache 2.0.47</b><br><br>
+	In any case, the Apache web server is needed. At the time I wrote this tutorial, version 2.0.47 was the current one for Apache 2. Alternatively, there is still Apache 1.3.26 which, meanwhile, should almost be completely bug free. Older versions should not be used, since there are security problems up to version 1.3.26 and 2.0.39.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://httpd.apache.org'"  onmouseover="status='http://httpd.apache.org';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Apache Website</a><br>
+	<a href="http://httpd.apache.org/dist/httpd/httpd-2.0.47.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download Apache Httpd 2.0.47 (5.9MB)</a><br>
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="mysql"></a>
+
+	<br><b class="big">MySQL 3.23.57</b><br><br>
+	The MySQL version that I currently use is 3.23.57. In case a newer version is chosen, there may be problems regarding the configuration. A brief look into the README or the INSTALL file should solve those problems.<br><br>
+  Note: MySQL has not necessarily to be compiled, but may be installed as RPM or binary. In this case, the MySQL path has to be modified during the compilation of PHP.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://www.mysql.com/'"  onmouseover="status='http://www.mysql.com';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">MySQL Website</a><br>
+	<a href="ftp://ftp.fhh.opensource-mirror.de/pub/mysql.org/Downloads/MySQL-3.23/mysql-3.23.57.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download MySQL 3.23.57 (11.2MB)</a><br>
+	
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="postgresql"></a>
+
+<br><b class="big">PostgreSQL 7.3.4</b><br><br>
+	Instead of (or additionally to) MySQL, you may want to use PostgreSQL. PostgreSQL supports transactions, which can be very useful. However, you have to keep in mind not to forget the according entry in the configuration of PHP.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://www.postgresql.org/'"  onmouseover="status='http://www.postgresql.org/';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">PostgreSQL Website</a><br>
+	<a href="ftp://ftp.de.postgresql.org/mirror/postgresql/v7.3.4/postgresql-7.3.4.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download PostgreSQL 7.3.4 (10.7MB)</a><br>
+	
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="php"></a>
+
+	<br><b class="big">PHP 4.3.3</b><br><br>
+	One of the most important things is the current version of PHP. Version 4.3.3 has recently been released, and this is the one we use.
+	<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://www.php.net/'"  onmouseover="status='http://www.php.net';return true;" onmouseout="status='';return true;"/ target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">PHP Website</a><br>
+	<a href="http://de.php.net/get/php-4.3.3.tar.gz/from/this/mirror" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download PHP 4.3.3 (4.3MB)</a><br>
+
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="mod-perl"></a>
+
+	<br><b class="big">mod_perl 1.99_09</b><br><br>
+	Since some of my sites are based on Perl, I always install the Apache Perl module. A requirement therefore is, of course, that Perl is installed. But it is mostly installed together with the distribution automatically.<br><br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://perl.apache.org/'"  onmouseover="status='http://perl.apache.org/';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Mod-Perl Website</a><br>
+	<a href="http://perl.apache.org/dist/mod_perl-1.99_09.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download mod_perl 1.99_09 (0.8MB)</a><br>
+
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+
+<a name="openssl"></a>
+
+	<br><b class="big">OpenSSL 0.9.7b</b><br><br>
+	To run Apache on SSL, OpenSSL is necessary for the compilation of the mod_ssl module. I am using OpenSSL version 0.9.7b.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://www.openssl.org'"   onmouseover="status='http://www.openssl.org';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">OpenSSL Website</a><br>
+	<a href="http://www.openssl.org/source/openssl-0.9.7b.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download OpenSSL 0.9.7b</a><br>
+
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+
+<a name="pdflib"></a>
+
+<br><b class="big">PDFLib-Lite 5.0.2</b><br><br>
+	PDFLib enables you to create PDF documents dynamically from PHP, which can be very useful.<br>
+	<br>
+	
+	<a href="JavaScript:document.location.href='http://www.pdflib.com'"  onmouseover="status='http://www.pdflib.com';return true;" onmouseout="status='';return true;" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">PDFLib home page</a><br>
+	<a href="http://www.pdflib.org/products/pdflib/download/PDFlib-Lite-5.0.2-Unix-src.tar.gz" target="_blank"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Download PDFlib-Lite 5.0.2 (2.6MB)</a><br>
+
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+					
+					</font>
+					
+				</td><td></td></tr>				
+				
+
+				
+				<tr><td></td><td>
+				
+					<!-- Headline -->
+					
+					<a name="auspacken"></a>
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" color="#401111"><br><br><h2>3. Preparation - Unpacking the Ingredients</h2></font>
+					
+				</td><td></td></tr>
+				
+				<tr><td></td><td>
+				
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT">
+					
+
+
+
+	Before we can start, all tar.gz files have to be unpacked. You have to log in as root on the computer and to copy all the files to <i>/usr/local/src/lamps</i>. Of course, it is possible to choose another path, but this is the one we will use in this tutorial.<br><br>
+	
+		<code>
+cd /usr/local/src/lamps<br>
+for i in `ls *.gz`; do tar zxf $i; done;
+		</code>
+		<br><br>
+	
+	The archive files are no longer needed, but I would like to suggest to save them somewhere, eventually together with this tutorial, as a backup.<br>
+	<br>
+	<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+	<br>
+	
+					</font>
+					
+				</td><td></td></tr>				
+
+
+				<tr><td></td><td>
+				
+					<!-- Headline -->
+					
+					<a name="backen"></a>
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" color="#401111"><br><br><h2>4. Cooking - Compilation and Installation</h2></font>
+					
+				</td><td></td></tr>
+				
+				<tr><td></td><td>
+				
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT">
+					
+
+<!-- M Y S Q L -->
+
+<a name="inst-mysql"></a>
+
+	<br><b class="big">MySQL</b><br><br>
+	
+	The following lines install MySQL. <i>--prefix</i> is the installation folder and <i>--localstatedir</i> is the database folder (important for subsequent backups).
+	The link from <i>current</i> to <i>3.23.57</i> makes it easier to update the MySQL version just by modifying the link. If MySQL was installed as RPM, this section may be skipped.<br><br>
+  Note: After entering <i>make</i>, there is plenty of time for a coffee. So, never say die.<br><br>
+
+		<code>
+			cd /usr/local/src/lamps/mysql-3.23.57/<br>
+			./configure --prefix=/usr/local/mysql/3.23.57 \<br>
+--localstatedir=/home/mysql/data --with-innodb<br>
+make<br>
+make install<br>
+ln -s /usr/local/mysql/3.23.57 /usr/local/mysql/current<br>
+		</code>
+		<br>
+
+	Afterwards, we create the mysql user, the data folder, install the standard database and, finally, change the root password. Of course, you should use your own password instead of 'secret'.<br><br>
+
+		<code>
+/usr/sbin/groupadd mysql<br>
+/usr/sbin/useradd mysql -g mysql -s /bin/false -d /home/mysql<br>
+scripts/mysql_install_db<br>
+/usr/local/mysql/current/bin/safe_mysqld &amp;<br>
+/usr/local/mysql/current/bin/mysqladmin -u root password 'secret'<br>
+		</code>
+		<br>
+	Also, an old <i>my.cnf</i> in <i>/etc/</i> once caused some problems (mysql_install_db installed the database at <i>/var/lib/mysql/data</i> instead of <i>/home/myqsl/data</i> and, so, MySQL did't work). In this case, delete the my.cnf file or rename it.<br>
+<br>
+	Additionally, I sometimes fall for missing to enter the MySQL libraries into the lib path. You will realise this after starting the Apache, when you receive an error message that the file <i>libmysqlclient.so.10</i> cannot be found. If this problem occurs, you will have to open the file <i>/etc/ld.so.conf</i> and add <i>/usr/local/mysql/current/lib/mysql</i> at the end. After that, you will have to execute the following:<br><br>
+
+	<code>
+/sbin/ldconfig<br>
+	</code>
+	<br>
+
+So, now it should work. In order to start MySQL automatically at boottime, you just have to enter the following lines:<br><br>
+
+		<code>
+cp support-files/mysql.server /etc/rc.d/init.d<br>
+chmod 744 /etc/rc.d/init.d/mysql.server<br>
+cd /etc/rc.d/rc3.d<br>
+ln -s ../init.d/mysql.server S20mysql.server<br>
+ln -s ../init.d/mysql.server K20mysql.server<br>
+			</code>
+			<br>
+	
+	Note: Eventually, the chosen distribution uses another runlevel rc3. The actual runlevel can be checked by typing <i>/sbin/runlevel</i> in the console.<br><br>
+	Tip: If you do not want to access mysql, mysqldump etc. via their long path, it is very useful to create some links to the programs.<br><br>
+<code>
+ln -s /usr/local/mysql/current/bin/mysql \<br>/usr/local/bin/mysql<br>
+ln -s /usr/local/mysql/current/bin/mysqladmin \<br>/usr/local/bin/mysqladmin<br>
+ln -s /usr/local/mysql/current/bin/mysqldump \<br>/usr/local/bin/mysqldump<br>
+ln -s /usr/local/mysql/current/bin/mysqlshow \<br>/usr/local/bin/mysqlshow<br>
+</code>
+<br>
+Tip: If you want to use Webmin, there have to be some changes in the module configuration, i.e. regarding the path for the databases.<br><br>
+
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+<!-- P o s t g r e S Q L -->
+
+<a name="inst-postgresql"></a>
+
+	<br><b class="big">PostgreSQL</b><br><br>
+	If PostgreSQL shall not be installed, this section may be skipped. In this case, you will have to remember to omit <i>--with-pgsql</i> while compiling PHP.<br><br>
+	Now, we compile and install PostgreSQL. The installation is a little trickier compared to MySQL but, at least, it takes less time.<br><br>
+	
+<code>
+	cd /usr/local/src/lamps/postgresql-7.3.4<br>
+	./configure --prefix=/usr/local/pgsql/7.3.4/<br>
+make<br>
+make install<br>
+ln -s /usr/local/pgsql/7.3.4 /usr/local/pgsql/current<br>
+</code>
+<br>
+	Now, we create the user pgsql as well as the database folder <i>/home/pgsql</i> and give it the rights for the pgsql user.<br><br>
+
+<code>
+/usr/sbin/groupadd pgsql<br>
+/usr/sbin/useradd pgsql -g pgsql<br>
+chown -R pgsql:pgsql /home/pgsql<br>
+</code>
+<br>
+	As well as regarding MySQL, it is important that the lib path refers to the PostgreSQL files. Therefore, we open the file <i>/etc/ld.so.conf</i> in an editor and add the line <i>/usr/local/pgsql/current/lib</i> at the end (if it is not there yet). Afterwards, we execute the following command:<br><br>
+
+<code>
+/sbin/ldconfig<br>
+</code>
+<br>
+
+
+	Now, we can create the database. We log in as user <i>pgsql</i> and execute the script <i>initdb</i>.<br><br>
+
+<code>
+	su - pgsql<br>
+	/usr/local/pgsql/current/bin/initdb \<br>
+	-D /home/pgsql/data<br>
+</code>
+<br>
+	Then, we switch back to user root an copy the start script.<br><br>
+<code>
+exit<br>
+cp contrib/start-scripts/linux /etc/rc.d/init.d/pgsql<br>
+chmod 744 /etc/rc.d/init.d/pgsql<br><br>
+</code>
+	Now, we open the file in an editor and adjust the following lines:<br><br>
+<code>
+# prefix=/usr/local/pgsql has to be changed to<br>
+prefix=/usr/local/pgsql/current <br><br>
+# PGDATA="/usr/local/pgsql/data" has to be changed to<br>
+PGDATA="/home/pgsql/data"<br><br>
+# PGUSER=postgres has to be changed to<br>
+PGUSER=pgsql<br><br>
+
+</code>
+
+We can now start PostgreSQL, create a test database and log in.<br><br>
+Note: You leave the Psql console by \<i>q</i>.<br><br>
+
+<code>
+/etc/rc.d/init.d/pgsql start<br>
+/usr/local/pgsql/current/bin/createdb test -U pgsql<br>
+/usr/local/pgsql/current/bin/psql -U pgsql test<br>
+</code>
+<br>
+
+If you do not want to start psql via its long path, you may create a symbolic link.<br><br>
+
+<code>
+ln -s /usr/local/pgsql/current/bin/psql /usr/local/bin/psql<br>
+</code>
+<br>
+
+In order to start PostgreSQL automatically at boottime, we add some start links.<br><br>
+<code>
+cd /etc/rc.d/rc3.d<br>
+ln -s ../init.d/pgsql S20psql<br>
+ln -s ../init.d/pgsql K20psql<br>
+</code>
+<br>
+Note: If you want to use Webmin, there have to be some changes in the module configuration, i.e. regarding the path for the databases.<br>
+
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+
+<!-- O P E N S S L -->
+
+<a name="inst-openssl"></a>
+
+	<br><b class="big">OpenSSL</b><br><br>
+	The installation of OpenSSL is pretty simple. We specify the destination folder by <i>--prefix</i> and create a symbolic link.<br><br>
+	
+		<code>
+cd /usr/local/src/lamps/openssl-0.9.7b<br>
+./config --prefix=/usr/local/openssl/0.9.7b<br>
+make<br>
+make test<br>
+make install<br>
+ln -s /usr/local/openssl/0.9.7b /usr/local/openssl/current<br>
+ln -s /usr/local/openssl/current/bin/openssl /usr/local/bin/openssl<br>
+		</code>
+<br>
+Does it work? Just a side node: Too much coffee is unhealthy. But it is already one third done.<br>
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+<!-- A P A C H E  U N D  S S L -->
+
+<a name="inst-apachessl"></a>
+
+	<br><b class="big">Apache 2</b><br><br>
+	Now we are going to build Apache with SSL, whereby we will compile Apache as DSO. This means that modules like PHP can be loaded dynamically. Unlike Apache 1.3.x, for Apache 2.0.x patching is no longer necessary.<br><br>
+	
+		<code>
+		
+cd /usr/local/src/lamps/httpd-2.0.47/<br>
+./configure --prefix=/usr/local/apache2/2.0.47 \<br>
+--enable-modules=all \<br>
+--enable-ssl \<br>
+--with-ssl=/usr/local/openssl/current \<br>
+--enable-so<br>
+make<br>
+make install<br>
+ln -s /usr/local/apache2/2.0.47 /usr/local/apache2/current<br><br>
+
+		</code>
+Creating certificates is not as simple as for Apache 1.3.x. (If there is a simple method, I would appreciate a message.)<br><br>
+In order to get a test certificate, we create a CA. Regarding going live, Thawte or Verisign would be the Certification Authorities to sign the certificate.<br><br>
+Note: Normally, for the purpose of software development, SSL is not needed and this section may be skipped.<br><br>
+		<code>
+cd /usr/local/apache2/current/conf/<br>
+openssl genrsa -des3 -out ca.key 1024<br><br>
+    </code>
+You have to enter a password twice. After executing the next command, this password has to be entered again. Afterwards, the CA data is requested to create the certificate.<br><br>
+
+<code>
+openssl req -new -x509 -days 365 -key ca.key -out ca.crt<br>
+<br>    
+Country Name: DE<br>
+State or Province: NRW<br>
+Localty Name: Duesseldorf<br>
+Organization Name: Mycompany<br>
+Organizational Unit Name: CA<br>
+Common Name: www.mycompany.de<br>
+Email Address: ca@mycompany.de<br>
+		</code>
+<br>
+Now, we generate the server key. Again, a password is necessary. We back up the key and encode it, so that Apache will not demand a password after each reboot.<br><br>
+		<code>
+openssl genrsa -des3 -out server.key 1024<br>
+mv server.key server.key.secure<br>
+openssl rsa -in server.key.secure -out server.key<br><br>
+    </code>
+Creating a server certificate is similar to creating the CA certificate, but no password is needed, since the key is already encoded.<br><br>
+Note: In order to go live, the "common name" has to match the server's host adress.<br><br>
+<code>
+openssl req -new -days 365 -key server.key -out server.csr<br><br>
+
+Country Name: DE<br>
+State or Province: NRW<br>
+Localty Name: Duesseldorf<br>
+Organization Name: Mycompany<br>
+Organizational Unit Name: webteam<br>
+Common Name: www.mycompany.de<br>
+Email Address: webmaster@mycompany.de<br>
+A challenge password:<br>
+An optional company name:<br><br>
+		</code>
+Finally, the certificate is signed by our self made CA and the keys are copied to their own folders. Therefore, we use Ralf S. Engelschall's bash script which may be downloaded <a href="sign.sh">here</a>. It is best to save the script in /usr/local/bin and to make it executable by <i>chmod 744</i>.<br><br>
+The CA password has to be entered and it has to be confirmed twice by "y".<br><br>
+<code>
+sign.sh server.csr<br>
+mkdir ssl.crt ssl.key<br>
+cp server.crt ssl.crt<br>
+cp server.key ssl.key<br>
+</code>
+<br>
+
+In order to make Apache start while booting, we copy the start script and create links for runlevel three.<br><br>
+	
+		<code>
+cp /usr/local/apache2/current/bin/apachectl \<br>
+/etc/rc.d/init.d/httpd2<br>
+cd /etc/rc.d/rc3.d<br>
+ln -s ../init.d/httpd2 S20httpd2<br>
+ln -s ../init.d/httpd2 K20httpd2<br>
+		</code>
+<br>
+
+In order to start Apache always with SSL, <i>/etc/rc.d/init.d/httpd2</i> has to be edited and to be modified in one section.<br><br>
+<code>
+# the path to your httpd binary, including options if necessary<br>
+# Original HTTPD='/usr/local/apache2/2.0.47/bin/httpd'<br>
+HTTPD='/usr/local/apache2/2.0.47/bin/httpd -DSSL'<br>
+</code>
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+
+<!-- P D F L i b -->
+
+<a name="inst-pdflib"></a>
+
+	<br><b class="big">PDFLib</b><br><br>
+	The installation of PDFLib is also pretty simple. It is just three lines. As mentioned above, this section may be skipped if PDFLib is not needed.<br><br>
+	
+		<code>
+			cd /usr/local/src/lamps/PDFlib-Lite-5.0.2-Unix-src/<br>
+./configure --with-shared-pdflib --enable-cxx<br>
+make<br>
+make install<br>
+		</code>
+<br>
+	So, PDFLib is installed. In order to make it being found, an entry in the <i>ld.so.conf</i> file is necessary. You have to edit the file and if the line <i>/usr/local/lib</i> does not exist yet, you have to add it. Afterwards, <i>/sbin/ldconfig</i> has to be executed.<br>
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+
+<!-- P H P 4 -->
+
+<a name="inst-php"></a>
+
+	<br><b class="big">PHP</b><br><br>
+
+Now, we compile and install PHP. At the end, the config path is set to <i>/etc/</i>. Therein, also <i>php.ini</i> will be saved.<br><br>
+If PostgreSQL, MySQL or PDFLib have not been installed, the according lines in the configure command have to be omitted.<br><br>
+The final line for GD support may also be omitted, but the GD module can be very helpful regarding the dynamic creation of graphics. Thereby, it has to be considered that additional packets have to be installed (i.e. regarding Redhat 7.3: gd*.rpm, libjpeg*.rpm, libtiff*.rpm, freetype*.rpm and libpng*.rpm). You can, for example, check this by <i>rpm -qa | grep libjpeg</i>. After executing this command, two lines should appear, one of which conatains "devel".<br><br>
+	<code>
+cd /usr/local/src/lamps/php-4.3.3<br>
+./configure \<br>
+--with-apxs2=/usr/local/apache2/current/bin/apxs  \<br>
+--with-mysql=/usr/local/mysql/current  \<br>
+--with-pgsql=/usr/local/pgsql/current \<br>
+--with-pdflib=/usr/local/ \<br>
+--with-zlib-dir=/usr/lib/ \<br>
+--enable-versioning \<br>
+--enable-track-vars=yes \<br>
+--enable-url-includes \<br>
+--enable-sysvshm=yes \<br>
+--enable-sysvsem=yes \<br>
+--enable-ftp \<br>
+--with-config-file-path=/etc \<br>
+--with-gd<br>
+make <br>
+make install<br>
+	</code>
+<br>
+
+The php.ini has to be copied and that's it.<br><br>
+
+
+	<code>
+		cp /usr/local/src/lamp/php-4.3.3/php.ini-dist /etc/php.ini<br>
+	</code>
+
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+
+<!-- M o d _ p e r l -->
+
+<a name="inst-modperl"></a>
+
+	<br><b class="big">mod_perl</b><br><br>
+
+	Configuring mod_perl is easy. A precondition is that Perl is installed in version 5.6.0 or higher. Therefore, just the RPM of your distribution is needed. You can test it by entering:<br><br>
+
+	<code>
+perl -v<br>
+	</code>
+<br>
+A short message should then appear. The rest is simple:<br><br>
+
+	<code>
+cd /usr/local/src/lamps/mod_perl-1.99_09<br>
+perl Makefile.PL \<br>
+MP_AP_PREFIX=/usr/local/apache2/current/ \<br>
+MP_INST_APACHE2=1 <br><br>
+
+make<br>
+make install<br><br>
+	</code>
+	Now, mod_perl is installed. We just must not forget to let Apache know about it later on.
+<br><br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+
+
+
+<!-- S o n s t i g e s -->
+
+<a name="inst-sonst"></a>
+
+	<br><b class="big">Miscellaneous and Configuration</b><br><br>
+
+<b class="TEXTBOLDGREY">Apache</b><br><br>
+Now, I set all files in the htdocs folder to user nobody and group nobody, since problems may occur, i.e. that PHP cannot write data.<br><br>
+
+	<code>
+chown -R nobody:nobody /usr/local/apache2/current/htdocs/<br><br>
+	</code>
+If we want PHP to work properly, we have to associate PHP extensions with the module in <i>/usr/local/apache2/current/conf/httpd.conf</i>. Therefore, we have to add the following lines:<br><br>
+
+	<code>
+AddType application/x-httpd-php php<br>
+AddType application/x-httpd-php-source phps<br><br>
+	</code>
+
+These lines should be located next to the other files block, if we do not want to search them too long when we have to edit them.<br><br>
+In order to make Perl and PHP work, four another lines has to be added, if they aren't existing already.<br><br>
+<code>
+LoadModule perl_module modules/mod_perl.so<br>
+LoadModule php4_module modules/libphp4.so<br><br>
+</code>
+Since we normally do not want HTML files being the only index file, we have to search for the following line:<br><br>
+
+	<code>
+DirectoryIndex index.html<br>
+	</code>
+<br>
+Here, we can add other index file names like index.php, index.php4 or default.htm at will and separated by spaces.<br><br>
+Now, the Apache can be started:<br><br>
+
+	<code>
+/etc/rc.d/init.d/httpd2 start<br>
+	</code>
+<br>
+
+You can test it i.e. using Lynx, if you have it installed.<br><br>
+
+	<code>
+lynx http://localhost<br>
+	</code>
+
+<br>
+<b class="TEXTBOLDGREY">PHP</b><br><br>
+
+PHP may very well be tested by creating an info.php in <i>/usr/local/apache2/current/htdocs/</i> with the following content:<br><br>
+
+	<code>
+&lt;?php<br>
+phpinfo();<br>
+?&gt;<br>
+	</code>
+<br>
+
+If you open it in Lynx or any other browser, you should get a status page which shows all modules and parameters of PHP. Most of all, you can check if one of the modules has not been compiled.<br>
+<br>
+<b class="TEXTBOLDGREY">PDFLib</b><br><br>
+
+PDFLib can easily be tested by a small PHP script. (It is important that user nobody has the rights to write in the folder where the script runs.<br><br>
+
+	<code>
+&lt;?PHP<br>
+$file = fopen("php.pdf", "w");<br>
+$dokument = pdf_open($file);<br>
+pdf_begin_page($dokument,200,100);<br>
+pdf_set_font($dokument,"Times-Roman",14, "winansi");<br>
+pdf_set_text_pos($dokument,20,50);<br>
+pdf_show($dokument,"PDFLib is working");<br>
+pdf_end_page($dokument);<br>
+$dokument = pdf_close($dokument);<br>
+fclose($file);<br>
+header("location:php.pdf\n\n");<br>
+?&gt;<br>
+	</code>
+
+<br>
+<b class="TEXTBOLDGREY">Miscellaneous</b><br><br>
+
+Finally, we can check if SSL runs by entering https://localhost into the browser.<br><br>
+
+And to be more conform to other distributions, I create a folder <i>/etc/httpd</i> and set links to the conf and the logs folder of Apache:<br><br>
+
+	<code>
+mkdir /etc/httpd2<br>
+ln -s /usr/local/apache2/current/conf /etc/httpd2/conf<br>
+ln -s /usr/local/apache2/current/logs /etc/httpd2/logs<br>
+	</code>
+<br>
+
+So, the LAMPS system is ready. I would like to suggest to boot the thing in order to check if Apache and MySQL start properly.<br><br>
+Tip: If i.e. SSL does not work although the Apache runs, you can try to take down the firewall to check if eventually the SSL port is locked.<br><br>
+
+	<code>
+/etc/rc.d/init.d/ipchains stop<br>
+	</code>
+<br>
+
+The same applies to iptables. But don't forget to restart the firewall by the parameter <i>start</i> as soon as TCP port 443 is unlocked.<br>
+<br>
+<a href="#top" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Top</a><br>
+<br>
+<a href="e-index.shtml#disclaimer" class="small"><img src="pix/a_right.gif" width="10" height="10" border="0" alt="">Disclaimer</a><br>
+<br>
+
+
+
+					</font>
+					
+				</td><td></td></tr>
+				
+
+				
+				<tr><td></td><td>
+				
+					
+					
+					<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="2" color="#000000" class="TEXT"><br><br><br>
+
+				
+				<br><br><br><br><br>
+				</font>
+				
+				<font face="Arial,Verdana,Geneva,Helvetica,sans-serif" size="1" color="#737373" class="TEXTSMALLGREY">
+				
+				
+				The content of this document may be reproduced on the web, provided that a copyright notice and straight HTML hyperlink to <a href="http://lamps.efactory.de">lamps.efactory.de</a> appear on the same page.
+				</font>
+					
+				</td><td></td></tr>
+				
+			</table>
+			
+			<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+				
+				<tr><td><img src="pix/dot_ffffff.gif" width="10" height="1" border="0" alt=""></td>
+				<td width="456" align="right"><br><br><img src="pix/dot_5c6971.gif" width="456" height="1" border="0" alt=""><br><font face="Arial,Verdana,Geneva,Helvetica,sans-serif" size="1" color="#737373" class="TEXTSMALLGREY">(c)2002 <a href="http://www.efactory.de" target="_blank">eFactory Internet-Agentur KG</a> - written by Christian Stengel</font><br></td>
+				<td><img src="pix/dot_ffffff.gif" width="10" height="10" border="0" alt=""></td></tr>
+				
+			</table>
+		
+		</td>
+		<!-- end main -->
+		
+		<td width="160" valign="top" background="pix/back_teaser.gif" rowspan="2">
+		
+			<table border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+				<tr><td colspan="2" valign="top" background="pix/back_teaser.gif">
+				<img src="pix/back_teaser.gif" width="160" height="12" border="0" alt=""><br>
+				<img src="pix/t_001.gif" width="150" height="122" border="0" alt=""><br>
+				<img src="pix/back_teaser.gif" width="160" height="12" border="0" alt=""><br>
+				
+				</td></tr>
+				
+			</table>
+		</td></tr>
+		
+		<!-- span -->
+		<tr><td valign="bottom" background="pix/back_menu.gif">
+			<table border="0" cellpadding="0" cellspacing="0">
+			
+				<tr><td colspan="2" valign="top"><img src="pix/dot_ffffff.gif" width="140" height="1" border="0" alt=""><br></td></tr>
+				
+				<tr><td colspan="2" valign="top"><img src="pix/b_koordinaten.gif" width="140" height="16" border="0" alt=""></td></tr>
+
+				<tr><td colspan="2" valign="top"><img src="pix/dot_ffffff.gif" width="140" height="1" border="0" alt=""><br></td></tr>
+				
+				<tr><td colspan="2" valign="top" background="pix/dot_cac6c7.gif">
+					
+					<table border="0" cellpadding="5" cellspacing="0" background="pix/back_menu.gif"><tr>
+					
+					<td>&nbsp;</td>
+					<td background="pix/dot_cac6c7.gif"><font face="Arial,Verdana,Geneva,Helvetica,sans-serif" size="1" color="#000000" class="TEXTSMALL">
+					<br>
+					eFactory<br>
+					Internet-Agentur KG<br>
+					<br>
+					Rather Str. 56<br>
+					40476 D&uuml;sseldorf<br>
+					<br>
+					Postfach 10 23 01<br>
+					40014 D&uuml;sseldorf<br>
+					<br>
+					Fon: 0211 - 5143160<br>
+					Fax: 0211 - 5143178<br>
+					<br>
+					</font></td></tr>
+					</table>
+					
+				</td></tr>
+				
+				<tr><td colspan="2" valign="top"><img src="pix/dot_ffffff.gif" width="140" height="1" border="0" alt=""><br></td></tr>
+				
+				<tr><td colspan="2" valign="top" align="center" background="pix/back_menu.gif">
+				<font face="Verdana,Arial,Geneva,Helvetica,sans-serif" size="1" color="#000000" class="TEXTSMALL">
+				<a href="mailto:stengel@eFactory.de">stengel@eFactory.de</a>
+				<br>
+				</font>
+				</td></tr>
+			</table>
+</td></tr>
+		
+	</table>
+
+</td></tr>
+
+
+
+</table>
+
+<table width="782" align="center" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff">
+<tr><td><img src="pix/dot_ffffff.gif" width="1" height="1" border="0" alt=""><br></td></tr>
+</table>
+
+<!-- end main -->
+</div>
+
+</body>
+</html>

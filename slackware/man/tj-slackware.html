@@ -1,0 +1,679 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>Slackware cookbook</title>
+	<link rel="STYLESHEET" type="text/css" href="tjds.css">
+</head>
+
+<body>
+<h1>Slackware cookbook</h1>
+<table>
+<tr>
+    <td class="lat"><br><br><br><br><br><br><br><br></td>
+    <td>
+	
+<a href="#LOC">1.Localizzazione</a>
+<br><br>
+<a href="#IST">2.Installazione pacchetti</a>
+<br><br>
+<a href="#SWA">3.Swaret</a>
+<br><br>
+<a href="#CPA">4.CPAN</a>
+<br><br>
+<a href="#MBD">5.Make Boot Disk</a>
+<br><br>
+<a href="#KER">6.Compilazione Kernel</a>	
+<br><br>
+<a href="#LIL">7.Lilo</a>	
+<br><br>
+<a href="./tj-postfix.html">8. Postfix SASL + TLS</a>
+<br><br>
+<a href="#BOT">9.Boot BSD - Sys V</a>		
+<br><br>
+<a href="#APA">10.Apache 2.0</a>	
+<br><br>
+<a href="#PRI">11.Stampa</a>
+<br><br>
+<a href="#PVI">12.P.Volkerding Intro</a>
+<br><br>		
+	</td>
+</tr>
+</table>
+<br><br>
+
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="LOC">1. Localizzazione</A></h2>
+Si ottiene un elenco dei nomi utilizzabili per definire la localizzazione con il comando seguente:
+<pre>$ locale -a[Invio]</pre>
+'locale'  permette di conoscere l'impostazione del proprio sistema di localizzazione 
+
+LANG permette di definire la localizzazione predefinita per le variabili del gruppo LC_* che non siano state definite
+<pre>
+#!/bin/sh #
+ LANG=de_CH.iso88591 
+ export LANG
+</pre>
+Alcune opzioni 
+<pre>
+-a | --all-locale 	
+</pre>
+Emette l'elenco di tutti i nomi utilizzabili nelle definizioni di localizzazione.
+<pre>
+-m | --charmaps 	
+</pre>
+Emette l'elenco di tutti i nomi riferiti a definizioni di mappe di caratteri
+<br><br><br>
+<h2>Localizzazione samba 3.0</h2>
+Per le corrispondenze degli accenti, soprattutto nelle migrazioni da samba perecedenti
+verifica charset installato run
+<pre>testparm -v | grep "dos charset"</pre>
+si può forzare smb.conf  con le direttive
+<pre>
+unix charset=	  ISO8859-1
+display charset=  UTF-8
+dos charset=	  CP850
+</pre>
+<br><br><br>
+
+<h2>Localizzazione Kernel</h2>
+impostazioni config per Europa Occ.
+<pre>
+# Native Language Support
+CONFIG_NLS_DEFAULT="iso8859-15" (DEFAULT NLS OPTION) mod manuale
+CONFIG_NLS_CODEPAGE_437=m
+CONFIG_NLS_CODEPAGE_850=m
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_15=m
+CONFIG_NLS_UTF8=m
+</pre>	
+<br>
+	</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="IST">2. Installazione pacchetti</A></h2>
+<strong>pkgtool</strong>
+<br>
+Slackware fornisce un programma interattivo, dialog based, per gestire i tuoi pacchetti
+Puoi usare pkgtool per gestire l'aggiunta e la rimozione dei pacchetti dal tuo sistema. 
+<br><br>
+
+
+<strong>installpkg </strong>
+<br>
+Digitando <em>installpkg [nomepacchetto].tgz</em> puoi installare pacchetti sul tuo sistema. Si
+possono utilizzare le opzioni seguenti:
+  
+<ul type="square">
+<li><em>-warn</em>: genera una specie di report di quello che accadrebbe se tu installassi il pacchetto e spedisce il report allo 'standard output'.</li> 
+<br><br>
+<li><em>-m</em>: crea un pacchetto con il nome che specifichi dai files, le directories, e le subdirectories nella dir corrente.</li> 
+<br><br>
+<li><em>-r</em>: installa i contenuti della directory corrente e le sotto directories come se fosse un pacchetto con il nome che tu specifichi.</li>
+ </ul>
+<br>
+<strong>upgradepkg </strong>
+<br>
+Aggiorna un pacchetto che è già installato con il pacchetto specificato. Se i pacchetti hanno lo stesso nome, allora dovrai solo 
+eseguire <em>upgradepkg nomepacchetto</em> per l'aggiornamento. Se il nuovo pacchetto ha un nome diverso da quello già presente sul sistema, 
+allora dovrai usare <em>upgradepkg nomevecchio%nomenuovo</em>. Non aggiungere spazi tra i nomi dei due pacchetti
+<br><br>
+<strong>removepkg</strong> 
+<br>
+Nella sua forma più semplice, removepkg rimuoverà il pacchetto con il nome che tu specifichi.
+ La sintassi generale è <em>removepkg nomepacchetto</em>. Esistono anche alcune opzioni che è possibile specificare:
+ <ul type="square"> 
+<li><em>-warn</em>: genera un report di quello che accadrebbe se tu rimuovesse il pacchetto e lo spedisce  allo 'standard out'. Non rimuove il pacchetto.</li> 
+<br><br>
+<li><em>-preserve</em>: questa opzione ricostituirà il 'subtree' del pacchetto sotto <em>/tmp/preserved_packages/nomepacchetto</em>, dove nomepacchetto è il nome del pacchetto che specifichi.</li> 
+<br><br>
+<li><em>-copy</em>: questo ricostruisce una copia del pacchetto sotto <em>/tmp/preserved_packages/nomepacchetto</em>, ma non lo rimuove (ha lo stesso effetto di -warn -preserve). </li>
+<br><br>
+<li><em>-keep</em>: salva i files temporanei creati da removepkg. Utile per propositi di debug.</li>
+</ul>
+<br><br>
+
+<h2> Come conoscere i dettagli di un pacchetto installato</h2>
+Come sapere quali pacchetti sono stati installati sulla propria Slackware Box.Basta eseguire il seguente comando:
+<pre>
+ls /var/adm/packages/
+</pre>
+
+Se si vuole essere più raffinati si puo' usare un comando del tipo:
+
+<pre>
+ls /var/adm/packages/ | grep partedelnomedelpacchetto
+</pre>
+oppure ...
+<pre>
+ls /var/adm/packages/*partedelnomedelpacchetto*
+</pre>
+
+Se voglio sapere in quale di questi pacchetti è contenuto il tal file?
+Tutti i file presenti in /var/adm/packages contengono l'lenco di file installati dai singoli pacchetti. Quindi
+si puo' provare un qualcosa del genere:
+<pre>
+cd /var/adm/packages
+for file in `ls`; do grep -l "filechestocercando" $file; done
+</pre>
+oppure ...
+<pre>
+mount /cdrom
+cd /cdrom/slackware
+for file in `ls */*.txt`; do grep -l "libCheMiServe" $file; done
+</pre>
+a seguito di rimozioni accidentali,provate a dare un occhio in /var/adm/removed_packages/.
+<br><br>
+</td>
+</tr>
+</table>
+<br><br>
+
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="SWA">3. Swaret</A></h2>
+Pacchetto per l'upgrade di Slackware, dependencies bc-1.06-i386-2.tgz
+<br>
+To Install: installpkg swaret-1.6.2-noarch-1.tgz
+<br>
+To Upgrade: upgradepkg swaret-1.6.2-noarch-1.tgz 
+<br>
+edit /etc/swaret.conf.new! and rename swaret.conf
+<br>
+<strong>USAGE:</strong>
+<ul type="square">
+<li><em>swaret --update</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# genera lista pacchetti disponibili per</li>
+
+<li><em>swaret --upgrade -a</em>&nbsp;&nbsp;# prima produce lista e poi upgrada tutto</li>
+
+<li><em>swaret --upgrade <pacchetto></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# upgrada pacchetto</li>
+
+<li><em>swaret --get <pacchetto></em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# installa nuovo package e propone dipendenze</li>
+
+<li><em>swaret --show <pacchetto> -i</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# info su pacchetto installato</li>
+</ul>
+<br>
+</td>
+</tr>
+</table>	
+
+<br><br>
+
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="CPA">4. CPAN</A></h2>
+inizializza con:
+<pre>
+perl -MCPAN -e shell
+</pre>
+esegui con:
+<pre>
+perl -MCPAN -e 'install nome::modulo'
+</pre>
+installa SSLeay
+<pre>
+perl -MCPAN -e 'install Net::SSLeay'
+</pre>
+nella root cpan modulo SSLeavy make install
+<br><br>
+Per la ricerca dei moduli CPAN <a href="http://search.cpan.org/">http://search.cpan.org</a>
+<br><br>
+</td>
+</tr>
+</table>		
+<br><br>
+
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="MBD">5. Make Boot Disk</A></h2>
+Inserite un floppy digitate: 
+<pre>
+fdformat /dev/fd0h1440  or ls /dev/fd* se manca periferica
+</pre>
+<em>makebootdisk</em> apre prog interattivo con prompts per posizione kernel e sistema di avvio: syslinux or lilo
+<br>
+Verificare l'funzionamento del floppy
+<br><br>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="KER">6. Compilazione Kernel</A></h2>
+Un approfondimento in merito:<a href="al-kernel.html">Cap 49 appunti Informatica Libera</a>
+<br><br>
+Il comando <em>uname -r</em> restituisce versone attuale del kernel
+<br><br>
+<strong>Posizioni Kernel Slackware</strong>
+<br>
+in genere é presente il file vmlinuz-VERSIONE_KERNEL ,per la Slackware vmlinuz 
+<pre>
+/vmlinuz
+/boot/vmlinuz (corretta)
+/usr/src/linux/arch/i386/boot/zImage or bzImage
+/usr/src/linux/arch/i386/boot/compressed/zImage or bzImage
+</pre>
+<br><br>
+<strong>Ricompilazione Kernel</strong>
+<br>
+controllo contenuto  <em>/usr/src  con ls -l </em>
+<br>
+- rimuovere il link simbolico <em>linux -> kernel_ver</em>
+<br>
+- se si ricompila é meglio fare backup di <em>cd /lib/modules/kernel_ver/</em>
+<br><br>
+Si può anche modificare il file "<em>Makefile</em>" nella riga che definisce la variabile <em>EXTRAVERSION</em>, se modificassi la 
+variabile cosi': <em>EXTRAVERSION = PP </em>verrebbero decompressi i moduli in una directory <em>/lib/modules/VERSIONE_KERNEL-PP</em>
+evitando di sovrascrivere la cartella gia' presente.
+<br><br>
+Scaricare i nuovi sorgenti con lynx da www.kernel.org, scegliendo l'opzione F (full source)
+e decomprimere in <em>/usr/src</em> la tarball bz2 con <em>tar -jxvf <linux-ver.tar.bz2></em>
+<br><br>
+comando make menuconfig genera da shell l'interfaccia ncurses per le opzioni di compilazione
+<br>
+Indicazioni per la lingua con set Europa Occidentale
+<pre>
+# Native Language Support
+CONFIG_NLS_DEFAULT="iso8859-15" (DEFAULT NLS OPTION) mod manuale
+CONFIG_NLS_CODEPAGE_437=m
+CONFIG_NLS_CODEPAGE_850=m
+CONFIG_NLS_ISO8859_1=m
+CONFIG_NLS_ISO8859_15=m
+CONFIG_NLS_UTF8=m
+</pre>
+<br>
+named capset failed
+<br>
+Il mancato avvio di bind, in kernel 2.6.x, é dato dalle impostazioni alla sezione security:
+<pre>
+CONFIG_SECURITY=y
+CONFIG_SECURITY_CAPABILITIES=y
+</pre>
+che devono essere abilitate all'interno del kernel, in alternativa é possibile compilare bind con:
+<pre>./configure --disable-linux-caps</pre>
+<br>
+Schermo nero al boot
+<br>
+succede abilitando <em>configure standard kernel features (for small systems)</em>, viene a crearsi un problema di <em>frame buffer</em>
+<br><br>
+Alla fine scegliere <em>save configuration to an alternate file</em> per terminare menuconfig con config + kernel_ver
+<br><br>
+<em>make dep</em> Crea le dipendenze per la compilazione dei sorgenti
+<br>
+<em>make clean</em> Esegue un clean
+<br>
+<em>make bzImage</em> Crea l'immagine del kernel che verra' caricata al boot
+<br>
+<em>make modules</em> Compila i moduli
+<br>
+<em>make modules_instal</em>l Copia i moduli in <em>/lib/modules/$KERNEL_VERSION</em>
+<br><br>
+ricreare il link simbolico eliminato in precedenza dove kernel_ver é il nuovo kernel 
+<pre>
+ln -s linux-kernel_ver linux
+
+cp /usr/src/linux/System.map /boot/System.map-kernel_ver
+ln -s /boot/System.map-KERNEL_VERSION /boot/System.map 
+
+cp /usr/src/linux/.config /boot/config-kernel_ver
+ln -s /boot/config-kernel_ver/boot/config
+
+cp /usr/src/linux/arch/i386/boot/bzImage /boot/bzImage-VERSIONE_KERNEL
+</pre>
+<strong>CAVE:</strong> non copiare vmlinu<strong>x</strong> (é altra cosa)
+<br><br>
+</td>
+</tr>
+</table>	
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="LIL">7. Lilo</A></h2>
+Aggiungi nuovo kernel, mantenendo per sicurezza le precedenti impostazioni di <em>lilo.conf</em>
+<br><br>
+Posizione dove verrà installato lilo
+<br>
+<em>boot=/dev/hda (se MBR)</em>
+<br>
+<em>boot=/dev/fd0 (se floppy)</em>
+<br><br>
+<pre>
+# nuovo kernel
+image=/boot/vmlinuz-kernel_ver
+root=/dev/hda4 
+label=Slackernel_ver
+</pre>
+Reinstallare <em>lilo -v</em> 
+<br><br>
+inserendo in <em>lilo.conf: vga=ask</em>, é possibile decidere la risoluzione adeguata
+<br><br>
+</td>
+</tr>
+</table>	
+<br><br>
+<table>
+<tr>
+<td width="50"></td>
+<td>
+<h2><A NAME="BOT">9. Boot BSD - Sys V</A></h2>
+Discussione "metodi di avvio bsd contro metodi sys-V" 
+<br><br>
+<strong>La teoria</strong>
+<br>
+La slackware usa scripts di inizializzazione in stile BSD, ma supporta anche il SysV molte 
+altre distro usano scripts di inizializzazione System-V, tutte e due i tipi di scripts sono 
+umanamente leggibili in quanto essenzialmente scripts di shell,non programmi compilati.
+La principale differenza sta' nel modo in cui sono strutturati.
+Gli script sys-v in genere prendono argomenti come start, stop, restart, preceduti dal 
+nome script; quindi si potra' usare qualcosa come 
+<pre>
+-- /etc/init.d/bind start -- 
+per avviare il processo bind e 
+-- /etc/init.d/bind stop -- 
+</pre>
+per fermare il processo bind. Inoltre il sys-v fà un ampio uso dei collegamenti simbolici per
+organizzare il processo di boot, per esempio ci possono essere in -- /etc/rc.d/rc.4/ -- vari 
+collegamenti simbolici allo script in esecuzione in altre directory. I collegamenti simbolici 
+vengono denominati S10network, S25xdm, e cosi' via, dove S significa avvia il servizio (start
+il corrispondente é ferma il servizio K kill), e il numero designa l'ordine sequenziale di 
+esecuzione dello script. Il grosso vantaggio degli scripts sys-V é che possono essere 
+configurati in modo da automatizzare in modo trasparente molti compiti, per esempio se si passa
+dal runlevel 4 al runlevel 6 ci potrebbe essere un collegamento simbolico in 
+-- /etc/rc.d/rc.6/ -- chiamato K75bind, che fermera' il processo se il file a cui il 
+collegamento punta contiene istruzioni adatte. Il grosso svantaggio del sys-V é che può 
+generare scripts molto complessi. Se io volessi aggiungere a mano un servizio sarei costretto a
+scrivere uno script che mi gestisca almeno l'avvio e l'arresto del processo. Dopo dovrei porre 
+attenzione nel settare i collegamenti simbolici in ogni runlevel dove il servizio deve essere 
+avviato, e se io avessi la necessità di inserire un script di avvio tra due scripts 
+precedentemente numerati, dovrei rinominare tutti gli scripts di numero superiore 
+(se S10xx e S11xx esistono e vorrei avviare yy tra i due dovrei rinominare i collegamenti 
+simbolici per avere la sequenza corretta S10xx S11yy S12xx). 
+Può risultare altrettanto macchinoso alterare in modo temporaneo il processo di boot sys-V, 
+infatti volendo escludere un servizio in modo temporaneo all'avvio successivo, il metodo piu' 
+semplice consisterebbe nel rimuovere il collegamento simbolico S10xx. Niente di complesso, ma se
+io volessi escludere quel servizio da ogni runlevel, dovrei cancellare i collegamenti simbolici
+in tutte le directory.In seguito per ripristinare il servizio dovrei ricreare a mano tutti i 
+collegamenti simbolici.Questo da alcuni è considerato un livello di complessità' extra, al 
+gia' complicato processo di boot, ed é per questo che Slackware usa un sistema di avvio 
+stile BSD. Gli scripts di avvio in style BSD sono semplici scripts di shell che vengono 
+eseguiti in maniera sequenziale e non richiedono argomenti come start e stop. Vengono mandati 
+in esecuzione quando il sistema entra nel runlevel che controllano e niente altro. Uno degli 
+svantaggi del sistema BSD consiste nel dover elaborare un metodo per controllare i servizi. 
+Per esempio se si volesse arrestare il servizio bind dovremmo elaborare il risultato del 
+comando -- ps ax | grep named -- che ci restituirebbe il PID da arrestare (kill) non avendo 
+creato uno script che reagisca ai comandi start,stop. Il principale vantaggio degli scripts BSD
+consiste nell'essere facilmente leggibili e modificabili, per esempio se io volessi aggiungere
+un nuovo servizio zzz, basterebbe aggiungere la linea -- /usr/local/bin/zzz -- al file 
+-- /etc/rc.d/rc.local -- , e il servizio si avvierà al runlevel che esegue rc.local. 
+Se io volessi un servizio solo nel runlevel 4, basterebbe inserire il comando in 
+-- /etc/rc.d/rc.4 -- (che qui non e' una directory ma un file). Volendo cambiare l'ordine di 
+esecuzione, basterebbe spostare il comando prima o dopo la posizione voluta all'interno del 
+file con un semplice editor di testo, senza dimenticare che basterebbe il simbolo di commento 
+prima del comando per escluderlo temporaneamente dal boot. Quindi i gusti sono gusti, e ogni 
+distro sceglie uno dei due metodi, personalmente con la slackware, rinuncio a un minimo di 
+usabilita' (start,stop e propagazione) in favore della linearità e semplicita'. 
+<br><br>
+<strong>La pratica</strong>
+<br>
+Accesa la macchina, una volta finito il processo di boot del bios, il sistema cerchera' di 
+accedere al primo settore della periferica di boot (hd, floppy, cdrom, ecc.) dove si aspetta 
+di trovare un bootloader cioe' un programma, nel mio caso LILO (LInuxLOader ma potremmo usare
+GRUB), che ha il compito di caricare il kernel nella memoria e far partire il padre di tutti i
+processi init, se digitiamo un ps ax | grep 1 avremo la conferma che il primo processo mandato
+in esecuzione dal kernel e quindi con PID 1 (ProcessID) e' init. Subito dopo essere stato 
+avviato init carica in lettura il file inittab che contiene le istruzioni per l'avvio della
+macchina, e precisamente a quale runlevel deve essere avviata la macchina e dove sono i file
+di configurazione dei runlevel.
+<br>
+Un runlevel definisce tutti i servizi che devono essere resi disponibili dalla macchina in un
+dato momento, cioe' come deve operare la macchina. I runlevels sono designati da lettere o 
+numeri che possono variare leggermente a seconda delle distribuzioni, nella Slackware sono i
+seguenti
+<pre>
+Runlevel 0 => Arresto del sistema
+Runlevel 1 => Modalità utente singolo, usata durante la manutenzione
+Runlevel 2 => Inutilizzato
+Runlevel 3 => Multiutente con login da console
+Runlevel 4 => Multiutente con login grafico (XDM, GDM, KDM)
+Runlevel 5 => Inutilizzato
+Runlevel 6 => Riavvio del sistema
+Runlevel S => Modalita' utente singolo
+</pre>
+A parte inittab (/etc/inittab)tutti i file di configurazione si trovano nella directory
+<pre>
+/etc/rc.d/ e i più importanti sono:
+rc.0 => Link simbolico a rc.6 
+rc.M => Lo script comune ai livelli multiutente 2, 3 e 5 
+rc.K => Il runlevel utente singolo 
+rc.S => Lo script di inizializzazione del sistema 
+rc.4 => Lo script per il runlevel 4 per il login grafico 
+rc.6 => Lo script per il riavvio o lo spegnimento del sistema
+rc.inet1 => E' il responsabile dell'avvio dei servizi di rete fondamentali
+            come l'assegnazione del numero IP fisso o DHCP
+rc.inet2 =>avvia i servizi di rete come NFS, ssh ecc.
+rc.local => E' il file dove mettere tutti i comandi che vogliamo vengano
+            eseguiti all'avvio un pò come l'autoexec.bat del dos 
+</pre>
+I rimanenti scripts rc.* sono responsabili dell'avvio di servizi accessori per disabilitarli
+basta usare il comando chmod e togliere il permesso di esecuzione.
+Per cambiare il runlevel al volo potete usare il comando telinit seguito dal numero del 
+runlevel desiderato es:
+<br>
+telinit 3
+<pre>
+pierluigi
+z00keepers of
+www.z00.it
+www.slack.z00.it
+slack@slack.z00.it
+GPL2 2002
+</pre>
+</td>
+</tr>
+</table>	
+
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="APA">10. Apache 2.0</A></h2>
+Opzioni configure
+<br>
+<pre>
+./configure --prefix=/www --enable-mods-shared=all --enable-so 
+--enable-speling --enable-ssl --with-ssl=/usr/local/openssl
+make 
+make install
+</pre>
+</td>
+</tr>
+</table>	
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="PRI">11. Stampa</A></h2>	
+Il problema della stampa si risolve con pochi semplici passi:
+<br>
+- Installate tutti i pacchetti di apsfilter:
+<br>
+<pre>
+su -
+Password: <passwordsegretadiroot>
+mount /cdrom
+cd /cdrom/slackware/ap/
+installpkg apsfilter-*.tgz
+
+- Setup di apsfilter
+cd /usr/share/apsfilter/
+./SETUP
+</pre>
+- Verifica e riavvio di lpd (opzionale)
+<br>
+<pre>
+ps aux | grep lpd
+(se non ricevete un messaggio del tipo : ... lpd Waiting
+allora lanciate semplicemente : /usr/sbin/lpd )
+killall -HUP lpd
+</pre>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+	<h2><A NAME="PVI">12. P.Volkerding Intro </A></h2>	
+Se ci fate caso, subito dopo l'installazione l'utente root riceve una mail di Patrick Volkerding che
+fornisce alcuni suggerimenti su come configurare alcune fra le cose più frequentemente richieste.
+<br>
+<pre>
+-- Remember those screens you saw while each package was installing? You
+   can see all the information (and more) again. The simplest way is to use
+   the 'pkgtool' utility to view the package contents. Another way is to use
+   'less' or a text editor to read the files in /var/log/packages and
+   /var/log/scripts (this is the method I use).
+
+-- You may need to make some changes to the /etc/rc.d/rc.serial script if
+   you're using serial ports other than /dev/ttyS0 or /dev/ttyS1 (com1: and
+   com2: under DOS), or if these ports use non-standard IRQs.
+
+   I suggest using the section about halfway through that lets you set up
+   the ports manually. Here's an example of how I set up the ports on my
+   machine for /dev/ttyS0 and /dev/ttyS2:
+
+   # These are the standard COM1 through COM4 devices
+   #
+   ${SETSERIAL} /dev/ttyS0 uart 16450 port 0x3F8 irq 4
+   # ${SETSERIAL} /dev/ttyS1 uart 16450 port 0x2F8 irq 3
+   ${SETSERIAL} /dev/ttyS2 uart 16450 port 0x3E8 irq 5
+   # ${SETSERIAL} /dev/ttyS3 uart 16450 port 0x2E8 irq 3
+
+   You'll also need to uncomment the line in /etc/rc.d/rc.S that starts the
+   rc.serial script.
+
+-- If you've got hardware such as a CD-ROM drive or ethernet that doesn't
+   seem to work with Linux, it's possible that the kernel you're using
+   doesn't contain the needed support.  In that case, you can do one of
+   two things:
+
+      1.  Recompile your kernel, including the needed driver(s).
+      2.  Load the support with kernel modules.  This is probably the
+          simplest way to handle the situation.  Just edit
+          /etc/rc.d/rc.modules so that it loads the modules you need.
+
+-- If you're on a standalone LAN without a nameserver, make sure you
+   don't have a nameserver line in /etc/resolv.conf, or you may experience
+   delays with many network commands as they attempt to query the bogus
+   nameserver.
+
+-- Want to run NFS? You'll to install the portmap and nfs-utils
+   packages.  Then, edit your /etc/exports to allow NFS access. (see 'man
+   exports' for examples)  Once you've set up /etc/exports, the NFS
+   daemons should run automatically at boot.
+
+-- Do you have an IDE based CD-RW drive?  If so, you'll need to use
+   the SCSI emulation kernel module, which will allow your drive to look
+   like a SCSI CD burner to cdrdao, cdrecord, and other Linux CD
+   burning applications.  This module is loaded by default, but you'll
+   also need to pass an option to the kernel telling it to use SCSI
+   emulation for a specific device, otherwise the ATAPI driver will be
+   used.  Let's say your CD-RW drive is /dev/hdc, then you'd want to pass
+   the "hdc=ide-scsi" option to the kernel.  You can do this with an
+   append command in /etc/lilo.conf:
+     append="hdc=ide-scsi"
+   After editing lilo.conf, you must run lilo to reinstall it.
+   You can also pass the hdc=ide-scsi option on a bootdisk command line.
+
+-- A lot of people ask me how to set up their printer under Linux.  In my
+   opinion, the best method is to set up Apsfilter, a system that allows
+   you to print many file formats (DVI, PS, PDF, text) by just sending
+   them to the print spooler with lpr.  To set this up, do the following
+   steps:
+
+   1.  Make sure you're loading the parallel driver in /etc/rc.d/rc.modules.
+       This should be done by default.
+   2.  Install the LPD printer software.  This is the "lprng" package on the
+       A series.  Odds are it's already been installed.
+   3.  You'll probably want to have the TCP/IP subsystem installed and
+       configured (at least for loopback).  The "tcpip" package is part of
+       the N series, and the "netconfig" script is used to do a basic TCP/IP
+       configuration.
+   4.  Apsfilter uses a variety of other filters that it expects to find
+       installed.  You'll want to install the "ghostscript" and
+       "gnu-gs-fonts" packages on the AP series to add Ghostscript if you
+       want the ability to print PostScript documents.  You'll also need
+       the "libjpeg" package from the L series for JPEG image support.  If
+       you want to print DVI files, install at least the default TeX
+       packages from the T series.
+   5.  Install the apsfilter package.  This package is part of the AP series,
+       so if you've done a full installation then it's already installed.
+       Otherwise, find the package in the ap directory and install it:
+
+           installpkg apsfilter-*.tgz
+
+   6.  Change into the /usr/share/apsfilter/ directory, and run the SETUP
+       program:
+
+           ./SETUP
+
+       It'll write your /etc/printcap, and you'll be all set to start
+       printing.  Once you've got it working, you can also use netatalk and
+       Samba to provide print services to Macs and Windows machines on the
+       local network with your Linux box.
+
+-- If you have a busmouse or a USB mouse, you'll need to load a mouse
+   driver module before your mouse will work.  These days, most mice are
+   serial (with a 9 pin trapazoidal plug) or PS/2 (with a 6 pin round
+   plug), and don't need a module, but if you think your mouse might need
+   a special driver, read the comments in /etc/rc.d/rc.modules to see
+   which one is needed, and edit the file to load it at boot time.  Or,
+   compile a new kernel with built in support for your mouse and install
+   that.
+
+-- To get your machine on the net with a modem and PPP, you need to install
+   the "tcpip" and "ppp" packages.  Your machine should be configured at
+   least with loopback using the "netconfig" utility.  Also, be sure the
+   serial port your modem uses is correctly configured.  If in doubt,
+   take a look through /etc/rc.d/rc.serial.  Then, use "pppsetup" to
+   configure the dialup process.  (Additional documentation on pppsetup
+   can be found in /usr/doc/pppsetup)
+
+-- If you installed the F series, there will be lots of FAQs (lists of
+   Frequently Asked Questions with answers) /usr/doc/Linux-FAQs/, and
+   HOWTOs (files explaining how to do a particular Linux task), in
+   /usr/doc/Linux-HOWTOs/ and /usr/doc/Linux-mini-HOWTOs/. These should be
+   helpful in getting you going with Linux.  They cover most system admin
+   tasks in a lot more detail than this little email does. :^)
+
+   	-- Patrick Volkerding --
+</pre>
+</td>
+</tr>
+</table>
+<br><br>
+<h3>Last - karim - 13 may 04</h3>
+</body>
+</html>

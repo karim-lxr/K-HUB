@@ -1,0 +1,3 @@
+redirigere output su terminale diverso:
+
+nome comando > /dev/ttyN &

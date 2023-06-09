@@ -1,0 +1,47 @@
+LOADLIN v1.6a (C) 1994..1996 Hans Lermen <lermen@elserv.ffm.fgan.de>
+
+USAGE:
+  LOADLIN @params
+  LOADLIN [zimage_file] [options] [boot_params]
+    without any params, LOADLIN displays this help message.
+    @params:
+       params is a DOS file containing all other options
+    zimage_file:
+       DOS file name of compressed Linux kernel image
+    options:
+       -v        verbose, show information on params and configuration
+       -t        test mode, do all but starting Linux, also sets -v
+       -d file   debug mode, same as -t, but duplicates output to "file"
+       -clone    ( Please read MANUAL.TXT before using this switch! )
+       -n        no translation for root=/dev/...
+       -txmode   switch to textmode 80x25 on startup
+       -noheap   disable use of setup heap
+       -wait=nn  after loading wait nn (DOS)ticks before booting Linux
+       -dskreset after loading reset all disks before booting Linux
+    boot_params:
+       root=xxx  filesystem to be mounted by Linux as "/"
+                 (string passed unchanged to the kernel)
+            xxx = hex number (e.g. root=201 for /dev/fd1)
+                = /dev/mmmn (e.g. root=/dev/hda2)
+                       mmm = fd,hda,hdb,sda,sdb...
+                       n   = 1..10.. decimal
+       ro        mount "/" readonly
+       rw        mount "/" read/write
+       initrd=x  (for kernels > 1.3.72) load file x into /dev/ram. If FS in x
+                 contains /linuxrc, execute it, and then remount to root=xxx.
+                 If root=/dev/ram, just load, bypass execution of /linuxrc
+
+    for more boot params see PARAMS.TXT or Paul Gortmakers HOWTO:
+      http://sunsite.unc.edu/mdw/HOWTO/BootPrompt-HOWTO.html
+      http://rsphy1.anu.edu/~gpg109/BootPrompt-HOWTO.html
+
+Your current DOS/CPU configuration is:
+  load buffer size: 0x03F5F000 XMS , setup buffer size:  0x3E00
+  lowmem buffer:    0x00080000 (part of load buffer)
+  total memory:     0x04000000
+  CPU is in REAL mode
+  SetupIntercept: YES, patching setup code
+  stat1: cpu in real 386 mode, no need to backswitch
+  input params (size 0x0000):
+    
+  LOADLIN started from DOS-prompt

@@ -1,0 +1,3 @@
+Rimozione ricorsiva dei profili:
+
+rm -R /home/*/Documents/profile

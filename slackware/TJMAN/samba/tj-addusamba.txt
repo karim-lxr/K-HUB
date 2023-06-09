@@ -1,0 +1,24 @@
+19 giugno 2002
+
+Abrégeé aggiunta utenti
+-------------------------
+
+
+groups:
+
+users:	100
+allievi:	502
+docenti:	501
+machines:	500
+
+
+aggiunta macchine
+UNIX: useradd nomemacch$ -g machines -s /dev/false -d /dev/null
+
+SAMBA: smbpasswd -m -a nomemacch$
+
+
+
+aggiunta utenti
+
+smbpasswd -a utente

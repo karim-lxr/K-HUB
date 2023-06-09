@@ -1,0 +1,10 @@
+17-ago-03
+
+Utilizzo SCP via shell SSH
+--------------------------
+
+loggarsi su server sorgente:
+
+scp <filename> utentedest@serverdest:.
+
+CAVE puntini fianli importanti

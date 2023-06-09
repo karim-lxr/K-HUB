@@ -1,0 +1,55 @@
+gen 2011
+
+Implementazione Quota
+---------------------
+
+requirements: kernel+quota tools installed on first install
+then
+
+
+1) in /etc/fstab
+   adding, according fs you chose: usrquota,grpquota
+
+   like: '/dev/VolGroup00/LogVol00  /home            defaults,usrquota,grpquota 1 2'
+
+   cave:
+   usrquota define quota each user you want
+   grpquota share quota with group
+   
+2) activate your quotet filesystem without reboot
+   like: 'mount -o remount /home'
+   
+3) initializing quota DB
+   cd on fs quoted, case home:
+   'quotacheck -cug /home'
+
+4) verify db creation (aquota.users aquota.group) with 'ls -al aquota.*'
+
+5) enable quota support without reboot with: 'quotaon /home'
+
+6) verify if quota supporti is enabled with 'quotaon -p /home'
+
+7) editing and configure quota by each user with: edquota user1 or edquota -up user1 user2 user...
+
+8) assign quota policies inside edquota setting warning-limits(SOFT) and panic-limits(HARD)
+   Cave: limits 0 = no limits will be enforced
+   
+   limits by bit: 100M => 102.400
+                  200M => 204.800
+                  300M => 307.200
+                  400M => 409.600
+                  500M => 512.000
+                  
+9) setting graceful time, by days, default 7days with:
+   'edquota -f /home -t'
+   
+   
+10) reporting:
+    'repquota -a' for all filesystem, 'quota user1' for single user
+
+CAVE: to migrate filesystem
+      remember to erase old aquota.*, repeat this setting steps quota in new filesystem
+
+
+
+

@@ -1,0 +1,48 @@
+Easy Samba Server V 1.0
+
+by Lorenzo Allori <lallori@medici.org>
+
+This program is free software; you can redistribute it
+and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+http://www.gnu.org/philosophy/license-list.html
+
+The Author does not have any responsability on theese scripts
+
+
+With this package my goal is to give to not expert users the hint
+to use samba as a PDC (Primary Domain Controller) without making themselves
+mad reading crappy stuff all over the internet.
+
+It is very easy to use but... follow the instructions given in the file
+called INSTALL.
+
+And remember also the smbPDC.conf must be first edited and copied to the
+right directory before running samba.
+
+
+Here are the contents of the tar:
+
+
+- INSTALL	-----> installation instructions (follow the steps inside here)
+- THANKS	-----> who i want to thank for helping me
+
+- smbinstdir	-----> this script makes the directory structure for the PDC
+- smbadduser    -----> script to add samba PDC users
+- smbdeluser    -----> script to delete samba PDC users
+- smbcltrust    -----> script to add "Machine Trusted Accounts" (read INSTALL)
+- grcontrol     -----> support script used by smbadduser
+
+- nonpdc-smb.conf -----> simple samba conf file without pdc support
+- smbPDC.conf   -----> samba conf file we are going to use
+
+
+NOTE: This version is for samba 2.2.x (mainly samba 2.2.7a) not 3.x.
+
+
+
+For any bugs or suggestions e-mail me at:
+
+lallori@medici.org

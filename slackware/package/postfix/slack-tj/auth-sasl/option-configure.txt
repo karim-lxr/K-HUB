@@ -1,0 +1,142 @@
+<pre>
+9-ago-04
+
+compilazione SASL on SLACK 10
+*****************************
+Le librerie di autenticazione SASL generano 3 eseguibili, 2 per gestire la base utenti con Berkeley DB
+ed il deamon 'saslauthd' oggetto della presente compilazione; moduli pam possono essere compilati
+per interfacciarsi ad altri framework di autenticazione (mysql..)
+Il seguente 'configure' prevede supporto solo a saslauthd e relativa lettura degli account su /etc/shadow
+Ragioni di compatibilità client chiedono supporto alle features
+- login - plain - digest
+Compilando con TLS, prima viene cifrata la connessione ed in seguito passa evtl la pw in chiaro
+
+cyrus-sasl-2.1.19.tar.gz
+
+
+1) opzioni configure
+--------------------
+default prefix: /usr/local
+
+
+./configure \
+--prefix=/usr/local/src/cyrus-sasl-2.1.19/PACK/usr/local \ (solo per package build)
+--disable-anon \
+--disable-krb4 \
+--disable-otp \
+--disable-cram \
+--disable-gssapi \
+--disable-java \
+--enable-static \
+--enable-login \
+--enable-plain \
+--enable-digest \
+--enable-sample \
+--with-saslauthd=/var/run/saslauthd \
+--with-dblib=none \
+--without-pam \
+--with-openssl=/usr/include/openssl \
+--with-plugindir=/usr/local/lib/sasl2
+
+make
+make install
+
+2) sistemazione dettagli
+------------------------
+
+cd saslauthd
+make testsaslauthd
+cp testsaslauthd /usr/local/bin
+
+ln -s /usr/local/lib/sasl2/ /usr/lib/sasl2
+
+
+3) creazione file di configurazione 
+-----------------------------------
+necessario a postfix
+
+echo 'pwcheck_method: saslauthd' > /usr/lib/sasl2/smtpd.conf
+chmod 640 /usr/lib/sasl2/smtpd.conf
+chown root.postfix /usr/lib/sasl2/smtpd.conf
+
+CAVE: se manca o errato non funziona l'autenticazione senza msg d'errore relativi
+
+4) attivazione deamon 
+---------------------
+saslauthd -a shadow
+
+per start automatico, aggiungere in rc.local
+/usr/local/sbin/saslauthd -a shadow\npostfix start
+
+
+Supporto a TLS
+*****************
+
+2.1) compila Postfix SASL + TLS:
+requirements: sasl e openssl correttamente installate
+
+
+2.2) patch TLS
+ottenibile negli addon di postfix.org
+é necessario installare la patch TLS prima della creazione del  makefile:
+
+- portare la patch pfixtls.diff nella src di postfix
+- dare patch -p1 < pfixtls.dif  opzione di default 'p0' pone problemi
+
+2.3) compilazione Posfix con abilitazione TLS e SASL
+su Slack 10 gcc 2.3.4, causa linker, le opzioni -R -rpath non vengono riconosciute, workaround: '-Wl,-rpath,'
+
+make makefiles \
+CCARGS=" -DUSE_SASL_AUTH -DUSE_SSL \
+-I/usr/local/include/sasl -I/usr/include/openssl" \
+AUXLIBS="-L/usr/lib -Wl,-rpath,/usr/lib -lssl -lcrypto \
+ -L/usr/local/lib -lsasl2 -Wl,-rpath,/usr/local/lib"
+
+CAVE: blank non richiesti
+
+make
+
+2.4) make install 
+chiede path di installazione
+
+Certificati
+***********
+generazione semplice, solo cifratura, fake-identity con l'utility OpenSSL CA.pl in /etc/postfix
+
+CA.pl -newca		#Crea l'authorithy e la dir demoCA
+
+openssl req -new -nodes -keyout mailkey.pem \
+-out mailreq.pem -days 365
+
+openssl ca -out mail_signed_cert.pem -infiles mailreq.pem 
+
+Minima configurazione Postfix funzionante PER SASL TLS
+*****************************************************
+
+
+# layout SLACKWARE
+queue_directory = /var/spool/postfix
+daemon_directory = /usr/libexec/postfix
+sample_directory = /etc/postfix/sample
+mail_owner = postfix
+myorigin = $myhostname
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8, 192.168.1.0/24
+alias_database = hash:/etc/aliases
+readme_directory = /usr/doc/postfix-2.1.4/README_FILES
+html_directory = /usr/doc/postfix-2.1.4/HTML
+
+
+# SASL
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated,reject_unauth_destination
+
+# TLS
+smtpd_use_tls = yes
+smtpd_tls_key_file = /etc/postfix/mailkey.pem
+smtpd_tls_cert_file = /etc/postfix/mail_signed_cert.pem
+smtpd_tls_CAfile = /etc/postfix/cacert.pem
+<pre>

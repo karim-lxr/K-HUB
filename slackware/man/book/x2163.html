@@ -1,0 +1,646 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Permissions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Filesystem Structure"
+HREF="c2127.html"><LINK
+REL="PREVIOUS"
+TITLE="Filesystem Structure"
+HREF="c2127.html"><LINK
+REL="NEXT"
+TITLE="Links"
+HREF="x2265.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c2127.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 9. Filesystem Structure</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x2265.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="PERMISSIONS"
+>Permissions</A
+></H1
+><P
+>   Permissions are the other important part of the multiuser aspects of the
+   filesystem.  With these, you can change who can read, write, and execute
+   files.
+   </P
+><P
+>   The permission information is stored as four octal digits, each specifying
+   a different set of permissions.  There are owner permissions, group
+   permissions, and world permissions.  The fourth octal digit is used to
+   store special information such as set user ID, set group ID, and the
+   &#8220;sticky&#8221; bit.  The octal values assigned to the permission 
+   modes are (they also have letters associated with them that are displayed 
+   by programs such as <B
+CLASS="COMMAND"
+>ls</B
+> and can be used by 
+   <B
+CLASS="COMMAND"
+>chmod</B
+>):
+   </P
+><DIV
+CLASS="TABLE"
+><P
+><B
+>Table 9-1. Octal Permission Values</B
+></P
+><TABLE
+BORDER="0"
+CLASS="CALSTABLE"
+><TR
+><TH
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Permission Type</TH
+><TH
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>Octal Value</TH
+><TH
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>Letter Value</TH
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>"sticky" bit</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>1</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>t</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>set user ID</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>4</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>s</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>set group ID</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>2</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>s</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>read</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>4</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>r</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>write</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>2</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>w</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>execute</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>1</TD
+><TD
+WIDTH="96"
+ALIGN="CENTER"
+VALIGN="TOP"
+>x</TD
+></TR
+></TABLE
+></DIV
+><P
+>   You add the octal values for each permission group.  For example, if you
+   want the group permissions to be &#8220;read&#8221; and 
+   &#8220;write&#8221;, you would use &#8220;6&#8221; in the group portion
+   of the permission information.
+   </P
+><P
+>   <B
+CLASS="COMMAND"
+>bash</B
+>'s default permissions are:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ls -l /bin/bash</B
+></TT
+>
+   -rwxr-xr-x   1 root     bin  477692 Mar 21 19:57 /bin/bash</TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   The first dash would be replaced with a &#8220;d&#8221; if this was a 
+   directory.  The three permission groups (owner, group, and world) are 
+   displayed next.  We see that the owner has read, write, and execute 
+   permissions (rwx).  The group has only read and execute (r-x).  And everyone
+   else has only read and execute (r-x).
+   </P
+><P
+>   How would we set permissions on another file to resemble 
+   <B
+CLASS="COMMAND"
+>bash</B
+>'s?  First, let's make an example file:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>touch /tmp/example</B
+></TT
+>
+   $ <TT
+CLASS="USERINPUT"
+><B
+>ls -l /tmp/example</B
+></TT
+>
+   -rw-rw-r---  1 david    users    0 Apr 19 11:21 /tmp/example</TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   We will use <B
+CLASS="COMMAND"
+>chmod</B
+>(1) (which means &#8220;change
+   mode&#8221;) to set the permissions on the example 
+   file.  Add the octal numbers for the permissions you want.  For the owner 
+   to have read, write, and execute, we would have a value of 7.  Read and 
+   execute would have 5.  Run those together and pass them to 
+   <B
+CLASS="COMMAND"
+>chmod</B
+> like this:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>chmod 755 /tmp/example</B
+></TT
+>
+   $ <TT
+CLASS="USERINPUT"
+><B
+>ls -l /tmp/example</B
+></TT
+>
+   -rwxr-xr-x   1 david    users    0 Apr 19 11:21 /tmp/example</TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   To set special permissions, add the numbers together and place them in the
+   first column.  For example, to make it set user ID and set group ID, we
+   use 6 as the first column:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>chmod 6755 /tmp/example</B
+></TT
+>
+   $ <TT
+CLASS="USERINPUT"
+><B
+>ls -l /tmp/example</B
+></TT
+>
+   -rwsr-sr-x   1 david    users    0 Apr 19 11:21 /tmp/example</TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   If the octal values confuse you, you can use letters with 
+   <B
+CLASS="COMMAND"
+>chmod</B
+>.  The permission groups are represented as:
+   </P
+><DIV
+CLASS="INFORMALTABLE"
+><P
+></P
+><TABLE
+BORDER="0"
+CLASS="CALSTABLE"
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Owner</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>u</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Group</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>g</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>World</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>o</TD
+></TR
+><TR
+><TD
+WIDTH="144"
+ALIGN="LEFT"
+VALIGN="TOP"
+>All of the above</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+>a</TD
+></TR
+></TABLE
+><P
+></P
+></DIV
+><P
+>   To do the above, we would have to use several command lines:
+   </P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>chmod a+rx /tmp/example</B
+></TT
+>
+   $ <TT
+CLASS="USERINPUT"
+><B
+>chmod u+w /tmp/example</B
+></TT
+>
+   $ <TT
+CLASS="USERINPUT"
+><B
+>chmod ug+s /tmp/example</B
+></TT
+></TT
+>
+   </PRE
+></TD
+></TR
+></TABLE
+><P
+>   Some people prefer the letters over the numbers.  Either way will result
+   in the same set of permissions.
+   </P
+><P
+>   We mentioned set user ID and set group ID permissions in several places
+   above.  You may be wondering what this is.  Normally when you run a
+   program, it is operating under your user account.  That is, it has all
+   the permissions that you as a user have.  The same is true for the
+   group.  When you run a program, it executes under your current group.
+   With set user ID permissions, you can force the program to always run
+   as the program owner (such as &#8220;root&#8221;).  Set group ID is
+   the same, but for the group.  
+   </P
+><P
+>   Be careful with this, set user ID and set group ID programs can open 
+   major security holes on your system.  If you frequently set user ID
+   programs that are owned by &#8220;root&#8221;, you are allowing anyone
+   to run that program and run it as root.  Since root has no restrictions
+   on the system, you can see how this would pose a major security
+   problem.  In short, it's not bad to use set user ID and set group ID
+   permissions, just use common sense.
+   </P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c2127.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x2265.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Filesystem Structure</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c2127.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Links</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

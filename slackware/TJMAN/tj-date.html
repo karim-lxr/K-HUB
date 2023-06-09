@@ -1,0 +1,136 @@
+<!doctype html public "-//w3c//dtd html 3.2//en">
+
+<html>
+
+<head>
+<title>tj man date mar 01 2001</title>
+<meta name="GENERATOR" content="Arachnophilia 4.0">
+<meta name="FORMATTER" content="Arachnophilia 4.0">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Update System time and date</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel. mar-01-2001
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.com</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+
+
+<!-- Abstract listed -->
+<h2>Mostra e aggiorna data e ora di sistema</h2>
+<ul>
+	<li>comando 'hwclock' per ora hardware
+	<li>comando 'date' per ora di sistema
+</ul>
+
+<br>
+<br>
+
+
+<!-- Synop -->
+<h2>Synopsys</h2>
+
+<!-- table snopsys 1 -->
+<table  width="100%" border="0" >
+<caption align=left><i>hwclock</i></caption>
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 1 Column 2 -->
+		<td >
+		<code>
+		[shiva]# hwclock --show
+		</code>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+		mostra data e ora hardware		</td>
+	</tr>
+	
+<!-- second row -->
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 2 Column 2 -->
+		<td >
+		<code>
+	[shiva]# hwclock --set --date="3/1/2001 16:45:05"  
+		</code>
+		</td>
+		<!-- Row 2 Column 3 -->
+		<td >
+		modifica data e ora hardware
+		</td>
+	</tr>
+</table>
+<br>
+
+<!-- table snopsys 2 -->
+<table  width="100%" border="0" >
+<caption align=left><i>date</i></caption>
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 1 Column 2 -->
+		<td >
+		<code>
+		[shiva]# date		</code>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+		mostra data e ora di sistema		</td>
+	</tr>
+	
+<!-- second row -->
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 2 Column 2 -->
+		<td >
+		<code>
+	[shiva]# date 03011200  
+		</code>
+		</td>
+		<!-- Row 2 Column 3 -->
+		<td >
+		modifica data e ora di sistema nella notazione 'mese' 'giorno' 'ora' 'minuti'		
+</td>
+	</tr>
+</table>
+<br><br><br>
+<i>note</i>
+<br><br>
+la modifica di data e ora può essere ragione di instabilità di sistema, può essere necessario eseguire le modifiche in modalità
+monoutente 'init 1'. Tali modifiche sono concesse solo all'utente 'root'.
+
+
+</body>
+
+</html>

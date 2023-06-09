@@ -1,0 +1,8 @@
+26-mag-04
+
+SLACKWARE GESTIONE UTENTI
+-------------------------
+
+- modificare la skel opportunamente, default vuota
+- in /etc/shells é necessario aggiungere /bin/false
+- creato pacchetto slack createusers-1.3.3-i686-tj.tgz

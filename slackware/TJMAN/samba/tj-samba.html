@@ -1,0 +1,604 @@
+<HTML>
+
+
+
+<HEAD>
+<title>tj samba internal howto</title>
+<meta name="GENERATOR" content="Arachnophilia 4.0">
+<meta name="FORMATTER" content="Arachnophilia 4.0">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Internal Howto Samba</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			   rel 1.2.1,  nov-12-2000
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.com</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+<br>
+<br>
+
+<HR><EM>Installazione e Configurazione SaMBa, parte Server e Client, gestione Browser Based<br></EM><HR>
+</P>
+<H2>Introduzione</H2>
+<P>
+Samba é un applicativo il quale attraverso TCP/IP, utilizzato come protocollo di trasporto, rende  
+disponibile il protocollo di condivisione delle risorse SMB, normalmente conosciuto come NetBIOS, 
+le condivisioni necessitano l' identificazione del computer che offre il servizio:(nomi NetBIOS) non si parla di computer host, 
+ma direttamente di server, peer o client. I daemon SMBD e NMBD consentono l'apertura delle porte TCP UDP 137, 138 e 139, forniscono 
+i servizi NetBios secondo le direttive espresse in smb.conf, il quale consente numerose opzioni circa il 
+controllo di accesso alle condivisioni ed i criteri di visibilità della risorsa (browsing). 
+I client MS-Win.x accedono attraverso  TCP/IP, purch&eacute; reso disponibile sui medesimi. 
+Il Deamon SWAT, attiva un server http sulla porta 901 consentendo la configurazione Samba da browser.
+Il pacchetto <CODE>smbmount</CODE>, consente di montare su Linux box directory condivise situate su
+macchine Win nella rete.
+Viene descritto il Layout ed il concetto di avvio SuSE, in quanto distribuzione da noi usata per servers
+commerciali.
+
+<H2>Contents</H2>
+<ul>
+<LI>1. Practical Summary
+<LI><A href="#LAY">2. Directory layout S.u.S.E.</A>
+<LI><A href="#IST">3. Compilazione Samba 2.0.7</A>
+<LI><A href="#BOT">4. Avvio dei servizi Samba INIT</A>
+<LI><A href="#CONF">5. Configurazione di smb.conf</A>
+<LI><A href="#MAN">6. Man Pages</A>
+<LI><A href="#SYS">7. Test e comandi dei servizi Samba</A>
+<LI><A href="#LOG">8. Configurazione Net logon</A>
+<LI><A href="#APS">9. Installazione applicazioni condivise client - server</A>
+<LI><A href="#CLI">10. Configurazione Client MS-Win 3.11</A>
+<LI><A href="#PAS">11. Particolarità password di MS-Win.x</A>
+<LI><A href="#DOC">12. Documentazione di riferimento</A>
+<LI><A href="#DIS">13. Disclaimer</A>
+</ul>
+<BR>
+<BR>
+<BR>
+<BR>
+<H2><A NAME="LAY">2. Directory Layout S.u.S.E.</A></H2>
+<BR>
+Questa arborescenza si riferisce alla distribuzione S.u.S.E., benché i files siano i medesimi
+altre distribuzioni usano altre posizioni, p.es. <code>/usr/local/samba</code>.
+Sostanzialmente per rapporto ad altre distribuzioni differisce soprattutto la posizione dei
+files di configurazione <code>smb.conf smbpasswd</code>.
+<br>
+<pre>
++
++--------- etc/smb.conf      (file di configurazione caricato da NMBD SMBD)
++            /samba/smbpasswd
++           +	
++           +-- inetd.conf   (netbios disabilitato per default, e swat)
++           +
++           +-- rc.config    (é possibile lanciare all' avvio i servizi SMB)
++
++
++
++
++------------------- usr/bin - smbclient 
++                            - smbprint
++                            - smbprintsysv
++                            - smbstatus           BINARY
++                            - smbrun
++                            - tesparm
++                            
++
++
++----------------------- usr/sbin  - nmbd
++                                  - smbd          DEAMON
++                                  - swat
++
++
++----------------------- usr/local/samba-2.07/docs/htmldocs                           DOCS
++                                                            - manpages in html
++                                 /httpd/htdocs/using_samba  - libro samba
++
++
++----------------------- sbin/init.d  - smb
++                                     - smbfs
++                                     /rc2.d    @k19smb
++                                               @k20smbfs
++                                                              INIT SCRIPTS SUSE CONCEPT
++                                     /rc3.d    @k19smb
++                                               @k20smbfs
+</pre>
+<br>
+<pre>
+CONFIGURAZIONE LAYOUT DEL MAKEFILE
+
+#GV-17/07/2000  Parte di Make file - SuSE 6.4 Layout directory
+# generato da ./configure con sources in "/usr/local/samba-2.0.7/source"
+
+# DIRECTORY PREFIX
+prefix=/usr
+exec_prefix=${prefix}
+mandir=${prefix}/man
+
+# DIRECTORY DEI SORGENTI
+srcdir=.
+builddir=/usr/local/samba-2.0.7/source
+
+# POSIZIONE DI SHELL
+SHELL=/bin/sh
+
+# BASEDIR
+BASEDIR= /usr
+
+# DIRECTORY PER I BINARI
+BINDIR = ${exec_prefix}/bin
+
+# DIRECTORY PER I DEAMON
+# we don't use sbindir because we want full compatibility with
+# the previous releases of Samba
+SBINDIR = ${exec_prefix}/sbin
+
+# DIRECTORY DI LIBRERIA C
+LIBDIR = ${exec_prefix}/lib
+
+# POSIZIONE DI VAR
+VARDIR = /var/samba
+
+# POSIZIONE DI MAN
+MANDIR = ${prefix}/man
+
+# POSIZIONE LIBRO IN HTML SEC LAYOUT APACHE SUSE
+# IL PATH DEVE VENIR MODIFICATO ANCHE NEI SORGENTI SWAT
+SAMBABOOK = ${prefix}/local/httpd/htdocs/using_samba
+
+# The permissions to give the executables
+INSTALLPERMS = 0755
+
+# POSIZIONE DEI FILES DI LOG
+SMBLOGFILE = $(VARDIR)/log.smb
+NMBLOGFILE = $(VARDIR)/log.nmb
+
+# POSIZIONE DEI FILES DI CONFIGURAZIONE
+CONFIGFILE = /etc/smb.conf
+LMHOSTSFILE = /etc/lmhosts
+
+DRIVERFILE = $(LIBDIR)/printers.def
+PASSWD_PROGRAM = /bin/passwd
+
+# This is where smbpasswd et al go
+PRIVATEDIR = /etc/samba
+SMB_PASSWD_FILE = /etc/samba/smbpasswd
+
+# This is where SWAT images and help files go
+SWATDIR = ${prefix}/swat
+
+# the directory where lock files go
+LOCKDIR = $(VARDIR)/locks
+
+# The directory where code page definition files go
+CODEPAGEDIR = $(LIBDIR)/codepages
+
+# The current codepage definition list.
+CODEPAGELIST= 437 737 850 852 861 932 866 949 950 936
+
+# where you are going to have the smbrun binary. This defaults to the 
+# install directory. This binary is needed for correct printing
+# and magic script execution. This should be an absolute path!
+# Also not that this should include the name "smbrun" on the end (the
+# name of the executable)
+SMBRUN = $(BINDIR)/smbrun
+
+</pre>
+<br>
+<H2><A NAME="IST">3. Compilazione Samba 2.0.7</A></H2>
+<BR>
+<pre>
+
+compilazione Samba 2.0.7 sec. layout directory SuSE
+
+**************************************************
+Preparazione:
+ tar -zxvf samba-2.0.7.tar.gz in /usr/local
+e spostamento nella dir source
+
+ ./configure
+
+viene creato il Makefile
+
+Opzione:
+ se si intendono montare volumi FAT dalla rete, bisogna attivare l'opzione:
+ 
+ ./configure --with-smbmount
+ 
+in quanto, come descritto in README-smbmount nella root della distribuzione sorgente,
+i binari vengono ottenuti solo su Linux, per questioni di standard il default &eacute;
+costituito dall'utility "smbsh".
+
+**************************************************
+
+ITALIAN SWAT
+
+parte di swat &egrave; stata tradotta, al fine della sua installazione,
+copiare dal pacchetto "tjswat.tgz" i sorgenti contenuti e sostituirli
+agli originali PRIMA dell'esecuzione di make
+
+
+*************************************************
+Layout directory:
+
+ editate le directory del Makefile per
+
+$prefix = /usr
+/etc/smb.conf                      (1)per la configurazione
+/usr/bin                              per i binari
+/usr/sbin                             per i deamon
+/usr/lib                              per le lib
+/usr/man                              per le man pages
+/USR/local/httpd/htdocs/using_samba   per il libro in HTML
+/etc/samba                            per le smb passwd
+/var                                  per i files di log
+/var/samba/locks                   (2)per i locks
+
+(1) non viene generato il smb.conf che viene però cercato dai deamon
+    in quella posizione
+
+(2) non viene creata la directory  locks, bisogna crearla manualmente
+
+******************************************************
+creazione dei binari ed installazione :
+
+- sulle SuSE x86 il Makefile può essere sostituito o
+  meglio corretto con il layout accluso
+
+- make
+- make install
+
+il make può durare a lungo
+ed il make install esegue la copia dei binari come indicato nel Makefile
+*************************************************************************
+Configurazione:
+
+vedi samples di smb.conf
+
+</pre>
+<BR>
+<BR>
+<H2><A NAME="BOT">4. Avvio dei servizi Samba</A></H2>
+<BR>
+I servizi samba vengono abilitati manualmente con
+<p>&nbsp;&nbsp;&nbsp;<code>nmbd -D</code>
+<p>&nbsp;&nbsp;&nbsp;<code>smbd -D</code>
+<br>
+<br>
+O automaticamente mediante la struttura di init (vedi Layout)
+con gli scripts <a href=smb>/sbin/init.d/smb</a>, e  <a href=smb>/sbin/init.d/smbfs</a>,
+linkati simbolicamente in /sbin/init.d/rc2.d rc3d ->> @k19smb, @k20smbfs
+<BR>
+<pre>
+
+
+  \sbin\init.d------
+                    ¦-rc2.d\@K19smb  	= ln -s ../smb
+                    ¦       \@K20smbfs  = ln -s ../smbfs
+                    ¦
+                    ¦
+                    ¦-rc3.d\@K19smb  	= ln -s ../smb
+                    ¦      \@K20smbfs   = ln -s ../smbfs
+                    ¦	
+                    ¦
+                    ¦-smb
+                    ¦-smbfs	
+					
+</pre>
+<br>
+<br>
+<H2><A NAME="CONF">5. Configurazione di smb.conf</A></H2>
+<BR>
+<pre>
+# GV 21/12/1999
+
+# smb.conf netlogon
+
+[global]
+   workgroup = nome_del_gruppo
+   netbios name = nome_del_server
+   server string = proprietario Intranet [%v]
+   dead time = 15
+   log file = /var/log/samba
+   socket options = TCP_NODELAY
+   read prediction = yes
+   write raw = yes
+   read raw = yes
+   oplocks = no
+   lock directory = /var/lock/samba
+   share modes = yes
+   security = user
+   domain master = yes
+   domain logons = yes
+   logon script = users.bat
+   domain logons = yes 
+
+# con i net logon l'utente viene autenticato dal server mediante il file users.bat
+
+ ; FUNZIONI STAMPANTE (nelle global)
+  printing = bsd
+  printcap name = /etc/printcap
+  load printers = yes
+
+; sezione per rendere browseable le stampanti
+[printers]
+   comment = All Printers
+   browseable = no
+   printable = yes
+   public = no
+   read only = yes
+   create mode = 0700
+   directory = /tmp
+
+
+ [netlogon]
+   comment = Network Logon Service
+   path = /home/netlogon 
+   guest ok = yes 
+   browseable = no
+   writable = no 
+   share modes = no 
+
+[homes]
+   comment = Home Directories
+   path = /home/%U/dati
+   browseable = no
+   read only = no
+   create mode = 0750
+
+[tmp]
+   browseable = no
+   comment = Temporary file space
+   path = /tmp
+   read only = no
+   public = yes
+ 
+; con abilitazione della funzione di automount
+[CD-ROM]
+   comment = SERVER CD-ROM 
+   path = /cdrom 
+   read only = yes
+   locking = no
+   browseable = yes
+   root preexec = /bin/mount /cdrom
+   root postexec = /bin/umount /cdrom
+
+; directory pubblica per documenti comuni al gruppo,
+; per consentire a tutti di scrivere
+; viene assegnata la mask 0775
+[Public] 
+   comment= Cartelle di gruppo 
+   path = /home/public
+   writeable = yes 
+   printable = no 
+   write list = @users 
+   browseable = yes 
+   create mode = 0775
+   directory mode = 0775
+
+; directory aperta solamente agli utenti specificati (r+w)
+; é necessaria la umask affinché tutti gli utenti autorizzati
+; abbiano gli stessi diritti di r+w
+[private]
+ comment = Restricted directory
+ path = /home/private
+ browseable = yes
+ valid users = utente1 utente2
+ public = no
+ writeable = yes
+ printable = no
+ create mode = 0775
+ directory mode = 0775
+
+
+; percorso di installazione amministrativa Office97
+[msoff97] 
+   path = /home/msoff97 
+   comment = adminstrative setup 
+   volume = "MS-Office97" 
+   read only = yes 
+   available = yes
+   share modes = no
+   locking = no
+   browseable = yes
+   public = yes
+
+</pre>
+<br>
+<BR>
+<H2><A NAME="MAN">6. Man Pages</A></H2>
+<BR>
+<h3>Help ufficiale, <A href="docs/htmldocs/smb.conf.5.html">smb.conf.5.html</a></h3>
+<br>
+<br>
+<H2><A NAME="SYS">7. Test e comandi dei servizi Samba</A></H2>
+<BR>
+<h3>Accesso agli share win.x con <i>Smbclient</i></h3>
+La connessione a shares su win9.x da linux con smbclient, offre comandi ftp compreso tar secondo la seguente sintassi:
+<h3>accesso</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>smbclient //host/share  - param</code>
+<br>-N: va bene per le shares senza pw
+<br>-U utente%paswd: effettua connessione su shares con pw in modalità non interattiva, su win9x l'utente é ininfluente
+<br><br>
+<h3>backup</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>smbclient //mypc/myshare -U%paswd  -Tc backup.tar</code>
+<br>
+effettua il backup di tutto lo share:<br>
+-q , quite toglie verbose dal backup, l'utente non é stato necessario,non viene effettuata compressione
+<br><br>
+<h3>restore</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>smbclient //mypc/myshare -U%paswd  -Tx backup.tar</code>
+<br>anche la sovrascrittura non da problemi
+<br>
+sint. alternativa : <code>'\\mypc\myshare'</code>
+<h3>smbmount</h3>
+Per operazioni pi&ugrave; complesse, &eacute; meglio ricorrere a smbmount, utility like NFS, che conesnte il mount vero e 
+proprio, sintassi mount:  <code>smbmount //mypc/myshare /mnt/mountpoint</code>
+<br>sintassi umount:  <code>smbumount /mnt/mountpoint</code>
+
+<br><br>
+<H2><A NAME="LOG">8. Configurazione Net logon</A></H2>
+<br>
+La configurazione di Net Logon, ovvero l'accesso alla rete presso un server di autenticazione
+necessita di: 
+<ul>
+<li> Opportune direttive in smb.conf
+<li> Uno script DOS-batch
+<li> configurazione del client Win
+</ul>
+<br>
+<h3>direttive smb.conf</h3>
+<br>
+Per la sezione global
+<pre>
+[global]
+   share modes = yes
+   security = user                 # definisce il livello di accesso
+   domain master = yes             # definisce trattarsi del master browsing
+   domain logons = yes             # accetta la procedura di logon
+   logon script = users.bat        # nome del batch di autenticazione
+</pre>
+<br>
+sezione specifica
+<pre>
+ [netlogon]
+   comment = Network Logon Service
+   path = /home/netlogon           # percorso del batch users.bat
+   guest ok = yes 
+   browseable = no
+   writable = no 
+   share modes = no 
+</pre>
+<br>
+script users.bat da inserire nella opportuna deirectory
+<pre>
+rem GV 23/12/99 Script di logon per accesso samba
+rem script posizionato in: /home/logon
+rem reso 755, dir logon non browseable
+rem  NET USE \\ <nome della macchina server> \ <variabile utente abilitato> %U
+rem in questo modo é sufficiente un solo bat per tutti gli utenti abilitati
+rem NET TIME  questo comando sincronizza l'ora del server sul client
+
+NET USE \\NOME_SERVER\&U
+NET TIME \\NOME_SERVER /YES /SET
+</pre>
+<br>
+configurazione del client Win
+<br>
+<ul>
+<li>Da Pannello di controllo aprire rete
+<li>aprire "Client per reti Microsoft"
+<li>Selezionare "accedi ad un dominio Windows NT"
+<li>Inserire il nome del dominio Samba
+</ul>
+Per garantire il browsing della rete, l'identificativo del gruppo di lavoro
+deve essere il medesimo del dominio Samba,in caso contrario l'accesso ai volumi in rete 
+viene fatto con "connetti unit&agrave; di rete", specificando il path
+<BR>
+<br>
+<br>
+<br>
+<H2><A NAME="APS">9. Installazione applicazioni condivise client - server</A></H2>
+<BR>
+L'installazione di applicativi client-server, p. es. MS-Office, Star-Office 5.1, File Maker,
+Lotus Organizer ecc. pu&ograve; essere fatta predisponendo un opportuno volume sul server, Cave MS-Office 2000
+richiede ca 800 MB, ed opportune direttive in smb.conf PRIMA dell'installazione, e modificate ad
+installazione conclusa. I permessi unix sulla directory di installazione devono consentire
+all'amministratore che esegue l'installazione server di leggere e scrivere, mentre successivamente all'utente
+che si installer&agrave; l'applicativo sulla propria stazione di lavoro basteranno il browsing ed il
+permesso in lettura.
+<br><br>
+Direttiva per consentire l'installazione
+<pre>
+[applic] 
+   comment= administrative setup
+   path = /app/applic
+   writeable = yes 
+   printable = no 
+   write list = @users 
+   browseable = yes 
+   create mode = 0775        #importante per la riuscita del setup
+   directory mode = 0775
+</pre>
+<br>
+creato il volume cos&igrave; configurato, dopo restart di Samba
+<ul>
+<li>mediante "connetti unit&agrave; di rete" assegnare una lettera disco al volume
+<li> nessun altro client attivo sulla rete
+<li> dal CD setup dell'applicativo sulla macchina win per il setup su Server chiamare
+<li>comando esegui X:\apps\setup.exe /A  per MS-Office.x
+<li>comando esegui X:\apps\setup.exe /NET  per StarOffice 5.1
+<li> dove X sta per unit&agrave; CD-ROM
+</ul>
+<br>
+<br>
+Modifica smb.conf dopo setup dell'applicazione
+<br>
+<pre>
+[msoffx] 
+   path = /home/msoffx 
+   comment = adminstrative setup 
+   volume = "MS-Officex" 
+   read only = yes 
+   available = yes
+   share modes = no
+   locking = no
+   browseable = yes
+   public = yes
+</pre>
+restart samba
+<br><br><br>
+<H2><A NAME="CLI">10. Configurazione Client MS-Win 3.11</A></H2>
+<BR>
+<BR>
+<H2><A NAME="PAS">11. Particolarità password di MS-Win.x</A></H2>
+<BR>
+<BR>
+<H2><A NAME="DOC">12. Documentazione di riferimento</A></H2>
+<ul>
+
+<li><i>change-log</i>, announcement di Samba 2.0.7
+<li><i>Sources Doc</i>, doc ufficiale di Samba 2.0.7
+<li><A href="http://samba.anu.edu.au">Samba Web page</A>, sito ufficiale Samba Team
+</ul>
+<br>
+<br>
+<H2><A NAME="DIS">13. Disclaimer</A></H2>
+Gli Internal-HOWTO,quale base teorica, sono stati redatti a partire da documentazione 
+ufficiale Linux, al momento la più aggiornata, la quale mantiene in tutte le sue parti 
+i rispettivi diritti di copyright. La parte pratica che ne consegue, é il frutto della
+applicazione e relativa verifica sui nostri sistemi allo scopo di fornire linee guida 
+interne all'implementazione dei sistemi Linux.
+Nonostante il nostro impegno nel cercare di produrre questo documento, condizioni 
+d'uso particolari o insufficiente conoscenza dei sistemi operativi utilizzati, possono
+deludere le vostre attese o produrre risultati non previsti; non possiamo garantirvi o
+ritenerci responsabili delle conseguenze d'uso della presente documentazione sui vostri sistemi.
+Questo documento è protetto dai diritti d'autore (C) 1998 technojuice. Il documento
+può essere riprodotto e distribuito in tutto o in parte, in qualsiasi formato fisico o elettronico, a patto che questo avviso di copyright sia mantenuto su tutte le copie. La redistribuzione commerciale è permessa; tuttavia l'autore gradirebbe esserne
+avvisato.
+<BR>
+<br>
+Every attempt has been made to ensure that the information presented in this Internal-HOWTO is safe and accurate. However, this information is given without any warranty, either expressed or implied, as to its suitability for a particular use. It is generally considered a GoodThing(TM) to make backups of your system files before 
+changing system configurations and/or files. I suggest you take this precaution "just 
+in case". 
+
+
+<HR>
+
+Precedente
+<A HREF="#TOP">TOP</A>
+ </BODY>
+ </HTML>

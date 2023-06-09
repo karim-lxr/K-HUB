@@ -1,0 +1,615 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>tar</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Archive Files"
+HREF="c3401.html"><LINK
+REL="PREVIOUS"
+TITLE="bzip2"
+HREF="x3456.html"><LINK
+REL="NEXT"
+TITLE="zip"
+HREF="x3591.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x3456.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 14. Archive Files</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x3591.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="TAR"
+>tar</A
+></H1
+><P
+><B
+CLASS="COMMAND"
+>tar</B
+>(1) is the GNU tape archiver.  It takes several files 
+or directories and creates one large file.  This allows you to compress 
+an entire directory tree, which is impossible by just using 
+<B
+CLASS="COMMAND"
+>gzip</B
+> or <B
+CLASS="COMMAND"
+>bzip2</B
+>.  <B
+CLASS="COMMAND"
+>tar</B
+> 
+has many command line options, which are explained in its man page.  This 
+section will just cover the most common uses of <B
+CLASS="COMMAND"
+>tar</B
+>.</P
+><P
+>The most common use for <B
+CLASS="COMMAND"
+>tar</B
+> is to decompress and 
+unarchive a package that you've downloaded from a web site or ftp site.  
+Most files will come with a <TT
+CLASS="FILENAME"
+>.tar.gz</TT
+> extension.  This is 
+commonly known as a &#8220;tarball&#8221;.  It means that several files were 
+archived using <B
+CLASS="COMMAND"
+>tar</B
+> and then compressed using 
+<B
+CLASS="COMMAND"
+>gzip</B
+>.  You might also see this listed as a 
+<TT
+CLASS="FILENAME"
+>.tar.Z</TT
+> file.  It means the same thing, but this is usually
+encountered on older <SPAN
+CLASS="TRADEMARK"
+>Unix</SPAN
+> systems.</P
+><P
+>Alternatively, you might find a <TT
+CLASS="FILENAME"
+>.tar.bz2</TT
+> file somewhere.  
+Kernel source is distributed as such because it is a smaller download.  As you 
+might have guessed, this is several files archived with <B
+CLASS="COMMAND"
+>tar</B
+> 
+and then bzipped.</P
+><P
+>You can get to all the files in this archive by making use of 
+<B
+CLASS="COMMAND"
+>tar</B
+> and some command line arguments.  Unarchiving a 
+tarball makes use of the <TT
+CLASS="USERINPUT"
+><B
+>-z</B
+></TT
+> flag, which means to first 
+run the file through <B
+CLASS="COMMAND"
+>gunzip</B
+> and decompress it.  The most 
+common way to decompress a tarball is like so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar -xvzf hejaz.tar.gz</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>That's quite a few options.  So what do they all mean?  The 
+<TT
+CLASS="USERINPUT"
+><B
+>-x</B
+></TT
+> means to extract.  This is important, as it tells 
+<B
+CLASS="COMMAND"
+>tar</B
+> exactly what to do with the input file.  In this case, 
+we'll be splitting it back up into all the files that it came from.  
+<TT
+CLASS="USERINPUT"
+><B
+>-v</B
+></TT
+> means to be verbose.  This will list all the files 
+that are being unarchived.  It is perfectly acceptable to leave this option 
+off, if somewhat boring.  Alternatively, you could use 
+<TT
+CLASS="USERINPUT"
+><B
+>-vv</B
+></TT
+> to be very verbose and list even more information 
+about each file being unarchived.  The <TT
+CLASS="USERINPUT"
+><B
+>-z</B
+></TT
+> option tells 
+<B
+CLASS="COMMAND"
+>tar</B
+> to run <TT
+CLASS="FILENAME"
+>hejaz.tar.gz</TT
+> through 
+<B
+CLASS="COMMAND"
+>gunzip</B
+> first.  And finally, the <TT
+CLASS="USERINPUT"
+><B
+>-f</B
+></TT
+> 
+option tells <B
+CLASS="COMMAND"
+>tar</B
+> that the next string on the command line 
+is the file to operate on.</P
+><P
+>There are a few other ways to write this same command.  On older systems
+lacking a decent copy of GNU tar, you might see it written like so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+> gzip -dc hejaz.tar.gz | tar -xvf -</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This command line will unzip the file and send the output to 
+<B
+CLASS="COMMAND"
+>tar</B
+>.  Since <B
+CLASS="COMMAND"
+>gzip</B
+> will write its 
+output to standard out if told to do so, this command will write the 
+decompressed file to standard out.  The pipe then sends it to 
+<B
+CLASS="COMMAND"
+>tar</B
+> for unarchiving.  The &#8220;-&#8221; means to operate 
+on standard input.  It will unarchive the stream of data that it gets from 
+<B
+CLASS="COMMAND"
+>gzip</B
+> and write that to the disk.</P
+><P
+>Another way to write the first command line is to leave off the dash before
+the options, like so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar xvzf hejaz.tar.gz</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>You might also encounter a bzipped archive.  The version of 
+<B
+CLASS="COMMAND"
+>tar</B
+> that comes with Slackware Linux can handle these the 
+same as gzipped archives.  Instead of the <TT
+CLASS="USERINPUT"
+><B
+>-x</B
+></TT
+> command 
+line option, you'd use <TT
+CLASS="USERINPUT"
+><B
+>-y</B
+></TT
+>:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar -xvyf foo.tar.bz2</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>It is important to note that <B
+CLASS="COMMAND"
+>tar</B
+> will place the unarchived 
+files in the current directory.  So, if you had an archive in 
+<TT
+CLASS="FILENAME"
+>/tmp</TT
+> that you wanted to decompress 
+into your home directory, there are two options.  First, the archive could be 
+moved into your home directory and then run through <B
+CLASS="COMMAND"
+>tar</B
+>.  
+Or, you could specify the path to the archive file on the command line:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar -xvzf /tmp/bar.tar.gz</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The contents of the archive would be dumped into your home directory, and the
+original compressed archive file will still be in <TT
+CLASS="FILENAME"
+>/tmp</TT
+>.</P
+><P
+>The second most common operation with <B
+CLASS="COMMAND"
+>tar</B
+> is making your 
+own archives.  Making an archive is no more complicated than unarchiving other 
+files; it just takes a different set of command lines options.</P
+><P
+>To create a compressed tar archive of all the files in the current directory
+(including any subdirectories and their files), you would use 
+<B
+CLASS="COMMAND"
+>tar</B
+> like so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar -cvzf archive.tar.gz .</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>In this command line, the <TT
+CLASS="USERINPUT"
+><B
+>-c</B
+></TT
+> option tells 
+<B
+CLASS="COMMAND"
+>tar</B
+> to create an archive, while the <TT
+CLASS="USERINPUT"
+><B
+>-z</B
+></TT
+>
+option runs the resulting archive file through <B
+CLASS="COMMAND"
+>gzip</B
+> to 
+compress it.  <TT
+CLASS="FILENAME"
+>archive.tar.gz</TT
+> is the file that you want to 
+create.  You can call it anything you want, and if you include a full path 
+name, it will put the archive in that directory.  Here is an example of that:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>tar -cvzf /tmp/archive.tar.gz .</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The archive would then go into <TT
+CLASS="FILENAME"
+>/tmp</TT
+>.  
+You can also list all the file and directories that you want to be included in 
+the archive by listing them at the end of the command.  In this case, the 
+<TT
+CLASS="USERINPUT"
+><B
+>.</B
+></TT
+> is the directory to include in the archive.  This 
+could easily be replaced with a list of various files, or whatever you want 
+to archive.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x3456.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x3591.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>bzip2</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c3401.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>zip</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

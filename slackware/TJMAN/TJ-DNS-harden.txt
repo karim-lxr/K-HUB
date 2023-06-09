@@ -1,0 +1,96 @@
+26-apr-03
+
+HARDENING BIND 9
+-----------------
+
+1a fase:
+*********
+
+in named.conf restringere trasferimenti di zona e protezione spoofing
+
+
+in zona esistente:
+
+zone "esist" {
+      	allow-transfer { 192.168.1.4; localhost; };
+		allow-query { any; }; 	
+};
+
+
+ zone "196.168.192.in-addr.arpa"
+	 { allow-query { any; }; }; 
+
+
+
+
+nelle option
+
+	options {
+	allow-query { 192.168.196.0/24; localhost; };
+	allow-recursion { 192.168.196.0/24; localhost; }; 
+	 }; 
+
+
+
+
+2a fase:
+********
+compilato da sorgente bind 9.2.2 con --prefix=/chroot/named
+e costruita jail ok SuSE 8.0 , 8.1
+
+
+27 apr 2003
+
+Script originale modificato per chroot, parte con utente 'named'
+named.chroot 
+CAVE: SuSE 7.x
+
+- compilato su sources bind9-2.2
+- la jail  completa
+
+1. controlla: utente 'named' con home in /chroot/named shell /false ed esistenza gruppo 'named'
+
+2. effettua backup di /var/named , /etc/named.conf , /etc/init.d/named (cave ver)
+                                                                ********************* 
+3. untar jail
+
+4. verifica permission, 700 per jail
+
+5. copia la /var/named, if exist nella /chroot/named/etc/namedb
+
+6. copia /etc/named.conf in  /chroot/named/etc/named.conf (esige path corretto completo)
+
+7. unistall bind
+
+8. evtl sostituzione in /usr/bin dei binutils
+
+9. pulizia con backup ed inutilities in /usr/local/oldns 
+
+
+
+DOC refers:
+
+guide lines: Securing an Internet name server 2002 based on Cricket Liu www.isc.org
+http://wwww.cert.org/archive/pdf/dns.pdf
+
+BIND 9 Administrator Reference Manual on www.isc.org
+
+"rendere sicuri DNS e BIND" 2000
+http://www.networkitalia.it/linux/securdns.asp
+
+DNS HOWTO N Langfeld dec 2001
+6. Opzioni di sicurezza di base
+
+Chroot-BIND HOWTO S Wunsch 2001
+
+
+
+
+
+
+subnet metan
+--------------
+Bzona 	172.16.36.0/23
+Lugano 	172.17.54.0/23 esist
+Stabio	172.18.32.1/23 previsto
+Mendrisio	172.18.28.1/23 esist

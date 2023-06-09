@@ -1,0 +1,330 @@
+La compilazione di Mysql dai sorgenti
+
+Type: Sub Report
+Tool:  MySQL 3.23.XX
+Argument: Installazione MySQL DBMS senza supporto per le transazioni
+Sector: Software
+Filename: sr001-noBDB
+Authors: Riccardo Sucapane
+Revisors: 
+Version: 0.1
+Date: 10 Gennaio 2002
+Note: INPROGRESS
+
+**********************************************************************
+* PREMESSA: Sono disponibili i pacchetti binari per la slackware 8.  *
+*           Basta dare il comando installpkg mysql.tgz e si installa *
+*	    tutto senza problemi.			             *
+*	    Quanto segue descrive l'istallazione (non standard) dei  *
+*	    sorgenti nella directory /usr/local/mysql.		     *
+**********************************************************************
+
+**********************************************************************
+Quanto segue e' stato testato su Slackware 8. Si declina la 
+responsabilita` per  eventuali malfunzionamenti in seguito alla 
+istallazione descritta in seguito
+**********************************************************************
+I pacchetti da avere (si trovano tutti sul sito di MySQL) sono:
+
+mysql-3.23.xx.tgz	             	- MySql package (ultima versione)
+
+Interfaccia per il Perl
+
+DBI-1.13.tar.gz                  	- API tra DBMS generici e Perl5
+Data-Dumper-2.101.tar.gz         	- Supporto generale tra DBMS e Perl5
+Msql-Mysql-modules-1.2209.tar.gz 	- Driver tra MySQL, MSQL e Perl5
+KAMXbase1.2.tar.gz			- Per la conversione tra DBF (Xbase con memo fields) 
+					  e MySQL
+
+******************* Posizionamento dei sorgenti MYSQL ***********************
+
+COME UTENTE ROOT:
+
+- Creare in /usr/local la dir mysql (mkdir mysql)
+- Copiare mysql-3.xxx.tgz in /usr/local/mysql
+- Scompattare il mysql in /usr/local/mysql (tar -xzf mysql-3.xxx.tgz) 
+- Da /usr/local/mysql dare il comando chown -R root.root mysql-3.xxx
+
+******************* Installazione (prima Istallazione) **********************
+
+- Creare (o Modificare se gia' esistono): 
+    gruppo: mysql (groupadd mysql) con riga in /etc/group:	
+	     
+	mysql::16:	(meglio mysql::16:mysql)
+    
+    utente: mysql (useradd -g mysql mysql) con riga in /etc/passwd: 
+    
+	mysql:x:16:16:MySQL Proto,,,:/usr/local/mysql:/bin/true
+
+- Lanciare lo script di configurazione (tutto su una riga)
+
+    ./configure --prefix=/usr/local/mysql 
+		--enable-mantainer-mode 
+		--with-mysqld-user=mysql 
+		--with-unix-socket-path=/usr/local/mysql/tmp/mysql.sock
+
+- Dare i comandi:
+    make
+    make install 
+
+- Creare la dir /usr/local/mysql/etc (da /usr/local/mysql mkdir etc)     
+
+- Creare la dir /usr/local/mysql/tmp (da /usr/local/mysql mkdir tmp)     
+
+- Da /usr/local:
+    chown -R mysql.mysql mysql
+
+- Mettere in /etc/ld.so.conf la stringa:
+    /usr/local/mysql/lib/mysql
+
+- Creare in /etc/profile.d il file mysql.sh contenente:
+
+	# MySQL 
+
+	MYSQL=/usr/local/mysql
+	PATH=$PATH:$MYSQL/bin
+	export MYSQL PATH
+
+- Dare i comandi:
+	chown root.root mysql.sh
+	chmod 755 mysql.sh
+
+- ldconfig
+
+- Da /usr/local/mysql-3.23.xxx dare il comando:
+
+        scripts/mysql_install_db
+    
+**********************************************************************
+*  ATTENZIONE!!!  se a questo punto ottenete un messaggio di errore  *
+*  cio vuol dire che e' stato sbagliato qualcosa nell' istallazione. *
+*  In questo caso cancellate tutto e ricominciate da capo.	     *
+*  (da /usr/local rm -R mysql)					     *
+**********************************************************************
+
+- Copiare in /etc il file di configurazione:
+    support-files/my.cnf-xxxx come /etc/my.conf (root.root 644)
+
+- Creare il link:
+	ln -s /etc/my.cnf /usr/local/mysql/etc/my.cnf (mysql.mysql)
+
+- Copiare in /etc/rc.d il file di configurazione:
+    support-files/mysql.server come rc.mysql
+
+- Mettere in rc.M o rc.local il comando di partenza per rc.mysql 
+    if [ -x /etc/rc.d/rc.mysql ]; then
+      /etc/rc.d/rc.mysql start &
+    fi
+
+- Da /usr/local:
+    chown -R mysql.mysql mysql
+
+----------------------------- INIZIO my.cnf -------------------------------
+
+****************************************************************************
+# Example mysql config file for medium systems.                            *
+#***************************************************************************
+# LEGGI LE CARRATERISTICHE DEI FILE my.conf per vedere quella che serve.   *
+#***************************************************************************
+# This is for a system with little memory (32M - 64M) where MySQL plays    *
+# a important part and systems up to 128M very MySQL is used together with *
+# other programs (like a web server)                                       *
+#***************************************************************************
+# One can in this file use all long options that the program supports.     *
+# If you want to know which options a program support, run the program     *
+# with --help option.                                                      *
+#***************************************************************************
+
+# The following options will be passed to all MySQL clients
+
+[client]
+#password	= your_password
+port		= 3306
+socket		= /usr/local/mysql/tmp/mysql.sock
+
+# Here follows entries for some specific programs
+
+# The MySQL server
+
+[mysqld]
+port		= 3306
+socket		= /usr/local/mysql/tmp/mysql.sock
+skip-locking
+set-variable	= key_buffer=16M
+set-variable	= max_allowed_packet=1M
+set-variable	= table_cache=64
+set-variable	= sort_buffer=512K
+set-variable	= net_buffer_length=8K
+set-variable	= myisam_sort_buffer_size=8M
+log-bin
+server-id	= 1
+
+# Point the following paths to different dedicated disks
+
+#tmpdir		= /tmp/		
+#log-update 	= /path-to-dedicated-directory/hostname
+
+# Uncomment the following if you are using BDB tables
+
+#set-variable	= bdb_cache_size=4M
+#set-variable	= bdb_max_lock=10000
+
+# Uncomment the following if you are using Innobase tables
+
+# innodb_data_file_path = ibdata1:400M
+# innodb_data_home_dir = /usr/local/mysql/var/
+# innodb_log_group_home_dir = /usr/local/mysql/var/
+# innodb_log_arch_dir = /usr/local/mysql/var/
+# set-variable = innodb_mirrored_log_groups=1
+# set-variable = innodb_log_files_in_group=3
+# set-variable = innodb_log_file_size=5M
+# set-variable = innodb_log_buffer_size=8M
+# innodb_flush_log_at_trx_commit=1
+# innodb_log_archive=0
+# set-variable = innodb_buffer_pool_size=16M
+# set-variable = innodb_additional_mem_pool_size=2M
+# set-variable = innodb_file_io_threads=4
+# set-variable = innodb_lock_wait_timeout=50
+
+[mysqldump]
+quick
+set-variable	= max_allowed_packet=16M
+
+[mysql]
+no-auto-rehash
+
+# Remove the next comment character if you are not familiar with SQL
+
+# safe-updates
+
+[isamchk]
+set-variable	= key_buffer=20M
+set-variable	= sort_buffer=20M
+set-variable	= read_buffer=2M
+set-variable	= write_buffer=2M
+
+[myisamchk]
+set-variable	= key_buffer=20M
+set-variable	= sort_buffer=20M
+set-variable	= read_buffer=2M
+set-variable	= write_buffer=2M
+
+[mysqlhotcopy]
+interactive-timeout
+
+------------------------------ FINE my.cnf ---------------------------------
+
+- Dare il comando:
+	safe_mysqld &
+- Con un ps -ax controllare che il daemon sia regolarmente partito.
+  NOTA: Il file di configurazione my.conf e' solo un esempio per vedere 
+        se tutto funziona.
+
+********************** Configurazione supporto Perl **********************
+
+Per ogni package controlla se non e' gia installato nella Slack XX
+
+******************************************************************
+- Data-ShowTable-3.3: (Gia'presente in Slack 8 NON RICOMPILARE)
+
+- Scompattare il sorgente ed entrare nella sua directory
+- Dare i comandi:
+	perl Makefile.PL
+	make
+	make test
+	make install
+******************************************************************
+******************************************************************
+- DBI-1.18: (in Slack 8 c'e'la versione 1.15)
+
+- Scompattare il DBI ed entrare nella sua directory
+- Dare i comandi:
+	perl Makefile.PL
+	make
+	make test
+	make install
+******************************************************************
+
+******************************************************************
+- Data-Dumper-2.101:
+
+- Scompattare il Data-Dumper ed entrare nella sua directory
+- Dare i comandi:
+	perl Makefile.PL
+	make
+	make test
+	make install
+******************************************************************
+
+******************************************************************
+- Msql-Mysql-modules-1.2216:
+
+- Scompattare il Msql-mysql-modules-xxxx ed entrare nella 
+  sua directory
+- Dare i comandi:
+	perl Makefile.PL --static --config
+	    rispondere '1' alla prima domanda
+	    rispondere 'n' alla seconda
+	    rispondere '/usr/local/mysql' alla terza
+	    rispondere 'test' alla quarta
+	    rispondere 'localhost' alla quinta
+	    'undef' alla sesta e settima
+	make
+	make test
+	make install
+
+******************************************************************
+
+******************************************************************
+- KAMXbase1.2:
+
+- Scompattare il KAMXbase ed entrare nella sua directory
+- Dare i comandi:
+	perl Makefile.PL
+	make
+	make test
+	make install (UNINST=1)
+
+******************************************************************
+
+dai un ldconfig
+
+***************************** Test sul Server ******************************
+
+- Andare in /usr/local/mysql/sql-bench
+- Dare il comando:
+
+    ./run-all-tests
+****************************************************************************
+Operazioni base:
+
+- mysqladmin
+
+    1) Per settare, per la prima volta la password di utente root
+	mysqladmin -u root password 
+    2) Per cambiare la password di utente root    
+	mysqladmin -u root -p password 
+       ed inserire al prompt la password attuale.
+    3) D'ora in poi ogni comando mysqladmin sara'
+	mysqladmin <-u root> -p 
+    
+- mysql
+
+    shell batch interattiva         
+
+- per caricare un database:
+
+    mysqladmin -u root -p create nomedb
+    mysql -p nomedb < nomedb.sql 
+
+****************************************************************************
+Aggiornamento: (passaggio da una versione minor ad un altra
+		es. 3.23.45  ---> 3.23.46)
+
+- Salva la dir /usr/local/mysql/var in una posizione di comodo.
+- Esegui l'istallazione come descritto sopra.
+- Copia la vecchia P/var al posto della /var appena istallata 
+
+Aggiornamenti e modifiche di questo documento sono disponibili su www.slack.z00.it.
+
+

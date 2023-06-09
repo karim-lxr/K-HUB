@@ -1,0 +1,14 @@
+# params file for LOADLIN, generated for technojoy at 09.98
+
+C:\loadlin\vmlinuz  # file name of kernel image
+root=/dev/sda1      # root file system, 
+                    
+ro                  # root-fs will be mounted readonly
+                    
+
+# commandline for Linux start is: "loadline.exe @linux.par"
+# warning to add absolutely path
+
+# here may be your chosen keymap params
+
+# end of params file

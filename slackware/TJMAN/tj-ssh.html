@@ -1,0 +1,142 @@
+<!doctype html public "-//w3c//dtd html 3.2//en">
+
+<html>
+
+<head>
+<title>tj man ssh</title>
+<meta name="GENERATOR" content="Arachnophilia 4.0">
+<meta name="FORMATTER" content="Arachnophilia 4.0">
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Use ssh</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel. mar-04-2001
+			<br>
+			<a href="mailto:guido@technojuice.com"><i>guido@technojuice.com</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+
+
+<!-- Abstract listed -->
+<h2>Utilizzo delle connessioni con ssh</h2>
+<ul>
+	<li>SSH (Secure Shell) é un programma per collegarsi ad un altro computer dalla rete attraverso una autenticazione 		stretta ed una comunicazione sicura su reti non sicure, infatti implementa meccanismi di criptaggio dei dati tra i 2 		computer, 	attraverso l'uso di chiavi RSA pubbliche e private.
+
+<li>Il server per l'accesso, "host.di.dest", consentirà solo l'uso di una sessione telnet per il   collegamento .
+	 Per collegarsi da una macchina UNIX basta dare 	il comando:<code> ssh -i -l "username" 'host.di.dest'</code>
+</ul>
+
+<br>
+<br>
+
+
+<!-- Synop -->
+<h2>Synopsys</h2>
+
+<!-- table snopsys 1 -->
+<table  width="100%" border="0" >
+<caption align=left><i>man ssh</i></caption>
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		
+	<!-- Row 1 Column 2 -->
+		<td >
+		<pre>
+SSH(1)                         SSH                         SSH(1)
+
+
+NAME
+       ssh - secure shell client (remote login program)
+
+
+SYNOPSIS
+       ssh [-l login_name] hostname [command]
+
+       ssh    [-a]    [-c    idea|blowfish|des|3des|arcfour|none]
+       [-e escape_char] [-i identity_file]  [-l login_name]  [-n]
+       [-k]  [-V]  [-o option] [-p port] [-q] [-P] [-t] [-v] [-x]
+       [-C] [-g] [-L port:host:hostport]  [-R port:host:hostport]
+       hostname [command]
+
+
+DESCRIPTION
+       Ssh  (Secure  Shell)  a  program for logging into a remote
+       machine and for executing commands in  a  remote  machine.
+       It  is  intended  to  replace  rlogin and rsh, and provide
+       secure  encrypted  communications  between  two  untrusted
+       hosts over an insecure network.  X11 connections and arbi-
+       trary TCP/IP ports can also be forwarded over  the  secure
+       channel.
+
+       Ssh  connects  and  logs into the specified hostname.  The
+       user must prove his/her identity  to  the  remote  machine
+       using one of several methods.
+
+       First,  if  the machine the user logs in from is listed in
+       /etc/hosts.equiv or /etc/ssh/shosts.equiv  on  the  remote
+       machine,  and  the  user names are the same on both sides,
+       the user is immediately permitted to log in.   Second,  if
+       .rhosts  or .shosts exists in the user's home directory on
+       the remote machine and contains a line containing the name
+       of  the  client  machine  and the name of the user on that
+       machine, the user is permitted to log in.   This  form  of
+       authentication alone is normally not allowed by the server
+       because it is not secure.
+
+       The second (and  primary)  authentication  method  is  the
+       rhosts  or hosts.equiv method combined with RSA-based host
+       authentication.  It means that if the login would be  per-
+       mitted   by   .rhosts,   .shosts,   /etc/hosts.equiv,   or
+       /etc/ssh/shosts.equiv, and additionally it can verify  the
+       client's   host   key   (see   $HOME/.ssh/known_hosts  and
+       /etc/ssh/ssh_known_hosts in the FILES section), only  then
+       login  is  permitted.   This  authentication method closes
+       security holes due to IP spoofing, DNS spoofing and  rout-
+       ing     spoofing.     [Note    to    the    administrator:
+       /etc/hosts.equiv, .rhosts, and the rlogin/rsh protocol  in
+       general, are inherently insecure and should be disabled if
+       security is desired.]
+
+       As a third authentication method, ssh supports  RSA  based
+       authentication.    The   scheme  is  based  on  public-key
+
+
+SSH                      November 8, 1995                       1
+
+		</pre>
+		</td>
+	</tr>
+</table>
+<br>
+<i>note</i>
+<br><br>
+<i>man ssh</i> in versione ridotta.
+<br>
+Se sotto Linux di regola viene installato il client ssh con ver protocollo 1.5, in Win 32 é necessaria una 
+implementazione esterna come <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">putty</a>,
+download 220 Kb
+
+
+</body>
+
+</html>

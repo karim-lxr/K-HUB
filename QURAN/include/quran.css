@@ -1,0 +1,207 @@
+body {
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:12px;
+	background-color : White;
+	padding-top: 70px;
+	padding-left: 70px;
+}
+
+/* Hijri */
+div#hijri {
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:12px;
+	padding-top: 5px;
+	padding-left: 950px;
+
+}
+
+
+/* links */
+A:link,  A:visited {
+text-decoration:none;
+color : #3333FF;
+font-size:12px;
+}
+
+A:hover{
+	/* text-decoration:underline; */
+	color: White;
+	background :#4040FF;
+	font-size:12px;
+}
+
+
+/* link punto informatico*/
+A:link.pi, A:visited.pi{text-decoration:none;color : #3333FF;}
+A:hover.pi{	text-decoration:underline;	color: Red;background : #FFCC66;}
+
+
+div#menu {
+	background:transparent;
+	border-collapse:collapse;
+	border-bottom-style:solid;
+	border-bottom-width:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	padding-left:0.5em;
+	padding-right:0.5em;
+	white-space: nowrap;
+	width: 70%;
+}
+
+div#menu a {
+	border-width:		1px;
+	border-left-style:	solid;
+	border-right-style:	solid;
+	border-top-style:	solid;
+	border-bottom-style:	none;
+	height:			1.2em;
+	margin-right:		0.2em;
+	padding:		0em 2em;
+	color:			black;
+	}
+
+div#menu a.selected {
+	background:rgb(49, 114, 10);
+	color: White;
+}
+
+div#menu a:hover {
+	background:		rgb(102, 179, 51);
+	border-color:           black;
+	color:                  black;
+}
+
+
+div#context {
+	/*background:rgb(238, 238, 238);*/
+	color:black;
+	border-bottom:solid 1px;
+	border-top:solid 1px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right:3em;
+	text-align:right;
+	border-left : 1px solid;
+	border-right : 1px solid;
+	width: 45%;
+}
+
+
+H3{
+	font-size: 10pt;
+	padding-top: 5px ;
+	padding-left:0px ;
+	padding-bottom: 10px;
+	font-weight : lighter;
+	border-style:solid;
+	border-color:black;
+	border-width: 1px 0px 0px;
+	width: 480px;
+}
+
+H2{
+	font-size: 11pt;
+	font-weight : 400;
+	padding-left: 40px;
+	/*padding-bottom: 5px;
+	padding-top: 5px ;
+	*/
+}
+
+/*TABLES*/
+table.lat{
+	border : 1px solid #ccc;
+	width :1200px;
+}
+td.lat{	 
+	width : 80px;
+	background: #31720A;}
+HR{
+	border : 1px solid #ccc;
+	width : 400px;
+	border-width: thin;
+    padding-left: 30px;	
+}
+
+
+hr.sep{
+	border : 1px solid Green;
+	width : 800px;
+	border-width: thin;
+}
+
+
+
+
+td.ara{
+	font-size: 26pt;
+	font-weight : 100;
+}
+
+/* link arabic surat*/
+A:link.ar, A:visited.ar{
+text-decoration:none;
+color : #31720A;
+font-size: 26pt;
+font-weight : 100;
+}
+A:hover.ar{
+	text-decoration:none;
+	color:  White;
+	background:  #31720A;
+	font-size: 26pt;
+	font-weight : 100;
+}
+
+/* link italian surat*/
+A:link.it, A:visited.it{text-decoration:none;color :#31720A ;font-size: 13pt;}
+A:hover.it{	text-decoration:underline;	color: Red;background : #CCFF99; font-size: 13pt;}
+
+/* link mp3*/
+A:link.mp, A:visited.mp{
+	text-decoration:underline;
+	color : #0066FF;
+	font-size: 13pt;
+}
+A:hover.mp{
+	text-decoration:underline;
+	color: Navy;
+	font-size: 13pt;
+}
+
+
+
+/* link list*/
+A:link.li, A:visited.li{
+text-decoration:none;
+color : #31720A;
+font-size: 12pt;
+font-weight : 120;
+}
+A:hover.li{
+	text-decoration:none;
+	color:  White;
+	background:  #31720A;
+	font-size: 12pt;
+	font-weight : 120;
+}
+
+
+.bul {list-style-image: url(./bul.gif);}
+
+
+/* link nav in surat*/
+A:link.nav, A:visited.nav{
+text-decoration:none;
+color :  White;
+font-size: 12pt;
+font-weight :80;
+}
+A:hover.nav{
+	text-decoration:none;
+	color: White;
+	background:  #31720A;
+	font-size: 12pt;
+	font-weight : 80;
+}

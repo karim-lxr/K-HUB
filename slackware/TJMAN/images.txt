@@ -1,0 +1,31 @@
+TJ - 21-set-01
+
+CAT IMAGES
+------------------
+
+
+copiare un immagine da Floppy
+
+# dd = dump data
+# /dev/fd0 =  primo floppy montato
+# filenameimage = file immagine da ottenere o riversare
+
+
+copiare immagine su floppy
+dd if=filenameimage of=/dev/fd0
+
+
+catturare l'immagine da floppy
+dd if=/dev/fd0 of=filenameimage
+
+da win si può riversare l'immagine sul floppy con rawrite
+
+
+
+
+montare un'immagine a partire da un img
+mount -o loop -t ext2 /mountpoint/image.img /mountpoint
+non sempre é necessario -t ext2
+
+	
+

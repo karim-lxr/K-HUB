@@ -1,0 +1,334 @@
+<html>
+<head><title>La ricompilazione del kernel bignamizzata</title></head>
+<body>
+
+
+<pre>
++--------------------La compilazione del kernel bignamizzata-------------------+
+Bisogna premettere che la compilazione, o la ricompilazione del kernel, spesso
+non e' necessaria. E' possibile infatti scaricare i file binari gia' compilati
+dal sito della propria distribuzione. Vista la crescita esponenziale delle 
+capacita' dell'hardware, la compilazione si rende utile o in presenza di 
+hardware non supportato, o per alcune vecchie macchine che hanno bisogno di 
+configurazioni "ad hoc" per il corretto funzionamento. Tuttavia essendo nello 
+spirito del sistema operativo e' possibile farlo anche solo per ottenere uno 
+snellimento del kernel, evitando riferimenti a hardware che non si possiede,
+o a software per noi inutile. La compilazione e la ricompilazione del kernel non
+portano a notevoli miglioramenti prestazionali, fatte salve le introduzioni
+innovative che fanno testo a parte, infatti, vista la standardizzazione a cui
+sono costrette per compatibilita' le distribuzioni, la maggior parte dei 
+pacchetti software sono compilati seguendo standard non certo ottimizati, per
+permettere a tutti di usufruirne. Avremmo sicuramente piu' benefici con la 
+ricompilazione "in primis" delle principali librerie standard C (glibc,ecc),
+e successivamente delle applicazioni piu' usate, ottimizzandole per il nostro
+hardware, visto che sono quasi tutte compilate per i386, tipo di macchina un po'
+in disuso, ma che definisce uno standard. 
+Non ultimo il problema delle versioni personalizzate, i kernel di molte 
+distribuzioni commerciali viene pesantemente modificato, nella red-hat, ma 
+anche nella mandrake vengono applicate piu' di 250 patch percui su questi
+sistemi e' sconsigliabile usare il kernel originale disponibile su kernel.org
+perche' le modifiche da apportare richiedono tempo e conoscenza, e qualche
+applicazione o comando potrebbe avere strani comportamenti, insomma un 
+sistema potenzialmente instabile. Gli utenti Slackware potranno tranquillamente
+usare i sorgenti originali, gli altri dovranno aspettare che la distribuzione
+pubblichi i sorgenti e usare quelli.
+Terminata questa piccola ma doverosa introduzione possiamo cominciare.
+Dobbiamo per prima cosa creare un floppy di avvio del sistema, utile nel caso
+qualche operazione non andasse a buon fine. Spesso un operazione di ripristino
+puo' essere effettuata avviando la macchina con il cd di installazione della 
+propria distribuzione, avendo cura di abilitare l'avvio da cd-rom nel bios.
+E' comunque molto piu' pratico avere un floppy di avvio, procedura che spesso
+viene fatta dal processo d'installazione. Noi lo creeremo "ex novo".
+Inserite un floppy nel lettore e dalla shell, o da un terminale digitate:
+fdformat /dev/fd0H1440
+il comando fdformat dovrebbe farvi vedere il suo output.
+Se ricevete un messaggio di errore, probabilmente la vostra distribuzione adotta
+una denominazione della periferica diversa. Per scoprirla digitate:
+ls /dev/fd*
+vi fara' vedere tutti i device che cominciano con fd (Floppy Drive) presenti
+nella directory /dev del sistema, in genere il primo o il secondo funziona.
+Finita la formattazione, possiamo usare il programma mkbootdisk per creare un
+disco di avvio, gli utenti Slackware come me useranno il comando makebootdisk.
+Questi programmi, spesso modificati a seconda della distribuzione cercheranno
+il file vmlinuz-VERSIONE_KERNEL (vmlinuz per la Slackware) nella directory /boot
+( / per la Slackware), VERSIONE_KERNEL e' in genere uguale al'output del comando
+uname -r
+digitatelo per sapere la vostra versione.
+Vi consiglio di testare il disco di avvio facendo ripartire la macchina da 
+floppy.
+Prima di fare qualsiasi operazione dobbiamo controllare alcune cose.
+Portiamoci nella directory /usr/src con il comando
+cd /usr/src
+e controlliamo il contenuto con
+  ls -l
+a questo punto davanti a voi avrete un file chiamato linux che altro non e' che
+in collegamento simbolico che punta, o ai sorgenti del kernel installato, o alla
+directory che ha lo stesso nome del kernel che contiene i file include, che 
+sonofile del kernel necessari al compilatore per compilare i sorgenti dei 
+programmi.Rimuoviamo questo file con il comando
+  rm linux
+Con questo non rimuoveremo nessuna directory ma solo il collegamento, lo 
+facciamo perche' quando decomprimeremo il nuovo kernel verra' creata quasi
+sempre, tranne i kernel disponibili solo per alcune distribuzioni a cui vengono
+applicate alcune patch o correzioni che vengono numerati sequenzialmente, una
+cartella chiamata linux, ma lo vedremo in seguito.
+Se non fossero presenti i sorgenti ma solo la cartella dei file include e'
+ovvio che non possiamo ricompilare sorgenti che non abbiamo, dovremo trovare
+i sorgenti per compilarci un nuovo kernel. 
+Essendo i moderni kernel modulari, consentono cioe' il caricamento di moduli,
+generalmente driver, successivamente all'avvio, quando noi compiliamo o 
+ricompiliamo il kernel dovremo gestire piu' file, il kernel vero e proprio e
+numerosi altri file come i moduli di solito con estensione .o oppure .o.gz che 
+verranno installati nella cartella /lib/modules/VERSIONE_KERNEL, oltre al file
+System.map che rappresenta una sorta di instantanea del sistema reponsabile
+spesso del fatidico messaggio
+kernel: Symbol table has incorrect version number
+Quando noi compiliamo un kernel di versione differente da quello installato
+i moduli verranno copiati in /lib/modules/VERSIONE_KERNEL, differendo le 
+versioni non verranno toccati i precedenti moduli...ma se ricompiliamo il
+kernel gia' installato? In questo caso dovremo mettere al sicuro i file 
+funzionanti per permetterci di ripristinare lo "status quo antea". Per farlo
+dobbiamo fare una copia di riserva dei nostri file. Portiamoci nella directory
+dei moduli e facciamocene una copia digitando
+  cd /lib/modules
+  ls 
+nel mio caso l'output e'
+  2.4.17/
+facciamoci una copia digitando
+  tar cfv modules.tar 2.4.17/
+ovviamente sostituite il numero di versione con il vostro. Dato che abbiamo
+usato l'opzione "v" del comando tar vi passeranno davanti tutti i file, finita
+l'esecuzione del comando avremo una copia di ripristino perche' l'installazione
+dei moduli sovrascrivera' la directory in caso di ricompilazione. C'e' anche
+un'altra strada ma per le prime volte ve la sconsiglio (lo so e' come se vi
+avessi detto fatela..), si potrebbe una volta scompressi i file sorgenti del
+kernel modificare il file "Makefile" nella riga che definisce la variabile
+EXTRAVERSION, se modificassi la variabile cosi':
+EXTRAVERSION = PP
+dove PP sono semplicemente le mie iniziali e otterrei in fase di installazione
+la creazione della cartella /lib/modules/VERSIONE_KERNEL-PP evitando di 
+sovrascrivere la cartella gia' presente. Non modificate altre variabili che si
+riferiscono alla versione perche' sono usate da altre applicazioni.
+Per compilare il kernel il vostro sistema deve soddisfare i requisiti minimi
+definiti nella cartella (che ancora non creiamo) 
+  /usr/src/linux/Documentation/Changes 
+nella sezione Current Minimum Requirements. Molti di questi pacchetti sono
+installati in molti sistemi, ma a scanso si equivoci e' meglio controllare che
+ci siano nel proprio sistema.
++--Software--+----+--per controllare da shell--+----------------+  
+|  Gnu C                  # gcc --version	                | 		
+|  Gnu make               # make --version                      |
+|  binutils               # ld -v                               |
+|  util-linux             # fdformat --version                  |
+|  modutils               # insmod -V                           |
+|  e2fsprogs              # tune2fs                             |
+|  PPP                    # pppd --version                      |
+|  isdn4k-utils           # isdnctrl 2>&1|grep version          |
++---------------------------------------------------------------+
+Per installare i sorgenti esistono diversi metodi a seconda del formato in cui
+saranno impacchettati, se red-hat o simili avremo un file con estensione .rpm,
+per altri sara' un normalissimo file con estensione .tar.gz o simili.
+Per usare gli strumenti di configurazione del kernel un tantino piu' evoluti
+del semplice "config" da riga di comando, devono essere installate (normalmente
+ci sono) le librerie ncurses per il comando "menuconfig" oppure il server
+grafico XFree per usare il comando "xconfig". Se dovessimo applicare delle patch
+al kernel queste andranno chiaramente applicate successivamente l'installazione
+dei sorgenti, e prima della compilazione. Ammettiamo che abbiate i sorgenti del
+kernel in formato .tar.gz . Per farla semplice copiamo il file nella directory
+che normalmente contiene i sorgenti (ricordarsi di cancellare il collegamento 
+di cui abbiamo parlato prima) digitando
+  cp VERSIONE_KERNEL.tar.gz /usr/src
+poi ci rechiamo in suddetta cartella con
+  cd /usr/src
+e lo scomprimiamo con
+  tar xvzf VERSIONE_KERNEL.tar.gz
+ci creera' una cartella, normalmente chiamata linux rinominiamola con la 
+versione corrente e ricreiamo il collegamento simbolico linux che cosi' puntera'
+alla versione appena installata
+  mv linux linux-VERSIONE_KERNEL
+  ln -s linux-VERSIONE_KERNEL linux
+se a questo punto abbiamo bisogno di applicare patch dobbiamo rispettare 
+l'ordine di rilascio dal piu' basso al piu' alto, per esempio
+   cp patch01.gz /usr/src/linux
+   cd /usr/src/linux
+   gunzip patch01.gz
+   patch -p1 < patch01
+o piu' sinteticamente
+   cd /usr/src gzip -cd patch01.gz | patch -p0
+o per il formato bzip   
+   cd /usr/src bunzip2 -dc patch01.bz2 | patch -p0
+Bisognera' ripetere il procedimento per tutte le patch in ordine stando 
+attenti all'eventuale creazione di file .rej (rejected, rifiutato) che 
+indicherebbero errori nell'applicazione della patch. Esiste anche uno script 
+che automatizza la procedura cercando nella directory tutti i file patch da voi
+scompressi al suo interno.
+  cd /usr/src/linux/scripts
+  ./patch-kernel
+Per essere sicuri che la compilazione parta in ambiente libero da file inutili
+possiamo digitare
+  cd /usr/src/linux
+  make mrproper
+Attenzione perche' questo garantira' si un ambiente integro, ma nel caso di 
+ricompilazione cancellera' il file di configurazione ".config" per cui non sara'
+posssibile eseguire il comando "oldconfig" che ci permette di ricompilare con i
+parametri dell'ultima configurazione, vedremo subito come evitarlo. Prima di
+iniziare portiamoci nella directory dei sorgenti e facciamo una copia del file:
+  cd /usr/src/linux
+e controlliamo il file con l'opzione -a perche' avendo il punto davanti e' 
+nascosto  
+  ls -a
+facciamocene una copia  
+  cp .config vecchia.conf
+adesso potremo richiamare la vecchia configurazione caricando il file.
+Tenete presente che una copia della configurazione predefinita del kernel (non
+della distribuzione) e' presente in
+  /usr/src/linux/arch/i386/defconfig 
+ma se il kernel e' stato modificato dalla distribuzione dobbiamo riferirci al
+file in /usr/src/linux per partire da una base certa. Spesso stiamo compilando
+in kernel con poche differenze di versione rispetto a quello installato, e
+altrettanto spesso nella directory dei sorgenti (ma anche sul cd di 
+installazione nel caso della Slackware) e' presente il file .config usato per la
+compilazione. In questo caso e' possibile caricarlo durante la configurazione 
+per usare quei settaggi come base funzionante, e da li' cominciare a ottimizzare
+per la propria macchina.
+Per iniziare la configurazione si possono usare tre comandi
+make config
+make menuconfig
+make xconfig
+mentre i primi due sono avviabili da shell, il terzo deve essere lanciato da un
+terminale X di XFree. Il primo inoltre non consente di modificare scelte gia'
+fatte, e' consigliabile usare i restanti due, preferendo il terzo.
+A questo punto ci dobbiamo portare, se gia' non ci siamo, nella directory dei
+sorgenti, perche' i suddetti comandi possono essere eseguiti solo da quella 
+posizione. Per cui digitiamo da un terminale X
+  cd /usr/src/linux
+  make xconfig
+vi apparira' la finestra del programma, in basso ci sono i pulsanti per salvare
+o come abbiamo visto prima per caricare un file di configurazione. Da questo
+momento tutte o quasi tutte le opzioni sono documentate dal tasto info e non
+avrei nulla da aggiungere che non rappresenti una ripetizione o traduzione di
+quanto e' scritto, scegliete voi se volete che un determinato elemento sia
+compilato internamente al kernel, oppure compilato esternamente come modulo
+caricabile.
+Per partire da una configurazione nota, come ho gia' detto cercate il vecchio
+".config"(a patto di aver installato i sorgenti durante la prima installazione)
+e caricatelo in xconfig con l'apposito tasto, partirete con un kernel 
+funzionante. Quando avete finito di fare le vostre scelte, invece di salvare e
+uscire, salvatevi la configurazione con il Save as.. , cosi' potrete ripartire
+in una nuova configurazione sebza ricominciare tutto da capo, fatto questo
+salvate e uscite.
+Finita la configurazione si inizia con la compilazione vera e propria digitando:
+  make dep && make clean
+che crea le strutture delle dipendenze per il compilatore e rimuove alcuni file
+temporanei o di debug, vi passera' davanti l'intera compilazione del kernel, la
+velocita' dipende ovviamente dalla macchina, il mio pentium 100 ci mette delle
+ore, il mio pentium 700 alcuni minuti. Se non ci sono errori possiamo andare
+avanti altrimenti dovremo ricominciare da capo, e puo' capitare. Se la 
+compilazione e' andata a buon fine possiamo creare il file del kernel con:
+  make bzImage
+Ormai visto la crescita in occupazione di spazio questo e' il formato piu' usato
+ma avremmo potuto anche usare
+ make zImage
+ambedue i comandi generano un'immagine compressa del kernel ma usano algoritmi
+differenti di strutturazione dei dati. Tutti e due usano per la compressione
+il comando gzip, il nome bzImage non indica l'algoritmo di compressione bzip ma
+indica l'acronimo "big zImage". Potremmo usare altri comandi che automatizzano
+il procedimento come "make bzlilo" ma e' meglio che le cose le facciamo a mano
+per essere sicuri di quello che succede. A questo punto il file compresso del 
+kernel che abbiamo compilato, se tutto e' andato bene, si trovera' in
+ /usr/src/linux/arch/i386/boot 
+e se avete seguito le mie istruzioni si chiamera "bzImage" .
+Prima di installarlo dobbiamo compilare tutti gli elementi che in configurazione
+abbiamo configurato come moduli, per far questo sempre da /usr/src/linux 
+possiamo digitare
+  make modules
+Vedremo di nuovo l'output del compilatore passarci davanti e alla fine se non
+ci sono stati errori, e se abbiamo gia' fatto la copia dei vecchi moduli come
+abbiamo visto in precedenza, possiamo digitare
+  make modules_install
+che sovrascrivera' i vecchi moduli in /lib/modules/VERSIONE_KERNEL in caso di
+ricompilazione o creera' la directory VERSIONE_KERNEL dove copiera' i moduli.
+Se durante la compilazione avete dei messaggi di uscita per errore riguardanti
+il "signal 11" al 99% e' un problema di hardware, niente stressa l'hardware
+come una bella ricompilazione e spesso escono problemi che con l'uso comune non
+si hanno, come insospettabili banchi di ram difettosi, impostazioni del bios 
+problematiche e altro. Per avere una discreta possibilita' di attribuire il 
+problema all'hardware, dopo aver controllato bene il bios, si puo procedere
+cosi': subito dopo l'errore generato per esempio da make bzImage ridigitare
+il comando, se la compilazione riparte per qualche linea e poi si ferma di
+nuovo, be' controllate l'hardware... . Se invece fallisce sempre allo stesso 
+punto, be' controllate la configurazione... .
+Procediamo con l'installazione vera e propria, copiando il kernel nella giusta
+posizione, ma prima sistemiamo il System.map quindi digitiamo
+  cp /usr/src/linux/System.map /boot/System.map-VERSIONE_KERNEL
+per copiare il System.map e dargli il nome che vogliamo rispecchi la nostra
+versione e digitiamo
+  ln -s /boot/System.map-KERNEL_VERSION /boot/System.map
+per creare un link che punti alla versione aggiornata, a questo punto il 
+kernel vero e proprio con
+  cp  /usr/src/linux/arch/i386/boot/bzImage /boot/bzImage-VERSIONE_KERNEL 
+che ci copiera' rinominandolo per evitare di sovrascrivere un kernel esistente
+nella directory /boot . 
+Avendo noi un System.map per ogni kernel compilato, dobbiamo vedere come 
+gestirli, in linea di massima su macchine con piu' kernel compilati possiamo 
+far puntare il collegamento simbolico System.map al kernel di default, gli altri
+system map saranno passati al kernel nelle direttive di lilo in questo modo:
+  ....
+  image = /boot/linux-2.4.17
+  append = "-k /boot/System.map.VERSIONE_KERNEL
+  label = Linux-2.4.17
+  read-only
+  ....
+A questo punto non ci rimane che modificare il file di configurazione del lilo
+che e' il programma che si occupa di caricare il sistema operativo all'avvio, 
+per fare cio' dobbiamo aprire con un editor di testo il file che generalmente
+si trova  /etc digitando
+cd /etc
+mcedit lilo.conf
+oppure
+vim lilo.conf
+o con qualsiasi altro editor e inserire le seguenti linee
+  image=/boot/bzImage-VERSIONE_KERNEL
+          label=Nuovo_kernel
+          root=/dev/hda3 
+          read-only
+dove nuovo_kernel e' un nome scelto da voi, VERSIONE_KERNEL e' il numero che 
+che riflette la versione che abbiamo impostato e /dev/hda3 e' la partizione in
+cui ho installato linux nella mia macchina. E' possibile avere svariate 
+direttive come quelle impostate, una per ogni kernel che ci compiliamo, o per
+gli altri sistemi operativi, guardando il file vi potrete rendere conto.
+In caso di presenza di piu' kernel aggiungete la direttiva append del System.map
+Non bisogna dimenticare che tutte le modifiche in /etc/lilo.conf non avranno
+effetto se non si avvisa il programma lilo, e si fa' in questo modo da shell:
+  lilo -v
+dovrebbe dirvi che la nuova configurazione e' stata caricata, se emette messaggi
+di errore qualcosa chiaramente e' sbagliato nel file riapritelo e controllate.
+Riavviate la macchina, se avete installato lilo in modalita' testuale al prompt
+premete il tasto Tab e dovrebbe apparirvi la nuova etichetta, in modalita' 
+grafica sarete in grado di visualizzarla e selezionarla, avviate e incrociate
+le dita....
+Se tutto e' andato liscio loggatevi e digitate
+  dmesg| head -1
+dovrebbe apparire un riepilogo del kernel in uso, in maniera breve anche con il
+comando 
+  uname -r
+Se avete ricompilato lo stesso kernel e dopo il boot vi appaiono messaggi 
+del tipo  ...undefined references... non vi preoccupate.
+Questo succede perche' in caso di ricompilazione, la directory 
+/lib/modules/VERSIONE_KERNEL e' stata sovrascritta ma al suo interno sono 
+rimasti alcuni vecchi moduli, per ora ignorate i messaggi, appena sicuri che il
+nuovo kernel vada bene potete cancellare la dir e rieseguire dalla directory dei
+sorgenti il comando make modules_install:
+  cd /usr/lib/modules
+  mv VERSIONE_KERNEL/ VERSIONE_KERNEL.old
+  cd /usr/src/linux
+  make modules_install
+Con questo ho terminato. 
+Tutto il materiale e' rilasciato sotto licenza GPL2.
+Pierluigi Previtali 2002 pierluigi.previtali@tiscali.it
+Interamente fatto con VIM
+
+</pre>
+</font>
+</body>
+</html>

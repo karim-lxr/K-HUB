@@ -1,0 +1,486 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Shutting Down Properly</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Essential System Administration"
+HREF="c2773.html"><LINK
+REL="PREVIOUS"
+TITLE="Essential System Administration"
+HREF="c2773.html"><LINK
+REL="NEXT"
+TITLE="Summary"
+HREF="x3041.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c2773.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 12. Essential System Administration</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x3041.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="SHUTTINGDOWN"
+>Shutting Down Properly</A
+></H1
+><P
+>It is very important that the system is shut down properly.  Simply turning
+the power off can cause serious filesystem damage.  While the system is
+on, files are in use even if you aren't doing anything.  Remember that there
+are many processes running in the background all the time.  These processes
+are controlling the system and keep a lot of files open.  When the system
+just gets powered-off, these files are not closed properly and become
+damaged.  Depending on what files become damaged, the system might be
+permanently damaged.  In any case, you'll have to go through a long
+filesystem check procedure on the next reboot.</P
+><P
+>So, when you go to reboot or power down your computer, it is important to
+do so the right way.  There are several ways of doing this; you can pick
+whichever one you think is the most fun.  Most of the ways for turning off
+the system can also be applied to rebooting.</P
+><P
+>The first method is through the <B
+CLASS="COMMAND"
+>shutdown</B
+>(8) program, and it 
+is probably the most popular.  <B
+CLASS="COMMAND"
+>shutdown</B
+> can be used to 
+reboot or turn off the system at a given time, and can display a message to 
+all the users of the system telling them that the system is going down.</P
+><P
+>Basic usage of <B
+CLASS="COMMAND"
+>shutdown</B
+> to turn off the computer is:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>shutdown -h now</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>In this case, we are not going to send any special message to the users; 
+they will see <B
+CLASS="COMMAND"
+>shutdown</B
+>'s default message.  &#8220;now&#8221;
+is the time that we want to shutdown, and the &#8220;-h&#8221; means to halt 
+the system.  This is not a very friendly way to run a multi-user system, but 
+it works just fine on your home computer.  A better way on a multiuser system 
+would be to give everyone a little advance warning:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>shutdown -h +60</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This would shutdown the system in one hour (60 minutes), which would be
+just fine on a normal multiuser system.  Really important systems should
+schedule their downtime far in advance and post warnings about it in the
+<TT
+CLASS="FILENAME"
+>/etc/motd</TT
+>(5).</P
+><P
+>Rebooting the system uses the same command, but substitutes &#8220;-r&#8221; 
+for &#8220;-h&#8221;:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>shutdown -r now</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>You can use same time notation with <B
+CLASS="COMMAND"
+>shutdown -r</B
+> that you 
+could with <B
+CLASS="COMMAND"
+>shutdown -h</B
+>.  There are a lot of other things 
+that you can do with <B
+CLASS="COMMAND"
+>shutdown</B
+> to control when to halt or 
+reboot the machine.  See the man page for more details.</P
+><P
+>The second way of shutting down or powering off the computer is to use the 
+<B
+CLASS="COMMAND"
+>halt</B
+>(8) and <B
+CLASS="COMMAND"
+>reboot</B
+>(8) commands.  As the 
+names indicate, <B
+CLASS="COMMAND"
+>halt</B
+> will immediately halt the operating 
+system, and <B
+CLASS="COMMAND"
+>reboot</B
+> will reboot the system.  
+<B
+CLASS="COMMAND"
+>reboot</B
+> is simply a symbolic link to <B
+CLASS="COMMAND"
+>halt</B
+>.
+They are invoked like 
+so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>halt</B
+></TT
+>
+   # <TT
+CLASS="USERINPUT"
+><B
+>reboot</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>A lower-level way to reboot or shutdown the system is to directly talk to 
+<B
+CLASS="COMMAND"
+>init</B
+>.  All the other methods are simply convenient ways 
+to talk to <B
+CLASS="COMMAND"
+>init</B
+>, but you can directly tell it what to do
+using <B
+CLASS="COMMAND"
+>telinit</B
+>(8) (note that it only has one 
+&#8220;l&#8221;).  Using <B
+CLASS="COMMAND"
+>telinit</B
+> will tell 
+<B
+CLASS="COMMAND"
+>init</B
+> what runlevel to drop into, which will cause a special 
+script to get run.  This script will kill or spawn processes as needed for 
+that runlevel.  This works for rebooting and shutting down because both of 
+those are special runlevels.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>telinit 0</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Runlevel 0 is halt mode.  Telling init to enter runlevel 0 will cause all
+processes to be killed off, the filesystems unmounted, and the machine to
+be halted.  This is a perfectly acceptable way to bring down the system.  On
+many laptops, this will also cause the machine to be turned off.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>telinit 6</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Runlevel 6 is reboot mode.  All processes will be killed off, the filesystems
+will be unmounted, and the machine will be rebooted.  This is a perfectly
+acceptable method of rebooting the system.</P
+><P
+>There is one last method of rebooting the system.  All the other methods 
+required you to be root.  However, it is possible to reboot the machine if 
+you aren't root, provided that you have physical access to the keyboard.  
+Doing a three-fingered salute (control-alt-delete) will cause the machine to 
+be immediately rebooted.  What this really does is run the program 
+<B
+CLASS="COMMAND"
+>/usr/sbin/ctrlaltdel</B
+>(8).  So, if that program has strange 
+permissions or is not present, pressing all those keys down won't do any good.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c2773.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x3041.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Essential System Administration</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c2773.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Summary</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

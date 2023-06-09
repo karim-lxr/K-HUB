@@ -1,0 +1,122 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% (c) technojuice 2003
+% 
+% LaTeX source sample for internal docs
+% 
+% skills:
+%         - landscape layout
+%         - chapter pers
+%         - output: pdf & HTML
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\documentclass[a4paper,12pt,landscape]{report} 	% landscape for code sample
+% twoside,openright per fronte retro (recto-verso)default per book
+\documentclass[a4paper,12pt,twoside,titlepage]{report} 	
+
+\voffset=-70pt
+\textwidth=410pt		% width page
+\textheight=650pt  	% height page
+\headsep=24pt
+%\footskip=32pt
+\evensidemargin=30pt
+\oddsidemargin=30pt
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}										%	ISO-8859-1 for È‡ etc..
+\usepackage[italian]{babel}
+\usepackage[Lenny]{fncychap}									% fncychap from U. Lindgren best formatting chapeters, Lenny style
+\usepackage{graphicx}													% to include img EPS
+\usepackage{makeidx}													% to create anlit index
+
+\title{Configure Htaccess }
+\author{guido@technojuice.net}
+\date{5 marzo 2001}
+\makeindex
+\begin{document}
+%\begin{titlepage}
+\maketitle
+%\begin{figure}[htbp]		% env figure
+%\begin{center}					% env center
+%\includegraphics [width=2cm]{cables.eps}
+%\end{center}
+%\end{figure}
+%\end{titlepage}
+
+
+
+
+\tableofcontents
+\chapter{Configurazione di htaccess}
+\section{Direttive httpd}
+\begin{itemize}
+\item configurazione APACHE, in /etc/httpd/httpd.conf\newline abilitare nella sezione
+ <DIRECTORY> la direttiva: AllowOverride AuthConfig di default impostata su 'none'.
+
+\item creazione file delle password:\newline 
+da /usr/bin chiamare il binario htpasswd; la prima volta che viene utilizzato occorre il parametro -c  
+\emph{'\index{htpasswd}~-c /etc/httpd/newpasswordfile username'}, dove il path corrisponde alla destinazione del file delle password chiamato per default 'htpasswd' ma potrebbe anche essere un file nascosto, username È il primo utente creato, ripetere per ogni utente la procedura senza il\newline parametro~-c. La modifica \index{password} viene effettuata invocando htpasswd nuovo 'username' passwordfile creato in precedenza. 
+
+\item creazione della directory con accesso autorizzato: 
+semplicemente aggiungendo un file nascosto \index{.htaccess} alla directory che si intende proteggere. 
+\end{itemize}
+
+% fin qui ok
+\section{Direttive .htaccess}
+\begin{description}
+\item[Options]Opzioni varie 
+\item[ErrorDocument]Personalizza la risposta alle condizioni di errore 
+\item[DefaultType]Definisce il mime predefinito per la directory 
+\item[AuthName]Nome o descrizione di una zona soggetta ad autenticazione
+\item[AuthType]Definizione del tipo di autenticazione (Basic)
+\item[require]Dichiarazione degli utenti autorizzati all'autenticazione 
+\item[order]Ordine di valutazione delle direttive deny e allow 
+\item[deny]Specifica gli host a cui viene negato l'accesso 
+\item[allow]Specifica gli host a cui viene concesso l'accesso 
+\end{description}
+
+\section{files .htaccess}
+\subsection{Valid users based}
+\begin{center}
+\begin{verbatim}
+AuthUserFile /etc/httpd/users
+	AuthName "commento"
+	AuthType Basic
+	<Limit GET>
+	require valid-user
+	</Limit>
+\end{verbatim}
+\end{center}
+autorizza TUTTI gli utenti iscritti nel files 'users' 
+
+\subsection{Valid Group}
+\begin{center}
+\begin{verbatim}
+AuthUserFile /etc/httpd/users
+AuthGroupFile /etc/httpd/htgroup
+AuthName ByPassword
+AuthType Basic
+<Limit GET>
+require group my-users
+</Limit> 
+\end{verbatim}
+\end{center}
+Per facilitare la gestione di utenti che accedono a directory protette, possiamo realizzare dei gruppi e inserirli in un file chiamato .htgroup, il quale non contiene alcuna password. La sintassi dei record che compongono questo file Ë molto semplice, infatti raggruppa alcuni utenti, i cui nominativi e password sono specificati nel file delle password 'users'. Sintassi: nomegruppo: utente1 utente2 utenteN 
+
+\subsection{Valid user}
+\begin{center}
+\begin{verbatim}
+AuthUserFile /etc/httpd/users
+AuthName "commento"
+AuthType Basic
+<Limit GET>
+require user pippo
+\end{verbatim}
+\end{center}
+Solo l'utente 'pippo' potr‡ accedere alla directory. 
+
+\section{note} 
+le direttive 'options' in .htaccess, possono avere la precedenza sulle impostazioni globali date da \index{httpd.conf}, conseguentemente sono convenienti per abilitare localmente alcune impostazioni soprattutto in mancanza della possibilit‡ di modificare httpd.conf 
+
+\printindex
+\end{document}

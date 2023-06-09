@@ -1,0 +1,10 @@
+Ho provato a compilare il 2.6.6,ma rispetto al mio attuale 2.6.2 non ho + trovato il "console display driver support" 
+in "device drivers"--> "graphic support" risultato schermo nero al boot e non vedo quello che succede! 
+ho risolto! Nessun pezzo mancante, a parte quelli nella mia zucca bacata    ! Se si abilita in "generasl setup"
+l'opzione "configure standard kernel features (for small systems) si crea il Problema del frame buffer! Sbagliando si impara! 
+
+
+ho inserito nel lilo.conf vga=ask cosi da poter decidere la risoluzione adeguata, 
+
+Allora se la vuoi da subito al boot puoi usare il parametro vga=3D del lilo,
+man lilo.conf per i dettagli.

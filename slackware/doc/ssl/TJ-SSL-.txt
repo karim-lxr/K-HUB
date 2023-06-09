@@ -1,0 +1,69 @@
+8-mar-03
+corrige 04-apr-2003
+update 24-lug-04
+
+Configurazione mod_ssl Apache 1.3.x 2.x
+----------------------------------------
+
+1.) certificato SSL self-signed
+
+     l'installazione e la configurazione avviene in 4 passaggi
+     - creazione dell'authority di certificazione
+     - creazione del certificato server
+     - inclusione della passprase per il boot
+     - signature del certificato (sign.sh)
+     - collocazione certificati
+
+
+    1.1 creazione dell'authority di certificazione
+    ------------------------------------------------
+
+    openssl genrsa -des3 -out ca.key 1024
+    
+    viene richiesto l'inserimento  della password
+
+    openssl req -new -x509 -days 365 -key ca.key -out ca.crt
+   
+    con richiesta dati di chi certifica, -days é valore di validità del certificato
+
+
+     1.2 creazione del certificato per i server
+     --------------------------------------------
+     
+    openssl genrsa -des3 -out server.key 1024
+
+    1.3 inclusione della passprase per il boot
+    --------------------------------------------
+
+        cp server.key server.key.org
+        openssl rsa -in server.key.org -out server.key
+        chmod 400 server.key
+
+
+	presignature:
+
+      opennssl req -new -days 365 -key server.key -out server.csr
+
+    1.4 signature del certificato (sign.sh)
+    -----------------------------------------
+    utilizzare lo script (signcert.tgz) allegato
+    ./sign.sh server.csr
+
+
+     1.5 collocazione certificati
+     ------------------------------
+
+     tutta l'operazione andrebbe compiuta nella conf di apache /etc/httpd
+     mkdir ssl.crt ssl.key
+     cp server.key ssl.key
+     cp server.crt ssl.crt
+
+     durante la generazione viene anche creata la directory ca.db.certs
+     contenente i files .pem per i certificati
+     é possibile radunare i diversi files generati non collocati precedentemente
+     in una sottodirectory  di conf ad hoc
+
+
+
+     
+

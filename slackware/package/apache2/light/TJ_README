@@ -1,0 +1,33 @@
+21-apr-05
+
+Apache-2.0.54 flavoured technojuice light
+
+
+Added Features:
+- in ap_release.h:	 # define AP_SERVER_BASEPRODUCT "Apache technojuice-light"
+- in config.layout:	 # Layout for Slackware Linux
+- in rc.httpd		 # apachectl startssl instead apachectl start
+- in /etc/apache2	 # fake ssl certificates (encrypting only) valid 4 years
+
+Configure options:
+./configure --enable-layout=Slackware \
+		--enable-module=most \
+		--enable-mods-shared=most 
+		--enable-ssl=shared
+
+
+httpd.conf enabled options:
+
+- Extended status On				# for tune cfg
+- User nobody Group nogroup			# according Slackware
+- AllowOverride AuthConfig			# to able .htaccess auth
+- UserDir public_html				# to able users web dirs ~user
+- ServerTokens Full				# for tune cfg
+- DirectoryIndex index.html index.htm		# both index.html/htm able to index
+- Location ServerInfo				# for tune cfg
+
+after tunig cfg and production close and restrict all directives give information outside
+
+  
+SSL Features
+- see in this directory docs in ssl

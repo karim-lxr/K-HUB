@@ -1,0 +1,180 @@
+#!/bin/sh
+#########################################################
+#
+# rc.firewall - iptables script that, simply, logs... =)
+#               See syslog.h and comments for more info.
+#
+# TODO: use iptables patch-o-matic modules.
+#       * by misfit [ http://slackware.linuxbr.org/ ] v.01/2003
+#
+#########################################################
+# variables  
+
+IPT=/usr/sbin/iptables
+IP_ALLOW="192.168.0.1"
+LOGOPT="--log-tcp-sequence --log-tcp-options --log-ip-options"
+
+#########################################################
+# kernel magic, module loading and policies altogether
+startup_action() {
+
+    # You need CONFIG_SYSCTL for these kernel parameters:
+    /bin/echo "1" > /proc/sys/net/ipv4/tcp_syncookies
+    # Disable response to ping
+    /bin/echo "1" > /proc/sys/net/ipv4/icmp_echo_ignore_all
+    # Disable response to broadcasts (smurf)
+    /bin/echo "1" > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+    # Don't accept source routed packets
+    /bin/echo "0" > /proc/sys/net/ipv4/conf/all/accept_source_route
+    /bin/echo "0" > /proc/sys/net/ipv4/conf/all/send_redirects
+    # Disable ICMP redirect acceptance
+    /bin/echo "0" > /proc/sys/net/ipv4/conf/all/accept_redirects
+    # Enable bad error message protection
+    /bin/echo "1" > /proc/sys/net/ipv4/icmp_ignore_bogus_error_responses
+    # Log spoofed packets, source routed packets, redirect packets
+    /bin/echo "1" > /proc/sys/net/ipv4/conf/all/log_martians
+    # (Dis)Enable IP forwarding
+    echo "0" > /proc/sys/net/ipv4/ip_forward
+    # Reduce DoS'ing ability by reducing timeouts
+    echo 30 > /proc/sys/net/ipv4/tcp_fin_timeout
+    echo 1800 > /proc/sys/net/ipv4/tcp_keepalive_time
+    echo 0 > /proc/sys/net/ipv4/tcp_window_scaling
+    echo 0 > /proc/sys/net/ipv4/tcp_sack
+
+    # Snip by Hanne Munkholm 09. March 2001:
+    # Shut off source-routing and enable IP spoof detection
+    for f in /proc/sys/net/ipv4/conf/*; do
+       # Drop all source-routed packets
+       echo "0" >$f/accept_source_route
+       # Enable source-address verification (anti spoofing).
+       # The value 2 means use Ingress filtering as per RFC 1812.
+       # Overhead is a little more than the simple routing check
+       # (enabled with 1) but it negligible for most home users.
+       echo "2" >$f/rp_filter
+    done
+
+    # Load IRC and FTP extra modules
+    modprobe ip_conntrack_ftp
+    modprobe ip_conntrack_irc
+
+    # Start iptables from scratch and set policy
+    $IPT -F
+    $IPT -X
+    $IPT -P INPUT DROP
+    $IPT -P FORWARD DROP
+
+    return 0
+}
+
+#########################################################
+# iptables rulesets
+main_table() {
+
+    # Make sure NEW tcp connections are SYN packets
+    $IPT -A INPUT -i eth0 -p tcp ! --syn -m state --state NEW -j DROP
+
+    # Stateful chain based on Rusty's HOWTO:
+    $IPT -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+    # Accept local loopback (thanks boto)
+    $IPT -A INPUT -i lo -j ACCEPT
+
+    # Accept connections from allowed host(s)
+    $IPT -A INPUT -s $IP_ALLOW -p tcp --dport 80 -j ACCEPT
+    $IPT -A INPUT -s $IP_ALLOW -p tcp --dport ssh -j ACCEPT
+
+    # Web server 6 connections limit
+    # $IPT -A INPUT -p tcp --dport 80 -m state --state NEW -m limit --limit 60/minute --limit-burst 6 -j ACCEPT
+    # $IPT -A INPUT -p tcp -j REJECT --reject-with tcp-reset
+
+    return 0
+}
+
+#########################################################
+# logging rulesets
+log_table () {
+
+    # Create 'log and drop' table and log all to kern.warning
+    $IPT -N LDROP
+    $IPT -A LDROP -j LOG $LOGOPT --log-prefix '( iptables log ) '
+    $IPT -A LDROP -j DROP
+
+    # Limit portscan attempts
+    $IPT -A INPUT -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s -j LOG --log-level 1 --log-prefix 'SCAN: '
+
+    # Log malformed packets
+    $IPT -A INPUT -p tcp --tcp-flags ALL ALL -j LOG --log-level 1 --log-prefix 'XMAS: '
+    $IPT -A INPUT -p tcp --tcp-flags ALL NONE -j LOG --log-level 1 --log-prefix 'NULL: '
+    $IPT -A INPUT -m unclean -j LOG --log-level 1 --log-prefix 'UNCLEAN: '
+    $IPT -A INPUT -m state --state INVALID -j LOG --log-level 1 --log-prefix 'INVALID: '
+
+    # Log and drop non-routable IPs
+    $IPT -A INPUT -s 10.0.0.0/8 -i eth0 -j LDROP
+    $IPT -A INPUT -s 172.16.0.0/12 -i eth0 -j LDROP
+    $IPT -A INPUT -s 192.168.1.0/16 -i eth0 -j LDROP
+
+    # Log and drop X Server attempts
+    $IPT -A INPUT -p tcp --dport 5999:6003 -j LDROP
+    $IPT -A INPUT -p udp --dport 5999:6003 -j LDROP
+    $IPT -A INPUT -p tcp --dport 7100 -j LDROP
+
+    # Limit match for flood attempts (syn and ping)
+    $IPT -A INPUT -p tcp --syn -m limit --limit 1/s --limit-burst 4 -j LDROP
+    $IPT -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/s -j LDROP
+
+    # Drop the rest (my policy)
+
+    return 0
+}
+
+#########################################################
+# unload iptables modules and restore policy
+unload_fw () {
+
+    $IPT -P INPUT ACCEPT
+    $IPT -P FORWARD ACCEPT
+    $IPT -F
+    $IPT -X
+
+    # Nice routine from jkl@osc.edu flushfw
+    IP_MODULES=`/sbin/lsmod | awk '{print $1}' | grep '^ip'`
+    while [ ! "${IP_MODULES}x" = "x" ]; do  # I do while in case if there
+    echo Removing modules:${IP_MODULES}     # are some dependencies, etc.
+        /sbin/rmmod ${IP_MODULES}
+        /bin/sleep 2
+        IP_MODULES=`/sbin/lsmod | awk '{print $1}' | grep '^ip'`
+    done
+
+    return 0
+}
+
+#########################################################
+# start-stop-restart thing
+
+case "$1" in
+    start)
+    echo "^[[1m Starting firewall... ^[[0m"
+    startup_action
+    main_table
+    log_table
+    echo "^[[1m ... done. ^[[0m"
+    ;;
+
+    stop)
+    echo "^[[1m Stopping firewall... ^[[0m"
+    unload_fw
+    ;;
+
+    restart)
+    echo "^[[1m Restarting firewall... ^[[0m"
+    $0 stop
+    $0 start
+    ;;
+
+    *)
+    echo "Usage: /etc/rc.d/rc.firewall {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0

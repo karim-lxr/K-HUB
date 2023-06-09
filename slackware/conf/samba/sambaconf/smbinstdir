@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Script for preparing the directory structure for a Samba PDC Server
+# by Lorenzo Allori <lallori@medici.org>
+
+# This program is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+
+# http://www.gnu.org/philosophy/license-list.html
+
+# The Author does not have any responsability on theese scripts
+
+
+
+
+# Creating Logging Directory and Logging File
+
+if [ ! -d "/var/log/samba" ]; then
+
+/bin/mkdir /var/log/samba
+/bin/touch /var/log/samba/sambapdc.log
+
+fi
+
+# Creating Samba Directory Structure
+# in the path "/home/samba"
+
+
+if [ ! -d /home/samba/ ]; then
+
+/bin/mkdir /home/samba
+/bin/mkdir /home/samba/users
+/bin/cp -r ./smb.skel /etc
+/bin/mkdir /home/samba/netlogon
+/bin/mkdir /home/samba/profiles
+/bin/mkdir /home/samba/tmp
+/bin/mkdir /home/samba/public
+
+
+/bin/chown -R nobody:nogroup /home/samba/public
+/bin/chmod 777 /home/samba/public
+
+/bin/chown -R nobody:nogroup /home/samba/tmp
+/bin/chmod 777 /home/samba/tmp
+
+
+
+fi
+
+

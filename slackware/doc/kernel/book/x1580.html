@@ -1,0 +1,470 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Session Configuration Files</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="The X Window System"
+HREF="c1364.html"><LINK
+REL="PREVIOUS"
+TITLE="XF86Setup"
+HREF="x1559.html"><LINK
+REL="NEXT"
+TITLE="Servers and Window Managers"
+HREF="x1630.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1559.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 6. The X Window System</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1630.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="SESSIONCONFIG"
+>Session Configuration Files</A
+></H1
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="XINITRC"
+>xinitrc and ~/.xinitrc</A
+></H2
+><P
+><B
+CLASS="COMMAND"
+>xinit</B
+>(1) is the program that actually starts X; it is called
+by <B
+CLASS="COMMAND"
+>startx</B
+>(1), so you may not have noticed it (and probably
+don't really need to).  Its configuration file, however, determines which
+programs (including and especially the window manager) are run when X starts
+up.  <B
+CLASS="COMMAND"
+>xinit</B
+> first checks your home directory for a
+<TT
+CLASS="FILENAME"
+>.xinitrc</TT
+> file.  If the file is found, it gets run;
+otherwise, <TT
+CLASS="FILENAME"
+>/var/X11R6/lib/xinit/xinitrc</TT
+> (the systemwide
+default) is used.  Here's a simple xinitrc file:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   #!/bin/sh
+   # $XConsortium: xinitrc.cpp,v 1.4 91/08/22 11:41:34 rws Exp $
+
+   userresources=$HOME/.Xresources
+   usermodmap=$HOME/.Xmodmap
+   sysresources=/usr/X11R6/lib/X11/xinit/.Xresources
+   sysmodmap=/usr/X11R6/lib/X11/xinit/.Xmodmap
+
+   # merge in defaults and keymaps
+
+   if [ -f $sysresources ]; then
+       xrdb -merge $sysresources
+   fi
+
+   if [ -f $sysmodmap ]; then
+       xmodmap $sysmodmap
+   fi
+
+   if [ -f $userresources ]; then
+       xrdb -merge $userresources
+   fi
+
+   if [ -f $usermodmap ]; then
+       xmodmap $usermodmap
+   fi
+
+   # start some nice programs
+
+   twm &#38;
+   xclock -geometry 50x50-1+1 &#38;
+   xterm -geometry 80x50+494+51 &#38;
+   xterm -geometry 80x20+494-0 &#38;
+   exec xterm -geometry 80x66+0+0 -name login</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>All of those &#8220;if&#8221; blocks are there to merge in various
+configuration settings from other files.  We'll get to
+<TT
+CLASS="FILENAME"
+>.Xresources</TT
+> in just a moment, but
+<TT
+CLASS="FILENAME"
+>.Xmodmap</TT
+> we're going to leave alone.  The interesting
+part of the file is toward the end, where various programs are run.  This X
+session will begin with the <B
+CLASS="COMMAND"
+>twm</B
+>(1) window manager, a clock,
+and three terminals.  Note the <B
+CLASS="COMMAND"
+>exec</B
+> before the last xterm.
+What that does is replace the currently running shell (the one that's
+executing this <TT
+CLASS="FILENAME"
+>xinitrc</TT
+> script) with that
+<B
+CLASS="COMMAND"
+>xterm</B
+>(1) command.  When the user quits that xterm, the X
+session will end.</P
+><P
+>To customize your X startup, copy the default
+<TT
+CLASS="FILENAME"
+>/var/X11R6/lib/xinit/xinitrc</TT
+> to
+<TT
+CLASS="FILENAME"
+>~/.xinitrc</TT
+> and edit it, replacing those program lines
+with whatever you like.  The end of mine is simply:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # Start the window manager:
+   exec startkde</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Note that there are several <TT
+CLASS="FILENAME"
+>xinitrc.*</TT
+> files in <TT
+CLASS="FILENAME"
+>/var/X11R6/lib/xinit</TT
+> that correspond to various
+window managers and GUIs.  You can use any of those, if you like.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="XDOTFILES"
+>.Xresources and .Xdefaults</A
+></H2
+><P
+>Many X programs use a system called the X Resource Database to get various 
+user preferences (fonts, colours, etc.)  This database is maintained via the 
+<B
+CLASS="COMMAND"
+>xrdb</B
+>(1) program, which you will likely never need to run 
+directly.  Instead, it is run in Slackware from the 
+<TT
+CLASS="FILENAME"
+>xinitrc</TT
+>.  The file that <TT
+CLASS="FILENAME"
+>xinitrc</TT
+> tells 
+<B
+CLASS="COMMAND"
+>xrdb</B
+> to source for options is 
+<TT
+CLASS="FILENAME"
+>~/.Xresources</TT
+>.  <B
+CLASS="COMMAND"
+>xrdb</B
+> will also load
+<TT
+CLASS="FILENAME"
+>~/.Xdefaults</TT
+>, so either of these filenames will work.  A
+minimal <TT
+CLASS="FILENAME"
+>.Xresources</TT
+> file looks like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   xterm*background: black
+   xterm*foreground: gray
+   xterm*scrollBar: true
+   xterm*font: -*-lucidatypewriter-*-r-*-*-15-*-*-*-*-*-*-*</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>These four lines specify configuration information for the
+<B
+CLASS="COMMAND"
+>xterm</B
+> program.  An X resource is listed as follows:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="REPLACEABLE"
+><I
+>program</I
+></TT
+>*<TT
+CLASS="REPLACEABLE"
+><I
+>option</I
+></TT
+>: <TT
+CLASS="REPLACEABLE"
+><I
+>setting/value</I
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Thus, the sample <TT
+CLASS="FILENAME"
+>.Xresources</TT
+> above should be fairly
+self-explanatory.  Don't be thrown off by the &#8220;font&#8221; line; X
+fonts are always specified that way.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1559.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1630.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>XF86Setup</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1364.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Servers and Window Managers</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

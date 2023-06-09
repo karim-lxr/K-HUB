@@ -1,0 +1,584 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>The Bourne Again Shell (bash)</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="The Shell"
+HREF="c1890.html"><LINK
+REL="PREVIOUS"
+TITLE="The Command Line"
+HREF="x1925.html"><LINK
+REL="NEXT"
+TITLE="Virtual Terminals"
+HREF="x2116.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1925.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 8. The Shell</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x2116.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="BASH"
+>The Bourne Again Shell (bash)</A
+></H1
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ENVIRONMENT"
+>Environment Variables</A
+></H2
+><P
+>A Linux system is a complex beast, and there's a lot to keep track of, a lot of
+little details that come into play in your normal interactions with various
+programs (some of which you might not even need to be aware of).  Nobody wants
+to pass a bunch of options to every program that gets run, telling it what kind
+of terminal is being used, the hostname of the computer, how their prompt
+should look...</P
+><P
+>So as a coping mechanism, users have what's called an environment.  The
+environment defines the conditions in which programs run, and some of this
+definition is variable; the user can alter and play with it, as is only right
+in a Linux system.  Pretty much any shell will have environment variables (if 
+not, it's probably not a very useable shell).  Here we will give an overview
+of the commands bash provides for manipulating its environment variables.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>set</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+><B
+CLASS="COMMAND"
+>set</B
+> by itself will show you all of the environment 
+variables that are currently defined, as well as their values.  Like most 
+<B
+CLASS="COMMAND"
+>bash</B
+> built-ins, it can also do several other things (with 
+parameters); we'll leave it to the <B
+CLASS="COMMAND"
+>bash</B
+>(1) man page to cover
+that, though.  An excerpt from a <B
+CLASS="COMMAND"
+>set</B
+> command on one of my 
+computers looks like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   PATH=/usr/local/lib/qt/bin:/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:
+   /usr/openwin/bin:/usr/games:.:/usr/local/ssh2/bin:/usr/local/ssh1/bin:
+   /usr/share/texmf/bin:/usr/local/sbin:/usr/sbin:/home/logan/bin
+   PIPESTATUS=([0]="0")
+   PPID=4978
+   PS1='\h:\w\$ '
+   PS2='&gt; '
+   PS4='+ '
+   PWD=/home/logan
+   QTDIR=/usr/local/lib/qt
+   REMOTEHOST=ninja.tdn
+   SHELL=/bin/bash</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Notice that <TT
+CLASS="ENVAR"
+>PATH</TT
+> variable we discussed earlier; I can run 
+anything in any of those directories simply by typing its base filename.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>unset VARIABLE</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+><B
+CLASS="COMMAND"
+>unset</B
+> will remove any variables that you give it, wiping 
+out both the variable and its value; <B
+CLASS="COMMAND"
+>bash</B
+> will forget that 
+variable ever existed.  (Don't worry. Unless it's something you explicitly 
+defined in that shell session, it'll probably get redefined in any other 
+session.)</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>export VARIABLE=some_value</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Now, <B
+CLASS="COMMAND"
+>export</B
+> is truly handy.  Using it, you give the 
+environment variable <TT
+CLASS="ENVAR"
+>VARIABLE</TT
+> the value 
+&#8220;some_value&#8221;; if <TT
+CLASS="ENVAR"
+>VARIABLE</TT
+> didn't exist, it does 
+now.  If <TT
+CLASS="ENVAR"
+>VARIABLE</TT
+> already had a value, well, it's gone.  That's
+not so good, if you're just trying to add a directory to your 
+<TT
+CLASS="ENVAR"
+>PATH</TT
+>.  In that case, you probably want to do something like 
+this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>export PATH=$PATH:/some/new/directory</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Note the use of <TT
+CLASS="ENVAR"
+>$PATH</TT
+> there: when you want 
+<B
+CLASS="COMMAND"
+>bash</B
+> to interpret a variable (replace it with its value),
+tack a <B
+CLASS="KEYCAP"
+>$</B
+> onto the beginning of the variable's name.  For 
+instance, <B
+CLASS="COMMAND"
+>echo $PATH</B
+> will echo the value of 
+<TT
+CLASS="ENVAR"
+>PATH</TT
+>, in my case:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>echo $PATH</B
+></TT
+>
+   /usr/local/lib/qt/bin:/usr/local/bin:/usr/bin:/bin:/usr/X11R6/bin:
+   /usr/openwin/bin:/usr/games:.:/usr/local/ssh2/bin:/usr/local/ssh1/bin:
+   /usr/share/texmf/bin:/usr/local/sbin:/usr/sbin:/home/logan/bin</TT
+></PRE
+></TD
+></TR
+></TABLE
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="TABCOMPLETION"
+>Tab Completion</A
+></H2
+><P
+>(Here comes something cool again.)</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>A commandline interface means lots of typing.</P
+></LI
+><LI
+><P
+>Typing is work.</P
+></LI
+><LI
+><P
+>Nobody likes work.</P
+></LI
+></OL
+><P
+>From 3 and 2, we can determine that 4) nobody likes typing.  Fortunately, 
+<B
+CLASS="COMMAND"
+>bash</B
+> saves us from 5 (nobody likes a commandline interface).</P
+><P
+>How does <B
+CLASS="COMMAND"
+>bash</B
+> accomplish this wonderful feat, you ask?  
+In addition to the wildcard expansion we discussed before, 
+<B
+CLASS="COMMAND"
+>bash</B
+> features &#8220;tab completion&#8221;.</P
+><P
+>Tab completion works something like this:  You're typing the name of a file.  
+Maybe it's in your <TT
+CLASS="ENVAR"
+>PATH</TT
+>, maybe you're typing it out explicitly. 
+All you have to do is type enough of the filename to uniquely identify it.  
+Then hit the tab key.  <B
+CLASS="COMMAND"
+>bash</B
+> will figure out what you want
+and finish typing it for you!</P
+><P
+>Example time.  <TT
+CLASS="FILENAME"
+>/usr/src</TT
+> contains two 
+subdirectories: <TT
+CLASS="FILENAME"
+>/usr/src/linux</TT
+> and 
+<TT
+CLASS="FILENAME"
+>/usr/src/sendmail</TT
+>.  I want to see 
+what's in <TT
+CLASS="FILENAME"
+>/usr/src/linux</TT
+>.  So I just 
+type <TT
+CLASS="USERINPUT"
+><B
+>ls /usr/src/l</B
+></TT
+>, hit the <B
+CLASS="KEYCAP"
+>TAB</B
+> key, 
+and <B
+CLASS="COMMAND"
+>bash</B
+> gives me 
+<TT
+CLASS="COMPUTEROUTPUT"
+>ls /usr/src/linux</TT
+>.</P
+><P
+>Now, suppose there are two directories 
+<TT
+CLASS="FILENAME"
+>/usr/src/linux</TT
+> and 
+<TT
+CLASS="FILENAME"
+>/usr/src/linux-old</TT
+>; If I type 
+<TT
+CLASS="USERINPUT"
+><B
+>/usr/src/l</B
+></TT
+> and hit <B
+CLASS="KEYCAP"
+>TAB</B
+>, 
+<B
+CLASS="COMMAND"
+>bash</B
+> will fill in as much as it can, and I'll get 
+<TT
+CLASS="COMPUTEROUTPUT"
+>/usr/src/linux</TT
+>.  I can stop there, or I 
+can hit <B
+CLASS="KEYCAP"
+>TAB</B
+> again, and <B
+CLASS="COMMAND"
+>bash</B
+> will show 
+a list of directories that match what I've typed so far.</P
+><P
+>Hence, less typing (and hence, people can like commandline interfaces).  I told
+you it was cool.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1925.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x2116.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>The Command Line</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1890.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Virtual Terminals</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

@@ -1,0 +1,134 @@
+
+12-mag-04
+
+http://www.gamers.org/~quinet/lilo/
+
+
+packages dep:
+-lilo-22.3.2.51-i586-1.tgz  lilo modificato per message too big
+- gfxboot-1.4-i686-1.tgz  lib ed eseguibili necessari alle animazioni
+per slackware disponibili su: 
+http://members.optusnet.com.au/rkelsen/lilo.html
+
+
+
+Comment installer ces écrans de démarrage animés?
+Si vous avez la bonne version de LILO, il est très simple d'installer ces écrans. Si vous avez déja la bonne version du fichier
+ boot-menu.b, vous n'avez qu'à dire à LILO d'utiliser le script compilé comme fichier de message:
+En tant que root, copiez le fichier *.boot dans votre répertoire /boot (après avoir utilisé gunzip si le fichier était compressé).
+ Par exemple : 
+  cp penguins.boot /boot
+Ensuite insérez la ligne suivant dans le fichier /etc/lilo.conf (supprimez ou mettez en commentaire la ligne de message existante si vous en avez déja une) : 
+  message = /boot/penguins.boot
+Et finalement exécutez LILO pour l'installer: 
+  /sbin/lilo -v
+La prochaine fois que votre ordinateur redémarrera, vous devriez voir le nouvel écran de démarrage.
+Problèmes fréquents
+Si vous obtenez un menu texte au lieu de l'animation attendue, alors quelque chose n'a pas fonctionné.
+ Voici quelques problèmes fréquents :
+Si vous recevez l'erreur "message file too big" ou des erreurs similaires, alors vous n'avez pas la bonne version de LILO
+ ou de boot-menu.b. Vous devez installer la version modifiée de LILO. 
+Votre carte vidéo ne supporte pas le mode vidéo requis 
+(quelques-unes des plus récentes cartes 3D ont arrêté de supporter les modes VESA comme le 640x480 x 256 couleurs). 
+Il y a eu une erreur lorsque vous avez exécuté LILO et l'écran de démarrage ne s'est pas installé.
+ Vérifiez votre fichier de configuration /etc/lilo.conf et vérifiez que vous utilisez la bonne version de LILO. 
+Votre fichier de configuration /etc/lilo.conf ne contient pas l'option prompt, laquelle est nécessaire pour avoir le menu de démarrage.
+ Vous devriez également ajouter l'option timeout. 
+Votre ordinateur démarre à partir d'un disque différent de celui sur lequel LILO est installé ou utilise un autre gestionnaire de démarrage.
+
+Comment créer ou modifier votre propre écran de démarrage animé ?
+Attention : Jouer avec LILO peut être dangereux. Soyez certain d'avoir une disquette de secours prête quand vous modifiez un script 
+ou le fichier de configuration de LILO, car vous pouvez facilement faire une erreur qui empêchera votre ordinateur de démarrer. 
+Assurez-vous de faire des sauvegardes régulières, puisque vous ne savez jamais ce qui peut arriver à vos données. 
+Une fois, j'ai fait une petite erreur de copier-coller lorsque j'ai testé une de mes animations, en utilisant ifelse au lieu de if 
+dans mon script. LILO a planté (probablement à cause d'un dépassement de capacité de la pile) et mon ordinateur ne voulait plus démarrer. 
+J'étais content d'avoir une disquette de secours... Alors soyez prudent lorsque vous faites des expériences avec votre gestionnaire de 
+démarrage.
+Si vous voulez créer votre propre écran de démarrage graphique, vous aurez besoin du programme mkbootmsg, disponible dans le distribution 
+SuSE dans le paquet gfxboot-devel. Ce paquet contient également le programme getx11font, lequel peut convertir une police de caractères 
+dans un format qui peut être utilisé dans votre écran de démarrage. À l'heure d'écrire ces lignes, la seule documentation pour mkbootmsg 
+est disponible de le fichier README /usr/share/doc/packages/gfxboot/README (paquet gfxboot). J'ai essayé de mettre quelques commentaires 
+utiles dans mes scripts afin de les rendre plus faciles a comprendre, mais vous devriez étudier le fichier README en premier lieu.
+Lorsque vous écrivez ou que vous modifiez un script, gardez à l'esprit que vous êtes en train de développer une modification 
+à votre gestionnaire de démarrage. Vous devez faire très attention puisque la seule facon de tester et de débugger votre code est 
+de redémarrer votre ordinateur, ce qui peut prendre beaucoup de temps si vous devez avoir recours à la disquette de secours 
+(ou si vous devez tout réinstaller dans le cas où quelque chose se serait très mal passé). Alors vérifiez doublement votre 
+code avant de l'installer. Certains messages de débuggage sont disponibles et le compilateur contenu dans mkbootmsg est 
+capable de détecter quelques erreurs, mais pas toutes.
+Une fois que vous avez le fichier de script (*.config), l'image PCX (*.pcx) et le fichier de police de caractères optionnel, 
+vous pouvez utiliser mkbootmsg pour compiler votre nouvel écran de démarrage. Par exemple:
+  /usr/sbin/mkbootmsg -c penguins.config penguins.boot
+Si vous ne recevez aucun message d'erreur, alors vous pouvez installer le nouveau fichier comme expliqué plus haut.
+Modifier une image ne devrais pas être très difficile. J'ai utilisé The GIMP pour créer toutes mes animations, comme vous 
+pouvez voir dans les fichiers *.xcf.gz qui sont disponibles en téléchargement. Je suis habituellement cette procédure :
+La plupart du développement est fait sur des images RGB. L'espace en-dehors du format de l'écran défini dans le script peut être 
+utilisé pour cacher quelques éléments qui seront copiés vers l'écran plus tard pour les animations. 
+Lorsque l'image est prête, je l'aplatis (fusion des calques) avec Layers->Flatten Image (ou Calques->Aplatir l'image en version française).
+Je convertis le résultat vers le mode indexé (moins de 256 couleurs - par exemple, 240) avec Image->Mode->Indexed, habituellement 
+sans dithering (tramage des couleurs). La distribution aléatoire des points causé par le tramage Floyd-Steinberg est souvent 
+gênante pour les animations. 
+J'utilise Dialogs->Indexed Palette (ou Dialogues->Palette Indexée en version française) pour modifier quelques couleurs à la main : 
+la couleur à l'index 0 doit être noir pur (#000000). Si vous oubliez cette étape, vous recevrez un avertissement lors de la 
+compilation de l'écran de démarrage. 
+Finalement, je sauvegarde l'image dans un fichier PCX et j'utilise mkbootmsg pour tester le nouvel écran de démarrage. 
+
+
+
+
+VERIFICARE
+Come installare LILO animato
+
+Scrive "Vi siete mai chiesti come abbellire il vostro LILO? E se vi dicessi che non solo è possibile, ma che si può anche usare un LILO 
+che presenti delle animazioni? Non ci credete? Seguitemi in questo mini-tutorial e state a vedere. 
+
+Un unico avvertimento: sappiate che è pericoloso giochicchiare con LILO. Conviene sempre premunirsi di un dischetto di boot con il
+ quale avviare il proprio computer nel caso qualcosa non andasse per il verso giusto. Di seguito spiegherò i passaggi da me compiuti
+ per installare sul mio PC il LILO animato. Non è detto che ciò che ha funzionato per me funzioni sicuramente anche per voi, perciò
+ non mi assumo nessuna responsabilità per i danni da voi eventualmente causati seguendo la procedura da me descritta qui di seguito. 
+Vi invito nuovamente a premunirvi di un dischetto di boot per evitare spiacevoli conseguenze.
+
+Prima di tutto, facciamo una copia di backup del file /etc/lilo.conf (non si sa mai). Dunque, con i privilegi di root, digitiamo
+
+cp /etc/lilo.conf ~
+
+In questo modo, avremo copiato il file di configurazione di LILO nella directory home di root.
+Dobbiamo ora procurarci una versione di LILO "patchata", ossia modificata in maniera tale da risultare compatibile con quanto ci 
+siamo proposti. Puntiamo dunque il nostro browser preferito (Mozilla!) su http://members.optusnet.com.au/rkelsen/lilo.html 
+(dove si possono trovare i pacchetti tgz per Slackware) o http://www-personal.umich.edu/~lrsmith/Linux/animated_lilo.html 
+(per chiunque preferisse gli RPM per la sua Redhat 7.2) Preleviamo dunque il nostro nuovo LILO e installiamolo. A tal fine, 
+per chiunque abbia preso i tarballs per Slackware è sufficiente usare 
+
+upgradepkg nomepacchetto
+
+Con gli RPM per RedHat l'operazione non è meno semplice: 
+
+rpm -Uvh nomepacchetto
+
+Bene. Ora tutto ciò che dobbiamo fare è ripristinare (nel caso fosse stata sovrascritto durante l'installazione) il file di 
+configurazione di LILO che abbiamo precedentemente avuto l'accortezza di copiare nella directory home di root. Dunque, digitiamo 
+il seguente comando, sempre con i privilegi di root:
+
+mv ~/lilo.conf /etc/lilo.conf
+
+Tutto quello che ci rimane da fare, ora, è modificare in maniera adeguata questo file, così che possa caricare le animazioni 
+installate insieme al nuovo LILO. Usando l'editor con il quale abbiamo acquisito più confidenza, facciamo dunque sì che all'interno 
+del nostro /etc/lilo.conf sia presente una riga di tal genere:
+
+message=path_assoluto_della_directory_dove_
+sono_state_installate_le_animazioni/nome_
+file_animato.boot
+
+Nel mio caso (installazione tramite tgz su una Slackware 9.0) tale directory è /usr/share/lilo-bootscreens/. 
+Quindi, nel mio /etc/lilo.conf ho inserito, al fine di utilizzare l'animazione xray-blue, la riga
+
+message=/usr/share/lilo-bootscreens/xray-blue.boot
+
+
+Salviamo dunque le modifiche ed usciamo dall'editor. Poi, sempre con privilegi di root, diamo il comando:
+
+/sbin/lilo -v
+
+Possiamo ora riavviare e goderci il nostro nuovo LILO animato!" 
+
+
+

@@ -1,0 +1,27 @@
+Swaret-tools-0.9
+
+Swaret is a tool that allows a system administrator to update a Slackware
+system.  Two features of swaret (the first existing, the second not yet 
+implimented) add additional functionality, and these scripts help if you are a 
+publisher of swaret content.
+
+Swaret-tools is made up of two tools.  
+
+libmaker
+Creates a file, libraries-$VERSION which will either be uploaded (presently by 
+scp) to a webserver, or moved into a directory.  If you are doing so for the
+benifit of the public, please cron the job to run daily and send the URL to me
+at mgmanry@linuxorbit.com so I can add your site to swaret.
+Before running libmaker for the first time, edit the beginging of libmaker to
+set various settings.  Then run "libmaker current" (or whatever version you
+want).
+
+repos
+Creates a Slackware style directory, with FILELIST.txt, MANIFEST.bz2,
+PACKAGES.TXT, CHECKSUMS.md5, and libraries-current.
+All packages (along with the optional ascii armored gpg 
+signatures of the packages) go into subdirectories of the directory of the URL 
+(I'll call it DIRECTORY).  To see a good example of what the DIRECTORY should
+look like, look at the extra/ directory at any Slackware mirror.  When the 
+DIRECTORY is set up correctly, run "repos DIRECTORY" as a user with write
+permissions to DIRECTORY.  Run "repos --help" to view options. 

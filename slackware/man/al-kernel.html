@@ -1,0 +1,1895 @@
+<!DOCTYPE HTML PUBLIC "ISO/IEC 15445:2000//DTD HTML//EN">
+<HTML LANG="it">
+<HEAD>
+<TITLE>Kernel Linux</TITLE>
+<link rel="STYLESHEET" type="text/css" href="tjds.css"> 
+</HEAD>
+<BODY>
+
+<H1>Capitolo 49. &nbsp; <A NAME="almltitle635"></A><A NAME="almlanchor1314"></A> <A NAME="almlindex4252"></A>Kernel Linux <A NAME="almlindex4253"></A> </H1>
+<P>Appunti di informatica libera 2005.04.01   --- <EM>Copyright &copy; 2000-2005 Daniele Giacomini -- &lt;<EM>daniele&thinsp;(ad)&thinsp;swlibero&middot;org</EM>&gt;, &lt;<EM>daniele&middot;giacomini&thinsp;(ad)&thinsp;poste&middot;it</EM>&gt;</EM>
+<br><br>
+<a href="http://a2.swlibero.org/">http://a2.swlibero.org/</a> 2005.04.01
+</P><HR>
+<br><br>
+<P>Il <A NAME="almlindex4254"></A>kernel &#232; il nocciolo del sistema operativo. I programmi utilizzano le funzioni fornite dal <A NAME="almlindex4255"></A>kernel e in questa maniera sono sollevati dall'agire direttamente con la CPU.</P>
+
+<P>Il <A NAME="almlindex4256"></A>kernel Linux &#232; costituito normalmente da un file soltanto, il cui nome pu&#242; essere <CODE CLASS="file">vmlinuz</CODE>, oppure <CODE CLASS="file">zImage</CODE>, <CODE CLASS="file">bzImage</CODE> e altri ancora, ma pu&#242; comprendere anche moduli aggiuntivi per la gestione di componenti hardware specifici che devono poter essere attivati e disattivati durante il funzionamento del sistema.</P>
+
+<P>Quando si fa riferimento a un <A NAME="almlindex4257"></A>kernel in cui tutte le funzionalit&#224; che servono sono incluse nel file principale, si parla di <A NAME="almlindex4258"></A>kernel monolitico, mentre quando parte di queste sono poste all'interno di moduli esterni, si parla di <A NAME="almlindex4259"></A>kernel modulare. Il <A NAME="almlindex4260"></A>kernel monolitico ha il vantaggio di avere tutto in un file, ma nello stesso modo &#232; rigido e non permette di liberare risorse quando le unit&#224; periferiche gestite non servono. Il <A NAME="almlindex4261"></A>kernel modulare ha il vantaggio di poter disattivare e riattivare i moduli a seconda delle esigenze, in particolare quando moduli distinti gestiscono in modo diverso lo stesso tipo di unit&#224; periferica. Tuttavia, a causa della frammentazione in molti file, l'uso dei moduli pu&#242; essere fonte di errori.</P>
+
+<P>In generale, l'uso dei <A NAME="almlindex4262"></A>kernel modulari dovrebbe essere riservato agli utilizzatori che hanno gi&#224; un'esperienza sufficiente nella gestione dei <A NAME="almlindex4263"></A>kernel monolitici. In ogni caso, ci possono essere situazioni in cui l'uso di un <A NAME="almlindex4264"></A>kernel modulare &#232; praticamente indispensabile, per esempio quando un certo tipo di dispositivo fisico pu&#242; essere gestito in vari modi differenti e conflittuali, ma si tratta di situazioni rare.</P>
+
+<H2>49.1 &nbsp; <A NAME="almltitle636"></A><A NAME="almlanchor1315"></A>
+ Ricompilazione del <A NAME="almlindex4265"></A>kernel </H2>
+
+<P>Le distribuzioni GNU/Linux tendono a fornire agli utilizzatori un <A NAME="almlindex4266"></A>kernel modulare per usi generali. Anche se questo tipo di <A NAME="almlindex4267"></A>kernel si adatta sicuramente alla maggior parte delle configurazioni, ci sono situazioni particolari dove &#232; preferibile costruire un proprio <A NAME="almlindex4268"></A>kernel, monolitico o modulare che sia.</P>
+
+<P>Per poter comprendere il procedimento di compilazione descritto in questo capitolo, occorre sapere come si compila e si installa un programma tipico distribuito in forma sorgente, come descritto nel capitolo <A HREF="a253.html#almlanchor1134">39</A>.</P>
+
+<H3>49.1.1 &nbsp; <A NAME="almltitle637"></A><A NAME="almlanchor1316"></A>
+ <A NAME="almlindex4269"></A>Kernel monolitico <A NAME="almlindex4270"></A> <A NAME="almlindex4271"></A> <A NAME="almlindex4272"></A> <A NAME="almlindex4273"></A> <A NAME="almlindex4274"></A> <A NAME="almlindex4275"></A> </H3>
+
+<P>Il procedimento descritto in questa sezione serve per generare un <A NAME="almlindex4276"></A>kernel monolitico, cio&#232; un <A NAME="almlindex4277"></A>kernel in un solo file.</P>
+
+<P>Per poter procedere alla compilazione del <A NAME="almlindex4278"></A>kernel &#232; necessario avere installato gli strumenti di sviluppo software, cio&#232; il compilatore e i sorgenti del <A NAME="almlindex4279"></A>kernel. In particolare, i sorgenti del <A NAME="almlindex4280"></A>kernel possono anche essere reperiti presso vari siti che offrono l'accesso attraverso il protocollo FTP. In tal caso si pu&#242; fare una ricerca per i file che iniziano per <CODE CLASS="file">linux-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>.tar.bz2</CODE>, dove <VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR> sono i numeri della versione.</P>
+
+<P>Il numero di versione del <A NAME="almlindex4281"></A>kernel Linux &#232; strutturato in tre livelli: <VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>, dove il primo, <VAR>x</VAR>, rappresenta il valore pi&#249; importante, mentre l'ultimo, <VAR>z</VAR>, rappresenta quello meno importante. Quello che conta, &#232; porre attenzione al valore intermedio: <VAR>y</VAR>. Se si tratta di un numero pari, la versione si riferisce a un <A NAME="almlindex4282"></A>kernel ritenuto sufficientemente stabile, mentre un numero dispari rappresenta una versione destinata agli sviluppatori e non ritenuta adatta per l'utilizzo normale.</P>
+
+<P>Se i sorgenti sono stati installati attraverso un disco (un CD-ROM) di una distribuzione, questi si potrebbero trovarsi da qualche parte a partire da <CODE CLASS="file">/usr/src/</CODE>, ma attualmente la loro compilazione non richiede una collocazione particolare nel <A NAME="almlindex4283"></A>file&nbsp;system, tanto che anche un utente comune, senza privilegi, pu&#242; farlo, collocando i sorgenti nell'ambito della propria <A NAME="almlindex4284"></A>directory personale.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>La distribuzione GNU/Linux <A NAME="almlindex4285"></A>Debian si limita a piazzare un archivio (un file compresso) nella directory <CODE CLASS="file">/usr/src/</CODE>, lasciando all'utente il compito di estrarlo dove meglio crede.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<TABLE ID="almlanchor1317" CLASS="figurewrapper" SUMMARY="">
+<TBODY><TR><TD>
+
+<P CLASS="caption"> Riquadro <A HREF="a264.html#almlanchor1317">49.1</A>. Procedura superata. </P>
+
+<TABLE CLASS="figure" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Nelle prime versioni del <A NAME="almlindex4286"></A>kernel Linux &#232; stata utilizzata una procedura che attualmente &#232; bene evitare di adottare. L'elenco seguente serve a sottolineare il fatto che nulla di tutto questo va fatto:</P>
+
+<UL>
+
+<LI>
+
+<P>i sorgenti venivano estratti in modo da iniziare dalla directory <CODE CLASS="file">/usr/src/linux/</CODE>, spesso con l'aiuto di un <A NAME="almlindex4287"></A>collegamento simbolico, se erano disponibili diverse versioni affiancate;</P>
+</LI>
+
+<LI>
+
+<P>venivano creati o modificati tre <A NAME="almlindex4288"></A>collegamenti simbolici contenuti nella directory <CODE CLASS="file">/usr/include/</CODE>:</P>
+
+<UL>
+
+<LI>
+
+<P><CODE CLASS="file">/usr/include/asm</CODE> --&gt; <CODE CLASS="file">/usr/src/linux/include/asm-i386/</CODE></P>
+</LI>
+
+<LI>
+
+<P><CODE CLASS="file">/usr/include/linux</CODE> --&gt; <CODE CLASS="file">/usr/src/linux/include/linux/</CODE></P>
+</LI>
+
+<LI>
+
+<P><CODE CLASS="file">/usr/include/scsi</CODE> --&gt; <CODE CLASS="file">/usr/src/linux/include/scsi</CODE></P>
+</LI>
+</UL>
+</LI>
+</UL>
+
+</TD></TR></TBODY>
+</TABLE>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Si parte con l'estrazione dell'archivio che li contiene; naturalmente l'utente deve estrarre l'archivio in una posizione in cui gli sia concesso di farlo in base ai permessi che lo riguardano:</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>tar xjvf linux-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>.tar.bz2</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Si tenga presente che i sorgenti possono essere estratti da un utente comune e compilati dallo stesso utente. Ci&#242; che tale utente non dovrebbe poter fare &#232; l'installazione effettiva del <A NAME="almlindex4289"></A>kernel.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Una volta installati i sorgenti del <A NAME="almlindex4290"></A>kernel, si pu&#242; passare alla configurazione che precede la compilazione. Per questo, ci si posiziona nella directory dei sorgenti; quindi, dopo aver letto il file <CODE CLASS="file">README</CODE>, si pu&#242; procedere.</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>cd linux-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR></CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>La directory corrente deve essere quella a partire dalla quale si diramano i sorgenti del <A NAME="almlindex4291"></A>kernel.</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make mrproper</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Serve a eliminare file e <A NAME="almlindex4292"></A>collegamenti vecchi che potrebbero interferire con una nuova compilazione. In particolare, <STRONG>elimina la configurazione data in precedenza</STRONG> alla compilazione del <A NAME="almlindex4293"></A>kernel.</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make config</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>&#200; l'operazione pi&#249; delicata attraverso la quale si definiscono le caratteristiche e i componenti del <A NAME="almlindex4294"></A>kernel che si vuole ottenere. Ogni volta che si esegue questa operazione viene riutilizzato il file <CODE CLASS="file">.config</CODE> contenente la configurazione impostata precedentemente, mentre alla fine la nuova configurazione viene salvata nello stesso file. Di conseguenza, ripetendo il procedimento <SAMP>make&nbsp;config</SAMP>, le scelte predefinite corrispondono a quelle effettuate precedentemente.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Il comando <SAMP>make&nbsp;mrproper</SAMP> elimina il file <CODE CLASS="file">.config</CODE>, quindi si deve fare attenzione a non eseguire tale comando se non &#232; questa l'intenzione.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>L'utilizzo del comando <SAMP>make&nbsp;config</SAMP> rappresenta &#232; un metodo piuttosto spartano di configurare il sistema. Dopo le prime versioni del <A NAME="almlindex4295"></A>kernel Linux sono state aggiunte altre possibilit&#224; pi&#249; pratiche, corrispondenti a comandi come quelli seguenti, ma si possono conoscere anche dei modi alternativi con il comando <SAMP>make&nbsp;help</SAMP>:</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make menuconfig</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make xconfig</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make gconfig</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>In generale, &#232; conveniente usare il comando <SAMP>make&nbsp;menuconfig</SAMP>, che non richiede la grafica, al contrario degli altri due comandi indicati.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<TABLE ID="almlanchor1318" CLASS="figurewrapper" SUMMARY="">
+<TBODY><TR><TD>
+
+<P CLASS="caption"> Figura <A HREF="a264.html#almlanchor1318">49.2</A>. Il <A NAME="almlindex4296"></A>men&#249; principale della configurazione del <A NAME="almlindex4297"></A>kernel attraverso il comando <SAMP>make&nbsp;menuconfig</SAMP>. </P>
+
+<TABLE CLASS="figure" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE>.------------------------------- Main Menu -------------------------------.
+|  Arrow keys navigate the menu.  &lt;Enter&gt; selects submenus ---&gt;.          |
+|  Highlighted letters are hotkeys.  Pressing &lt;Y&gt; includes, &lt;N&gt; excludes, |
+|  &lt;M&gt; modularizes features.  Press &lt;Esc&gt;&lt;Esc&gt; to exit, &lt;?&gt; for Help.     |
+|  Legend: [*] built-in  [ ] excluded  &lt;M&gt; module  &lt; &gt; module capable     |
+| .---------------------------------------------------------------------. |
+| |      Code maturity level options  ---&gt;                              | |
+| |      Loadable module support  ---&gt;                                  | |
+| |      Processor type and features  ---&gt;                              | |
+| |      General setup  ---&gt;                                            | |
+| |      Memory Technology Devices (MTD)  ---&gt;                          | |
+| |      Parallel port support  ---&gt;                                    | |
+| |      Plug and Play configuration  ---&gt;                              | |
+| |      Block devices  ---&gt;                                            | |
+| |      Multi-device support (RAID and LVM)  ---&gt;                      | |
+| |      Networking options  ---&gt;                                       | |
+| |      Telephony Support  ---&gt;                                        | |
+| `------v(+)-----------------------------------------------------------' |
+|-------------------------------------------------------------------------|
+|                    &lt;Select&gt;    &lt; Exit &gt;    &lt; Help &gt;                     |
+`-------------------------------------------------------------------------'
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Dopo la definizione della configurazione, si pu&#242; passare alla compilazione del <A NAME="almlindex4298"></A>kernel relativo, utilizzando la sequenza di comandi seguente:</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make clean</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make bzImage</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Si tratta di due operazioni che non richiedono alcun tipo di interazione con l'utente. Al termine della compilazione, se questa ha avuto successo, il nuovo <A NAME="almlindex4299"></A>kernel si trova nella directory <CODE CLASS="file">arch/i386/boot/</CODE> con il nome <CODE CLASS="file">bzImage</CODE> (questo vale naturalmente nel caso si utilizzi l'architettura <A NAME="almlindex4300"></A>i386).</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>La sigla <SAMP>bzImage</SAMP> sta per <EM>big zImage</EM>, a indicare che si tratta di un'estensione del formato <SAMP>zImage</SAMP>. Il formato <SAMP>zImage</SAMP> si ottiene con il comando <SAMP>make zImage</SAMP>, ma attualmente lo si considera obsoleto.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Naturalmente, per fare in modo che il <A NAME="almlindex4301"></A>kernel possa essere utilizzato, questo va collocato dove il sistema che si occupa del suo avvio pu&#242; trovarlo (parte <A HREF="a246.html#almlanchor1048">vii</A>). Di solito lo si copia nella <A NAME="almlindex4302"></A>directory radice o in <CODE CLASS="file">/boot/</CODE>, dandogli il nome <CODE CLASS="file">vmlinuz</CODE> (come di consueto), sistemando poi ci&#242; che serve per il sistema di avvio che si utilizza.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Generalmente, dal momento che si possono utilizzare pi&#249; <A NAME="almlindex4303"></A>kernel alternativi, selezionandoli in fase di avvio, di solito il nome del file &#232; completo della versione del <A NAME="almlindex4304"></A>kernel stesso: <CODE CLASS="file">vmlinuz-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR></CODE>. Inoltre, si conserva una copia del file <CODE CLASS="file">System.map</CODE>, mettendola nella stessa directory in cui si trova il <A NAME="almlindex4305"></A>kernel, con un nome del tipo <CODE CLASS="file">System.map-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR></CODE>; infine si fa la stessa cosa con il file <CODE CLASS="file">.config</CODE>, a cui si d&#224; normalmente il nome <CODE CLASS="file">config-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR></CODE>.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Una volta realizzato un <A NAME="almlindex4306"></A>kernel &#232; necessario fare una prova per vedere se funziona. Il modo pi&#249; semplice per il principiante per verificarne il funzionamento, con la garanzia di non poter fare dei danni, &#232; quello di farne una copia in un dischetto di avvio (ovvero un dischetto di <EM>boot</EM>), ammesso che la dimensione del <A NAME="almlindex4307"></A>kernel lo consenta.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>&#200; bene ricordare che non si tratta di una copia nel senso normale del termine, perch&#233; in questo caso, cio&#232; quello dell'esempio, il dischetto non contiene alcun <A NAME="almlindex4308"></A>file&nbsp;system. Di conseguenza, &#232; inutile tentare poi di <A NAME="almlindex4309"></A>montare un dischetto del genere.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>&#200; probabile che servano dei privilegi particolari per poter scrivere sul file di dispositivo corrispondente all'unit&#224; a dischetti, come si vede nel comando successivo:</P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>cp arch/i386/boot/bzImage /dev/fd0</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Per utilizzare correttamente questo dischetto di avvio &#232; molto probabile che si debba intervenire prima con il programma <SAMP>rdev</SAMP> o con <SAMP>knl</SAMP> (<A HREF="a247.html#almlanchor1050">34.1</A>).</P>
+
+<H3>49.1.2 &nbsp; <A NAME="almltitle638"></A><A NAME="almlanchor1319"></A>
+ <A NAME="almlindex4310"></A>Kernel modulare </H3>
+
+<P>Il procedimento per la creazione di un <A NAME="almlindex4311"></A>kernel modulare inizia nello stesso modo di quello monolitico e giunge alla creazione di un file che in pi&#249; ha dei riferimenti a moduli esterni che vengono compilati a parte. Questi moduli, per poter essere gestiti correttamente, necessitano di <A NAME="almlindex4312"></A>programmi di servizio che si occupano della loro attivazione e disattivazione.</P>
+
+<P>In questo caso, oltre ai sorgenti del <A NAME="almlindex4313"></A>kernel sono necessari i programmi per la gestione dei moduli. Questi si trovano normalmente in archivi il cui nome &#232; organizzato in modo simile a quello dei sorgenti del <A NAME="almlindex4314"></A>kernel: <CODE CLASS="file">modules-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>.tar.gz</CODE>. La struttura della versione rappresentata dai numeri <VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR> rispecchia lo stesso meccanismo utilizzato per i sorgenti del <A NAME="almlindex4315"></A>kernel, per&#242; non ne vengono prodotte altrettante versioni, pertanto si deve badare a utilizzare la versione pi&#249; vicina a quella del <A NAME="almlindex4316"></A>kernel che si utilizza. Questo archivio si trova normalmente nella stessa directory del sito dal quale si ottengono i sorgenti del <A NAME="almlindex4317"></A>kernel.</P>
+
+<P>Anche i programmi contenuti nell'archivio <CODE CLASS="file">modules-<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>.tar.gz</CODE> sono in forma sorgente e prima di poterli utilizzare devono essere compilati e installati.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Se si sta ricompilando il <A NAME="almlindex4318"></A>kernel attraverso i sorgenti della distribuzione GNU/Linux che si utilizza, &#232; ragionevole supporre che questi programmi di gestione dei moduli siano gi&#224; stati installati correttamente.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Per ottenere un <A NAME="almlindex4319"></A>kernel modulare, dopo la preparazione del file principale del <A NAME="almlindex4320"></A>kernel attraverso lo stesso procedimento visto nel caso di un <A NAME="almlindex4321"></A>kernel monolitico, si devono compilare i moduli:</P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make modules</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Quindi si installano, ma con i privilegi dell'utente <SAMP>root</SAMP>:</P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>make modules_install</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Quello che si ottiene sono una serie di file oggetto, il cui nome ha un'estensione <CODE CLASS="file">.o</CODE>, raggruppati ordinatamente all'interno di directory discendenti da <CODE CLASS="file">/lib/modules/<VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR>/</CODE>, dove <VAR>x</VAR>.<VAR>y</VAR>.<VAR>z</VAR> rappresenta il numero della versione dei sorgenti del <A NAME="almlindex4322"></A>kernel. La posizione di questi file non deve essere cambiata.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Si osservi che la compilazione dei moduli deve essere ripetuta ogni volta che si ricompila la parte principale del <A NAME="almlindex4323"></A>kernel; in altre parole, i moduli non sono compatibili con un <A NAME="almlindex4324"></A>kernel differente da quello per il quale sono stati realizzati specificatamente, anche se si tratta della stessa versione.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.1.3 &nbsp; <A NAME="almltitle639"></A><A NAME="almlanchor1320"></A>
+ Compilazione del <A NAME="almlindex4325"></A>kernel in una distribuzione GNU/Linux <A NAME="almlindex4326"></A>Debian <A NAME="almlindex4327"></A> <A NAME="almlindex4328"></A> </H3>
+
+<P>Teoricamente, la distribuzione GNU/Linux <A NAME="almlindex4329"></A>Debian consente di compilare il <A NAME="almlindex4330"></A>kernel e i moduli secondo il procedimento standard; tuttavia ci&#242; non conviene, se non altro perch&#233; l'installazione dei moduli va a rimuovere un <A NAME="almlindex4331"></A>collegamento simbolico nella directory <CODE CLASS="file">/lib/modules/</CODE> che punta a <CODE CLASS="file">/etc/modprobe.conf</CODE>.</P>
+
+<P>La distribuzione GNU/Linux <A NAME="almlindex4332"></A>Debian mette a disposizione uno strumento per facilitare la compilazione del <A NAME="almlindex4333"></A>kernel, passando per la creazione di un pacchetto <A NAME="almlindex4334"></A>Debian vero e proprio, che poi pu&#242; essere installato secondo la procedura comune della distribuzione stessa. Il pacchetto in questione &#232; denominato <SAMP>kernel-package</SAMP> e per questo scopo pu&#242; essere usato direttamente senza bisogno di alcuna configurazione. &#200; sufficiente procedere nel modo seguente:</P>
+
+<OL>
+
+<LI>
+
+<TABLE CLASS="syntax" SUMMARY="">
+<TBODY><TR><TD>
+<P CLASS="syntax"><CODE>cd&nbsp;<VAR>directory_iniziale_dei_sorgenti</VAR>
+</CODE></P>
+</TD></TR></TBODY>
+</TABLE>
+
+<P>ci si sposta nella directory iniziale dei sorgenti del <A NAME="almlindex4335"></A>kernel;</P>
+</LI>
+
+<LI>
+
+<TABLE CLASS="syntax" SUMMARY="">
+<TBODY><TR><TD>
+<P CLASS="syntax"><CODE>make&nbsp;&nbsp;<STRONG CLASS="syn">{</STRONG>config<STRONG CLASS="syn">|</STRONG>menuconfig<STRONG CLASS="syn">|</STRONG>xconfig<STRONG CLASS="syn">|</STRONG>...<STRONG CLASS="syn">}</STRONG>
+</CODE></P>
+</TD></TR></TBODY>
+</TABLE>
+
+<P>si procede con la configurazione del <A NAME="almlindex4336"></A>kernel che si vuole ottenere;</P>
+</LI>
+
+<LI>
+
+<TABLE CLASS="syntax" SUMMARY="">
+<TBODY><TR><TD>
+<P CLASS="syntax"><CODE>make-kpkg&nbsp;clean
+</CODE></P>
+</TD></TR></TBODY>
+</TABLE>
+
+<P>ci si prepara alla compilazione;</P>
+</LI>
+
+<LI>
+
+<TABLE CLASS="syntax" SUMMARY="">
+<TBODY><TR><TD>
+<P CLASS="syntax"><CODE>make-kpkg&nbsp;--revision=<VAR>versione</VAR>&nbsp;kernel_image
+</CODE></P>
+</TD></TR></TBODY>
+</TABLE>
+
+<P>si esegue la compilazione generando l'archivio <A NAME="almlindex4337"></A>Debian corrispondente, nella directory precedente (la directory genitrice), completo di moduli se previsti.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Questo ultimo passaggio richiede per&#242; i privilegi dell'utente <SAMP>root</SAMP> per arrivare alla creazione del pacchetto <A NAME="almlindex4338"></A>Debian.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+</LI>
+</OL>
+
+<P>L'esempio seguente si riferisce alla compilazione di un <A NAME="almlindex4339"></A>kernel 2.6.7 (compresi i moduli eventuali) collocato nella directory <CODE CLASS="file">~/linux-2.6.7/</CODE>.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Questa collocazione &#232; volutamente differente da quella standard per la distribuzione GNU/Linux <A NAME="almlindex4340"></A>Debian, che invece dovrebbe essere <CODE CLASS="file">~/kernel-source-2.6.7/</CODE>, proprio per mostrare che ci&#242; non influisce in questo contesto.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>cd ~/linux-2.6.7</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>make-kpkg clean</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>$&nbsp;</CODE><STRONG><CODE>su root</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>make-kpkg --revision=custom.1.0 kernel_image</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Si pu&#242; osservare che la versione &#232; stata definita dalla stringa <SAMP>custom.1.0</SAMP>. Questo &#232; ci&#242; che viene suggerito nella documentazione originale. In particolare, il numero &#171;1.0&#187; va incrementato ogni volta che si predispone una versione successiva.</P>
+
+<P>Al termine si ottiene l'archivio <CODE CLASS="file">kernel-image-2.6.7_custom.1.0_i386.deb</CODE>, collocato nella directory precedente a quella dei sorgenti da cui &#232; stato ottenuto; per installarlo basta procedere come segue, usando naturalmente i privilegi dell'utente <SAMP>root</SAMP>:</P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>dpkg -i ../kernel-image-2.6.7_custom.1.0_i386.deb</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<H2>49.2 &nbsp; <A NAME="almltitle640"></A><A NAME="almlanchor1321"></A>
+ Elementi della configurazione <A NAME="almlindex4341"></A> </H2>
+
+<P>Gli elementi richiesti per la configurazione del <A NAME="almlindex4342"></A>kernel prima della sua compilazione, dipendono molto dalla versione che si possiede. In particolare, pu&#242; capitare che alcune voci vengano spostate da una versione all'altra del <A NAME="almlindex4343"></A>kernel.</P>
+
+<P>Le varie opzioni sono raggruppate in alcuni gruppi principali, che dovrebbero guidare intuitivamente nella configurazione prima della compilazione del <A NAME="almlindex4344"></A>kernel:</P>
+
+<UL>
+
+<LI>
+
+<P>{<CODE>Code maturity level options</CODE>}</P>
+
+<P>selezione del dettaglio con cui si vogliono definire le voci della configurazione;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>General setup</CODE>}</P>
+
+<P>caratteristiche generali, sia fisiche, sia logiche del sistema;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Loadable module support</CODE>}</P>
+
+<P>gestione dei moduli del <A NAME="almlindex4345"></A>kernel;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Processor type and features</CODE>}</P>
+
+<P>caratteristiche del microprocessore o dei microprocessori;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Power management options (ACPI, APM)</CODE>}</P>
+
+<P>controllo del sistema di alimentazione e del risparmio energetico;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Bus options (PCI, PCMCIA, EISA, MCA, ISA)</CODE>}</P>
+
+<P>caratteristiche di vari tipi di <A NAME="almlindex4346"></A>bus;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Executable file formats</CODE>}</P>
+
+<P>formati dei file eseguibili;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Device Drivers</CODE>}</P>
+
+<P>controllo dei dispositivi di vario genere;</P>
+
+<UL>
+
+<LI>
+
+<P>{<CODE>Generic Driver Options</CODE>}</P>
+
+<P>opzioni generali riferite alla gestione dei dispositivi;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Memory Technology Devices (MTD)</CODE>}</P>
+
+<P>gestione di memorie MTD, ovvero memoria speciale che ha la propriet&#224; di non essere volatile come la RAM comune;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Parallel port support</CODE>}</P>
+
+<P>gestione delle porte parallele;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Plug and Play configuration</CODE>}</P>
+
+<P>gestione del <A NAME="almlindex4347"></A>Plug &amp; Play;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Block devices</CODE>}</P>
+
+<P>gestione dei dispositivi a blocchi;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>ATA/IDE/MFM/RLL support</CODE>}</P>
+
+<P>gestione di dischi ATA/ATAPI e simili;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>SCSI support</CODE>}</P>
+
+<P>gestione di unit&#224; SCSI;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Old CD-ROM drivers (not for SCSI or IDE/ATAPI drives)</CODE>}</P>
+
+<P>gestione di vecchi tipi di lettori CD-ROM, che non sono compatibili con gli standard ATA/ATAPI e nemmeno con lo standard SCSI;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Multi-device support (RAID and LVM)</CODE>}</P>
+
+<P>gestione software di unit&#224; multiple di memorizzazione, come nel caso dei dischi RAID;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Fusion MTP device support</CODE>}</P>
+
+<P>gestione di dispositivi <A NAME="almlindex4348"></A>Fusion MPT;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>IEEE 1394 (FireWire) support</CODE>}</P>
+
+<P>gestione di un <A NAME="almlindex4349"></A>bus IEEE 1394, noto anche con il nome <A NAME="almlindex4350"></A>FireWire;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>I2O device support</CODE>}</P>
+
+<P>gestione di dispositivi periferici speciali denominati &#171;I2O&#187;;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Network support</CODE>}</P>
+
+<P>funzionalit&#224; di rete e gestione delle interfacce relative;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>ISDN subsystem</CODE>}</P>
+
+<P>gestione di alcune schede speciali per la connessione a una rete ISDN (non &#232; necessario utilizzare queste opzioni se si dispone di un &#171;modem&#187; ISDN esterno);</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Telephony Support</CODE>}</P>
+
+<P>gestione di hardware speciale per la telefonia digitale su IP;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Input device support</CODE>}</P>
+
+<P>gestione di hardware per l'inserimento dati (tastiere, mouse ecc.);</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Character devices</CODE>}</P>
+
+<P>gestione dei dispositivi a caratteri (terminali, porte seriali, porte parallele, mouse, ecc.);</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Multimedia devices</CODE>}</P>
+
+<P>gestione di dispositivi multimediali;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Graphics support</CODE>}</P>
+
+<P>gestione della console;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Sound</CODE>}</P>
+
+<P>gestione dell'audio;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>USB support</CODE>}</P>
+
+<P>gestione del <A NAME="almlindex4351"></A>bus USB e delle unit&#224; periferiche relative;</P>
+</LI>
+</UL>
+</LI>
+
+<LI>
+
+<P>{<CODE>File systems</CODE>}</P>
+
+<P>gestione di <A NAME="almlindex4352"></A>file&nbsp;system, con le problematiche relative;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Profiling support</CODE>}</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Kernel hacking</CODE>}</P>
+
+<P>configurazione particolare per chi vuole lavorare attivamente allo sviluppo del <A NAME="almlindex4353"></A>kernel;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Security options</CODE>}</P>
+
+<P>configurazione dei sistemi di sicurezza attuati dal <A NAME="almlindex4354"></A>kernel;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Cryptographic options</CODE>}</P>
+
+<P>funzionalit&#224; crittografiche;</P>
+</LI>
+
+<LI>
+
+<P>{<CODE>Library routines</CODE>}</P>
+
+<P>librerie.</P>
+</LI>
+</UL>
+
+<P>Nelle sezioni seguenti vengono descritte in parte solo alcuni di questi gruppi di configurazione, mostrando qualche esempio che comunque non pu&#242; esaurire il problema.</P>
+
+<H3>49.2.1 &nbsp; <A NAME="almltitle641"></A><A NAME="almlanchor1322"></A>
+ Code maturity level options </H3>
+
+<P>Questa sezione della procedura di configurazione si riferisce al livello di dettaglio a cui si &#232; interessati, per quanto riguarda le opzioni di configurazione che possono essere richieste. Se si &#232; interessati a funzionalit&#224; relativamente nuove, conviene abilitare il dettaglio massimo nella selezione delle opzioni di configurazione.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1323">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Prompt for development and/or incomplete code/drivers
+<STRONG></STRONG>[*]   Select only drivers expected to compile cleanly (NEW)   
+<STRONG></STRONG>[*]   Select only drivers that don't need compile-time external firmware
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.2 &nbsp; <A NAME="almltitle642"></A><A NAME="almlanchor1324"></A>
+ General setup </H3>
+
+<P>Questa sezione raccoglie una serie di opzioni di importanza generale, che non hanno trovato una collocazione specifica in un'altra posizione della procedura di configurazione.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1325">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Support for paging of anonymous memory (NEW)
+<STRONG></STRONG>[*] System V IPC
+<STRONG></STRONG>[*] BSD Process Accounting
+<STRONG></STRONG>[*] Sysctl support
+<STRONG></STRONG>[ ] Kernel .config support
+<STRONG></STRONG>[ ] Remove kernel features (for embedded systems) (NEW)  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.3 &nbsp; <A NAME="almltitle643"></A><A NAME="almlanchor1326"></A>
+ Loadable module support </H3>
+
+<P>Questa sezione della procedura di configurazione permette di attivare il sistema di gestione dei moduli. I moduli sono blocchetti di <A NAME="almlindex4355"></A>kernel separati che possono essere attivati e disattivati durante il funzionamento del sistema. Solo alcune parti del <A NAME="almlindex4356"></A>kernel possono essere gestite in forma di modulo.</P>
+
+<P>Se si intende creare un <A NAME="almlindex4357"></A>kernel modulare, &#232; evidente la necessit&#224; di attivare questa gestione all'interno della parte principale del <A NAME="almlindex4358"></A>kernel stesso.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1327">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Enable loadable module support
+<STRONG></STRONG>[*]   Module unloading
+<STRONG></STRONG>[ ]     Forced module unloading (NEW)
+<STRONG></STRONG>[ ]   Module versioning support (EXPERIMENTAL)
+<STRONG></STRONG>[*]   Automatic kernel module loading
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.4 &nbsp; <A NAME="almltitle644"></A><A NAME="almlanchor1328"></A>
+ Processor type and features </H3>
+
+<P>Questa sezione serve a definire il tipo di microprocessore utilizzato. In generale, se si utilizza un'architettura di tipo <A NAME="almlindex4359"></A>ix86, la selezione del tipo di microprocessore <SAMP>386</SAMP> garantisce la creazione di un <A NAME="almlindex4360"></A>kernel compatibile nella maggior parte delle situazioni, a discapito per&#242; delle prestazioni.</P>
+
+<P>Sempre nel caso di architettura di tipo <A NAME="almlindex4361"></A>ix86, &#232; possibile abilitare l'emulazione per il coprocessore matematico (<A NAME="almlindex4362"></A>i387), che in alcuni elaboratori molto vecchi non &#232; incluso. Di solito, l'inclusione del codice di emulazione non crea problemi di conflitti, perch&#233; viene individuata automaticamente la presenza dell'hardware relativo e l'emulazione non viene attivata se non quando necessario. In tal modo, includendo questa funzionalit&#224; si genera un <A NAME="almlindex4363"></A>kernel pi&#249; compatibile.</P>
+
+<P>L'esempio che si vede sotto si riferisce a una compatibilit&#224; limitata a microprocessori <A NAME="almlindex4364"></A>i586 o superiori:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1329">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>    Subarchitecture Type (PC-compatible)  ---&gt;
+<STRONG></STRONG>    Processor family (586/K5/5x86/6x86/6x86MX)  ---&gt;
+<STRONG></STRONG>[ ] Generic x86 support
+<STRONG></STRONG>[ ] 486 emulation
+<STRONG></STRONG>[ ] HPET Timer Support
+<STRONG></STRONG>[ ] Symmetric multi-processing support
+<STRONG></STRONG>[ ] Preemptible Kernel
+<STRONG></STRONG>[ ] Local APIC support on uniprocessors
+<STRONG></STRONG>[*] Machine Check Exception
+<STRONG></STRONG>[ ]   Check for non-fatal errors on AMD Athlon/Duron / Intel Pentium
+<STRONG></STRONG>&lt; &gt; Toshiba Laptop support
+<STRONG></STRONG>&lt; &gt; Dell laptop support
+<STRONG></STRONG>&lt; &gt; /dev/cpu/microcode - Intel IA32 CPU microcode support
+<STRONG></STRONG>&lt; &gt; /dev/cpu/*/msr - Model-specific register support
+<STRONG></STRONG>&lt; &gt; /dev/cpu/*/cpuid - CPU information support
+<STRONG></STRONG>&lt; &gt; BIOS Enhanced Disk Drive calls determine boot disk (EXPERIMENTAL)
+<STRONG></STRONG>    High Memory Support (off)  ---&gt;
+<STRONG></STRONG>[ ] Math emulation
+<STRONG></STRONG>[*] MTRR (Memory Type Range Register) support
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.5 &nbsp; <A NAME="almltitle645"></A><A NAME="almlanchor1330"></A>
+ Power management options <A NAME="almlindex4365"></A> <A NAME="almlindex4366"></A> </H3>
+
+<P>Questa sezione permette di accedere alle funzionalit&#224; legate al controllo dell'alimentazione e al risparmio energetico. In generale si tratta di opzioni delicate che dipendono molto dalle caratteristiche fisiche dell'elaboratore.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1331">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Power Management support
+<STRONG></STRONG>[ ]   Software Suspend (EXPERIMENTAL)
+<STRONG></STRONG>[ ]   Suspend-to-Disk Support
+<STRONG></STRONG>    ACPI (Advanced Configuration and Power Interface) Support  ---&gt;
+<STRONG></STRONG>    APM (Advanced Power Management) BIOS Support  ---&gt;
+<STRONG></STRONG>    CPU Frequency scaling  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>L'esempio mostra l'attivazione delle funzionalit&#224; in generale, che per&#242; devono essere specificate all'interno di altri <A NAME="almlindex4367"></A>men&#249;. In generale, dovrebbe essere possibile attivare le funzioni che consentono di spegnere l'elaboratore via software, senza problemi particolari di incompatibilit&#224;, selezionando la voce {<CODE>APM (Advanced Power Management) BIOS Support</CODE>} e compilando la maschera relativa nel modo seguente:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1332">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; APM (Advanced Power Management) BIOS support
+<STRONG></STRONG>[ ]   Ignore USER SUSPEND
+<STRONG></STRONG>[ ]   Enable PM at boot time
+<STRONG></STRONG>[*]   Make CPU Idle calls when idle
+<STRONG></STRONG>[ ]   Enable console blanking using APM
+<STRONG></STRONG>[*]   RTC stores time in GMT
+<STRONG></STRONG>[ ]   Allow interrupts during APM BIOS calls
+<STRONG></STRONG>[ ]   Use real mode APM BIOS call to power off
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Si osservi che l'attivazione della voce {<CODE>Use real mode APM BIOS call to power off</CODE>} pu&#242; essere controproducente con alcune schede madri che dispongono del BIOS <A NAME="almlindex4368"></A>AMI.</P>
+
+<H3>49.2.6 &nbsp; <A NAME="almltitle646"></A><A NAME="almlanchor1333"></A>
+ Bus options <A NAME="almlindex4369"></A> </H3>
+
+<P>Questa sezione permette di selezionare la gestione di alcuni tipi di <A NAME="almlindex4370"></A>bus. Generalmente &#232; necessario abilitare l'uso di <A NAME="almlindex4371"></A>bus ISA e PCI:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1334">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] PCI support
+<STRONG></STRONG>      PCI access mode (Any)  ---&gt;
+<STRONG></STRONG>[ ]   Legacy /proc/pci interface
+<STRONG></STRONG>[*]   PCI device name database
+<STRONG></STRONG>[*] ISA support
+<STRONG></STRONG>[ ]   EISA support
+<STRONG></STRONG>[ ] MCA support
+<STRONG></STRONG>&lt; &gt; NatSemi SCx200 support
+<STRONG></STRONG>[*] Support for hot-pluggable devices
+<STRONG></STRONG>      PCMCIA/CardBus support  ---&gt;
+<STRONG></STRONG>      PCI Hotplug Support  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Per quanto riguarda la gestione di schede PCMCIA, &#232; necessario attivare la gestione dei vari tipi di integrati che sono in grado di gestire un <A NAME="almlindex4372"></A>bus di questo tipo. Si accede a queste voci da {<CODE>PCMCIA/CardBus support</CODE>}:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1335">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; PCMCIA/CardBus support
+<STRONG></STRONG>&lt;*&gt;   CardBus yenta-compatible bridge support
+<STRONG></STRONG>&lt;*&gt;   i82092 compatible bridge support
+<STRONG></STRONG>&lt;*&gt;   i82365 compatible bridge support
+<STRONG></STRONG>&lt;*&gt;   Databook TCIC host bridge support
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.7 &nbsp; <A NAME="almltitle647"></A><A NAME="almlanchor1336"></A>
+ Executable file formats <A NAME="almlindex4373"></A> <A NAME="almlindex4374"></A> <A NAME="almlindex4375"></A> </H3>
+
+<P>Il <A NAME="almlindex4376"></A>kernel deve essere predisposto per il tipo di eseguibili che si vogliono usare. In generale, se possibile, conviene abilitare tutti i tipi disponibili:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1337">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Kernel support for ELF binaries
+<STRONG></STRONG>&lt;*&gt; Kernel support for a.out and ECOFF binaries
+<STRONG></STRONG>&lt;*&gt; Kernel support for MISC binaries
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.8 &nbsp; <A NAME="almltitle648"></A><A NAME="almlanchor1338"></A>
+ Parallel port support <A NAME="almlindex4377"></A> <A NAME="almlindex4378"></A> </H3>
+
+<P>La gestione della porta parallela non riguarda solo la stampa, dal momento che consente anche l'uso di altri tipi di unit&#224; periferiche. In questo gruppo di opzioni &#232; possibile abilitare l'uso delle porte parallele, stabilendo eventualmente il grado di compatibilit&#224; di queste.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1339">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Parallel port support
+<STRONG></STRONG>&lt;*&gt;   PC-style hardware
+<STRONG></STRONG>&lt; &gt;     Multi-IO cards (parallel and serial)
+<STRONG></STRONG>[ ]     Use FIFO/DMA if available (EXPERIMENTAL)
+<STRONG></STRONG>[ ]     SuperIO chipset support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt;   Support for PCMCIA management for PC-style ports
+<STRONG></STRONG>[*] Support foreign hardware
+<STRONG></STRONG>[*] IEEE 1284 transfer modes
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.9 &nbsp; <A NAME="almltitle649"></A><A NAME="almlanchor1340"></A>
+ Plug and Play support <A NAME="almlindex4379"></A> </H3>
+
+<P>La gestione del <A NAME="almlindex4380"></A>Plug &amp; Play permette al <A NAME="almlindex4381"></A>kernel di configurare automaticamente alcuni dispositivi che aderiscono a queste specifiche.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1341">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Plug and Play support
+<STRONG></STRONG>[ ]   PnP Debug Messages
+<STRONG></STRONG>---   Protocols
+<STRONG></STRONG>[*]   ISA Plug and Play support (EXPERIMENTAL)
+<STRONG></STRONG>[*]   Plug and Play BIOS support (EXPERIMENTAL)
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.10 &nbsp; <A NAME="almltitle650"></A><A NAME="almlanchor1342"></A>
+ Block devices <A NAME="almlindex4382"></A> <A NAME="almlindex4383"></A> <A NAME="almlindex4384"></A> <A NAME="almlindex4385"></A> </H3>
+
+<P>Un dispositivo a blocchi &#232; quello che utilizza una comunicazione a blocchi di byte di dimensione fissa, contrapponendosi al dispositivo a caratteri con cui la comunicazione avviene byte per byte. Il dispositivo a blocchi tipico &#232; un'unit&#224; a disco.</P>
+
+<P>Merita attenzione particolare anche il dispositivo definito <EM>loopback</EM>,<!--ALML FOOTNOTE--><SUP><A HREF="#almlfootnote1" NAME="almlfootnote-ref1">(1)</A></SUP><!/--ALML FOOTNOTE--> che rappresenta in pratica un file contenente l'immagine di un disco, che viene letto come se fosse un disco o una partizione reale. Questa possibilit&#224;, tra le altre cose, consente di gestire direttamente i file che contengono la riproduzione esatta di dischetti, senza bisogno di trasferire questi file su dischetti reali.</P>
+
+<P>Infine, &#232; qui che si pu&#242; abilitare e configurare la gestione dei dischi RAM, ovvero di dischi che vengono rappresentati nella memoria RAM.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1343">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Normal floppy disk support
+<STRONG></STRONG>&lt; &gt; XT hard disk support
+<STRONG></STRONG>&lt;M&gt; Parallel port IDE device support
+<STRONG></STRONG>---   Parallel IDE high-level drivers
+<STRONG></STRONG>&lt;M&gt;   Parallel port IDE disks
+<STRONG></STRONG>&lt;M&gt;   Parallel port ATAPI CD-ROMs
+<STRONG></STRONG>&lt;M&gt;   Parallel port ATAPI disks
+<STRONG></STRONG>&lt;M&gt;   Parallel port ATAPI tapes
+<STRONG></STRONG>&lt;M&gt;   Parallel port generic ATAPI devices
+<STRONG></STRONG>---   Parallel IDE protocol modules
+<STRONG></STRONG>&lt;M&gt;   ATEN EH-100 protocol
+<STRONG></STRONG>&lt;M&gt;   MicroSolutions backpack (Series 5) protocol
+<STRONG></STRONG>&lt;M&gt;   MicroSolutions backpack (Series 6) protocol
+<STRONG></STRONG>&lt;M&gt;   DataStor Commuter protocol
+<STRONG></STRONG>&lt;M&gt;   DataStor EP-2000 protocol
+<STRONG></STRONG>&lt;M&gt;   FIT TD-2000 protocol
+<STRONG></STRONG>&lt;M&gt;   FIT TD-3000 protocol
+<STRONG></STRONG>&lt;M&gt;   Shuttle EPAT/EPEZ protocol
+<STRONG></STRONG>[*]     Support c7/c8 chips (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;   Shuttle EPIA protocol
+<STRONG></STRONG>&lt;M&gt;   Freecom IQ ASIC-2 protocol
+<STRONG></STRONG>&lt;M&gt;   FreeCom power protocol
+<STRONG></STRONG>&lt;M&gt;   KingByte KBIC-951A/971A protocols
+<STRONG></STRONG>&lt;M&gt;   KT PHd protocol
+<STRONG></STRONG>&lt;M&gt;   OnSpec 90c20 protocol
+<STRONG></STRONG>&lt;M&gt;   OnSpec 90c26 protocol
+<STRONG></STRONG>&lt;M&gt; Compaq SMART2 support
+<STRONG></STRONG>&lt;M&gt; Compaq Smart Array 5xxx support
+<STRONG></STRONG>[*]   SCSI tape drive support for Smart Array 5xxx
+<STRONG></STRONG>&lt;M&gt; Mylex DAC960/DAC1100 PCI RAID Controller support
+<STRONG></STRONG>&lt;M&gt; Micro Memory MM5415 Battery Backed RAM support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt; Loopback device support
+<STRONG></STRONG>&lt;*&gt;   Cryptoloop Support
+<STRONG></STRONG>&lt;*&gt; Network block device support
+<STRONG></STRONG>&lt;*&gt; RAM disk support
+<STRONG></STRONG>(8192) Default RAM disk size
+<STRONG></STRONG>[*] Initial RAM disk (initrd) support
+<STRONG></STRONG>[ ] Support for Large Block Devices
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.11 &nbsp; <A NAME="almltitle651"></A><A NAME="almlanchor1344"></A>
+ ATA/IDE/MFM/RLL support <A NAME="almlindex4386"></A> <A NAME="almlindex4387"></A> <A NAME="almlindex4388"></A> </H3>
+
+<P>La gestione di unit&#224; a blocchi tradizionali ed economiche, ATA/ATAPI, viene inserita in un <A NAME="almlindex4389"></A>men&#249; apposito. In particolare, &#232; possibile includere una gestione specifica per alcuni integrati, specialmente per quelli che hanno dimostrato di avere dei difetti di funzionamento. &#200; molto importante anche la possibilit&#224; di gestire secondo il protocollo SCSI alcuni dispositivi ATA.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1345">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; ATA/ATAPI/MFM/RLL support
+<STRONG></STRONG>&lt;*&gt;   Enhanced IDE/MFM/RLL disk/cdrom/tape/floppy support
+<STRONG></STRONG>---     Please see Documentation/ide.txt for help/info on IDE drives
+<STRONG></STRONG>[ ]     Use old disk-only driver on primary interface
+<STRONG></STRONG>&lt;*&gt;     Include IDE/ATA-2 DISK support
+<STRONG></STRONG>[ ]       Use multi-mode by default
+<STRONG></STRONG>[ ]       Auto-Geometry Resizing support
+<STRONG></STRONG>&lt;M&gt;     PCMCIA IDE support
+<STRONG></STRONG>&lt;*&gt;     Include IDE/ATAPI CDROM support
+<STRONG></STRONG>&lt;M&gt;     Include IDE/ATAPI TAPE support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt;     Include IDE/ATAPI FLOPPY support
+<STRONG></STRONG>&lt;*&gt;     SCSI emulation support
+<STRONG></STRONG>[ ]     IDE Taskfile Access
+<STRONG></STRONG>[*]     IDE Taskfile IO (EXPERIMENTAL)
+<STRONG></STRONG>---     IDE chipset support/bugfixes
+<STRONG></STRONG>[*]     CMD640 chipset bugfix/support
+<STRONG></STRONG>[ ]       CMD640 enhanced support
+<STRONG></STRONG>&lt; &gt;     PNP EIDE support
+<STRONG></STRONG>[*]     PCI IDE chipset support
+<STRONG></STRONG>[*]       Sharing PCI IDE interrupts support
+<STRONG></STRONG>[ ]       Boot off-board chipsets first support
+<STRONG></STRONG>&lt;*&gt;       Generic PCI IDE Chipset Support
+<STRONG></STRONG>&lt;M&gt;       OPTi 82C621 chipset enhanced support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt;       RZ1000 chipset bugfix/support
+<STRONG></STRONG>[*]       Generic PCI bus-master DMA support
+<STRONG></STRONG>[ ]         ATA tagged command queueing (EXPERIMENTAL)
+<STRONG></STRONG>[ ]         Force enable legacy 2.0.X HOSTS to use DMA
+<STRONG></STRONG>[*]         Use PCI DMA by default when available
+<STRONG></STRONG>[*]           Enable DMA only for disks
+<STRONG></STRONG>[ ]         ATA Work(s) In Progress (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;         AEC62XX chipset support
+<STRONG></STRONG>&lt;M&gt;         ALI M15x3 chipset support
+<STRONG></STRONG>[ ]           ALI M15x3 WDC support (DANGEROUS)
+<STRONG></STRONG>&lt;M&gt;         AMD and nVidia IDE support
+<STRONG></STRONG>&lt;M&gt;         CMD64{3|6|8|9} chipset support
+<STRONG></STRONG>&lt;M&gt;         Compaq Triflex IDE support
+<STRONG></STRONG>&lt;M&gt;         CY82C693 chipset support
+<STRONG></STRONG>&lt;M&gt;         Cyrix CS5510/20 MediaGX chipset support (VERY EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;         Cyrix/National Semiconductor CS5530 MediaGX chipset support   
+<STRONG></STRONG>&lt;M&gt;         HPT34X chipset support
+<STRONG></STRONG>&lt;M&gt;         HPT36X/37X chipset support
+<STRONG></STRONG>&lt;M&gt;         National SCx200 chipset support
+<STRONG></STRONG>&lt;M&gt;         Intel PIIXn chipsets support
+<STRONG></STRONG>&lt;M&gt;         NS87415 chipset support
+<STRONG></STRONG>&lt;M&gt;         PROMISE PDC202{46|62|65|67} support
+<STRONG></STRONG>&lt;M&gt;         PROMISE PDC202{68|69|70|71|75|76|77} support
+<STRONG></STRONG>&lt;M&gt;         ServerWorks OSB4/CSB5/CSB6 chipsets support
+<STRONG></STRONG>&lt;M&gt;         Silicon Image chipset support
+<STRONG></STRONG>&lt;*&gt;         SiS5513 chipset support
+<STRONG></STRONG>&lt;M&gt;         SLC90E66 chipset support
+<STRONG></STRONG>&lt;M&gt;         Tekram TRM290 chipset support
+<STRONG></STRONG>&lt;*&gt;         VIA82CXXX chipset support
+<STRONG></STRONG>[ ]     Other IDE chipset support
+<STRONG></STRONG>[ ]     IGNORE word93 Validation BITS
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.12 &nbsp; <A NAME="almltitle652"></A><A NAME="almlanchor1346"></A>
+ SCSI support <A NAME="almlindex4390"></A> </H3>
+
+<P>Questa sezione riguarda la gestione del <A NAME="almlindex4391"></A>kernel delle unit&#224; SCSI. Le interfacce SCSI non hanno uno standard comune come avviene nel caso di quelle ATA e derivate, per cui &#232; indispensabile includere il codice specifico per tutte le interfacce che si intendono utilizzare.</P>
+
+<P>In certe situazioni pu&#242; essere necessario abilitare la &#171;gestione generica&#187; SCSI. In particolare, questo serve nel caso si preveda l'uso di un masterizzatore SCSI.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1347">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>--- SCSI device support
+<STRONG></STRONG>[*]   legacy /proc/scsi/ support
+<STRONG></STRONG>---   SCSI support type (disk, tape, CD-ROM)
+<STRONG></STRONG>&lt;*&gt;   SCSI disk support
+<STRONG></STRONG>&lt;M&gt;   SCSI tape support
+<STRONG></STRONG>&lt;M&gt;   SCSI OnStream SC-x0 tape support
+<STRONG></STRONG>&lt;*&gt;   SCSI CDROM support
+<STRONG></STRONG>[ ]     Enable vendor-specific extensions (for SCSI CDROM)
+<STRONG></STRONG>&lt;*&gt;   SCSI generic support
+<STRONG></STRONG>---   Some SCSI devices (e.g. CD jukebox) support multiple LUNs
+<STRONG></STRONG>[*]   Probe all LUNs on each SCSI device
+<STRONG></STRONG>[*]   Build with SCSI REPORT LUNS support
+<STRONG></STRONG>[*]   Verbose SCSI error reporting (kernel size +=12K)
+<STRONG></STRONG>[*]   SCSI logging facility
+<STRONG></STRONG>      SCSI low-level drivers  ---&gt;
+<STRONG></STRONG>      PCMCIA SCSI adapter support  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.13 &nbsp; <A NAME="almltitle653"></A><A NAME="almlanchor1348"></A>
+ Multi-device support (RAID and LVM) </H3>
+
+<P>La gestione software di pi&#249; unit&#224; di memorizzazione in modo combinato richiede la selezione di un gruppo speciale di opzioni. Pu&#242; trattarsi di dischi o partizioni ridondanti come forma di protezione dalle perdite di dati, oppure pu&#242; essere un modo per fondere assieme pi&#249; partizioni in una partizione logica pi&#249; grande. Se c'&#232; la possibilit&#224;, conviene attivare almeno le funzionalit&#224; necessarie a gestire il livello RAID 1.</P>
+
+<P>Si veda eventualmente il capitolo <A HREF="a2127.html#almlanchor2840">101</A>.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1349">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Multiple devices driver support (RAID and LVM)
+<STRONG></STRONG>&lt;*&gt;   RAID support
+<STRONG></STRONG>&lt;*&gt;     Linear (append) mode
+<STRONG></STRONG>&lt;*&gt;     RAID-0 (striping) mode
+<STRONG></STRONG>&lt;*&gt;     RAID-1 (mirroring) mode
+<STRONG></STRONG>&lt;*&gt;     RAID-4/RAID-5 mode
+<STRONG></STRONG>&lt;*&gt;     Multipath I/O support
+<STRONG></STRONG>&lt; &gt;   Device mapper support
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.14 &nbsp; <A NAME="almltitle654"></A><A NAME="almlanchor1350"></A>
+ Networking support </H3>
+
+<P>La configurazione delle funzionalit&#224; di rete &#232; importante anche se il proprio elaboratore &#232; isolato. Quando &#232; attiva la gestione della rete, il <A NAME="almlindex4392"></A>kernel fornisce implicitamente le funzionalit&#224; di inoltro dei pacchetti, consentendo in pratica il funzionamento come <A NAME="almlindex4393"></A>router. Tuttavia, l'attivazione di ci&#242; dipende dall'inclusione della gestione del <A NAME="almlindex4394"></A>file&nbsp;system <CODE CLASS="file">/proc/</CODE> (<A HREF="a264.html#almlanchor1367">49.2.20</A>) e dell'interfaccia <SAMP>sysctl</SAMP> (<A HREF="a264.html#almlanchor1324">49.2.2</A>). Inoltre, durante il funzionamento del sistema &#232; necessario attivare espressamente l'inoltro IPv4 attraverso un comando simile a quello seguente:</P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>echo '1' &gt; /proc/sys/net/ipv4/ip_forward</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<P>Esiste anche un comando analogo per IPv6, che per&#242; va usato soltanto quando serve veramente, perch&#233; con la funzionalit&#224; di inoltro attiva il <A NAME="almlindex4395"></A>nodo non prende in considerazione la configurazione automatica di <A NAME="almlindex4396"></A>Radvd (sezione <A HREF="a2200.html#almlanchor4832">163.6</A>):</P>
+
+<P CLASS="command"><CODE>#&nbsp;</CODE><STRONG><CODE>echo 1 &gt; /proc/sys/net/ipv6/conf/<VAR>interfaccia</VAR>/forwarding</CODE></STRONG><!--INDEXENTRYREMOVE-->[<KBD><!--INDEXENTRYREMOVE-->Invio<!--INDEXENTRYREMOVE--></KBD>]<!--INDEXENTRYREMOVE--></P>
+
+<TABLE SUMMARY="" ID="almlanchor1351">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Networking support
+<STRONG></STRONG>      Networking options  ---&gt;
+<STRONG></STRONG>[*]   Network device support
+<STRONG></STRONG>        ARCnet devices  ---&gt;
+<STRONG></STRONG>&lt;*&gt;     Dummy net driver support
+<STRONG></STRONG>&lt;M&gt;     Bonding driver support
+<STRONG></STRONG>&lt;M&gt;     EQL (serial line load balancing) support
+<STRONG></STRONG>&lt;*&gt;     Universal TUN/TAP device driver support
+<STRONG></STRONG>&lt;M&gt;     Ethertap network tap
+<STRONG></STRONG>&lt;M&gt;     General Instruments Surfboard 1000
+<STRONG></STRONG>        Ethernet (10 or 100Mbit)  ---&gt;
+<STRONG></STRONG>        Ethernet (1000 Mbit)  ---&gt;
+<STRONG></STRONG>        Ethernet (10000 Mbit)  ---&gt;
+<STRONG></STRONG>[*]     FDDI driver support
+<STRONG></STRONG>&lt;M&gt;       Digital DEFEA and DEFPA adapter support
+<STRONG></STRONG>&lt;M&gt;       SysKonnect FDDI PCI support
+<STRONG></STRONG>[*]     HIPPI driver support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;       Essential RoadRunner HIPPI PCI adapter support (EXPERIMENTAL)
+<STRONG></STRONG>[ ]         Use large TX/RX rings (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt;     PLIP (parallel port) support
+<STRONG></STRONG>&lt;*&gt;     PPP (point-to-point protocol) support
+<STRONG></STRONG>[ ]       PPP multilink support (EXPERIMENTAL)
+<STRONG></STRONG>[*]       PPP filtering
+<STRONG></STRONG>&lt;*&gt;       PPP support for async serial ports
+<STRONG></STRONG>&lt;*&gt;       PPP support for sync tty ports
+<STRONG></STRONG>&lt;*&gt;       PPP Deflate compression
+<STRONG></STRONG>&lt;*&gt;       PPP BSD-Compress compression
+<STRONG></STRONG>&lt;*&gt;       PPP over Ethernet (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;     SLIP (serial line) support
+<STRONG></STRONG>[*]       CSLIP compressed headers
+<STRONG></STRONG>[*]       Keepalive and linefill
+<STRONG></STRONG>[*]       Six bit SLIP encapsulation
+<STRONG></STRONG>        Wireless LAN (non-hamradio)  ---&gt;
+<STRONG></STRONG>        Token Ring devices  ---&gt;
+<STRONG></STRONG>[*]     Fibre Channel driver support
+<STRONG></STRONG>&lt;M&gt;     Red Creek Hardware VPN (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;     Traffic Shaper (EXPERIMENTAL)
+<STRONG></STRONG>        Wan interfaces  ---&gt;
+<STRONG></STRONG>        PCMCIA network device support  ---&gt;
+<STRONG></STRONG>    Amateur Radio support  ---&gt;
+<STRONG></STRONG>    IrDA (infrared) support  ---&gt;
+<STRONG></STRONG>    Bluetooth support  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Le opzioni di funzionamento della rete sono raccolte in un <A NAME="almlindex4397"></A>men&#249; a cui si accede dalla voce {<CODE>Networking options</CODE>}:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1352">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Packet socket
+<STRONG></STRONG>[ ]   Packet socket: mmapped IO
+<STRONG></STRONG>&lt;*&gt; Netlink device emulation
+<STRONG></STRONG>&lt;*&gt; Unix domain sockets
+<STRONG></STRONG>&lt;*&gt; PF_KEY sockets
+<STRONG></STRONG>[*] TCP/IP networking
+<STRONG></STRONG>[*]   IP: multicasting
+<STRONG></STRONG>[*]   IP: advanced router
+<STRONG></STRONG>[*]     IP: policy routing
+<STRONG></STRONG>[*]       IP: use netfilter MARK value as routing key
+<STRONG></STRONG>[*]       IP: fast network address translation
+<STRONG></STRONG>[*]     IP: equal cost multipath
+<STRONG></STRONG>[*]     IP: use TOS value as routing key
+<STRONG></STRONG>[*]     IP: verbose route monitoring
+<STRONG></STRONG>[ ]   IP: kernel level autoconfiguration
+<STRONG></STRONG>&lt;*&gt;   IP: tunneling
+<STRONG></STRONG>&lt;*&gt;   IP: GRE tunnels over IP
+<STRONG></STRONG>[ ]     IP: broadcast GRE over IP
+<STRONG></STRONG>[*] IP: multicast routing
+<STRONG></STRONG>[ ]   IP: PIM-SM version 1 support
+<STRONG></STRONG>[ ]   IP: PIM-SM version 2 support
+<STRONG></STRONG>[ ] IP: ARP daemon support (EXPERIMENTAL)
+<STRONG></STRONG>[ ] IP: TCP Explicit Congestion Notification support
+<STRONG></STRONG>[*] IP: TCP syncookie support (disabled per default)
+<STRONG></STRONG>&lt;*&gt; IP: AH transformation
+<STRONG></STRONG>&lt;*&gt; IP: ESP transformation
+<STRONG></STRONG>&lt;*&gt; IP: IPComp transformation
+<STRONG></STRONG>    IP: Virtual Server Configuration  ---&gt;
+<STRONG></STRONG>&lt;*&gt; The IPv6 protocol (EXPERIMENTAL)
+<STRONG></STRONG>[*]   IPv6: Privacy Extensions (RFC 3041) support
+<STRONG></STRONG>&lt;M&gt;   IPv6: AH transformation
+<STRONG></STRONG>&lt;M&gt;   IPv6: ESP transformation
+<STRONG></STRONG>&lt;M&gt;   IPv6: IPComp transformation
+<STRONG></STRONG>&lt;M&gt;   IPv6: IPv6-in-IPv6 tunnel
+<STRONG></STRONG>&lt; &gt; DECnet Support
+<STRONG></STRONG>&lt; &gt; 802.1d Ethernet Bridging
+<STRONG></STRONG>[*] Network packet filtering (replaces ipchains)  ---&gt;
+<STRONG></STRONG>&lt;M&gt; IPsec user configuration interface
+<STRONG></STRONG>    SCTP Configuration (EXPERIMENTAL)  ---&gt;
+<STRONG></STRONG>&lt; &gt; Asynchronous Transfer Mode (ATM) (EXPERIMENTAL)
+<STRONG></STRONG>&lt; &gt; 802.1Q VLAN Support
+<STRONG></STRONG>&lt; &gt; ANSI/IEEE 802.2 LLC type 2 Support
+<STRONG></STRONG>&lt; &gt; The IPX protocol
+<STRONG></STRONG>&lt; &gt; Appletalk protocol support
+<STRONG></STRONG>&lt; &gt; CCITT X.25 Packet Layer (EXPERIMENTAL)
+<STRONG></STRONG>&lt; &gt; LAPB Data Link Driver (EXPERIMENTAL)
+<STRONG></STRONG>[ ] Frame Diverter (EXPERIMENTAL)
+<STRONG></STRONG>&lt; &gt; Acorn Econet/AUN protocols (EXPERIMENTAL)
+<STRONG></STRONG>&lt; &gt; WAN router
+<STRONG></STRONG>[ ] Fast switching (read help!)
+<STRONG></STRONG>[ ] Forwarding between high speed interfaces
+<STRONG></STRONG>    QoS and/or fair queueing  ---&gt;
+<STRONG></STRONG>    Network testing  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>La gestione relativa a <A NAME="almlindex4398"></A>IPTables, diventa accessibile in un <A NAME="almlindex4399"></A>men&#249; separato, dopo aver attivato la voce {<CODE>Network packet filtering</CODE>}:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1353">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>--- Network packet filtering (replaces ipchains)
+<STRONG></STRONG>[ ]   Network packet filtering debugging
+<STRONG></STRONG>      IP: Netfilter Configuration  ---&gt;
+<STRONG></STRONG>      IPv6: Netfilter Configuration  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Per accedere alla gestione di filtro IPv4, occorre selezionare la voce {<CODE>IP: Netfilter Configuration</CODE>}:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1354">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Connection tracking (required for masq/NAT)
+<STRONG></STRONG>&lt;*&gt;   FTP protocol support
+<STRONG></STRONG>&lt;*&gt;   IRC protocol support
+<STRONG></STRONG>&lt;*&gt;   TFTP protocol support
+<STRONG></STRONG>&lt;*&gt;   Amanda backup protocol support
+<STRONG></STRONG>&lt;*&gt; Userspace queueing via NETLINK
+<STRONG></STRONG>&lt;*&gt; IP tables support (required for filtering/masq/NAT)
+<STRONG></STRONG>&lt;*&gt;   limit match support
+<STRONG></STRONG>&lt;*&gt;   IP range match support
+<STRONG></STRONG>&lt;*&gt;   MAC address match support
+<STRONG></STRONG>&lt;*&gt;   Packet type match support
+<STRONG></STRONG>&lt;*&gt;   netfilter MARK match support
+<STRONG></STRONG>&lt;*&gt;   Multiple port match support
+<STRONG></STRONG>&lt;*&gt;   TOS match support
+<STRONG></STRONG>&lt;M&gt;   recent match support
+<STRONG></STRONG>&lt;M&gt;   ECN match support
+<STRONG></STRONG>&lt;M&gt;   DSCP match support
+<STRONG></STRONG>&lt;*&gt;   AH/ESP match support
+<STRONG></STRONG>&lt;*&gt;   LENGTH match support
+<STRONG></STRONG>&lt;*&gt;   TTL match support
+<STRONG></STRONG>&lt;*&gt;   tcpmss match support
+<STRONG></STRONG>&lt;M&gt;   Helper match support
+<STRONG></STRONG>&lt;*&gt;   Connection state match support
+<STRONG></STRONG>&lt;M&gt;   Connection tracking match support
+<STRONG></STRONG>&lt;*&gt;   Owner match support
+<STRONG></STRONG>&lt;*&gt;   Packet filtering
+<STRONG></STRONG>&lt;*&gt;     REJECT target support
+<STRONG></STRONG>&lt;*&gt;   Full NAT
+<STRONG></STRONG>&lt;*&gt; MASQUERADE target support
+<STRONG></STRONG>&lt;*&gt; REDIRECT target support
+<STRONG></STRONG>&lt;M&gt; NETMAP target support
+<STRONG></STRONG>&lt;M&gt; SAME target support
+<STRONG></STRONG>[ ] NAT of local connections (READ HELP)
+<STRONG></STRONG>&lt;M&gt; Basic SNMP-ALG support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;*&gt; Packet mangling
+<STRONG></STRONG>&lt;*&gt;   TOS target support
+<STRONG></STRONG>&lt;M&gt;   ECN target support
+<STRONG></STRONG>&lt;M&gt;   DSCP target support
+<STRONG></STRONG>&lt;*&gt;   MARK target support
+<STRONG></STRONG>&lt;M&gt;   CLASSIFY target support
+<STRONG></STRONG>&lt;*&gt; LOG target support
+<STRONG></STRONG>&lt;M&gt; ULOG target support
+<STRONG></STRONG>&lt;M&gt; TCPMSS target support
+<STRONG></STRONG>&lt;M&gt; ARP tables support
+<STRONG></STRONG>&lt;M&gt;   ARP packet filtering
+<STRONG></STRONG>&lt;M&gt;   ARP payload mangling
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Naturalmente, dal <A NAME="almlindex4400"></A>men&#249; principale di questo gruppo &#232; necessario accedere ad altri <A NAME="almlindex4401"></A>men&#249; secondari per la selezione delle interfacce di rete utilizzate effettivamente.</P>
+
+<H3>49.2.15 &nbsp; <A NAME="almltitle655"></A><A NAME="almlanchor1355"></A>
+ Input device support </H3>
+
+<P>I dispositivi per l'inserimento dati richiedono la selezione di una serie di opzioni, che fanno capo a questo <A NAME="almlindex4402"></A>men&#249;:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1356">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt; &gt; ct82c710 Aux port controller
+<STRONG></STRONG>&lt;*&gt; Parallel port keyboard adapter
+<STRONG></STRONG>&lt;M&gt; PCI PS/2 keyboard and PS/2 mouse controller
+<STRONG></STRONG>--- Input Device Drivers
+<STRONG></STRONG>--- Keyboards
+<STRONG></STRONG>&lt;*&gt;   Sun Type 4 and Type 5 keyboard support
+<STRONG></STRONG>&lt;*&gt;   XT Keyboard support
+<STRONG></STRONG>&lt;*&gt;   Newton keyboard
+<STRONG></STRONG>[*] Mice
+<STRONG></STRONG>&lt;*&gt;   PS/2 mouse
+<STRONG></STRONG>[ ]     Synaptics TouchPad
+<STRONG></STRONG>&lt;*&gt;   Serial mouse
+<STRONG></STRONG>&lt;M&gt;   InPort/MS/ATIXL busmouse
+<STRONG></STRONG>[ ]     ATI XL variant (NEW)
+<STRONG></STRONG>&lt;M&gt;   Logitech busmouse
+<STRONG></STRONG>&lt;M&gt;   IBM PC110 touchpad
+<STRONG></STRONG>[ ] Joysticks
+<STRONG></STRONG>[ ] Touchscreens
+<STRONG></STRONG>[*] Misc
+<STRONG></STRONG>&lt;M&gt;   PC Speaker support
+<STRONG></STRONG>&lt; &gt;   User level driver support (NEW)
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.16 &nbsp; <A NAME="almltitle656"></A><A NAME="almlanchor1357"></A>
+ Character devices </H3>
+
+<P>Un dispositivo a caratteri &#232; quello che utilizza una comunicazione byte per byte e si contrappone a quello a blocchi con cui la comunicazione avviene attraverso l'uso di blocchi di byte di dimensione fissa.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1358">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Non-standard serial port support
+<STRONG></STRONG>&lt;M&gt;   Computone IntelliPort Plus serial support
+<STRONG></STRONG>&lt;M&gt;   Comtrol RocketPort support
+<STRONG></STRONG>&lt;M&gt;   Cyclades async mux support
+<STRONG></STRONG>[ ]     Cyclades-Z interrupt mode operation (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;   Digiboard Intelligent Async Support
+<STRONG></STRONG>&lt;M&gt;   Hayes ESP serial port support
+<STRONG></STRONG>&lt;M&gt;   Moxa Intellio support
+<STRONG></STRONG>&lt;M&gt;   Moxa SmartIO support
+<STRONG></STRONG>&lt;M&gt;   Multi-Tech multiport card support (EXPERIMENTAL)
+<STRONG></STRONG>&lt;M&gt;   Microgate SyncLink card support
+<STRONG></STRONG>&lt;M&gt;   SyncLink Multiport support
+<STRONG></STRONG>&lt;M&gt;   HDLC line discipline support
+<STRONG></STRONG>&lt;M&gt;   SDL RISCom/8 card support
+<STRONG></STRONG>&lt;M&gt;   Specialix IO8+ card support
+<STRONG></STRONG>[*]     Specialix DTR/RTS pin is RTS
+<STRONG></STRONG>&lt;M&gt;   Specialix SX (and SI) card support
+<STRONG></STRONG>&lt;M&gt;   Specialix RIO system support
+<STRONG></STRONG>[ ]     Support really old RIO/PCI cards
+<STRONG></STRONG>[*]   Stallion multiport serial support
+<STRONG></STRONG>&lt;M&gt;     Stallion EasyIO or EC8/32 support
+<STRONG></STRONG>&lt;M&gt;     Stallion EC8/64, ONboard, Brumby support
+<STRONG></STRONG>    Serial drivers  ---&gt;
+<STRONG></STRONG>[*] Unix98 PTY support
+<STRONG></STRONG>(256) Maximum number of Unix98 PTYs in use (0-2048)
+<STRONG></STRONG>&lt;*&gt; Parallel printer support
+<STRONG></STRONG>[*]   Support for console on line printer
+<STRONG></STRONG>&lt;M&gt; Support for user-space parallel port device drivers
+<STRONG></STRONG>&lt;M&gt; Texas Instruments parallel link cable support
+<STRONG></STRONG>    I2C support  ---&gt;
+<STRONG></STRONG>    Mice  ---&gt;
+<STRONG></STRONG>&lt;M&gt; QIC-02 tape support
+<STRONG></STRONG>[*]   Do you want runtime configuration for QIC-02
+<STRONG></STRONG>---     Setting runtime QIC-02 configuration is done with qic02conf
+<STRONG></STRONG>---     from the tpqic02-support package.  It is available at
+<STRONG></STRONG>---     metalab.unc.edu or ftp://titus.cfw.com/pub/Linux/util/
+<STRONG></STRONG>    IPMI  ---&gt;
+<STRONG></STRONG>    Watchdog Cards  ---&gt;
+<STRONG></STRONG>&lt;M&gt; Intel/AMD/VIA HW Random Number Generator support
+<STRONG></STRONG>&lt;*&gt; /dev/nvram support
+<STRONG></STRONG>&lt;*&gt; Enhanced Real Time Clock Support
+<STRONG></STRONG>&lt;M&gt; Double Talk PC internal speech card support
+<STRONG></STRONG>&lt;M&gt; Siemens R3964 line discipline
+<STRONG></STRONG>&lt;M&gt; Applicom intelligent fieldbus card support
+<STRONG></STRONG>&lt;M&gt; Sony Vaio Programmable I/O Control Device support (EXPERIMENTAL)
+<STRONG></STRONG>    Ftape, the floppy tape device driver  ---&gt;
+<STRONG></STRONG>&lt;M&gt; /dev/agpgart (AGP Support)
+<STRONG></STRONG>&lt;M&gt;   ALI chipset support
+<STRONG></STRONG>&lt;M&gt;   ATI chipset support
+<STRONG></STRONG>&lt;M&gt;   AMD Irongate, 761, and 762 chipset support
+<STRONG></STRONG>&lt;M&gt;   AMD Opteron/Athlon64 on-CPU GART support
+<STRONG></STRONG>&lt;M&gt;   Intel 440LX/BX/GX, I8xx and E7x05 chipset support
+<STRONG></STRONG>&lt;M&gt;   NVIDIA nForce/nForce2 chipset support
+<STRONG></STRONG>&lt;M&gt;   SiS chipset support
+<STRONG></STRONG>&lt;M&gt;   Serverworks LE/HE chipset support
+<STRONG></STRONG>&lt;M&gt;   VIA chipset support
+<STRONG></STRONG>[*] Direct Rendering Manager (XFree86 4.1.0 and higher DRI support)
+<STRONG></STRONG>&lt;M&gt;   3dfx Banshee/Voodoo3+
+<STRONG></STRONG>&lt;M&gt;   3dlabs GMX 2000
+<STRONG></STRONG>&lt;M&gt;   ATI Rage 128
+<STRONG></STRONG>&lt;M&gt;   ATI Radeon
+<STRONG></STRONG>&lt;M&gt;   Intel I810
+<STRONG></STRONG>&lt;M&gt;   Intel 830M, 845G, 852GM, 855GM, 865G
+<STRONG></STRONG>&lt;M&gt;   Matrox g200/g400
+<STRONG></STRONG>&lt;M&gt;   SiS video cards
+<STRONG></STRONG>    PCMCIA character devices  ---&gt;
+<STRONG></STRONG>&lt;*&gt; ACP Modem (Mwave) support
+<STRONG></STRONG>&lt;M&gt; RAW driver (/dev/raw/rawN)
+<STRONG></STRONG>(256) Maximum number of RAW devices to support (1-8192)
+<STRONG></STRONG>&lt;M&gt; Hangcheck timer
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.17 &nbsp; <A NAME="almltitle657"></A><A NAME="almlanchor1359"></A>
+ Graphic support </H3>
+
+<P>Questa sezione riguarda la gestione della console, dal punto di vista grafico:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1360">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] Support for frame buffer devices
+<STRONG></STRONG>&lt;M&gt;   CyberPro 2000/2010/5000 support
+<STRONG></STRONG>[ ]   IMS Twin Turbo display support
+<STRONG></STRONG>&lt;M&gt;   VGA 16-color graphics support
+<STRONG></STRONG>&lt;M&gt;   VESA VGA graphics support
+<STRONG></STRONG>&lt;M&gt;   Hercules mono graphics support
+<STRONG></STRONG>&lt;M&gt;   nVidia Riva support
+<STRONG></STRONG>&lt;M&gt;   Intel 810/815 support (EXPERIMENTAL)
+<STRONG></STRONG>[ ]     use VESA Generalized Timing Formula (NEW)
+<STRONG></STRONG>&lt;M&gt;   Matrox acceleration
+<STRONG></STRONG>[*]     Millennium I/II support
+<STRONG></STRONG>[*]     Mystique support
+<STRONG></STRONG>[*]     G100/G200/G400/G450/G550 support
+<STRONG></STRONG>&lt;M&gt;     Matrox I2C support
+<STRONG></STRONG>&lt;M&gt;       G400 second head support
+<STRONG></STRONG>[*]     Multihead support
+<STRONG></STRONG>&lt;M&gt;   ATI Radeon display support
+<STRONG></STRONG>&lt;M&gt;   ATI Rage128 display support
+<STRONG></STRONG>&lt;M&gt;   ATI Mach64 display support
+<STRONG></STRONG>[*]     Mach64 CT/VT/GT/LT (incl. 3D RAGE) support
+<STRONG></STRONG>[*]     Mach64 GX support
+<STRONG></STRONG>[ ]       Rage XL No-BIOS Init support
+<STRONG></STRONG>&lt;M&gt;   SIS acceleration
+<STRONG></STRONG>[*]     SIS 630/540/730 support
+<STRONG></STRONG>[*]     SIS 315H/315 support
+<STRONG></STRONG>&lt;M&gt;   NeoMagic display support
+<STRONG></STRONG>&lt;M&gt;   3Dfx Banshee/Voodoo3 display support
+<STRONG></STRONG>&lt;M&gt;   3Dfx Voodoo Graphics (sst1) support
+<STRONG></STRONG>&lt;M&gt;   Trident support
+<STRONG></STRONG>&lt; &gt; Virtual Frame Buffer support (ONLY FOR TESTING!)
+<STRONG></STRONG>    Console display driver support  ---&gt;
+<STRONG></STRONG>    Logo configuration  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Pu&#242; essere importante verificare la configurazione contenuta nel <A NAME="almlindex4403"></A>men&#249; a cui si accede dalla voce {<CODE>Console display driver support</CODE>}:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1361">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>--- VGA text console
+<STRONG></STRONG>[*]   Video mode selection support
+<STRONG></STRONG>&lt;M&gt; MDA text console (dual-headed) (EXPERIMENTAL)
+<STRONG></STRONG>&lt; &gt; Framebuffer Console support
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.18 &nbsp; <A NAME="almltitle658"></A><A NAME="almlanchor1362"></A>
+ Sound </H3>
+
+<P>Questo gruppo di opzioni consente di gestire le funzionalit&#224; audio, specificando l'uso di una scheda audio particolare.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1363">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Sound card support
+<STRONG></STRONG>    Advanced Linux Sound Architecture  ---&gt;
+<STRONG></STRONG>    Open Sound System  ---&gt;
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Attraverso la voce {<CODE>Advanced Linux Sound Architecture</CODE>} si raggiunge un <A NAME="almlindex4404"></A>men&#249; specifico; l'altro <A NAME="almlindex4405"></A>men&#249;, riferito alla voce {<CODE>Open Sound System</CODE>}, non &#232; pi&#249; consigliato.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1364">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Advanced Linux Sound Architecture
+<STRONG></STRONG>&lt;M&gt;   Sequencer support              
+<STRONG></STRONG>&lt;M&gt;     Sequencer dummy client       
+<STRONG></STRONG>[*]   OSS API emulation              
+<STRONG></STRONG>&lt;M&gt;     OSS Mixer API                
+<STRONG></STRONG>&lt;M&gt;     OSS PCM (digital audio) API  
+<STRONG></STRONG>[*]     OSS Sequencer API            
+<STRONG></STRONG>&lt;M&gt;   RTC Timer support              
+<STRONG></STRONG>[ ]   Verbose printk                 
+<STRONG></STRONG>[ ]   Debug (NEW)                    
+<STRONG></STRONG>      Generic devices  ---&gt;          
+<STRONG></STRONG>      ISA devices  ---&gt;              
+<STRONG></STRONG>      PCI devices  ---&gt;              
+<STRONG></STRONG>      ALSA USB devices  ---&gt;         
+<STRONG></STRONG>      PCMCIA devices  ---&gt;           
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.19 &nbsp; <A NAME="almltitle659"></A><A NAME="almlanchor1365"></A>
+ USB support </H3>
+
+<P>Questo gruppo di opzioni consente la gestione di adattatori USB e delle unit&#224; periferiche relative. In generale conviene prevedere l'uso di tutti i tipi di adattatori USB, assieme all'accesso a memorie di massa (dischi esterni), che sono componenti abbastanza comuni.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1366">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Support for USB
+<STRONG></STRONG>[ ]   USB verbose debug messages                                     
+<STRONG></STRONG>---   Miscellaneous USB options                                      
+<STRONG></STRONG>[*]   USB device filesystem                                          
+<STRONG></STRONG>[ ]   Enforce USB bandwidth allocation (EXPERIMENTAL)                
+<STRONG></STRONG>[ ]   Dynamic USB minor allocation (EXPERIMENTAL)                    
+<STRONG></STRONG>---   USB Host Controller Drivers                                    
+<STRONG></STRONG>&lt;*&gt;   EHCI HCD (USB 2.0) support                                     
+<STRONG></STRONG>&lt;*&gt;   OHCI HCD support                                               
+<STRONG></STRONG>&lt;*&gt;   UHCI HCD (most Intel and VIA) support                          
+<STRONG></STRONG>---   USB Device Class drivers                                       
+<STRONG></STRONG>&lt;*&gt;   USB Audio support                                              
+<STRONG></STRONG>&lt; &gt;   USB Bluetooth TTY support                                      
+<STRONG></STRONG>&lt;M&gt;   USB MIDI support                                               
+<STRONG></STRONG>&lt;*&gt;   USB Modem (CDC ACM) support                                    
+<STRONG></STRONG>&lt;*&gt;   USB Printer support                                            
+<STRONG></STRONG>&lt;*&gt;   USB Mass Storage support                                       
+<STRONG></STRONG>[ ]     USB Mass Storage verbose debug                               
+<STRONG></STRONG>[*]     Datafab Compact Flash Reader support (EXPERIMENTAL)          
+<STRONG></STRONG>[*]     Freecom USB/ATAPI Bridge support                             
+<STRONG></STRONG>[*]     ISD-200 USB/ATA Bridge support                               
+<STRONG></STRONG>[*]     Microtech CompactFlash/SmartMedia support                    
+<STRONG></STRONG>[*]     HP CD-Writer 82xx support (EXPERIMENTAL)                     
+<STRONG></STRONG>[*]     SanDisk SDDR-09 (and other SmartMedia) support (EXPERIMENTAL)
+<STRONG></STRONG>[*]     SanDisk SDDR-55 SmartMedia support (EXPERIMENTAL)            
+<STRONG></STRONG>[*]     Lexar Jumpshot Compact Flash Reader (EXPERIMENTAL)           
+<STRONG></STRONG>---   USB Human Interface Devices (HID)                              
+<STRONG></STRONG>&lt;M&gt;   USB Human Interface Device (full HID) support                  
+<STRONG></STRONG>[*] HID input layer support                                          
+<STRONG></STRONG>[ ]   Force feedback support (EXPERIMENTAL)                          
+<STRONG></STRONG>[*] /dev/hiddev raw HID device support                               
+<STRONG></STRONG>    USB HID Boot Protocol drivers  ---&gt;                              
+<STRONG></STRONG>&lt;M&gt; Aiptek 6000U/8000U tablet support                                
+<STRONG></STRONG>&lt;M&gt; Wacom Intuos/Graphire tablet support                             
+<STRONG></STRONG>&lt;M&gt; KB Gear JamStudio tablet support                                 
+<STRONG></STRONG>&lt;M&gt; Griffin PowerMate and Contour Jog support                        
+<STRONG></STRONG>&lt;M&gt; X-Box gamepad support                                            
+<STRONG></STRONG>--- USB Imaging devices                                              
+<STRONG></STRONG>&lt;M&gt; USB Mustek MDC800 Digital Camera support (EXPERIMENTAL)          
+<STRONG></STRONG>&lt;*&gt; USB Scanner support                                              
+<STRONG></STRONG>&lt;M&gt; Microtek X6USB scanner support                                   
+<STRONG></STRONG>&lt;M&gt; HP53xx USB scanner support (EXPERIMENTAL)                        
+<STRONG></STRONG>--- USB Multimedia devices                                           
+<STRONG></STRONG>&lt;M&gt; USB 3com HomeConnect (aka vicam) support (EXPERIMENTAL)          
+<STRONG></STRONG>&lt;M&gt; D-Link USB FM radio support (EXPERIMENTAL)                       
+<STRONG></STRONG>&lt;M&gt; USB IBM (Xirlink) C-it Camera support                            
+<STRONG></STRONG>&lt;M&gt; USB Konica Webcam support                                        
+<STRONG></STRONG>&lt;M&gt; USB OV511 Camera support                                         
+<STRONG></STRONG>&lt;M&gt; USB Philips Cameras                                              
+<STRONG></STRONG>&lt;M&gt; USB SE401 Camera support                                         
+<STRONG></STRONG>&lt;M&gt; USB STV680 (Pencam) Camera support                               
+<STRONG></STRONG>--- USB Network adaptors                                             
+<STRONG></STRONG>&lt;M&gt; USB CATC NetMate-based Ethernet device support (EXPERIMENTAL)    
+<STRONG></STRONG>&lt;M&gt; USB KLSI KL5USB101-based ethernet device support                 
+<STRONG></STRONG>&lt;M&gt; USB Pegasus/Pegasus-II based ethernet device support             
+<STRONG></STRONG>&lt;M&gt; USB RTL8150 based ethernet device support (EXPERIMENTAL)         
+<STRONG></STRONG>&lt;M&gt; Multi-purpose USB Networking Framework                           
+<STRONG></STRONG>---   USB Host-to-Host Cables                                        
+<STRONG></STRONG>[*]   AnchorChips 2720 based cables (Xircom PGUNET, ...)             
+<STRONG></STRONG>[*]   eTEK based host-to-host cables (Advance, Belkin, ...)          
+<STRONG></STRONG>[*]   GeneSys GL620USB-A based cables                                
+<STRONG></STRONG>[*]   NetChip 1080 based cables (Laplink, ...)                       
+<STRONG></STRONG>[*]   Prolific PL-2301/2302 based cables                             
+<STRONG></STRONG>---   Intelligent USB Devices/Gadgets                                
+<STRONG></STRONG>[*]   Embedded ARM Linux links (iPaq, ...)                           
+<STRONG></STRONG>[*]   Epson 2888 based firmware (DEVELOPMENT)                        
+<STRONG></STRONG>[*]   Sharp Zaurus (stock ROMs)                                      
+<STRONG></STRONG>[*]   CDC Ethernet support (smart devices such as cable modems)      
+<STRONG></STRONG>---   USB Network Adapters                                           
+<STRONG></STRONG>[*]   ASIX AX88172 Based USB 2.0 Ethernet Devices                    
+<STRONG></STRONG>--- USB port drivers                                                 
+<STRONG></STRONG>&lt;*&gt; USS720 parport driver                                            
+<STRONG></STRONG>    USB Serial Converter support  ---&gt;                               
+<STRONG></STRONG>--- USB Miscellaneous drivers                                        
+<STRONG></STRONG>&lt;M&gt; EMI 2|6 USB Audio interface support                              
+<STRONG></STRONG>&lt;M&gt; Texas Instruments Graph Link USB (aka SilverLink) cable support  
+<STRONG></STRONG>&lt;M&gt; USB Auerswald ISDN support (EXPERIMENTAL)                        
+<STRONG></STRONG>&lt;M&gt; USB Diamond Rio500 support (EXPERIMENTAL)                        
+<STRONG></STRONG>&lt;M&gt; Tieman Voyager USB Braille display support (EXPERIMENTAL)        
+<STRONG></STRONG>&lt;M&gt; USB LCD driver support                                           
+<STRONG></STRONG>&lt; &gt; USB testing driver (DEVELOPMENT)                                 
+<STRONG></STRONG>&lt;M&gt; Support for USB Gadgets  ---&gt;                                    
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H3>49.2.20 &nbsp; <A NAME="almltitle660"></A><A NAME="almlanchor1367"></A>
+ Filesystems </H3>
+
+<P>Attraverso questa sezione si definiscono i tipi di <A NAME="almlindex4406"></A>file&nbsp;system che si vogliono gestire. In particolare, anche i <A NAME="almlindex4407"></A>file&nbsp;system virtuali, come <CODE CLASS="file">/proc/</CODE> e <CODE CLASS="file">/dev/pty/</CODE>, vengono definiti qui.</P>
+
+<TABLE CLASS="frame" SUMMARY="">
+<TBODY><TR><TD>
+
+<P>Il <A NAME="almlindex4408"></A>file&nbsp;system standard dei sistemi GNU/Linux &#232; il tipo <A NAME="almlindex4409"></A>Second-extended, ovvero <A NAME="almlindex4410"></A>Ext2 o <A NAME="almlindex4411"></A>Ext3. La gestione di questo tipo di <A NAME="almlindex4412"></A>file&nbsp;system deve essere inclusa nel <A NAME="almlindex4413"></A>kernel, a meno che si stia cercando di produrre del codice specifico per un'applicazione particolare.</P>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>In questo gruppo di opzioni trovano posto anche quelle necessarie alla condivisione attraverso la rete, per esempio con il protocollo NFS.</P>
+
+<P>&#200; interessante osservare che &#232; necessario specificare anche i sistemi di partizionamento dei dischi. In generale &#232; indispensabile la gestione delle partizioni tipiche dei sistemi Dos.</P>
+
+<P>Infine, &#232; importante anche tenere in considerazione il tipo di codifica che si vuole poter utilizzare nell'ambito del <A NAME="almlindex4414"></A>file&nbsp;system. La codifica in questione riguarda il modo di rappresentare i nomi dei file, che potrebbe richiedere estensioni particolari. In generale viene abilitata la codifica UTF-8, ma per il momento assieme a ISO 8859-1, che &#232; ancora quella pi&#249; frequente nel mondo occidentale.</P>
+
+<TABLE SUMMARY="" ID="almlanchor1368">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>&lt;*&gt; Second extended fs support
+<STRONG></STRONG>[ ]   Ext2 extended attributes
+<STRONG></STRONG>&lt;*&gt; Ext3 journalling file system support   
+<STRONG></STRONG>[*]   Ext3 extended attributes             
+<STRONG></STRONG>[*]     Ext3 POSIX Access Control Lists    
+<STRONG></STRONG>[ ]     Ext3 Security Labels               
+<STRONG></STRONG>[ ] JBD (ext3) debugging support           
+<STRONG></STRONG>&lt;*&gt; Reiserfs support                       
+<STRONG></STRONG>[*]   Enable reiserfs debug mode           
+<STRONG></STRONG>[*]   Stats in /proc/fs/reiserfs           
+<STRONG></STRONG>&lt;M&gt; JFS filesystem support                 
+<STRONG></STRONG>[*]   JFS POSIX Access Control Lists       
+<STRONG></STRONG>[ ]   JFS debugging                        
+<STRONG></STRONG>[ ]   JFS statistics                       
+<STRONG></STRONG>&lt;M&gt; XFS filesystem support                 
+<STRONG></STRONG>[ ]   Realtime support (EXPERIMENTAL) (NEW)
+<STRONG></STRONG>[ ]   Quota support (NEW)                  
+<STRONG></STRONG>[ ]   ACL support (NEW)                    
+<STRONG></STRONG>&lt;*&gt; Minix fs support                       
+<STRONG></STRONG>&lt;M&gt; ROM file system support                
+<STRONG></STRONG>[*] Quota support                          
+<STRONG></STRONG>&lt; &gt;   Old quota format support             
+<STRONG></STRONG>&lt;M&gt;   Quota format v2 support              
+<STRONG></STRONG>&lt;*&gt; Kernel automounter support             
+<STRONG></STRONG>&lt;*&gt; Kernel automounter version 4 support (also supports v3)
+<STRONG></STRONG>    CD-ROM/DVD Filesystems  ---&gt;
+<STRONG></STRONG>    DOS/FAT/NT Filesystems  ---&gt;
+<STRONG></STRONG>    Pseudo filesystems  ---&gt;       
+<STRONG></STRONG>    Miscellaneous filesystems  ---&gt;
+<STRONG></STRONG>    Network File Systems  ---&gt;     
+<STRONG></STRONG>    Partition Types  ---&gt;          
+<STRONG></STRONG>    Native Language Support  ---&gt;  
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>La voce {<CODE>Pseudo filesystems</CODE>} consente di accedere alle funzioni relative a <A NAME="almlindex4415"></A>file&nbsp;system virtuali:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1369">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>[*] /proc file system support
+<STRONG></STRONG>[*] /dev file system support (OBSOLETE)               
+<STRONG></STRONG>[*]   Automatically mount at boot                     
+<STRONG></STRONG>[ ]   Debug devfs                                     
+<STRONG></STRONG>[*] /dev/pts file system for Unix98 PTYs              
+<STRONG></STRONG>[ ]   /dev/pts Extended Attributes                    
+<STRONG></STRONG>[*] Virtual memory file system support (former shm fs)
+<STRONG></STRONG>[ ] HugeTLB file system support
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<H2>49.3 &nbsp; <A NAME="almltitle661"></A><A NAME="almlanchor1370"></A>
+ Come fare per configurare correttamente il <A NAME="almlindex4416"></A>kernel che si vuole compilare <A NAME="almlindex4417"></A> <A NAME="almlindex4418"></A> </H2>
+
+<P>Il <A NAME="almlindex4419"></A>kernel Linux &#232; molto dinamico e il suo sviluppo prende spesso delle strade imprevedibili. Questa vitalit&#224; &#232; molto importante per il futuro del software libero; senza di essa non ci sarebbe modo di usare domani le nuove tecnologie proposte. In questo senso, diventa difficile dare delle indicazioni precise e durature sul modo corretto di configurare il <A NAME="almlindex4420"></A>kernel prima della compilazione.</P>
+
+<P>L'unica documentazione sicura sotto questo aspetto &#232; quella che si pu&#242; consultare in modo contestuale quando si utilizza il comando <SAMP>make&nbsp;menuconfig</SAMP>, oppure <SAMP>make&nbsp;xconfig</SAMP>. Eventualmente, pu&#242; essere utile sapere che le informazioni che si leggono l&#236; sono contenute nel file <CODE CLASS="file">Documentation/Configure.help</CODE> (nell'ambito dei sorgenti), fino alle versioni 2.4.<STRONG CLASS="syn">*</STRONG>, mentre in quelle successive si trovano suddivise in vari file <CODE CLASS="file">Kconfig</CODE> contenuti nelle directory contenenti il codice relativo al contesto a cui si riferiscono. Segue un estratto di uno di questi file <CODE CLASS="file">Kconfig</CODE>, precisamente si tratta di <CODE CLASS="file">drivers/usb/Kconfig</CODE>:</P>
+
+<TABLE SUMMARY="" ID="almlanchor1371">
+<TBODY><TR><TD>
+<DIV CLASS="listing">
+
+<TABLE CLASS="pre" SUMMARY="">
+<TBODY><TR><TD>
+
+<PRE><STRONG></STRONG>#
+<STRONG></STRONG># USB device configuration
+<STRONG></STRONG>#
+<STRONG></STRONG>
+<STRONG></STRONG>menu "USB support"
+<STRONG></STRONG>
+<STRONG></STRONG># ARM SA1111 chips have a non-PCI based "OHCI-compatible" USB host interface.
+<STRONG></STRONG>config USB
+<STRONG></STRONG>        tristate "Support for USB"
+<STRONG></STRONG>        depends on PCI || SA1111
+<STRONG></STRONG>        ---help---
+<STRONG></STRONG>          Universal Serial Bus (USB) is a specification for a serial bus
+<STRONG></STRONG>          subsystem which offers higher speeds and more features than the
+<STRONG></STRONG>          traditional PC serial port.  The bus supplies power to peripherals
+<STRONG></STRONG>          and allows for hot swapping.  Up to 127 USB peripherals can be
+<STRONG></STRONG>          connected to a single USB port in a tree structure.  The USB port is
+<STRONG></STRONG>          the root of the tree, the peripherals are the leaves and the inner
+<STRONG></STRONG>          nodes are special USB devices called hubs.  Many newer PC's have USB
+<STRONG></STRONG>          ports and newer peripherals such as scanners, keyboards, mice,
+<STRONG></STRONG>          modems, and printers support the USB protocol and can be connected
+<STRONG></STRONG>          to the PC via those ports.
+<STRONG></STRONG>
+<STRONG></STRONG>          Say Y here if your computer has a USB port and you want to use USB
+<STRONG></STRONG>          devices.  You then need to say Y to at least one of "UHCI HCD support"
+<STRONG></STRONG>          or "OHCI HCD support" below (the type of interface that the USB hardware
+<STRONG></STRONG>          in your computer provides to the operating system) and then choose
+<STRONG></STRONG>          from amongst the drivers for USB peripherals.  You may want to check
+<STRONG></STRONG>          out the information provided in &lt;file:Documentation/usb/&gt; and
+<STRONG></STRONG>          especially the links given in &lt;file:Documentation/usb/usb-help.txt&gt;.
+<STRONG></STRONG>
+<STRONG></STRONG>          If you have a new USB 2.0 High Speed system, you should also choose
+<STRONG></STRONG>          "EHCI HCD (USB 2.0) support" as well as at least one of UHCI or OHCI.
+<STRONG></STRONG>
+<STRONG></STRONG>          It doesn't normally hurt to select them all if you are not certain.
+<STRONG></STRONG>
+<STRONG></STRONG>          To compile this driver as a module, choose M here: the
+<STRONG></STRONG>          module will be called usbcore.
+</PRE>
+
+</TD></TR></TBODY>
+</TABLE>
+</DIV>
+
+</TD></TR></TBODY>
+</TABLE>
+
+<P>Quando si parte da zero, &#232; sufficiente accertarsi di eliminare il file <CODE CLASS="file">.config</CODE>, che comunque viene eliminato con il comando <SAMP>make&nbsp;mrproper</SAMP>. In questo modo, il programma che guida alla configurazione del <A NAME="almlindex4421"></A>kernel offre gi&#224; le risposte pi&#249; ovvie alle domande che fa. Naturalmente &#232; sempre necessario leggere le prime volte il testo delle spiegazioni disponibili, fino a che si raggiunge una dimestichezza adeguata al tipo di esigenze che si hanno.</P>
+
+<P>Come la documentazione interna suggerisce spesso, nella directory <CODE CLASS="file">Documentation/</CODE> sono contenuti tanti file di testo contenenti spiegazioni particolareggiate rispetto a problemi specifici della configurazione. A questo punto dovrebbe essere evidente che non si pu&#242; configurare e compilare un <A NAME="almlindex4422"></A>kernel se non si conosce minimamente la lingua inglese.</P>
+
+<P>Questo tipo di lavoro passa poi necessariamente per una lunga serie di tentativi falliti (avendo cura di conservare i file <CODE CLASS="file">.config</CODE>, per poter ripartire almeno dall'ultima configurazione tentata). Tuttavia, il principiante non deve pensare di essersi messo involontariamente nei guai, perch&#233; queste difficolt&#224; riguardano tutti, anche gli esperti, proprio perch&#233; la dinamicit&#224; nello sviluppo del <A NAME="almlindex4423"></A>kernel Linux porta continue novit&#224;.</P>
+
+
+<P>Appunti di informatica libera 2005.04.01   --- <EM>Copyright &copy; 2000-2005 Daniele Giacomini -- &lt;<EM>daniele&thinsp;(ad)&thinsp;swlibero&middot;org</EM>&gt;, &lt;<EM>daniele&middot;giacomini&thinsp;(ad)&thinsp;poste&middot;it</EM>&gt;</EM></P><HR>
+
+<P><A HREF="#almlfootnote-ref1" NAME="almlfootnote1">1)</A> Il termine <EM>loop device</EM> usato qui, non deve essere confuso con <EM>loopback device</EM> usato nella configurazione dei servizi di rete.</P>
+
+</BODY>
+</HTML>

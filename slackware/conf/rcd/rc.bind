@@ -1,0 +1,49 @@
+#!/bin/sh
+# Start/stop/restart the BIND name server daemon (named).
+
+# Start bind.  In the past it was more secure to run BIND
+# as a non-root user (for example, with '-u daemon'), but
+# the modern version of BIND knows how uses to use the
+# kernel's capability mechanism to drop all root privileges
+# except the ability to bind() to a privileged port and set
+# process resource limits, so -u should not be needed.  If
+# you wish to use it anyway, chown the /var/run/named
+# directory to the non-root user.
+#
+# You might also consider running BIND in a "chroot jail",
+# a discussion of which may be found in
+# /usr/doc/Linux-HOWTOs/Chroot-BIND-HOWTO.
+
+bind_start() {
+  if [ -x /usr/sbin/named ]; then
+    echo "Starting BIND:  /usr/sbin/named"
+    /usr/sbin/named
+  fi
+}
+
+# Stop bind:
+bind_stop() {
+  killall named
+}
+
+# Restart bind:
+bind_restart() {
+  bind_stop
+  sleep 1
+  bind_start
+}
+
+case "$1" in
+'start')
+  bind_start
+  ;;
+'stop')
+  bind_stop
+  ;;
+'restart')
+  bind_restart
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+

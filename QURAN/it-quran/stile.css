@@ -1,0 +1,52 @@
+body     { font-family: Arial, Helvetica;
+           background-color: #C0C0C0 }
+
+p, td, dt, dd { font-family: Arial, Helvetica }
+
+h1       { font-family: Arial, Helvetica;
+           font-size: 1.4em;
+           font-weight: bold;
+           margin-top: 10px;
+           margin-bottom: 10px;
+           text-align: center }
+
+h2       { font-family: Arial, Helvetica;
+           font-size: 1.2em;
+           font-style: normal;
+           line-height: normal;
+           font-weight: bold;
+           margin-top: 20pt;
+           margin-bottom: 5pt; text-align: center}
+
+h3       { font-family: Arial, Helvetica;
+           font-size: 0.9em;
+           font-weight: bold;
+           margin-top: 10px;
+           margin-bottom: 10px;
+           text-align: center }
+
+.color-off { color: #CCCCCC }
+
+.large   { font-weight: bold }
+
+.normale { text-indent: 30pt;
+           margin-top: 10px;
+           margin-bottom: 0px;
+           text-align: justify }
+
+.nota   { font-size: 0.8em }
+
+.numero_versetto { color: #CC0000; font-size: 0.8em }
+
+.primo { text-align: center; font-weight: bold }
+
+.small   { font-size: 0.8em }
+
+.small-x   { font-size: 0.6em }
+
+.small-color { font-size: 0.6em;
+               color: #CE3131 }
+
+.versetto { text-indent: -40pt; margin-left: 40pt }
+
+.versetto_02 { margin-left: 40pt }

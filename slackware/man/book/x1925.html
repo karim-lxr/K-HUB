@@ -1,0 +1,613 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>The Command Line</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="The Shell"
+HREF="c1890.html"><LINK
+REL="PREVIOUS"
+TITLE="The Shell"
+HREF="c1890.html"><LINK
+REL="NEXT"
+TITLE="The Bourne Again Shell (bash)"
+HREF="x2032.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c1890.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 8. The Shell</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x2032.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="COMMANDLINE"
+>The Command Line</A
+></H1
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="RUNNINGPROGRAMS"
+>Running Programs</A
+></H2
+><P
+>It's hard to get much accomplished without running a program; you might be able
+to prop something up with your computer or hold a door open, and some will
+make the most lovely humming noise when running, but that's really about it.
+And I think we can all agree that its use as a humming doorstop isn't what
+brought the personal computer the popularity it now enjoys.</P
+><P
+>So, remember how almost everything in Linux is a file?  Well, that goes for
+programs, too.  Every command you run (that isn't built into the shell) 
+resides as a file somewhere.  You run a program simply by specifying the full
+path to it.</P
+><P
+>For instance, remember that <B
+CLASS="COMMAND"
+>su</B
+> command from the last 
+section?  Well, it's actually in the <TT
+CLASS="FILENAME"
+>/bin</TT
+>
+directory:  <B
+CLASS="COMMAND"
+>/bin/su</B
+> would run it nicely.</P
+><P
+>So why, then, does just typing <B
+CLASS="COMMAND"
+>su</B
+> work?  After all, you 
+didn't say it was in <TT
+CLASS="FILENAME"
+>/bin</TT
+>.  It could 
+just as easily have been in 
+<TT
+CLASS="FILENAME"
+>/usr/local/share</TT
+>, right?  How did 
+it <I
+CLASS="EMPHASIS"
+>know</I
+>?  The answer to that lies in the 
+<TT
+CLASS="ENVAR"
+>PATH</TT
+> environment variable; most shells have either 
+<TT
+CLASS="ENVAR"
+>PATH</TT
+> or something very like <TT
+CLASS="ENVAR"
+>PATH</TT
+>.  It basically 
+contains a list of directories to look in for programs you try to run.  So 
+when you ran <B
+CLASS="COMMAND"
+>su</B
+>, your shell ran through its list of 
+directories, checking each one for an executable file called 
+<B
+CLASS="COMMAND"
+>su</B
+> that it could run; the first one it came to, it ran.  
+This happens whenever you run a program without specifying a full path to it; 
+if you get a <TT
+CLASS="COMPUTEROUTPUT"
+>Command not found</TT
+> error, that 
+only means that the program you tried to run isn't in your <TT
+CLASS="ENVAR"
+>PATH</TT
+>.
+(Of course, this would be true if the program doesn't exist at all...)  We'll 
+discuss environment variables in more depth in <A
+HREF="x2032.html"
+>the section called <I
+>The Bourne Again Shell (bash)</I
+></A
+>.</P
+><P
+>Remember also that &#8220;.&#8221; is shorthand for &#8220;the directory I'm 
+in&#8221;, so if you happened to be in 
+<TT
+CLASS="FILENAME"
+>/bin</TT
+>, <B
+CLASS="COMMAND"
+>./su</B
+> would 
+have worked as an explicit full path.  </P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="WILDCARDS"
+>Wildcard Matching</A
+></H2
+><P
+>Nearly every shell recognizes some characters as being substitutes or 
+abbreviations that mean &#8220;anything goes here&#8221;.  Such characters 
+are aptly named &#8220;wildcards&#8221;; the most common are 
+<B
+CLASS="KEYCAP"
+>*</B
+> and <B
+CLASS="KEYCAP"
+>?</B
+>.  By convention, <B
+CLASS="KEYCAP"
+>?</B
+> 
+usually matches any single character.  For instance, suppose you're in a directory with three files:  <TT
+CLASS="FILENAME"
+>ex1.txt</TT
+>, 
+<TT
+CLASS="FILENAME"
+>ex2.txt</TT
+>, and <TT
+CLASS="FILENAME"
+>ex3.txt</TT
+>.  You want to 
+copy all of those files (using the <B
+CLASS="COMMAND"
+>cp</B
+> command we cover in 
+<A
+HREF="x2535.html"
+>the section called <I
+>cp</I
+> in Chapter 10</A
+>) to another directory, say 
+<TT
+CLASS="FILENAME"
+>/tmp</TT
+>.  Well, typing 
+<B
+CLASS="COMMAND"
+>cp ex1.txt ex2.txt ex3.txt /tmp</B
+> is entirely too much work.  
+It's much easier to type <B
+CLASS="COMMAND"
+>cp ex?.txt /tmp</B
+>; the 
+<B
+CLASS="KEYCAP"
+>?</B
+> will match each of the characters &#8220;1&#8221;, 
+&#8220;2&#8221;, and &#8220;3&#8221;, and each in turn will be substituted 
+in.  </P
+><P
+>What's that you say?  That's <I
+CLASS="EMPHASIS"
+>still</I
+> too much work?  
+You're right.  It's appalling; we have labor laws to protect us from that 
+sort of thing.  Fortunately, we also have <B
+CLASS="KEYCAP"
+>*</B
+>.  As was already 
+mentioned, <B
+CLASS="KEYCAP"
+>*</B
+> matches &#8220;any number of characters&#8221;, 
+including 0.  So if those three files were the only ones in the directory, we 
+could have simply said <B
+CLASS="COMMAND"
+>cp * /tmp</B
+> and gotten them all in 
+one fell swoop.  Suppose, though, that there is also a file called 
+<TT
+CLASS="FILENAME"
+>example.txt</TT
+> and one called <TT
+CLASS="FILENAME"
+>hejaz.txt</TT
+>. 
+We want to copy <TT
+CLASS="FILENAME"
+>example.txt</TT
+> but not 
+<TT
+CLASS="FILENAME"
+>hejaz.txt</TT
+>; <TT
+CLASS="FILENAME"
+>cp example* /tmp</TT
+> will 
+do that for us.</P
+><P
+><B
+CLASS="COMMAND"
+>cp example?.txt /tmp</B
+>, would, of course, only get our 
+original three files; there's no character in <TT
+CLASS="FILENAME"
+>example.txt</TT
+> 
+to match that <B
+CLASS="KEYCAP"
+>?</B
+>, so it would be left out.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="OUTPUTREDIRECTION"
+>Input/Output Redirection and Piping</A
+></H2
+><P
+>(Here comes something cool.)</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps &gt; blargh</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Y'know what that is?  That's me running <B
+CLASS="COMMAND"
+>ps</B
+> to see 
+which processes are running; <B
+CLASS="COMMAND"
+>ps</B
+> is covered in 
+<A
+HREF="c2628.html"
+>Chapter 11</A
+> That's not the cool part.  The cool part is 
+<TT
+CLASS="USERINPUT"
+><B
+>&gt; blargh</B
+></TT
+>, which means, roughly, &#8220;take 
+the output from ps and write it to a file called blargh&#8221;.  But wait, 
+it gets cooler.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps | less</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>That one takes the output from <B
+CLASS="COMMAND"
+>ps</B
+> and &#8220;pipes&#8221;
+it through less, so I can scroll through it at my leisure.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps &gt; &gt; blargh</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This is the third most commonly used redirector; it does the same thing as 
+&#8220;&gt;&#8221;, except that &#8220;&gt; &gt;&#8221; will append output 
+from <B
+CLASS="COMMAND"
+>ps</B
+> to the file <TT
+CLASS="FILENAME"
+>blargh</TT
+>, if said 
+file exists.  If not, just like &#8220;&gt;&#8221;, it will be created.  
+(&#8220;&gt;&#8221; will obliterate the current contents of 
+<TT
+CLASS="FILENAME"
+>blargh</TT
+>.)</P
+><P
+>There is also a &#8220;&lt;&#8221; operator, which means 
+&#8220;take your input from the following&#8221;, but it's not used 
+nearly so often.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>fromdos &lt; dosfile.txt &gt; unixfile.txt</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Redirection gets really fun when you start piling it up:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps | tac &gt; &gt; blargh</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>That will run <B
+CLASS="COMMAND"
+>ps</B
+>, reverse the lines of its output, and 
+append those to the file <TT
+CLASS="FILENAME"
+>blargh</TT
+>.  You can stack as many 
+of these up as you want; just be careful to remember that they get interpreted 
+from left to right.</P
+><P
+>See the <B
+CLASS="COMMAND"
+>bash</B
+>(1) man page for more detailed information 
+on redirection.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c1890.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x2032.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>The Shell</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1890.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>The Bourne Again Shell (bash)</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

@@ -1,0 +1,151 @@
+Il Nessus è un security scanner, potente, versatile, aggiornato, e professionale;
+è considerato il migliore nel suo campo (almeno secondo me e secondo tutti gli
+amici con cui mi ritrovo in irc a parlare di hacking e sicurezza).
+
+In questa guida spiegherò: 
+
+come si installa 
+uno dei piccoli errori di librerie che in molte distribuzioni si verifica
+come si usa il nessus.
+
+Prima di tutto bisogna scaricare i 4 tarball che contengono tutte le varie utility 
+per far girare il nessus, essi sono:
+
+nessus-libraries-1.0.7a.tar.gz
+libnasl-1.0.7a.tar.gz
+nessus-core-1.0.7a.tar.gz 
+nessus-plugins-1.0.7a.tar.gz
+
+li potete scaricare direttamente sul mio sito " http://www.feltonspray.org " una volta
+scaricati ovviamente, potete procedere alla decompressione e l'installazione con i 
+seguenti comandi (ovviamente da root) :
+
+--------------
+
+gunzip nessus-libraries-1.0.7a.tar.gz
+tar -xvf nessus-libraries-1.0.7a.tar
+cd nessus-libraries-1.0.7a
+./configure
+make
+make install
+
+--------------
+
+gunzip libnasl-1.0.7a.tar.gz
+tar -xvf libnasl-1.0.7a.tar
+cd libnasl-1.0.7a
+./configure
+make
+make install
+
+--------------
+
+gunzip nessus-core-1.0.7a.tar.gz
+tar -xvf nessus-core-1.0.7a.tar
+cd nessus-core-1.0.7a
+./configure
+make
+make install
+
+---------------
+
+gunzip nessus-plugins-1.0.7a.tar.gz
+tar -xvf nessus-plugins-1.0.7a.tar
+cd nessus-plugins-1.0.7a
+./configure
+make
+make install
+
+----------------
+
+Adesso che avete installato il nessus siete ad 1/3 dell'opera :)
+
+Io ho installato il nessus su diverse distro:
+
+slackware
+red hat 7.1
+mandrake 8.0
+
+è in tutte queste distro ho riscontrato un problema nelle librerie se anche voi
+non riuscite ad eseguire il nessus scrivete questi comandi:
+
+cp -l /usr/local/lib/libn* /lib/
+cp -l /usr/local/lib/libhosts_gatherer.* /lib/
+cp -l /usr/local/lib/libpcap-nessus.* /lib/
+cp -l /usr/local/lib/libpeks.* /lib/
+
+dopo di ciò credo che il vostro nessus è printo per partire quindi adesso che siete 
+alla metà dell'opera continuate a leggere :)
+
+Il nessus si compone di due parti:
+
+Client (interfaccia gtk per X)
+Server (demone nessusd)
+
+Prima di tutto doppiamo settare il server e poi farlo partire prima di passare al lato 
+client direttamente sotto X, la prima cosa da fare è settare una password ed un login
+
+nessusd -P username,passwd
+
+per verificare che tutto è andato bene scrivete
+
+nessusd -L
+
+Adesso visto che il primo set è stato impostato al root, registriamo un utente che può
+eseguire il nessus però con delle regole:
+
+nessus-adduser
+
+Addition of a new nessusd user
+------------------------------
+
+Login : felton
+Password : pass
+Authentification type (cipher or plaintext) [cipher] : cipher
+Now enter the rules for this user, and hit ctrl-D once you are done : 
+(the user can have an empty rules set)
+accept 127.0.0.1
+default deny
+
+Cosi dopo vi darà la scheda pronta e alla fine vi dirà:
+
+Is that ok ? (y/n) : y
+user added.
+
+oppure editare a mano (?) il file 
+
+/usr/local/etc/nessus/nessusd.users
+
+
+Ed abbiamo registrato un utente di nome felton che ha il permesso di eseguire il nessus
+solamente sul propio sistema quindi se felton è l'amministratore, ha il permesso di
+fare uno scan dettagliato sul propio sistema per trovare possibbili bug.
+
+Una volta settato il tutto possiamo lanciare il demone cosi da passare subito dopo al 
+lato client, il comando per lanciare il demone è:
+
+nessusd -D
+
+Adesso avviato X server scriviamo in una consoll 
+
+nessus 
+
+e si aprira magiacamente un prog :-), per prima cosa dobbiamo conneterci al server nessusd
+andando sul pulsante LOGIN ed inserendo i dati che abbiamo prima registrato come utente,
+Adesso visto che possiamo solo eseguire lo scan nel nostro sistema (vi ricordate il rules
+che abbiamo scelte per felton? quello di poter controllare solo localhost) andiamo nel 
+TARGET e scriviamo
+
+127.0.0.1 
+
+e lanciamo il programma, dopo un pò cominciano ad apparire i listati dei vari holes e 
+warning trovati sulla distribuzione. Nel mio caso la red hat 7.1 risultano
+
+4 holes e 9 warnings purtroppo non tutti sono commentati ma la maggior parte si, quindi
+andiamo a controllare che tipi di bug sono stati riscontrati e subito dopo andiamo a
+patcharli.
+
+
+questa guida si conclude qui, visto che adesso che lo sapete usare siete anche in grado
+di poterci smanettare su. Vi ringrazio della vostra attenzione a risentirci al prossimo 
+testo :-)

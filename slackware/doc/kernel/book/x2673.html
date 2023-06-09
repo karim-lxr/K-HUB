@@ -1,0 +1,441 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>ps</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Process Control"
+HREF="c2628.html"><LINK
+REL="PREVIOUS"
+TITLE="Foregrounding"
+HREF="x2647.html"><LINK
+REL="NEXT"
+TITLE="kill"
+HREF="x2707.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x2647.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 11. Process Control</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x2707.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="PS"
+>ps</A
+></H1
+><P
+>So now you know how to switch back and forth between several processes that
+you've started from the command line.  And you also know that there are
+lots of processes running all the time.  So how do you list all of these
+programs?  Well, you make use of the <B
+CLASS="COMMAND"
+>ps</B
+>(1) command.  This 
+command has a lot of options, so we'll only cover the most important ones here.
+For a complete listing, see the man page for <B
+CLASS="COMMAND"
+>ps</B
+>.  Man pages 
+are covered in-depth in <A
+HREF="c82.html#MAN"
+>the section called <I
+>man</I
+> in Chapter 2</A
+>.</P
+><P
+>Simply typing <B
+CLASS="COMMAND"
+>ps</B
+> will get you a listing of the programs 
+running on your terminal.  Many times, that will be a very short listing:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps</B
+></TT
+>
+      PID TTY          TIME CMD
+     7923 ttyp0    00:00:00 bash
+     8059 ttyp0    00:00:00 ps</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Even though this is not a lot of processes, the information is very typical.
+You'll get the same columns using regular <B
+CLASS="COMMAND"
+>ps</B
+> no matter how 
+many processes are running.  So what does it all mean?</P
+><P
+>Well, the PID is the process ID.  All running processes are given a unique
+identifier.  On 2.2.x kernels, this process ID can be anywhere between 1 and
+32767.  Each process is assigned the next free PID.  When a process quits
+(or is killed, as you will see in the next section), it gives up its PID.
+When the max PID is reached, the next free one will wrap back around to the
+lowest free one.  This will most likely change in the upcoming 2.4 kernel
+series and the introduction of 32-bit PIDs.</P
+><P
+>The TTY column indicated which terminal the process is running on.  Doing
+a plain ps will only list all the programs running on the current terminal,
+so all the processes give the same information in the TTY column.  As you
+can see, both processes listed are running on ttyp0.  This indicates that
+they are either running remotely or from an X terminal of some variety.</P
+><P
+>The TIME column indicated how much CPU time the process has been running.
+This is different from the actual amount of time that a process runs.
+Remember that Linux is a multitasking operating system.  There are many
+processes running all the time, and these processes each get a small portion
+of the processor's time.  So, the TIME column should show much less time for
+each process than it actually takes to run.  If you see more than several
+minutes in the TIME column, it could mean that something is wrong.</P
+><P
+>Finally, the CMD column shows what the program actually is.  It only lists
+the base name of the program, not any command line options or similar 
+information.  To get that information, you'll need to use one of the
+many options to <B
+CLASS="COMMAND"
+>ps</B
+>.  We'll discuss that shortly.</P
+><P
+>You can get a complete listing of the processes running on your system
+using the right combination of options.  This will probably result in a 
+long listing of processes (fifty-five on my laptop as I write this
+sentence), so I'll abbreviate the output:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps -ax</B
+></TT
+>
+   PID TTY      STAT   TIME COMMAND
+     1 ?        S      0:03 init [3]
+     2 ?        SW     0:13 [kflushd]
+     3 ?        SW     0:14 [kupdate]
+     4 ?        SW     0:00 [kpiod]
+     5 ?        SW     0:17 [kswapd]
+    11 ?        S      0:00 /sbin/kerneld
+    30 ?        SW     0:01 [cardmgr]
+    50 ?        S      0:00 /sbin/rpc.portmap
+    54 ?        S      0:00 /usr/sbin/syslogd
+    57 ?        S      0:00 /usr/sbin/klogd -c 3
+    59 ?        S      0:00 /usr/sbin/inetd
+    61 ?        S      0:04 /usr/local/sbin/sshd
+    63 ?        S      0:00 /usr/sbin/rpc.mountd
+    65 ?        S      0:00 /usr/sbin/rpc.nfsd
+    67 ?        S      0:00 /usr/sbin/crond -l10
+    69 ?        S      0:00 /usr/sbin/atd -b 15 -l 1
+    77 ?        S      0:00 /usr/sbin/apmd
+    79 ?        S      0:01 gpm -m /dev/mouse -t ps2
+    94 ?        S      0:00 /usr/sbin/automount /auto file /etc/auto.misc
+   106 tty1     S      0:08 -bash
+   108 tty3     SW     0:00 [agetty]
+   109 tty4     SW     0:00 [agetty]
+   110 tty5     SW     0:00 [agetty]
+   111 tty6     SW     0:00 [agetty]</TT
+>
+   [output cut]</PRE
+></TD
+></TR
+></TABLE
+><P
+>Most of these processes are started at boot time on most systems.  I've
+made a few modifications to my system, so your mileage will most likely
+vary.  However, you will see most of these processes on your system too.
+As you can see, these options display command line options to the running
+processes.  It also brings up a few more columns and some other interesting
+output.</P
+><P
+>First, you'll notice that most of these processes are listed as running 
+on tty &#8220;?&#8221;.  Those are processes that were started from a 
+no-longer active terminal.  Therefore, they are no longer attaached to any 
+particular terminal.</P
+><P
+>Second, there is a new column: STAT.  It shows the status of the process.
+S stands for sleeping: the process is waiting for something to happen.  Z
+stands for a zombied process.  A zombied processes is one whose parent
+has died, leaving the child processes  behind.  This is not a good thing.</P
+><P
+>If you want to see even more information about the running processes, try
+this out:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>ps -aux</B
+></TT
+>
+   USER       PID %CPU %MEM   VSZ  RSS TTY      STAT START   TIME COMMAND
+   root         1  0.0  0.0   344   80 ?        S    Mar02   0:03 init [3]
+   root         2  0.0  0.0     0    0 ?        SW   Mar02   0:13 [kflushd]
+   root         3  0.0  0.0     0    0 ?        SW   Mar02   0:14 [kupdate]
+   root         4  0.0  0.0     0    0 ?        SW   Mar02   0:00 [kpiod]
+   root         5  0.0  0.0     0    0 ?        SW   Mar02   0:17 [kswapd]
+   root        11  0.0  0.0  1044   44 ?        S    Mar02   0:00 /sbin/kerneld
+   root        30  0.0  0.0  1160    0 ?        SW   Mar02   0:01 [cardmgr]
+   bin         50  0.0  0.0  1076  120 ?        S    Mar02   0:00 /sbin/rpc.port
+   root        54  0.0  0.1  1360  192 ?        S    Mar02   0:00 /usr/sbin/sysl
+   root        57  0.0  0.1  1276  152 ?        S    Mar02   0:00 /usr/sbin/klog
+   root        59  0.0  0.0  1332   60 ?        S    Mar02   0:00 /usr/sbin/inet
+   root        61  0.0  0.2  1540  312 ?        S    Mar02   0:04 /usr/local/sbi
+   root        63  0.0  0.0  1796   72 ?        S    Mar02   0:00 /usr/sbin/rpc.
+   root        65  0.0  0.0  1812   68 ?        S    Mar02   0:00 /usr/sbin/rpc.
+   root        67  0.0  0.2  1172  260 ?        S    Mar02   0:00 /usr/sbin/cron
+   root        77  0.0  0.2  1048  316 ?        S    Mar02   0:00 /usr/sbin/apmd
+   root        79  0.0  0.1  1100  152 ?        S    Mar02   0:01 gpm
+   root        94  0.0  0.2  1396  280 ?        S    Mar02   0:00 /usr/sbin/auto
+   chris      106  0.0  0.5  1820  680 tty1     S    Mar02   0:08 -bash
+   root       108  0.0  0.0  1048    0 tty3     SW   Mar02   0:00 [agetty]
+   root       109  0.0  0.0  1048    0 tty4     SW   Mar02   0:00 [agetty]
+   root       110  0.0  0.0  1048    0 tty5     SW   Mar02   0:00 [agetty]
+   root       111  0.0  0.0  1048    0 tty6     SW   Mar02   0:00 [agetty]</TT
+>
+   [output cut]</PRE
+></TD
+></TR
+></TABLE
+><P
+>That's a whole lot of information.  Basically, it adds information including
+what user started the process, how much of the system resources the
+process is using (the %CPU, %MEM, VSZ, and RSS columns), and on what date
+the process was started.  Obviously, that's a lot of information that could
+come in handy for a system administrator.  It also brings up another point:
+the information now goes off the edge of the screen so that you cannot
+see it all.  Well, the &#8220;-w&#8221; option will do that.</P
+><P
+>It's not terribly pretty, but it does the job.  You've now got the complete
+listings for each process.  There's even more information that you can
+display about each process.  Check out the very in-depth man page for 
+<B
+CLASS="COMMAND"
+>ps</B
+>.  However, the options shown are the most popular ones 
+and will be the ones you need to use the most often.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x2647.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x2707.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Foregrounding</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c2628.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>kill</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

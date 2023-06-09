@@ -1,0 +1,258 @@
+# copy and past in LOAD MODULE section from httpd.conf
+#//////////////////////////////////////////////////////////
+#
+# Example:
+# LoadModule foo_module modules/mod_foo.so
+#
+LoadModule security_module lib/apache2/mod_security.so
+#
+#/////////////////////////////////////////////////////////
+
+
+
+
+# append your httpd.conf, but dont forget to check your log paths
+# and the rules for your web server
+#////////////////////////////////////////////////////////
+
+<IfModule mod_security.c>
+    	# mod_security configuration directives
+	# tuned TJ at 21 may 06
+	# start from default
+
+####END RULES PARM ##########
+# just the bare minimum of directives
+DocumentRoot /var/www/htdocs
+# Abilitazione del mod security
+SecFilterEngine On
+# Scan request body - Scansione del corpo (body) delle richieste
+SecFilterScanPOST On
+# Scan response body - Scansione del corpo (body) delle risposte
+SecFilterScanOutput On
+# Check URL encoding - Verifica della codifica dell'URL
+SecFilterCheckURLEncoding On
+# This setting should be set to On only if the Web site is
+# using the Unicode encoding. Otherwise it may interfere with
+# the normal Web site operation.
+# Questa direttiva va messa Off perchè è in grado di bloccare le normali attività del server Web
+SecFilterCheckUnicodeEncoding Off
+# Only allow certain byte values to be a part of the request.
+# This is pretty relaxed, most applications where only English
+# is used wili happily work with a range 32 - 126.
+# Consente solo i byte tra l'intervallo specificato
+SecFilterForceByteRange 1 255
+# Audit log logs complete requests. Configured as below it
+# will only log invalid requests for further analysis.
+# Questa direttiva abilita il logging delle richieste non valide che possono poi essere analizzate
+# consultando il file security_log
+SecAuditEngine RelevantOnly
+#SecAuditLog logs/security_log
+SecAuditLog /var/log/apache2/security_log
+# You may need this later but we don't log anything
+# here for now. Excessive debug logging may slow down
+# the server.
+# Questa direttiva indica ad Apache di non loggare altro per non rallentare troppo la sua 
+#attività
+SecFilterDebugLevel 0
+SecFilterDebugLog /var/log/apache2/modsec_debug-log
+# Should mod_security inspect POST payloads
+SecFilterScanPOST On
+# By default log and deny suspicious requests
+# with HTfP status 500
+# By default, deny requests with status 500
+# Nega per default le richieste con status 500
+SecFilterDefaultAction "deny,log,status:500"
+####END RULES PARM ##########
+
+####BEGIN GENERAL#####
+# Restrict unknown headers from appearing in requests.
+#
+# TODO Update the list based on the real-life application traffic. The
+#      list below includes only the most commonly used headers.
+#
+#SecFilterSelective HEADERS_NAMES "!^(Host|User-Agent|Accept|Accept-Encoding|Accept-Language|Accept-Charset|Keep-Alive|Connection|Referer|TE)$"
+
+# Detect manual and crude automated requests.
+#
+SecFilterSelective HTTP_Host|HTTP_User-Agent|HTTP_Accept "^$"
+
+# Catch commonly used non-browser clients
+#
+SecFilterSelective HTTP_User-Agent "(libwhisker|paros|wget|libwww|perl|curl|java)"
+
+
+## -- SQL Injection Attacks --------------------------------------------------
+
+SecFilterSignatureAction "log,pass,msg:'SQL Injection attack'"
+
+# Generic
+SecFilterSelective ARGS "delete[[:space:]]+from"
+SecFilterSelective ARGS "drop[[:space:]]+database"
+SecFilterSelective ARGS "drop[[:space:]]+table"
+SecFilterSelective ARGS "drop[[:space:]]+column"
+SecFilterSelective ARGS "drop[[:space:]]+procedure"
+SecFilterSelective ARGS "create[[:space:]]+table"
+SecFilterSelective ARGS "update.+set.+="
+SecFilterSelective ARGS "insert[[:space:]]+into.+values"
+SecFilterSelective ARGS "select.+from"
+SecFilterSelective ARGS "bulk[[:space:]]+insert"
+SecFilterSelective ARGS "union.+select"
+SecFilterSelective ARGS "or.+1[[:space:]]*=[[:space:]]1"
+SecFilterSelective ARGS "alter[[:space:]]+table"
+SecFilterSelective ARGS "or 1=1--'"
+SecFilterSelective ARGS "'.+--"
+
+# MS SQL
+SecFilterSelective ARGS "exec.+xp_"
+SecFilterSelective ARGS "exec.+sp_"
+SecFilterSelective ARGS "@@[[:alnum:]]+"
+SecFilterSelective ARGS ";--"
+SecFilterSelective ARGS "exec[[:space:]]*\("
+SecFilterSelective ARGS "openquery"
+SecFilterSelective ARGS "openrowset"
+SecFilterSelective ARGS "msdasql"
+SecFilterSelective ARGS "sqloledb"
+SecFilterSelective ARGS "sysobjects"
+SecFilterSelective ARGS "syscolumns"
+SecFilterSelective ARGS "syslogins"
+SecFilterSelective ARGS "sysxlogins"
+
+SecFilterSelective ARGS "select.+=[[:space:]]*0x[0-9a-zA-Z]+"
+SecFilterSelective ARGS "char[[:space:]]*\([[:space:]]*0x[0-9a-zA-Z]+[[:space:]]*\)"
+
+# MySQL
+SecFilterSelective ARGS "into[[:space:]]+outfile"
+SecFilterSelective ARGS "load[[:space:]]+data
+SecFilterSelective ARGS "/\*.+\*/"
+
+# MS Access
+SecFilterSelective ARGS "MSysACEs"
+SecFilterSelective ARGS "MSysObjects"
+SecFilterSelective ARGS "MSysQueries"
+SecFilterSelective ARGS "MSysRelationships"
+
+
+## -- XSS Attacks ------------------------------------------------------------
+
+SecFilterSignatureAction "log,pass,msg:'XSS attack'"
+
+SecFilterSelective ARGS "alert[[:space:]]*\("
+SecFilterSelective ARGS "&#[[0-9a-fA-F]]{2}"
+SecFilterSelective ARGS "eval[[:space:]]*\("
+SecFilterSelective ARGS "onKeyUp"
+SecFilterSelective ARGS "\x5cx[0-9a-fA-F]{2}"
+SecFilterSelective ARGS "fromCharCode"
+SecFilterSelective ARGS "&\{.+\}"
+
+SecFilterSelective ARGS "<.+>"
+SecFilterSelective ARGS "javascript:"
+SecFilterSelective ARGS "vbscript:"
+SecFilterSelective ARGS "http-equiv"
+SecFilterSelective ARGS "-->"
+SecFilterSelective ARGS "expression[[:space:]]*\("
+SecFilterSelective ARGS "url[[:space:]]*\("
+SecFilterSelective ARGS "innerHTML"
+SecFilterSelective ARGS "document\.body"
+SecFilterSelective ARGS "document\.cookie"
+SecFilterSelective ARGS "document\.location"
+SecFilterSelective ARGS "document\.write"
+SecFilterSelective ARGS "style[[:space:]]*="
+SecFilterSelective ARGS "dynsrc"
+
+SecFilterSelective ARGS_VALUES "jsessionid"
+SecFilterSelective ARGS_VALUES "phpsessid"
+
+# HTML tags frequently used for attacks
+SecFilterSelective ARGS "<applet"
+SecFilterSelective ARGS "<div"
+SecFilterSelective ARGS "<embed"
+SecFilterSelective ARGS "<iframe"
+SecFilterSelective ARGS "<img"
+SecFilterSelective ARGS "<meta"
+SecFilterSelective ARGS "<object"
+SecFilterSelective ARGS "<script"
+SecFilterSelective ARGS "<textarea"
+
+# JavaScript event handlers
+SecFilterSelective ARGS "onAbort"
+SecFilterSelective ARGS "onBlur"
+SecFilterSelective ARGS "onChange"
+SecFilterSelective ARGS "onClick"
+SecFilterSelective ARGS "onDblClick"
+SecFilterSelective ARGS "onDragDrop"
+SecFilterSelective ARGS "onError"
+SecFilterSelective ARGS "onFocus"
+SecFilterSelective ARGS "onKeyDown"
+SecFilterSelective ARGS "onKeyPress"
+SecFilterSelective ARGS "onLoad"
+SecFilterSelective ARGS "onMouseDown"
+SecFilterSelective ARGS "onMouseOut"
+SecFilterSelective ARGS "onMouseOver"
+SecFilterSelective ARGS "onMouseUp"
+SecFilterSelective ARGS "onMove"
+SecFilterSelective ARGS "onReset"
+SecFilterSelective ARGS "onResize"
+SecFilterSelective ARGS "onSelect"
+SecFilterSelective ARGS "onSubmit"
+SecFilterSelective ARGS "onUnload"
+
+# XmlHttp
+SecFilterSelective ARGS "onReadyStateChange"
+SecFilterSelective ARGS "xmlHttp"
+
+
+## -- Command execution ------------------------------------------------------
+
+SecFilterSignatureAction "log,pass,msg:'Command execution attack'"
+
+#SecFilterSelective ARGS_VALUES "^(uname|id|ls|cat|rm|kill|mail)"
+#SecFilterSelective ARGS_VALUES "^(ls|id|pwd|wget)"
+SecFilterSelective ARGS_VALUES ";[[:space:]]*(ls|id|pwd|wget)"
+
+
+## -- LDAP injection ---------------------------------------------------------
+
+SecFilterSignatureAction "log,pass,msg:'LDAP injection attack'"
+
+SecFilterSelective ARGS "objectClass"
+SecFilterSelective ARGS "objectCategory"
+SecFilterSelective ARGS "\)\(\|"
+SecFilterSelective ARGS "\)\(!"
+SecFilterSelective ARGS "\)\(&"
+
+
+## -- SSI injection ----------------------------------------------------------
+
+SecFilterSignatureAction "log,pass,msg:'SSI injection attack'"
+
+SecFilterSelective ARGS "<!--[[:space:]]*#[[:space:]]*exec"
+SecFilterSelective ARGS "<!--[[:space:]]*#[[:space:]]*cmd"
+SecFilterSelective ARGS "<!--[[:space:]]*#[[:space:]]*echo"
+SecFilterSelective ARGS "<!--[[:space:]]*#[[:space:]]*include"
+SecFilterSelective ARGS "<!--[[:space:]]*#[[:space:]]*printenv"
+####END GENERAL#######
+
+
+## -- PHP BEGIN ---------------------------------------------------------------
+
+# Allow only letters, digits, underscore, and square brackets (for arrays)
+# in variable names
+#
+SecFilterSelective ARGS_NAMES "!^[][a-zA-Z0-9_]+$"
+
+# GLOBALS attack against PHP 4.x
+#
+SecFilterSelective ARGS_NAMES "(^globals\[|^globals$)"
+
+# URL in a parameter, possible allow_url_fopen attack
+#
+SecFilterSelective ARGS_VALUES "^http:/"
+
+# Possible code execution attack (targets valid PHP streams constructs)
+# see http://www.securityfocus.com/bid/10427
+#
+SecFilterSelective ARGS_NAMES "^php:/"
+## -- END PHP -----------------------------------------------------------
+
+</IfModule>
+

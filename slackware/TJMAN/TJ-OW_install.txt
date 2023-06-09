@@ -1,0 +1,146 @@
+25-gen-03  Openwebmail TJ-HowTO install
+---------------------------------------
+
+ver 1.81
+on SuSE 8.0
+
+
+REQUIREMENT
+-----------
+Apache web server with cgi enabled
+Perl 5.005 or above
+
+perl modules
+CGI.pm-2.74.tar.gz       (required) 	Thirdy P
+MIME-Base64-2.12.tar.gz  (required)		On SuSE
+libnet-1.0901.tar.gz     (required)		On SuSE
+Text-Iconv-1.2.tar.gz    (required) 	Thirdy P
+libiconv-1.8.tar.gz      (required if system doesn't support iconv)supported
+Authen-PAM-0.12.tar.gz   (optional)		none
+ispell-3.1.20.tar.gz     (optional)		installed (EN, IT)
+
+
+1) Thirdy part install
+-----------------------
+
+download packages
+http://turtle.ee.ncku.edu.tw/openwebmail/download/packages/
+
+For CGI.pm do the following:
+
+   cd /tmp
+   tar -zxvf CGI.pm-2.74.tar.gz
+   cd CGI.pm-2.74
+   perl Makefile.PL
+   make
+   make install
+
+
+ man iconv, for test supported libiconv,if appears, its OK
+
+cd /tmp
+   tar -zxvf Text-Iconv-1.2.tar.gz
+   cd Text-Iconv-1.2
+   perl Makefile.PL
+
+    make
+    make test
+
+ make install
+
+
+2) suidperl on SuSE
+--------------------
+
+chmod 4555 /usr/bin/suidperl
+
+
+3) All users have a existing mailbox in /var/mail/username
+
+4) postfix is alive and correctly configured
+
+
+5) INSTALL
+-----------
+
+
+untar in a web root directory the package openwebmail-X.XX.tgz
+- copy openwebmail-cgi-bin in CGI-BIN
+- copy openwebmail in data on root webserver
+
+CAVE: don't change any file permession and ownership
+
+    /
+    |----usr/local/httpd/htdocs/openwebmail
+    |                |--/cgi-bin/openwebmail
+    |                                |-auth_unix.pl
+    |                                |--/etc/openwebmail.conf
+    |--var/log/openwebmail.log
+
+
+add to /etc/logrotate.d/syslog to enable logrotate on openwebmail.log
+
+   /var/log/openwebmail.log {
+       postrotate
+           /usr/bin/killall -HUP syslogd
+       endscript
+   }  
+
+
+
+- see configuration /cgi-bin/openwebmail/etc/openwebmail.conf
+- see configuration /cgi-bin/openwebmail/auth_unix.pl
+
+CHANGE IN auth_unix.pl
+
+# for Linux systems auth, evtl syncronyze with /etc/smbpasswd
+#
+my $unix_passwdfile_plaintext="/etc/passwd";
+my $unix_passwdfile_encrypted="/etc/shadow";
+my $unix_passwdmkdb="none";
+my $check_shell=1;
+
+and then run:
+/usr/local/httpd/htdocs/cgi-bin/openwebmail/openwebmail-tool.pl --init
+
+
+6) CONFIGURATION
+-----------------
+
+minimum openwebmail.conf required
+
+domainnames		auto
+smtpserver		127.0.0.1 			# CAVE: relay and IP NAT
+smtpport		25
+auth_module		auth_unix.pl		# see before
+mailspooldir		/var/mail		# path on suSE 8.0
+dbm_ext			.pag			# specified ext for SuSE
+dbmopen_ext			none			# specified ext for SuSE
+dbmopen_haslock		yes			# specified ext for SuSE
+ow_cgidir		/usr/local/httpd/cgi-bin/openwebmail
+ow_cgiurl		/cgi-bin/openwebmail
+ow_htmldir		/usr/local/httpd/htdocs/openwebmail
+ow_htmlurl		/openwebmail
+logfile		/var/log/openwebmail.log
+spellcheck		/usr/bin/ispell		# modified
+spellcheck_dictionaries italian,english	# added italian
+default_language		it
+enable_changepwd		yes
+passwd_minlen		4			# minumum lenght passwd
+enable_setfromemail	yes			# permit fakemail
+
+
+<default_signature>
+-- 
+Open WebMail Project (http://openwebmail.org)
+</default_signature>
+
+
+7) USAGE
+---------
+
+point to URL: http://www.your.site/cgi-bin/openwebmail/openwebmail.pl
+
+
+
+

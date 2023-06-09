@@ -1,0 +1,122 @@
+3-ago-02
+
+Install OpenBSD 3.1 on
+
+HP Netserver E60
+2 x SCSI HD 18.2 GB
+256 MB RAM
+
+1) PARTITION
+
+sd0
+- a 1 GB /		sd0a
+- b 512 MB SWAP
+- d 500 MB /tmp	sd0d
+- e 7 GB  /var	sd0e
+- g 5 GB  /usr	sd0g
+
+sd1
+- a 18 GB /home	sd1a
+
+
+2) configure all par  network [fxp0] media 100baseTX
+
+3) select install from cd0 CD-ROM
+
+4) select first packages:
+   - base31.tgz
+   - etc31.tgz
+   - misc31.tgz
+   - comp31.tgz
+   - man31.tgz
+   - bsd
+
+# done
+
+5) PACKAGES
+
+- installed bash-2.05a-static
+add to /etc/shells
+/usr/local/bin/bash
+add to /root/.profile  in PATH=/usr/local/bin
+
+added user guido => group guido invite wheel (root) shell bash
+with adduser
+
+
+add pkg
+
+mkdir -p cdrom
+mount /dev/cd0a /cdrom
+cd /cdrom
+
+pkg_add -v <package> 
+
+- bash-2.05a-static.tgz
+- cdparanoia-3.a9.7p2.tgz
+- c-client-4.44.tgz
+- libxml-2.4.18.tgz
+- libxslt-1.0.14.tgz
+- mcrypt-2.5.7.tgz
+- mod_perl-1.26.tgz
+- mysql-client-3.23.49.tgz
+- mysql-server-3.23.49.tgz
+- ORBit-0.5.13.tgz
+- p5-CDDB-1.03.tgz
+- p5-DBD-Msql-Mysql-1.22.19.tgz
+- p5-DBI-1.21.tgz
+- p5-HTML-Parser-3.25.tgz
+- p5-HTML-Tagset-3.03.tgz
+- php4-4.1.2-mysql.tgz
+- php4-pear-4.1.2.tgz
+- pine+pico-4.44.tgz
+- png-1.2.1.tgz
+- popt-1.5.1.tgz
+- rpm-3.0.6p1.tgz
+- samba-2.2.3a.tgz
+- tcl-8.3.4.tgz
+- tiff-3.5.7.tgz
+- unzip-5.42.tgz
+- vim-6.1-no_x11.tgz
+- wget-1.7.tgz
+
+6)config rc local:
+
+
+7) config httpd.conf
+
+SSLCertificateFile /etc/ssl/server.crt 
+SSLCertificateKeyFile /etc/ssl/private/server.key
+
+8) config smb.conf (share)
+
+10) generate cert SSL
+# /usr/sbin/openssl genrsa -out /etc/ssl/private/server.key 1024 	
+# /usr/sbin/openssl req -new -key /etc/ssl/private/server.key -out /etc/ssl/private/server.csr
+A challenge password [astridl]:
+An optional company name [gv]: 
+mail info@avalon.metan ,comp scuole san , subc metan
+# /usr/sbin/openssl x509 -req -days 730 \
+ -in /etc/ssl/private/server.csr \
+ -signkey /etc/ssl/private/server.key \
+ -out /etc/ssl/server.crt 
+
+11) NFS
+
+/etc/exports
+
+/home			-alldirs -ro -network 172.x.x.0 -nmask 255.x.x.x
+/var/www/htdocs	-maproot=root -network 172.x.x.0 -nmask 255.x.x.x
+
+
+Start NFS
+# /sbin/nfsd-tun 4
+# echo-n >/var/db/mountdtab
+# /sbin/mountd
+	
+
+
+
+
+
+

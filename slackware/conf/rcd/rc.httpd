@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Start the Apache web server
+#
+
+case "$1" in
+   'start')
+      /usr/sbin/apachectl startssl ;;
+   'stop')
+      /usr/sbin/apachectl stop ;;
+   'restart')
+      /usr/sbin/apachectl restart ;;
+   *)
+      echo "usage $0 start|stop|restart" ;;
+esac

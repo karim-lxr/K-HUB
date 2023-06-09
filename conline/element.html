@@ -1,0 +1,197 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<!--  --------------------------------------------------
+guido venturini
+tecnologia digitale
+CH 6830 CHIASSO
+
+
+nov 2001
+--------------------------------------------------  -->
+<!-- richiama external stylesheet -->
+<link rel=stylesheet href="./virtualc.css" type="text/css">
+
+
+	<title>gli elementi di una comunità online</title>
+</head>
+<body>
+<div align="center"><a href="index.html"class="para">[indice]</a> <a href="ident.html"class="para">[identità]</a> <a href="story.html"class="para">[storia]</A> <a href="dinam.html"class="para">[dinamiche]</A> <a href="project.html"class="para">[progettazione]</a> <font color="#DA1212">[elementi]</font>  <a href="refer.html"class="para">[references]</a></div>
+<br><br>
+<h2>gli elementi di una comunità online</h2>
+
+<p class="est">
+la realizzazione tecnica di una comunità online, ha esigenze dettate in particolare dal grado di interattività con gli utenti che si intende
+fornire, quindi non é sufficiente offrire un sistema di contenuti organizzato staticamente:
+<br>
+bisogna essere in grado di riconoscere ed autenticare i membri, fornire accessi particolari agli amministratori, concedere diritti in scrittura a chi
+utilizza forums e simili, dare permessi in upload, effettuare del content management in modo efficente; garantire la persistenza dei dati, evitare transazioni 
+non determinate e garantire un livello ragionevole di difesa da accessi e manipolazioni improprie.
+<br>
+Tutte cose che HTML, in quanto formato di presentazione, non é in grado di fare. In questo senso sono nate dapprima le diverse esecuzioni CGI, in Perl, 
+in Bash, oppure direttamente in codice binario, in grado di proporre form e quant'altro intermediando la pagina statica con il resto del sistema ed introducendo
+non pochi problemi di sicurezza ed una fitta letteratura di exploit.
+Le specifiche di HTML dinamico, ed in particolare l'introduzione di Java Script diedero qualche strumento di interazione in più, ma limitato alla parte client.
+Dal lato server si fece, ancora oggi, largo uso di Perl per interfacciare pagine statiche con databases, applicativi di posta elettronica, tools di monitoraggio ecc.
+<br>
+Per quanto teoricamente ogni linguaggio di programmazione sia in grado di fornire interattività al web,
+oggi la maggior parte dei databases offre tools di interfacciamento con il web, via ODBC o in maniera nativa, ed esistono linguaggi di scripting in grado
+di interrogare questi databases ed i loro sistemi nonché di fornire output in HTML; si tratta di due linguaggi interpretati server-side: ASP (Active server Pages) per i webserver IIS di Microsoft, con una
+sintassi derivata dal loro Visual Basic, ed il PHP (Hypertext Preprocessor), derivato da PHPFI da cui ha mantenuto il nome, con costrutti e sintassi provenienti
+in maggioranza da ANSI C sviluppato nativamente per architetture LAMP.
+<br>
+Dal lato server molte sono anche le implementazioni JAVA con le 'java servelets', applicazioni Java che forniscono applets in output alle richieste utente.
+Questi ambienti di sviluppo sono tutti 'cross-platform' cioè in linea di massima implementabili su ogni piattaforma (web server) Web, in pratica ognuno da il meglio di se 
+in ambiente nativo. Tuttavia non é raro vedere alcune comunità commerciali, oppure di lungo corso che implementano diverse tecnologie, secondo il
+prodotto offerto.
+<br>
+Per sviluppare comunità da zero sono quindi necessarie conoscenze specifiche della piattaforma operativa su cui intende implementare il codice, conoscenze specifiche sugli User 
+Agent (browser) per cui si intende aprirsi, competenze nella realizzazione ed amministrazione di Databases, serie conoscenze di HTML nonché dello specifico
+linguaggio di programmazione che si voglia utilizzare.
+<br>
+Oggi esistono però sia in ambiente commerciale che in ambiente GNU molti pacchetti già scritti e configurati allo scopo, ciò non esime però dalle necessarie
+competenze di implementazione e gestione. Oppure affidare in outsourcing il progetto :-)
+<br>
+Oltre a queste offerte, in cambio spesso di pubblicità o di un modesto contributo, si possono 'assemblare' elementi diversi e provenienti da punti disparati,
+quali forums, chat, mailing list ecc.
+</p>
+<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font face="Times New Roman,Times,serif,cursive" size="+2" color="#004080"><em>
+Architetture per comunità</em></font>
+<p class="est">
+<strong>LAMP</strong>
+<br>
+viene definita LAMP (Linux+Apache+MySql+PHP) un'architettura che comprende Sistema Operativo, Web Server, DataBase relazionale, modulo per il linguaggio
+di scripting PHP. Particolarità di questo subset, é il fatto di poggiare su elementi molto versatili, piuttosto sicuri in ambiente di rete e di essere
+tutti rilasciati con licenza GNU-GPL, il che significa che il soft così rilasciato può essere modificato, adattato, ridistribuito in maniera libera, con
+l'unico obbligo di ridistribuire sorgenti e licenza se del caso. Su di essa moltissimi applicativi adatti a comunità online vengono sviluppati, migliorati
+e mantenuti. La versatilità é tale per cui é possibile sviluppare in altri ambienti operativi con le proprie applicazioni preferite, p.es. win.x, mac, other unix 
+in accesso alla directory del webserver come se fosse una directory locale visualizzandone l'output da server sul proprio browser.
+<br>
+il limite maggiore é costituito dalla mancanza a tutt'oggi di IDE (integrated Developpement Environnement) in modo grafico per lo sviluppo di databases
+e codice PHP, il che obbliga a lunghe sessioni di codifica manuale.
+</p>
+<p class="est">
+<strong>ASP</strong>
+<br>
+Active Server Pages é rapido e flessibile, l'utilizzo di questo linguaggio è però perlopiù confinato ai server Microsoft, come ad esempio IIS,
+e non funziona quindi con tutti gli altri server che popolano il web. Tuttavia, non è difficile vedere diversi provider che ne propongono
+l'utilizzo. Grazie all'uso delle pagine ASP, l'utente può quindi creare dei documenti che possono fornire informazioni, rispondendo in modo 
+diverso alle differenti richieste dei navigatori.I vantaggi nell'utilizzo di questo linguaggio di scripting sono dati dal fatto che le pagine asp 
+sono completamente integrate con i file html, facili da creare e non necessitano di compilazione, sono orientate agli oggetti e usano componenti
+server ActiveX. 
+</p>
+<p class="est">
+<a href="http://www.linuxiso.org/" class="para">http://www.linuxiso.org</a>, Distro Linux
+<br>
+<a href="http://httpd.apache.org/" class="para">http://httpd.apache.org</a>, Apache, web Server
+<br>
+<a href="http://www.mysql.org/" class="para">http://www.mysql.org</a>, MySql database relazionale
+<br>
+<a href="http://www.php.net/" class="para">http://www.php.net</a>, il linguaggio di scripting Server side
+<br>
+<a href="http://www.gnu.org/home.it.html" class="para">http://www.gnu.org</a>, il progetto e le licenze GNU-GPL
+<br>
+<a href="http://www.aspitalia.com/" class="para">http://www.aspitalia.com</a>, ASP in italia
+<br>
+<a href="http://www.risorse.net/" class="para">http://www.risorse.net</a>, Comunità italiana per Webmasters, soprattutto ASP
+<br>
+
+</p>
+
+
+
+
+<p class="est">
+
+</p>
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font face="Times New Roman,Times,serif,cursive" size="+2" color="#004080"><em>
+I componenti di una comunità</em></font>
+<p class="est">
+<strong>Mailing Lists</strong>
+<br>
+<br>
+Fra i luoghi di incontro online più semplici da creare e mantenere. La maggior parte dei MUA (Mail User Agent), consente il raggrupamento
+di liste di indirizzi, tuttavia quelle basate su Internet consentono a tutta la comunità di condividerne la lista: tramite una soft in rete é possibile 
+creare ed aggiungere una lista di indirizzi ai quali viene recapitato in automatico ogni messaggio inviato sulla lista.
+<br>
+Le indicazioni maggiori per una mailing list, sono date p. es. dalla necessità di dare avvio ad una nuova comunità, oppure servirne una di piccole
+dimensioni: la gente vi scambia informazioni, pone domande e risponde. Newsletter ed annunci vari sono altresì buoni motivi per l'utilizzo di una 
+mailing list come pure servire gli utenti nuovi arrivati, evitando loro problemi di interfaccia per reperire le informazioni iniziali, per quanto utilizzata
+quasi sempre in combinazione ad altri strumenti di comunicazione, a piccoli gruppi con obiettivo comune potrebbe anche convenire l'impiego
+quale unica struttura comunitaria. Bisogna però tener conto che la gestione degli archivi e la loro consultazione nel tempo pongono qualche problema pratico.
+<br><br>
+<a href="http://www.452productions.com/projects/scripts/mail/index.php" class="para">452 Multi Mail</a>, Software LAMP-GPL per la gestione di una mailing list
+<br>
+<a href="http://www.topica.com" class="para">http://www.topica.com</a>, Servizio di mailing list gratuito
+<br>
+<a href="http://www.lsoft.com/products/default.asp?item=listserv" class="para">Listserv</a>, un applicativo proprietario a pagamento
+<br>
+</p>
+
+<p class="est">
+<strong>Forums</strong>
+<br><br>
+Altrimenti noti come bulletin board o bacheche elettroniche sono tra i più diffusi luoghi di incontro online, che al pari delle mailing lists
+ricorrono alla modalità asincrona; grazie a tale caratteristica possono dar vita a conversazioni che si protraggono nel tempo. Svilppano un 
+contesto ed una storia in seno alla comunità.
+<br>
+Tipicamente si possono suddividere in due categorie: a tema laddove dato un tema si dipartono lateralmente ramificandosi i vari thread che lo
+compongono, indicato soprattutto per le conversazioni domanda-risposta, oppure il sistema lineare, laddove ad ogni topics é possibile sviluppare un tema
+separato in qualche modo riferito ad una voce generale. Per rapporto alle mailing list, i forums offrono una serie di opzioni aggiuntive, p.es la caratteristica 
+BBCode, l'uso di avatar, search engines ecc. che consentono maggiori potenzialità nella formazione di comunità Web. I forums, danno la sensazione di luogo
+specifico, creando un legame tra persone geograficamente distanti ed incrementando il senso di appartenenza.
+<br><br>
+<a href="http://community.iansoft.net/" class="para">Iansoft OpenBB Community</a>, Software LAMP-GPL per la realizzazione di un forum
+<br>
+<a href="http://www.ezboard.com/" class="para">http://www.ezboard.com</a>, Servizio Forum gratuito
+<br>
+<a href="http://www.aborior.com/products/encore/index.shtml" class="para">Encore Web Forum</a>, un applicativo proprietario a pagamento
+<br>
+</p>
+
+<p class="est">
+<strong>Chat</strong>
+<br><br>
+Una grande quantità di persone frequenta chat su Internet per lavorare, giocare, litigare, flirtare o divertirsi. Il software per chat in tempo
+reale consente a chiunque sia collegato al sistema di corrispondere immediatamente con ogni altro partecipante in modalità sincrona, contrapposta
+a quella asincrona, grazie alla quale persone residenti in località lontante possono comunicare nello stesso istante.
+<br>
+Luoghi di incontro di questo tipo si rivelano importanti in ambiti diversi, dalle questioni pratiche alle situazioni divertenti. Vi si può
+tenere un corso, gestire gruppi di supporto e riunioni di lavoro; esse forniscono il senso della presenza e dell'immediatezza, funzionano bene
+per eventi prefissati, possono offrire guida e assistenza in tempo reale. 
+<br><br>
+<a href="http://www.appindex.net/applications/development_releases/mwchat/" class="para">MWChat</a>, Software LAMP-GPL per la realizzazione di una Chat
+<br>
+<a href="http://www.talkcity.com/" class="para">http://www.talkcity.com</a>, Servizio Chat gratuito
+<br>
+<a href="http://www.chatblazer.com/pricing.htm" class="para">Chat Blazer</a>, Chat proprietaria a pagamento, richiede Java
+<br>
+</p>
+
+<p class="est">
+<strong>News e contents management</strong>
+<br><br>
+Un altro strumento importante per le comunità online, é dato dai sistemi di gestione del contenuto: news riguardanti la comunità o settori
+di interesse ben precisi, contenitori strutturati di documentazione, solitamente in upload e download, moderati da uno o più 'anziani'.
+Questi strumenti consentono di regola l'editing dei contenuti online, la gestione delle immagini e diversi formati di dati. Sono per lo più
+associati ad altri elementi come quelli precedentemente descritti. Fornisce un 'taglio' ad una comunità, rendendo immediato il senso della
+tale o tal altra comunità. Permette ai membri di contribuire evidenziando specifiche conoscenze, consente un layout univoco alle pubblicazioni
+della comunità.
+<br><br>
+<a href="http://phpweblog.org/" class="para">http://phpweblog.org</a>, Software LAMP-GPL per la gestione di articoli
+<br>
+<a href="http://www.freesticky.com/stickyweb/" class="para">http://www.freesticky.com</a>, hosting gratuito per news management ed altro
+<br>
+<a href="http://www.interactivetools.com/products/articlemanager/screenshots.html" class="para">Article Manager</a>, content manager proprietario a pagamento basato su perl
+<br>
+</p>
+
+
+
+<div align="center"><a href="index.html"class="para">[indice]</a> <a href="ident.html"class="para">[identità]</a> <a href="story.html"class="para">[storia]</A> <a href="dinam.html"class="para">[dinamiche]</A> <a href="project.html"class="para">[progettazione]</a> <font color="#DA1212">[elementi]</font>  <a href="refer.html"class="para">[references]</a></div>
+
+</body>
+</html>

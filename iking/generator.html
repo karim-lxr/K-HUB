@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<HTML><HEAD>
+<link rel="STYLESHEET" type="text/css" href="inde.css">
+<TITLE>I King generator</TITLE>
+
+
+
+<SCRIPT language=JavaScript>
+var images=new Array(4);
+var progressive=6; //varia tra 6 e 1 a ritroso 
+var ching=new Array(7);
+var ching2=new Array(7);
+ching[1]=-1;
+ching[2]=-1;
+ching[3]=-1;
+ching[4]=-1;
+ching[5]=-1;
+ching[6]=-1;
+
+ching2[1]=-1;
+ching2[2]=-1;
+ching2[3]=-1;
+ching2[4]=-1;
+ching2[5]=-1;
+ching2[6]=-1;
+
+images[0]=new Image();
+images[0].src="img/king6.gif";
+images[1]=new Image();
+images[1].src="img/king7.gif";
+images[2]=new Image();
+images[2].src="img/king8.gif";
+images[3]=new Image();
+images[3].src="img/king9.gif";
+
+
+function scegli(){
+var myrand=0;
+var myimg ;
+var ic1;
+var ic2;
+
+myrand=Math.round(Math.random()*3)+0; //tra 0 e 3 (0=6, 1=7, 2=8, 3=9)
+
+
+
+if (myrand==0) {
+         ic1=0;
+		 ic2=1;
+      }
+else if (myrand==1) {
+         ic1=1;
+		 ic2=1;
+}
+else if (myrand==2) {
+         ic1=0;
+		 ic2=0;}
+else if (myrand==3) {
+         ic1=1;
+		 ic2=0;
+
+}
+
+ 
+
+switch (progressive) {
+    case 1:
+         document.im1.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+         progressive=progressive-1;
+         break
+    case 2:
+         document.im2.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+         progressive=progressive-1;
+         break
+    case 3:
+         document.im3.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+         progressive=progressive-1;
+         break
+    case 4:
+         document.im4.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+         progressive=progressive-1;
+         break
+    case 5:
+         document.im5.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+        progressive=progressive-1;
+         break
+   case 6:
+         document.im6.src=images[myrand].src;
+         ching[progressive]=ic1; //memorizzo uno dei 6 iching
+         ching2[progressive]=ic2;
+         progressive=progressive-1;
+         
+         break
+   default:
+         break
+}
+}
+
+</SCRIPT>
+
+
+<body leftmargin="20" topmargin="20">
+
+
+<TABLE cellSpacing=3 cellPadding=3 width="25%" border=0>
+  <TBODY>
+  <TR>
+    <TD width="27%"><IMG onmousedown=scegli(); height=70 src="img/desk.gif" width=70></TD>
+    <TD>
+      <DIV align=center>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70 name=im1>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70 name=im2>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70 name=im3>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70 name=im4>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70  name=im5>
+	  <BR>
+	  <IMG height=12 src="img/blank.gif" width=70 name=im6>
+	  <BR>
+	</td> 
+  </TR>
+   </TABLE>
+	  <br><br>
+<TABLE width="25%" border=0>  
+<tr>
+<td>
+<div align="center">
+<FORM>
+<INPUT TYPE="Button" VALUE="nuova domanda" 
+onClick="javascript:location.reload()"> 
+</FORM>
+</div>
+</td>
+</tr>
+</TABLE>  
+<br><br>
+- Lancia la moneta 6 volte
+<br>
+- le linee contrassegnate di blu, sono mutevoli
+<br>
+	  </BODY></HTML>

@@ -1,0 +1,24 @@
+
+13-dic-03
+Evolution dependencies
+
+evolution-1.4.4-i686-1.tgz
+
+
+audiofile-0.2.3-i386-3.tgz
+esound-0.2.32-i486-1.tgz
+gail-1.2.0-1.i386.tgz
+gconf-2.4.0.1-i486-1.tgz
+gnome-vfs-2.4.0-i486-2.tgz
+gtkhtml-3.0.8-i686-1.tgz
+libbonobo-2.4.0-i486-1.tgz
+libbonoboui-2.4.0-i486-1.tgz
+libgal2.0.3.i386.tgz
+libgnome-2.4.0-i486-1.tgz
+libgnomecanvas-2.4.0-i486-1.tgz
+libgnomeprint-2.3.1-i486-1.tgz
+libgnomeprintui22-2.2.1.1-0.dag.rh80.i386.tgz
+libgnomeui-2.4.0.1-i486-1.tgz
+libsoup-1.99.23-i686-1.tgz
+linc-1.0.3-i486-1.tgz
+orbit2-2.8.1-i486-1.tgz

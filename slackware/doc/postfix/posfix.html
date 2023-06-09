@@ -1,0 +1,407 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<html>
+<head>
+<title>Sistemi Liberi: Postfix</title>
+<LINK href="../journal.css" rel="stylesheet" type="text/css">
+</head>
+<body link="#0000ff" vlink="#0000ff" alink="#0000ff" bgcolor="#ffffff">
+<table border=0 cellpadding=0 width=100%>
+<tr>
+<td align=left bgcolor="#ffffff">
+<a href="apache1.html"><img alt="" src="pj_images/a_left.png" border=0></a>
+</td>
+<td align=center bgcolor="#cccccc">
+<font color="#00ff00">
+<font color="#ffff00">&lt;-</font>
+<a href="apache1.html">SL: Apache</a>
+<font color="#ffff00">-</font>
+<a href="index.html">Copertina</a>
+<font color="#ffff00">-</font>
+<a href="pjjfs.html">SL: JFS</a>
+<font color="#ffff00">-&gt;</font>
+</font>
+</td>
+<td align=right bgcolor="#ffffff">
+<a href="pjjfs.html"><img alt="" src="pj_images/a_right.png" border=0></a>
+</td>
+</tr>
+</table>
+
+<font size=+3 color="#ff0000">
+<p class="tipo"><i>Sistemi Liberi</i></p>
+</font>
+<hr>
+<h1 align=center><font color=#091df4>Un pinguino per postino</h1></font>
+<p align=right>di <a href="#biograf">Tommaso Di Donato</a></p>
+<br>
+<table border="1" bgcolor="#aaccff" width="100%" cellspacing="0" cellpadding="5">
+<td><h2>L'articolo...</h2>
+La posta elettronica &egrave; diventata, per le ditte come per il navigatore occasionale, un servizio imprescindibile. Questo articolo vuole essere il primo di una serie dedicata ai mail server,  ed in particolare a Postfix, a partire della configurazione dei servizi basilari smtp e pop3, fino ad arrivare a qualcosa di un po' pi&ugrave; avanzato, ad esempio web-mail e mailing list.<br>
+In questa prima puntata vedremo l'installazione e la configurazione di Postfix come SMTP server; nel prossimo numero ci focalizzeremo sulla creazione degli utenti, e sulla configurazione del servizio POP3; vedremo anche come utilizzare Postfix in unione a Mojo, un mailing list manager completamente gestito via web.</td>
+</table><br>
+<hr>
+
+<h2>Indice</h2>
+<ul>
+<li><a href="#panor">Sendmail, Postfix, qmail...</li>
+<li><a href="#anatomia">Anatomia</a></li>
+<li><a href="#installazione">Installazione</a></li>
+<li><a href="#config">Configurazione di base</a></li>
+<li><a href="#conclusioni">Conclusioni</a></li>
+<li><a href="#A">Appendice A: un po' di sicurezza</a></li>
+<li><a href="#B">Appendice B: automatizzare l'avvio di Postfix</a></li>
+<li><a href="#C">Appendice C: mail server e record DNS</a></li>
+</ul>
+<br>
+<h2><a NAME="panor">Sendmail, Postfix, qmail...</a></h2>
+&nbsp;&nbsp;&nbsp;&nbsp;In passato, parlare di mail server linux era equivalente a parlare di Sendmail, il pi&ugrave; noto e diffuso software
+SMTP per *nix. Nonostante questa sua diffusione, non si pu&ograve; certo dire che Sendmail godesse di buona fama in quanto
+a sicurezza... anche se le ultimissime versoni hanno sub&igrave;to un pesante lavoro di riprogettazione, ed ora sono
+molto affidabili! Ma fu questa fama di "mail server bacato" che, in passato, spinse alcuni virtuosi a scrivere
+<u>da zero</u> dei nuovi software SMTP, interamente pensati in funzione della sicurezza. E fu cos&igrave; che nacquero
+Postfix e Qmail: l'idea che sta alla base &egrave; avere un programma di facile configurazione e amministrazione, con
+potenti funzionalit&agrave; di sicurezza e filtri <i>anti-spamming</i>, stabile e veloce.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Nell'articolo tratteremo di Postfix, scaricabile direttamente dalla Home Page <a href="http://www.postfix.org">www.postfix.org</a> 
+o da uno dei numerosi mirror. Anche se ormai molte distribuzioni lo includono gi&agrave; nei CD in forma
+di binario precompilato, per motivi "didattici" lo installeremo partendo direttamente dai sorgenti.<br>
+Una piccola nota per gli utenti Red Hat: per poter compilare i sorgenti, sar&agrave; necessario installare prima il
+pacchetto db3-devel (che potrete poi rimuovere al termine dell'installazione).
+
+<h2><a NAME="anatomia">Anatomia</a></h2>
+&nbsp;&nbsp;&nbsp;&nbsp;Postfix &egrave; stato interamente progettato, sin dall'inizio, per essere sicuro e veloce: esso &egrave; costituito da numerosi
+demoni, ognuno dei quali si occupa di un processo ben definito. Solo uno di essi, <i>master</i>, &egrave; eseguito con privilegi
+"elevati", tutti gli altri possono essere facilmente eseguiti con bassissimi privilegi (creando un utente ad hoc), e
+soprattutto possono essere tutti confinati in una gabbia "chroot" (vedi <a href="#A">Appendice A</a>).<br>
+
+<center><img src="images/anatomy.png"></center><br>
+<center><b>Fig.1:</b> Anatomia di Postfix: le ellissi gialle rappresentano i vari processi, i rettangoli gialli sono <br>
+i file delle mailbox o delle code di posta, quelli azzurri sono i file di configurazione</center><br>
+
+&nbsp;&nbsp;&nbsp;&nbsp;Il processo <kdb>master</kbd> &egrave; un demone residente, che si occupa di richiamare di volta in volta gli altri processi: ad esempio, 
+a seguito di una richiesta di connessione SMTP, <kbd>master</kbd> invocher&agrave; il sottoprocesso <kbd>smtpd</kbd>, il quale si occupa di 
+aprire la connessione e di passare l'input al demone <kbd>cleanup</kbd>; quest'ultimo, a sua volta, si occupa di aggiungere (o eventualmente modificare) eventuali header mancanti, per poi inserire il messaggio nella coda di arrivo.<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;Lo scopo di Postfix &egrave; quello di sostituire interamente Sendmail, mantenendone per&ograve; in tutto e per tutto la compatibilit&agrave;: ci&ograve; significa che migrare un server da Sendmail a Postfix risulter&agrave; completamente trasparente ad ogni altra applicazione! 
+Come Sendmail, le mailbox corrispondono agli utenti di sistema operativo (vedremo nel prossimo articolo come questo sia solo <i>parzialmente</i> vero...), e quindi per creare una nuova casella di posta baster&agrave; semplicemente utilizzare <code>adduser</code> 
+o, se preferiamo, il buon vecchio <b>linuxconf</b> (nelle ultime versioni, esce addirittura con un modulo appositamente creato per la configurazione di Postfix!).
+
+<h2><a NAME="installazione">Installazione</a></h2>
+&nbsp;&nbsp;&nbsp;&nbsp;Il sistema su cui vogliamo installare Postfix non necessita di particolari configurazioni. In generale, non sarebbe una cattiva idea creare una partizione separata per il mountpoint <kbd>/var/spool</kbd>: pur non essendo indispensabile, risulta comunque decisamente pi&ugrave; comodo, ad esempio nel caso in cui si voglia assegnare una quota alle singole mailbox. Ulteriore requisito (fondamentale solo nel caso in cui il nostro mail server invii mail verso internet, e non solo localmente) &egrave; la corretta configurazione per la risoluzione dei nomi.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Per prima cosa, occorre innanzi tutto creare almeno un utente di sistema operativo: in questa fase per&ograve; ne aggiungeremo 2, in modo tale da avere la possibilit&agrave; di creare una <i>gabbia chroot</i> per i vari demoni. Verifichiamo innanzi tutto di non avere precedentemente installato Sendmail: per una distribuzione Red Hat, ad esempio, il pacchetto viene installato automaticamente, e va pertanto rimosso; da esso dipendono altri programmi, per cui sar&agrave; necessario il flag <i>--nodeps</i>.<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+
+<tr><td><pre>
+  rpm -e sendmail --nodeps</pre>
+</td></tr>
+</table><br>
+
+Verifichiamo anche di non avere gi&agrave; un utente "mail" (<code>grep mail /etc/passwd</code>), quindi procediamo alla creazione dei 2 nuovi account, ad esempio "postfix" e "mail":<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+
+<tr><td><pre>
+  adduser postfix -s /bin/false -d /dev/null  
+  passwd -l postfix
+  adduser mail -s /bin/false -d /dev/null
+  passwd -l mail</pre>
+</td></tr>
+</table><br>
+
+A questo punto, siamo pronti per compilare i sorgenti: dopo esserci posizionati nella directory in cui abbiamo scompattato l'archivio, procediamo col comando<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+
+<tr><td><pre>
+  ./make</pre></td></tr>
+</table><br>
+
+Se abbiamo installato il compilatore C, e se il nostro sistema &egrave; uno di quelli supportati (mi meraviglierei del contrario!!!), tutto
+dovrebbe procedere senza particolari intoppi; a questo punto, installiamo quanto compilato:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+
+<tr><td><pre>
+  ./make install</pre></td></tr>
+</table><br>
+
+Ci verranno ora richieste alcune informazioni sul nostro sistema, ad esempio dove posizionare i file di configurazione, gli
+eseguibili e le pagine di help. Non c'&egrave; molto da dire su questo, dipende dalla distribuzione in esame e dai gusti personali... Facciamo invece attenzione agli ultimi 2 parametri, <kbd>mail_owner</kbd> e <kbd>setgid</kbd>: il primo &egrave; l'utente proprietario dei vari demoni, mentre il secondo &egrave; il proprietario della directory <kbd>maildrop</kbd>, e serve principalmente per motivi di sicurezza. Chi vuole approfondire il motivo della sua esistenza (non temete, nessuna disquisizione filosofica sull'Essere!) trover&agrave; qualcosa in <a href="#A">Appendice A</a>. Lo script di installazione creer&agrave; le directory di configurazione (<kbd>/etc/postfix</kbd>) e quelle relative alle code dei messaggi (<kbd>/var/spool/postfix</kbd>); al termine consiglier&agrave; di andare immediatamente a modificare il file di configurazione principale <kbd>main.cf</kbd>.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;L'installazione &egrave; terminata, e siamo pronti per configurarci il nostro mail server! Io pero' consiglio un paio di operazioni ulteriori; lo script di installazione crea nella directory <kbd>/etc/postfix</kbd> tutti i file di configurazione, e una serie di file di esempio: a mio avviso, sarebbe pi&ugrave; "pulito" mantenere in questa directory lo stretto necessario, e spostare gli esempi altrove... Ad esempio:<br>
+<br>
+<table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  mkdir /usr/share/doc/postfix
+  mv /etc/postfix/sample* /usr/share/doc/postfix/
+  mv /etc/postfix/LIC* /usr/share/doc/postfix/
+  mv /etc/postfix/*.default /usr/share/doc/postfix/
+  mv /etc/aliases /etc/postfix</pre></td></tr>
+</table>
+
+<h2><a NAME="config">Configurazione di base</a></h2>
+&nbsp;&nbsp;&nbsp;&nbsp;La configurazione di Postfix &egrave; veramente intuitiva: nessun parametro dal nome astruso, ed una abbondanza di commenti incredibile. Per una
+configurazione tipica, i file che ci interessano sono <b><kbd>aliases</kbd></b> e <b><kbd>main.cf</kbd></b>: il primo definisce gli alias per gli utenti di sistema
+operativo, mentre il secondo contiene la configurazione vera e propria.<br>
+<br><u><kbd>/etc/postfix/aliases</kbd></u><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Contiene la "mappatura" di un un utente di posta elettronica con un utente di s.o. Questo &egrave; molto importante per 2 motivi: in primis, &egrave; fondamentale che esistano gli alias 
+per l'utente postfix (per il corretto funzionamento del programma) e per root (che sarebbe preferibile non ricevesse mail direttamente). Questo &egrave; vero in ogni caso, sia che 
+il nostro Postfix funga da mail server interno, sia che si tratti del mail server di un ISP.<br> 
+&nbsp;&nbsp;&nbsp;&nbsp;Il secondo motivo per cui &egrave; importante la creazione di alias &egrave; l'esistenza di alcuni account "di ruolo" che vanno creati nel rispetto della cosidetta <i>netiquette</i>, ad esempio <kbd>postmaster, info, abuse</kbd>, ecc; dal momento che, nella pratica, spesso &egrave; un solo utente a svolgere tutte le sovracitate funzioni, &egrave; 
+possibile fare in modo che le relative e-mail vengano automaticamente "girate" nella casella dell'utente. Vediamo un esempio: sul mio sistema, 
+io svolgo le funzioni di sistemista e postmaster; avr&ograve; quindi un account, ad esempio <i>tom</i>. Il mio file <kbd>/etc/postfix/aliases</kbd> conterr&agrave; quindi le voci:
+<br><br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  postmaster:	tom
+  abuse:	tom
+  info:		tom
+  postfix:	root
+  root:		tom</pre></td></tr>
+</table><br>
+Come vedete, &egrave; possibile utilizzare anche degli alias "ricorsivi" (Postfix->root->tom). A questo punto, occorrer&agrave; utilizzare il comando 
+<code>/usr/bin/newaliases</code> per rendere effettive le modifiche (vedrete che verr&agrave; creato un file aliases.db, sul cui significato torneremo nel prossimo articolo).<br>
+<br><u><kbd>/etc/postfix/main.cf</kbd></u><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Veniamo ora alla configurazione vera e propria di Postfix; vedremo che i parametri da modificare per ottenere un
+sistema immediatamente funzionante sono davvero pochissimi! Per prima cosa, visto che abbiamo posizionato il file degli alias in
+/etc/postfix/, dovremo rendere partecipe Postfix della nostra decisione: aggiungeremo (o modificheremo, qui va verificato che i parametri
+non siano gi&agrave; impostati) le righe<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  alias_maps = hash:/etc/postfix/aliases
+  alias_database = hash:/etc/postfix/aliases
+</pre></td></tr>
+</table><br>
+&nbsp;&nbsp;&nbsp;&nbsp;A questo punto, passiamo ai settaggi fondamentali: il nome del server, e il dominio che verr&agrave; considerato "locale"; ipotizzando di voler 
+configurare il mail server primario del dominio <i>plutojournal.it</i>, scriveremo:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  myhostname = mail.plutojournal.it		
+  mydestination = $myhostname, $mydomain</pre></td></tr>
+</table><br>
+Il parametro <kbd>myhostname</kbd> definisce il nome del server (che apparir&agrave; negli header dei messaggi inviati), mentre <kbd>mydestination</kbd> 
+ specifica quali destinatari vanno considerati locali: per "locale" si intende il dominio che ha le relative mailbox proprio sul nostro 
+server (nel nostro esempio, solo <i>user</i>@plutojournal.it e <i>user</i>@mail.plutojournal.it saranno considerati locali). 
+Ovviamente, se si sta configurando un mail server pubblico (cio&egrave; 
+corrispondente a un dominio effettivamente presente sul DNS), bisogner&agrave; anche dire al DNS di considerare la nostra machina come mail server 
+primario per quel dominio (per i dettagli, si veda l'<a href="#C">Appendice C</a>).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A questo punto, il nostro server &egrave; pronto? Si! Cio&egrave;, no... Abbiamo gi&agrave; un server funzionante, ma che tutti quanti, l&agrave; fuori, possono usare come server di invio... e noi 
+non vogliamo lo spamming!! Bisogna allora decidere quali client saranno autorizzati ad inviare mail tramite il nostro Postfix: la cosa pi&ugrave; comoda &egrave; utilizzare il 
+parametro <kbd>mynetworks</kbd>, specificando un range di indirizzi IP. Ad esempio, ipotizzando di voler concedere il servizio SMTP alla nostra LAN (la cui subnet potrebbe essere 192.168.1.x) e ad un client esterno (con IP 1.2.3.4), scriveremo:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  mynetworks = 192.168.1.0/24, 1.2.3.4</pre></td></tr>
+</table><br>
+Perfetto, siamo pronti! Controlliamo di non aver fatto macro-errori di configurazione<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  postfix check</pre></td></tr>
+</table><br>
+Se tutto &egrave; andato bene, vedremo che vengono create alcune directory in <kbd>/var/spool/postfix/</kbd>, a seguito di una serie di merraggi del tipo<br>
+<i>postfix-script: warning: creating missing Postfix xxx directory</i><br>
+Ora siamo pronti ad avviarlo<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  postfix start</pre></td></tr>
+</table><br>
+Congratulazioni!  Verifichiamo che tutto sia andato bene, dando un'occhiata a eventuali messaggi di errore:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  cat /var/log/maillog</pre></td></tr>
+</table><br>
+
+<h2><a NAME="conclusioni">Conclusioni</a></h2>
+&nbsp;&nbsp;&nbsp;&nbsp;Questo articolo vuole essere il primo di una serie dedicata alla configurazione di Postfix come server di posta elettronica.
+In questa prima "puntata" si &egrave; trattato della configurazione di base, ma le possibilit&agrave; offerte da questo software sono decisamente 
+pi&ugrave; ampie e certamente scalabili fino alla cosiddetta fascia "enterprise": vedremo pi&ugrave; avanti come sar&agrave; possibile progettare architetture molto complesse, con un livello di scalabilit&agrave; praticamente illimitato.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Postfix nasce per essere in grado di sostituire interamente il vecchio Sendmail, pur mantenendo la compatibilit&agrave; con tutte le applicazioni ed il software di terze parti scritto originalmente per il suo predecessore (vedi, ad esempio, programmi commerciali antivirus, server POP, list manager, ecc...)<br><br>
+<hr width=70%>
+
+<h3><a NAME="A">Appendice A</a><br>
+Un po' di sicurezza</h3>
+<b>Chroot jail</b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;In estrema sintesi, una <i>chroot jail</i> &egrave; una sottodirectory entro cui viene eseguito un applicativo, che l'applicativo stesso vede
+come se fosse la root del file system. Questo implica che, in caso di un baco del programma, ogni eventuale comando che potr&agrave; essere lanciato non
+avr&agrave; modo di interagire con quanto sta al di fuori della gabbia (da qui il termine). Confinare quindi gli applicativi in una chroot jail
+risulta un ottimo metodo per aumentare la sicurezza del sistema (Bind 8.x docet).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Com'&egrave; stato gi&agrave; detto nell'articolo, il programma Postfix non &egrave; un applicativo "monolitico", ma &egrave; composto da numerosi processi semi-indipendenti: ad esempio, una volta che postfix &egrave; in esecuzione, nella lista dei processi appariranno i programmi <kbd>master, pickup</kbd> e
+<kbd>qmgr</kbd> (ed altri, a seconda che vi siano o meno messaggi da processare). In pratica, <kbd>master</kbd> si occupa di lanciare i vari sottoprocessi, i quali sono eseguiti con privilegi minimi; 
+di seguito vedremo anche come sia possibile confinarli in un ambiente
+<i>chroot'ed</i>; io consiglio vivamente di optare per questo settaggio: sappiamo che la cossiddetta "chroot jail" non &egrave; la panacea per
+tutti i problemi di sicurezza, ma vista la facilit&agrave; con cui in questo caso &egrave; possibile realizzarla, il gioco vale sicuramente la candela!<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Per prima cosa, sar&agrave; necessario editare il file di configurazione <kbd>/etc/postfix/master.cf</kbd>: esso contiene le impostazioni dei singoli processi
+che compongono Postfix; &egrave; necessario modificare in "y"  la quinta colonna (quella denominata "chroot", appunto) di ogni servizio, ad eccezione
+di <kbd>local</kbd> e <kbd>pipe</kbd>. A questo punto, baster&agrave; andare nella cartella <kbd>&lt;sorgenti-postfix&gt;/examples/chroot-setup</kbd>,
+ e lanciare lo script corrispondente alla vostra piattaforma, ad esempio "<code>LINUX2</code>" (dovete prima renderlo eseguibile, di default non lo &egrave;).
+ In pratica, lo script non fa altro che creare in <kbd>/var/spool/postfix</kbd> le directory <kbd>etc, lib</kbd> e <kbd>usr</kbd>; 
+all'interno di esse, copia i file indispensabili all'esecuzione dei processi e
+quelli relativi alle impostazioni di sistema (<kbd>localtime, resolve.conf</kbd>, ecc). Fatto questo, lo script fa ricaricare a Postfix il file di configurazione,
+e il gioco &egrave; fatto! Va solo ricordato che d'ora in poi, ogni modifica a uno dei file copiati dallo script generer&agrave; un <i>warning</i>:
+ecco ad esempio il messaggio che trovo in /var/log/maillog, se avvio postfix dopo aver aggiunto un utente:<br>
+<i>postfix-script: warning: /var/spool/postfix/etc/passwd and /etc/passwd differ</i><br>
+
+Quindi, nel caso si trovino messaggi come questo, bisogner&agrave; ricordarsi di copiare i file aggiornati nella directory corrispondente.<br>
+
+<br>
+<b>Setgid e Maildrop</b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Abbiamo visto che, all'atto dell'installazione, abbiamo optato per assegnare un gid (Grup ID) alla directory 
+<kbd>Maildrop</kbd>. Praticamente, questo significa che la directory non &egrave; world-writeable (w-w); ma a cosa serve, in effetti, questa directory? 
+Come si vede dalla figura 1, la directory <kbd>Maildrop</kbd> entra in gioco solo nel caso di invio locale di posta (cio&egrave; nel caso in cui 
+l'invio avvenga senza una connessione SMTP): l'utente in console (o in telnet) invia una mail, e questa operazione si traduce, in pratica, 
+nella scrittura di un file contenente il messaggio proprio nella directory in questione. A questo punto, il demone <kbd>pickup</kbd> preleva 
+il messaggio e lo inserisce nella coda delle mail in arrivo, pronto per essere processato.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Assegnare un GID alla <kbd>Maildrop</kbd> significa che questa non sar&agrave; pi&ugrave; scrivibile da tutti, ma solo del demone di posta: 
+&egrave; chiaro a questo punto che, al contrario di quanto accade nel caso di una directory w-w, anche gli utenti in console potranno 
+inviare posta solo a demone avviato. Perch&egrave; preferire questa scelta? Il problema
+di una <kbd>Maildrop</kbd> w-w &egrave; che un utente potrebbe creare in questa directory un link alla posta di qualcun'altro, o creare un falso messaggio
+contenente un link a file di sistema. L'eventualit&agrave; &egrave; remota (anche grazie a scrupolosi controlli della coda dei messaggi), ma possibile.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Utilizzando invece una <kbd>Maildrop</kbd> non w-w, i problemi di sicurezza sono completamente superati, per giunta senza nessun inconveniente, a
+patto di spedire sempre la posta con Postfix attivo (il che non mi sembra una limitazione troppo forte!).
+<br>
+<h3><a NAME="B">Appendice B</a><br>
+Automatizzare l'avvio di Postfix</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;Come abbiamo sperimentato, una volta compilato e installato, Postfix crea una serie di file, tra cui <code>/usr/sbin/postfix</code>. Questo eseguibile 
+ci permette di avviare ed arrestare il programma, ma molto probabilmente noi vogliamo che, all'avvio del sistema, il nostro nuovo demone 
+della posta sia avviato automaticamente! Per fare questo, basterebbe inserire il comando <code>postfix start</code> negli script di avvio, ma la 
+ritengo una soluzione veramente poco elegante <br>
+<b>Lo Zen e l'arte degli init script...</b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Se avessimo installato Postfix tramite un binario precompilato (come ad esempio l'RPM di Red Hat) avremmo trovato uno script in <kbd>/etc/init.d</kbd> 
+da utilizzare con il comando <code>chkconfig</code>; vediamone uno di esempio:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+  #!/bin/sh
+  #
+  # Script per l'avvio automatico di Postfix tramite ntsysv
+  #
+  # chkconfig: 2345 11 92 
+  #
+  # description: Script per l'avvio automatico di Postfix tramite ntsysv
+  # by Tommaso Di Donato (dido@sicurweb.com)
+  #
+  #
+ 
+  # Source 
+  . /etc/init.d/functions
+ 
+  start() {
+        action $"Starting postfix..." postfix start
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && touch /var/lock/subsys/postfix
+        return $RETVAL
+  }
+  stop() {
+        if [ -f /var/lock/subsys/postfix ]
+	then
+        action $"Stopping postfix..." postfix stop
+        RETVAL=$?
+        [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/postfix
+        return $RETVAL
+        else
+        echo Postfix is not running
+        exit 0
+        fi
+  }
+  reload() {
+        if [ ! -f /var/lock/subsys/postfix ]
+	then
+        echo Cannot reload config: postfix is not runnig...
+        exit 0
+        fi
+        action $"Reloading postfix config..." postfix reload
+        RETVAL=$?
+        [ $RETVAL -eq 0 ]
+        return $RETVAL
+  }
+  check() {
+        postfix check && \
+           success $"Checking configuration..." || \
+           failure $"Checking configuration..."
+  }
+  case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    reload)
+        reload
+        ;;
+    check)
+        check
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|reload|check}"
+        exit 1
+  esac
+ 
+  exit 0</pre></td></tr>
+</table><br>
+A questo punto, basta creare un eseguibile in <kbd>/etc/init.d</kbd> (per Red Hat, o <kbd>/etc/rc.d/init.d</kbd> per altre 
+distribuzioni), e salvarvi queste poche righe. Un unico accorgimento: affinch&egrave; Postfix si avvii correttamente, &egrave; necessario che sia gi&agrave; 
+avviato il supporto di rete! Andr&agrave; quindi modificato, alla riga 5, il numero "11" in un valore superiore a quello presente nel file 
+<kbd>/etc/init.d/network</kbd>. Una volta fatto questo, baster&agrave; utilizzare il comando<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre><code>
+  chkconfig --add postfix</code></pre></td></tr>
+</table><br>
+Fatto questo, il nostro script sar&agrave; automaticamente aggiunto alla lista dei demoni disponibili: potete verificarlo con il classico <code>ntsysv
+</code><br>
+<h3><a NAME="C">Appendice C</a><br>
+Mail server e record DNS</h3>
+&nbsp;&nbsp;&nbsp;&nbsp;Se tramite il nostro mail server inviamo un messaggio di posta ad un altro utente, anch'esso avente una mailbox sullo 
+stesso server, il recapito del mail &egrave; <i>locale</i>. Ma cosa avviene, invece, se scriviamo a un utente "remoto", ad esempio <b>
+pinco.pallino@pluto.linux.it</b>?<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Una volta che Postfix ha ricevuto il messaggio tramite connessione SMTP, ed ha verificato che il dominio <kbd>pluto.linux.it</kbd> non va considerato 
+locale (tramite il parametro <i>mydestination</i> nel file <kbd>/etc/postfix/main.cf</kbd>), il nostro server interroga il DNS (secondo quanto
+ specificato in <kbd>/etc/resolve.conf</kbd>) per ottenere una informazione <u>fondamentale</u>: qual'&egrave; il mail server principale per il 
+dominio in questione. Tralasciando i dettagli della struttura di un record DNS, possiamo dire che, affinch&eacute; un dominio (di qualsiasi livello 
+superiore al primo) possa ricevere posta, il relativo record DNS deve contenere il "parametro" <b>MX</b> (Mail eXchanger). Un server di posta 
+non fa altro che chiedere al DNS il valore MX per il dominio in questione. Vediamo in dattaglio una query DNS, tramite il comando 
+<code>dig</code>, richedendo esplicitamente solo il record MX:<br>
+<br><table width="100%" bgcolor="#e0e0e0">
+<tr><td><pre>
+# dig pluto.linux.it mx +noadditional +noauthority +nocomments +nocmd
+
+;; global options:  printcmd
+;pluto.linux.it.                        IN      MX
+<font color=091df4>pluto.linux.it.         77156   IN      MX      5 mail.pluto.linux.it.</font>
+;; Query time: 90 msec
+;; SERVER: 151.1.1.1#53(151.1.1.1)
+;; WHEN: Mon Dec 31 16:04:56 2001
+;; MSG SIZE  rcvd: 197
+</pre></td></tr>
+</table><br>
+Come possiamo vedere, <code>dig</code> ci restituisce il valore <kbd>5 mail.pluto.linux.it</kbd>: esso &egrave; proprio il server a cui il nostro Postfix
+ invier&agrave; il messaggio per l'utente <i>pinco.pallino</i>. Il numero "5" indica "l'importanza" del server: &egrave; infatti possibile avere pi&ugrave; server 
+di posta; quello col numero pi&ugrave; basso &egrave; il principale, gli altri sono considerati "di backup". In caso un server principale sia irraggiungibile, 
+tutte le mail vengono inviate al primo server di backup, che si occuper&agrave; di riconsegnarle al primario non appena questo risulti nuovamente in linea. 
+Vedremo in un prossimo articolo come si configura un server di backup.<br><br>
+<hr><br>
+<table border="1" bgcolor="#aaccff" width="100%" cellspacing="0" cellpadding="5">
+<a NAME ="biograf"></a>
+<td><h2>L'autore</h2>
+<a href="mailto:dido@sicurweb.com">Tommaso Di Donato</a> &egrave; sistemista Linux e Microsoft dal 1998; &egrave; stato dba Oracle presso la PA, nell'ambito
+del progetto di informatizzazione dei Centri Protesi INAIL in Italia.<br>
+Attualmente lavora presso un portale Internet, in qualit&agrave; di sistemista e dba; si occupa inoltre di
+sicurezza informatica e TLC per un importante gruppo industriale italiano.<br></td>
+</table>
+<br>
+<hr>
+<table border=0 cellpadding=0 width=100%>
+<tr>
+<td align=left bgcolor="#ffffff">
+<a href="apache1.html"><img alt="" src="pj_images/a_left.png" border=0></a>
+</td>
+<td align=center bgcolor="#cccccc">
+<font color="#00ff00">
+<font color="#ffff00">&lt;-</font>
+<a href="apache1.html">SL: Apache</a>
+<font color="#ffff00">-</font>
+<a href="index.html">Copertina</a>
+<font color="#ffff00">-</font>
+<a href="pjjfs.html">SL: JFS</a>
+<font color="#ffff00">-&gt;</font>
+</font>
+</td>
+<td align=right bgcolor="#ffffff">
+<a href="pjjfs.html"><img alt="" src="pj_images/a_right.png" border=0></a>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

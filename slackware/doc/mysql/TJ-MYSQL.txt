@@ -1,0 +1,36 @@
+13-nov-03
+-----------
+
+MySQL 4.016 on slack 9.1
+
+CREA UTENTE
+-----------
+/usr/sbin/groupadd mysql
+/usr/sbin/useradd mysql -g mysql -s /bin/false -d /home/mysql
+
+CONFIGURE
+----------
+cd /usr/local/src/mysql-4.0.16
+./configure --prefix=/usr \
+--localstatedir=/home/mysql/data \
+--with-mysqld-user=mysql  \
+--with-innodb
+
+COMPILA
+--------
+make
+make install
+
+
+INSTALLA
+--------
+-  /usr/bin/mysql_install_db
+
+-  chown -R mysql.mysql /mysql/data
+
+-  cp source ... /support-files/myxxx.cnf /etc/my.cnf
+
+-  cp rc.mysqld-tj in /etc/rc.d  (modificato su slack org il path mysql data)
+
+
+funzionament ok, qualche pb con webmin

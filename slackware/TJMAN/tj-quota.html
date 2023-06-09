@@ -1,0 +1,92 @@
+<!doctype html public "-//w3c//dtd html 3.2//en">
+
+<html>
+
+<head>
+<title>tj man date mar 01 2001</title>
+</head>
+
+<body bgcolor="#ffffff" text="#000000" link="#0000ff" vlink="#800080" alink="#ff0000">
+
+<table  width="100%" border="0" cellspacing="0" cellpadding="0">
+<br>
+
+	<tr>
+		<!-- re-enter -->
+		<td width=15%>
+		</td>
+		<!-- title man page -->
+		<td >
+		<font size="+4" color="#000080" face="times new roman">Implementing Quota disk</font>
+		</td>
+		<!-- Row 1 Column 3 -->
+		<td >
+			rel. gen-2011
+			<br>
+			<a href="mailto:karimlxr@gmail.com"><i>--KAR--</i></a>
+		</td>
+	</tr>
+</table>
+<hr width="95%" align=center>
+
+<br>
+<br>
+
+
+<!-- Abstract listed -->
+<h3>Definisce la quota disco utilizzabile da un gruppo utenti o singolo utente attraverso il db <code>aquota.users aquota.group</code></h3>
+<h2>Procedura di attivazione</h2>
+<ul>
+	<li> in <b><code>/etc/fstab</code></b> adding, according filesystem you chose: usrquota, grpquota like:
+        <br> <b><code>/dev/VolGroup00/LogVol00 &nbsp;&nbsp;&nbsp; /home&nbsp;&nbsp;&nbsp;&nbsp;defaults,usrquota,grpquota 1 2</code></b>
+	<br><br>
+        <li>activate your quoted filesystem without reboot like:&nbsp;&nbsp; <b><code>mount -o remount /home</code></b>
+        <br><br>
+        <li>initializing quota DB: cd on fs quoted, case home:&nbsp;&nbsp;   <code><b>quotacheck -cug /home</code></b>
+        <br><br>
+        <li> verify db creation (aquota.users aquota.group) with:&nbsp;&nbsp; <code><b>ls -al aquota.*</code></b>
+        <br><br>
+        <li>enable quota support without reboot with:&nbsp;&nbsp; <code><b>quotaon /home</code></b>
+        <br><br>
+        <li>verify if quota supporti is enabled with 'quotaon -p /home'
+        <br><br>
+</ul>
+<br>
+<br>
+
+
+<!-- Synop -->
+<h2>Quotare l'utente</h2>
+<ul>
+	<li>editing and configure quota by each user with: edquota user1
+       	<br><br>
+        <li>assign quota policies inside edquota setting warning-limits(SOFT) and panic-limits(HARD)
+        <br>
+        Cave: limits 0 = no limits will be enforced
+        <br><code>
+           limits by bit: 100M => 102.400
+                          200M => 204.800
+                          300M => 307.200
+                          400M => 409.600
+                          500M => 512.000
+          </code>
+
+        <br><br>
+        <li>etting graceful time, by days, default 7days with:&nbsp;&nbsp;&nbsp;&nbsp;  <code>edquota -f /home -t</code>
+        <br><br>
+        <li>reporting:  <code>repquota -a</code> for all filesystem,&nbsp; <code>quota user1</code> for single user
+        <br><br>
+        <li>to migrate filesystem remember to erase old <code>aquota.*</code>, repeat this setting steps quota in new filesystem
+        <br><br>
+
+</ul>
+<br>
+<br>
+
+
+
+
+
+</body>
+
+</html>

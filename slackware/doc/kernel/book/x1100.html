@@ -1,0 +1,642 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Network Utilities</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Network Configuration"
+HREF="c1063.html"><LINK
+REL="PREVIOUS"
+TITLE="Network Configuration"
+HREF="c1063.html"><LINK
+REL="NEXT"
+TITLE="The /etc files"
+HREF="x1236.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="c1063.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 5. Network Configuration</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1236.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="NETWORKUTILITIES"
+>Network Utilities</A
+></H1
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="IFCONFIG"
+>ifconfig</A
+></H2
+><P
+>Now that your kernel can talk to your network hardware, what's needed is a way
+for software to tell the kernel to pass some information along, and vice versa.
+We need to configure an interface.  We need <B
+CLASS="COMMAND"
+>ifconfig</B
+>(8).</P
+><P
+><B
+CLASS="COMMAND"
+>ifconfig</B
+> is probably best learned by example; you may want 
+to just take a look at your <TT
+CLASS="FILENAME"
+>rc.inet1</TT
+> file (covered in 
+<A
+HREF="x1284.html"
+>the section called <I
+>rc.inet1</I
+></A
+>) to see how it's done there.  The simplest and most 
+common case looks something like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>ifconfig eth0 192.168.1.10 broadcast 192.168.1.255 \
+   netmask 255.255.255.0</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This line brings up eth0 (the first ethernet interface; for token ring use
+tr0, ppp use ppp0, etc.) with an IP of 192.168.1.10, a broadcast address of
+192.168.1.255 (the entire 192.168.1 subnet) and a netmask of 255.255.255.0
+(indicating that all of the first three parts of the &#8220;dotted quad&#8221;
+of the IP address refer to the network, while all of the last part, .10, refers
+to the host).  Unless you're doing something funky, you can almost always use a
+broadcast address that's the first three parts of your IP followed by 255.
+You can also almost always use a netmask of 255.255.255.0.  If you 
+<I
+CLASS="EMPHASIS"
+>are</I
+> doing something funky, you probably know enough that 
+this part of the book isn't going to be of much use to you.</P
+><P
+><B
+CLASS="COMMAND"
+>ifconfig</B
+> can also be used just to see what's there.  Run it 
+without any options or parameters to get a listing of all of your current 
+network interfaces and their settings.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="ROUTE"
+>route</A
+></H2
+><P
+>In order to know where to send which data, the kernel maintains a routing 
+table.  I'm not going to go into much detail about it here, but you can view 
+the routing table by running <B
+CLASS="COMMAND"
+>/sbin/route</B
+>(8).  
+<TT
+CLASS="USERINPUT"
+><B
+>route -n</B
+></TT
+> will give you the table with IP addresses 
+instead of names; this is useful if you're having trouble talking to your name 
+server or if you're just not interested in the illusory world of domain names.  
+Fortunately, if you have a simple network setup (and most people do), the 2.2 
+kernels will automatically create the necessary routing table entries for you.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="NETCONFIG"
+>netconfig</A
+></H2
+><P
+><B
+CLASS="COMMAND"
+>netconfig</B
+> is part of the Slackware setup program, but like 
+most of <B
+CLASS="COMMAND"
+>setup</B
+>'s components it can be run on its own.  
+<B
+CLASS="COMMAND"
+>netconfig</B
+> is very straightforward, and will walk you through 
+setting up a basic network connection.  It's an especially good program to use 
+if you're not very familiar or comfortable with the network rc files.  When
+you run <B
+CLASS="COMMAND"
+>netconfig</B
+>, you'll be greeted with this screen:</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/netconfig.gif"></P
+></FONT
+><P
+>Next, you'll be prompted to enter the hostname and domain name of your 
+computer.  You can probably just make something up for both of these, unless
+you are setting up a server or other machine that lots of people will use.
+Then, you will be asked if you will be using a static IP, DHCP, or just 
+loopback.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/netconfig.setupip.gif"></P
+></FONT
+><P
+>If you are not going to be connected to a network, choose loopback.  If you
+are setting up a computer that will be attached to a university or large
+office network, you should most likely choose DHCP.  Otherwise, choose 
+static IP.  Unless you chose static IP, you are now done.  If you did choose
+static IP, you will now have to enter your computer's IP address, network
+mask, broadcast address, and name server address.  <B
+CLASS="COMMAND"
+>netconfig</B
+>
+will tell you how to figure out all of those numbers.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="PPPSETUP"
+>pppsetup</A
+></H2
+><P
+>Slackware includes the <B
+CLASS="COMMAND"
+>pppsetup</B
+> utility for configuring a 
+dialup connection to an ISP.  It is located in the <TT
+CLASS="FILENAME"
+>ppp.tgz</TT
+>
+package in the N software series.  <B
+CLASS="COMMAND"
+>pppsetup</B
+> uses the same 
+interface as the <B
+CLASS="COMMAND"
+>setup</B
+> program.  If you don't remember how 
+to use this interface, refer back to <A
+HREF="x209.html#SETUP"
+>the section called <I
+>The setup Program</I
+> in Chapter 3</A
+> for some 
+instructions.   <B
+CLASS="COMMAND"
+>pppsetup</B
+> asks you a series of questions and 
+sets up several configuration files in 
+<TT
+CLASS="FILENAME"
+>/etc/ppp</TT
+> for you.  As root, run 
+<B
+CLASS="COMMAND"
+>pppsetup</B
+>; we'll walk through the questions here.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.gif"></P
+></FONT
+><P
+></P
+><DL
+><DT
+>Phone number</DT
+><DD
+><P
+>The first question prompts for the phone number of your ISP, prefixed by
+the type of dialing.  For most people, you will want to use tone dialing.
+If your ISP's phone number was 555-1013 and you used tone dialing, you
+would enter <TT
+CLASS="USERINPUT"
+><B
+>atdt5551013</B
+></TT
+> into the dialog box.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.phonenumber.gif"></P
+></FONT
+><P
+>If you have call waiting on your phone line and want it disabled for when you 
+connect (probably a good idea), make sure to enter something like this 
+into the dialog box: <TT
+CLASS="USERINPUT"
+><B
+>atdt*70,5551013</B
+></TT
+></P
+><P
+>The comma is required.  It puts a 1.5 second pause between the *70 to
+disable call waiting and the ISP's phone number.  It won't work without
+the comma.</P
+></DD
+><DT
+>Modem device</DT
+><DD
+><P
+>Next, select the location of your modem.  If you know what COM device it
+was under Windows, you can select the listed equivalent.  Otherwise, you
+might have to do some experimenting.  The best course is to start at
+<TT
+CLASS="USERINPUT"
+><B
+>ttyS0</B
+></TT
+> and work your way down the list.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.modem.gif"></P
+></FONT
+></DD
+><DT
+>Modem baud rate</DT
+><DD
+><P
+>Next, pick the baud rate that's closest to your modem's.  If you don't
+know the baud rate, you could check the modem's box or any documentation
+that came with it.  Each selection has several examples, so it shouldn't
+be hard to figure out.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.baudrate.gif"></P
+></FONT
+></DD
+><DT
+>Callback</DT
+><DD
+><P
+>Now, you'll need to start referring to any information that your ISP gave
+you.  Few ISPs use callback, so you can probably safely select 
+&#8220;NO&#8221;.  Callback is where you dial up the ISP and they then call 
+you back so you can log in.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.callback.gif"></P
+></FONT
+><P
+>If you have to use callback, select &#8220;YES&#8221;.  Then, you'll be 
+prompted to enter your phone number, a login name, and a password.  You may 
+not have to enter an initial login name and password.  Finally, you'll be 
+asked what kind of authentication scheme your ISP uses.  If they use CHAP 
+or PAP, select &#8220;YES&#8221;.  Later on, you'll need to set this up.  
+Refer to the section below.  If they don't use either of those, select 
+&#8220;NO&#8221; and refer to the &#8220;Chat script&#8221; section below.</P
+></DD
+><DT
+>Modem init string</DT
+><DD
+><P
+>Unless you have a strange modem, you can probably just hit enter to select
+the default init string (&#8220;AT&amp;FH0&#8221;).  Otherwise, refer to any 
+documentation that came with your modem as to what to use for the init string.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.initstring.gif"></P
+></FONT
+></DD
+><DT
+>Domain name</DT
+><DD
+><P
+>Now, you'll need to enter the domain name of your ISP.  This will be
+something of the form &#8220;example.net&#8221;, &#8220;slackware.com&#8221;, 
+or something similar.  (Okay, it's most definitely not going to be 
+slackware.com :)</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.domain.gif"></P
+></FONT
+></DD
+><DT
+>DNS IP address</DT
+><DD
+><P
+>Your ISP should have provided you with the IP address of their nameserver.
+If you've got that IP address, punch it into the box.  Otherwise, check in
+with your ISP to see what number to use.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.dns.gif"></P
+></FONT
+></DD
+><DT
+>Authentication method</DT
+><DD
+><P
+>This question might also take some trial and error work.  You need to figure
+out if your ISP uses CHAP, PAP, or neither for user authentication.  The
+easiest way to figure this out is to call your ISP.  However, if you
+are presented with login and password prompts when you connect, you should
+most likely choose "SCRIPT".  Otherwise, check with your ISP to determine
+which one to use.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.authentication.gif"></P
+></FONT
+></DD
+><DT
+>PAP or CHAP</DT
+><DD
+><P
+>If you selected &#8220;PAP&#8221; or &#8220;CHAP&#8221; on the authentication 
+method screen, you'll be prompted to enter your username.  Your ISP should have 
+assigned you a username.  If they didn't, there is something terribly wrong.  
+You will need to contact them and get a username.</P
+><P
+>Then, you should enter the password that your ISP assigned to you in
+the next dialog box.</P
+></DD
+><DT
+>Chat script</DT
+><DD
+><P
+>If you selected &#8220;SCRIPT&#8221; on the authentication method screen, 
+you'll be presented with a fairly lengthy discussion of what a chat script is.
+Make sure to read it because it describes everything very well.  Basically, 
+you want to tell it what kind of information your ISP is going to send and
+what your computer should send back to log in.</P
+><P
+>You'll then go into a loop of entering some text for what your computer
+should expect from your ISP, followed by what information it should send
+back.  You can break this loop by hitting enter on an empty box.</P
+></DD
+><DT
+>Done</DT
+><DD
+><P
+>Finally, you'll be shown your complete ppp configuration files.  You can't
+really do anything about them, but you can at least check everything out.
+Hit enter to save everything and leave <B
+CLASS="COMMAND"
+>pppsetup</B
+>.</P
+><P
+>This screen also has a lot of information about how to bring up your
+dialup connection and how to drop it after you are done.  The
+basic idea is this: as root, run <B
+CLASS="COMMAND"
+>ppp-go</B
+> to start the 
+connection.  Once it gives you a local and remote IP, you are connected and 
+on the internet.  When you are done, run <B
+CLASS="COMMAND"
+>ppp-off</B
+> as root
+and it will drop the connection.</P
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/pppsetup.done.gif"></P
+></FONT
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="c1063.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1236.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Network Configuration</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1063.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>The /etc files</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

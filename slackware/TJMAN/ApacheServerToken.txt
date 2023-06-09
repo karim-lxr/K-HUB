@@ -1,0 +1,17 @@
+APACHE ServerTokens 2002
+****************************
+
+ServerTokens Prod[uctOnly] 
+Server sends (e.g.): Server: Apache 
+
+ServerTokens Min[imal] 
+Server sends (e.g.): Server: Apache/1.3.0 
+
+ServerTokens OS 
+Server sends (e.g.): Server: Apache/1.3.0 (Unix) 
+
+ServerTokens Full (or not specified) 
+Server sends (e.g.): Server: Apache/1.3.0 (Unix) PHP/3.0 MyMod/1.2 
+
+
+obtain info with: wget -S nomesito

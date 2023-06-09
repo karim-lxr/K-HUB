@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+	<title>postfix + TSL +  SASL</title>
+	<link rel="STYLESHEET" type="text/css" href="tjds.css">
+</head>
+
+<body>
+<h1>Postfix with SASL and TSL</h1>
+<table>
+<tr>
+    <td class="lat"><br><br><br><br><br><br><br><br></td>
+    <td>
+	
+<a href="#OVE">1. Overview</a>
+<br><br>
+<a href="#TEC">2. Tecnologie utilizzate</a>
+<br><br>
+<a href="#SAS">3. SASL - compilazione</a>
+<br><br>
+<a href="#TLS">4. TLS - integrazione</a>
+<br><br>
+<a href="#POS">5. Compilazione Postfix</a>
+<br><br>
+<a href="#CER">6. Certificati</a>	
+<br><br>
+<a href="#CON">7. Configurazioni</a>	
+<br><br>
+<a href="#RIF">8. Riferimenti</a>	
+<br><br>
+	</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="OVE">1. Overview</A></h2>
+Postfix é un MTA suddiviso in diversi programmi che svolgono una azione specifica ed un programma principale che si occupa di chiamare 
+il programma giusto quando necessario e di gestire le varie azioni. Solo il programma master necessita di privilegi 
+elevati e va lanciato da root, gli altri invece possono girare con privilegi bassi usando un utente creato appositamente.
+<br>
+Ogni programma che compone questo complesso sistema agisce in modo autonomo senza avere processi figli, 
+in questo modo si cerca di evitare relazioni tra i processi che potrebbero condizionare il comportamento dei child in caso 
+il processo genitore sia compromesso.
+<br>
+Mentre i protocolli per il mail-retriving (POP3/IMAP) obbligatoriamente autenticano l'utente, l'SMTP non prevede di default 
+procedure di autenticazione, permettendo l'invio di email ad utenti sconosciuti, inoltre per default le transazioni fra 
+MUA-MTA sono in chiaro. Utilizzando un modulo delle librerie di autenticazione SASL é possibile realizzare la procedura 
+di autenticazione, mediante la compilazione di TLS in Postfix viene cifrata la connessione proteggendo password
+e comprovando la propria identità con certificati.
+<br>
+<pre>
+- Il MUA chiede relay per l'invio a MTA
+
+- TLS risponde con certificato Server, Authority e richiesta password
+
+- MUA passa utente+password a SASL,framework autenticazione verifica
+
+- password e mail rimangono cifrate unicamente sul percorso MUA-MTA
+</pre>
+<a href="http://www.postfix.org/docs.html">http://www.postfix.org/docs.html</a>
+	</td>
+</tr>
+</table>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="TEC">2. Tecnologie utilizzate</A></h2>
+<strong>SASL</strong>
+<br>
+SASL significa 'Simple Authentication and Security Layer'. È standardizzato da IETF (Internet Engineering Taskforce). 
+SASL è utililzzato da server di rete per gestire le richieste di autenticazione dei clients.
+Dispone di 3 eseguibili: 2 per gestire l'autenticazione del database utenti tramite librerie di Berkeley,
+ed un deamon 'saslauthd' che esegue le richieste. È possibile utilizzare diversi framework (backend)  di autenticazione,
+decisi in fase di compilazione: base dati proprietaria (Berkeley DB) oppure tramite PAM a Mysql, Kerberos ecc., oppure la
+base dati di sistema <em>/etc/shadow</em> o perfino <em>/etc/passwd</em> mediante <em>saslauthd</em>.
+<br>
+<a href="http://asg.web.cmu.edu/sasl/index.html">http://asg.web.cmu.edu/sasl</a>
+<br><br>
+<strong>TLS</strong>
+<br>
+Il protocollo SSL (Secure Socket Layers) fu introdotto da Netscape poi evoluto in TLS (Transportation Layer Security) standardizzato dalla RFC2246.
+Consente la cifratura e l'autenticazione forte, intesa come 'sicurezza che le due parti comunicanti siano correttamente identificate e che
+la comunicazione non possa essere alterata'.
+<br>
+Postfix/TLS non realizza in stand-alone il protocollo TLS, ma utilizza il package OpenSSL per adempiere a questo compito.
+L'integrazione del protocollo TLS al protocollo SMTP (Simple Mail Transport Protocol) é descritto  dalla RFC2487.
+A differenza della prima concezione di SSL come contenitore di una comunicazione normale (STUNNEL) il protocollo
+TLS viene integrato completamente dentro SMTP: all'inizio della negoziazione con EHLO, il server fornisce il supporto
+TLS mediante il comando STARTTLS, a sua volta il client può rispondere ed avviare la sessione cifrata.
+<br>
+Il modulo TLS viene fornito come patch per il sorgente di Postfix, é importante ottenere la patch in versione coerente a quella
+di OpenSSL installata.
+<br>
+<a href="http://www.aet.tu-cottbus.de/personen/jaenicke/postfix_tls/">http://www.aet.tu-cottbus.de/personen/jaenicke/postfix_tls</a>
+<br><br>
+<strong>OpenSSL</strong>
+<br>
+OpenSSL è una realizzazione in forma di software libero dei protocolli SSL/TLS (Secure socket layer e Transport layer security) per
+la certificazione e la comunicazione cifrata. Inizialmente, il progetto si chiamava SSLeay, ma da quando l'autore originale lo ha 
+dovuto interrompere, questo è stato ripreso da un gruppo indipendente che lo ha ribattezzato in OpenSSL.
+Si compone di alcune librerie che permettono di incorporare le funzionalità dei protocolli SSL/TLS all'interno di programmi di 
+comunicazione, oltre a una serie di programmi di servizio per la gestione delle chiavi e dei certificati, 
+arrivando eventualmente anche alla gestione di un'autorità di certificazione<a href="http://a2.pluto.it/a2268.html#almlindex20575"><em>[1]</em></a>
+<br>
+<a href="http://www.openssl.org/">http://www.openssl.org</a>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="SAS">3. SASL - compilazione</A></h2>
+Il presente 'configure' e seguenti prevede supporto solo a saslauthd e relativa lettura degli account su /etc/shadow.
+Ragioni di compatibilità client chiedono supporto alle features <em>[ login - plain - digest ]</em>
+<br>
+<pre>
+default prefix: /usr/local, presentato quello per package build
+Slackware flavour.
+
+./configure \
+--prefix=/usr/local/src/cyrus-sasl-2.1.19/PACK/usr/local \ 
+--disable-anon \
+--disable-krb4 \
+--disable-otp \
+--disable-cram \
+--disable-gssapi \
+--disable-java \
+--enable-static \
+--enable-login \
+--enable-plain \
+--enable-digest \
+--enable-sample \
+--with-saslauthd=/var/run/saslauthd \
+--with-dblib=none \
+--without-pam \
+--with-openssl=/usr/include/openssl \
+--with-plugindir=/usr/local/lib/sasl2
+
+make
+make install
+</pre>
+Operazioni di compilazione finali:
+<br>
+<pre>cd saslauthd, make testsaslauthd ,cp testsaslauthd /usr/local/bin</pre>
+<br>
+Posizione delle librerie sovente richiesta:
+<br>
+<pre>ln -s /usr/local/lib/sasl2/ /usr/lib/sasl2</pre>
+<br>
+Configurazione framework utilizzata da postfix
+<br>
+<pre>
+echo 'pwcheck_method: saslauthd' > /usr/lib/sasl2/smtpd.conf
+chmod 640 /usr/lib/sasl2/smtpd.conf
+chown root.postfix /usr/lib/sasl2/smtpd.conf
+</pre>
+CAVE: se manca o errato non funziona l'autenticazione, senza  però msg d'errore relativi significativi.
+<br>
+Il deamon verrà attivato dal comando seguente
+<br>
+<pre>saslauthd -a shadow
+</pre>
+<br>
+Script di startup <em>/etc/rc.d/rc.saslauthd</em> Slackware flavour.
+<br>
+<pre>
+#!/bin/bash
+#
+# Cyrus startup script
+case "$1" in
+start)
+# Starting SASL saslauthdaemon 
+/usr/local/sbin/saslauthd -a shadow
+;;
+
+stop)
+# Stopping SASL saslauthdaemon
+killall saslauthd
+;;
+*)
+echo "Usage: $0 {start|stop}"
+exit 1
+;;
+esac
+</pre>
+<br>
+Da aggiungere ad /etc/rc.d/rc.inetd.2
+<br>
+<pre>
+# Start SASL (the saslauthd daemon ):
+if [ -x /etc/rc.d/rc.saslauthd ]; then
+  . /etc/rc.d/rc.saslauthd start
+fi
+</pre>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="TLS">4. TLS - integrazione</A></h2>
+Ottenibile negli addon di postfix.org, é necessario installare la patch TLS prima della creazione del makefile.
+Verificare la versione corrispondente di OpenSSL
+<br>
+Decomprimere la patch 'pfixtls.diff' nella src di postfix
+<br>
+<pre> patch -p1 < pfixtls.dif</pre>
+L'opzione di default prevede 'patch -p0', ma possibili problemi possono nascere da una numerazione di versione superiore del 
+sorgente Postfix.
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="POS">5. Compilazione Postfix</A></h2>
+Compilazione Posfix con abilitazione TLS e SASL su Slack 10, gcc 2.3.4, causa linker, 
+le opzioni -R -rpath, previste di default, non vengono riconosciute, workaround: '<em>-Wl,-rpath,</em>'
+CAVE: ai blank non richiesti, generano fastidiosi errori
+<br>
+<pre>
+make makefiles \
+CCARGS=" -DUSE_SASL_AUTH -DUSE_SSL \
+-I/usr/local/include/sasl -I/usr/include/openssl" \
+AUXLIBS="-L/usr/lib -Wl,-rpath,/usr/lib -lssl -lcrypto \
+ -L/usr/local/lib -lsasl2 -Wl,-rpath,/usr/local/lib"
+ 
+ make
+
+ make install 
+ chiederà path di installazione
+
+</pre>
+<br>
+Creazione dei diritti di accesso Postix: l'installer di Slackware esegue per voi l'operazione
+<pre>
+      prompt:~ #    groupadd postfix
+      prompt:~ #    groupadd postdrop
+      prompt:~ #    adduser postfix
+</pre>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="CER">6. Certificati</A></h2>
+generazione semplice, solo cifratura, fake-identity con l'utility OpenSSL: <em>CA.pl</em>
+<br>
+<pre>
+CA.pl -newca		#Crea l'authorithy e la dir demoCA
+
+openssl req -new -nodes -keyout mailkey.pem \
+-out mailreq.pem -days 365
+
+openssl ca -out mail_signed_cert.pem -infiles mailreq.pem 
+
+</pre>
+in <em>/etc/postfix</em> sono necessari 3 certificati in formato .pem:
+<br>
+<pre>
+- cacert.pem            # Certification Authority del server
+- mailkey.pem           # Chiave privata (chown root e chmod 400)
+- mail_signed_cert.pem  # Chiave firmata, pubblica rilasciata ai client
+</pre>
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="CON">7. Configurazioni</A></h2>
+Minima configurazione Postfix <em>/etc/postfix/main.cf</em> necessaria al sistema SASL/TLS
+<br>
+Postfix generico, senza relay, rete privata
+<pre>
+# layout SLACKWARE (da adattare)
+queue_directory = /var/spool/postfix
+daemon_directory = /usr/libexec/postfix
+mail_owner = postfix
+myorigin = $myhostname
+inet_interfaces = all
+mydestination = $myhostname, localhost.$mydomain, localhost
+mynetworks = 127.0.0.0/8, 192.168.1.0/24
+alias_database = hash:/etc/aliases
+sender_canonical_maps = hash:$ /etc/sender_canonical
+smtpd_banner = $myhostname ESMTP $mail_name (Slackware/GNU)
+</pre>
+<br>
+Gestione Aliases
+<br><br>
+Il file <em>/etc/postfix/aliases</em>, Contiene la mappatura di un un utente di posta elettronica
+ con un utente di sistema.
+ Questo importante per 2 motivi: è fondamentale che esistano gli alias per l'utente postfix,per il 
+ corretto funzionamento, e per root, sarebbe preferibile non ricevesse mail direttamente). 
+Il secondo motivo é dato  dall'esistenza di alcuni account di ruolo che vanno creati nel rispetto 
+della netiquette, ad esempio postmaster, info, abuse, ecc; dal momento che, nella pratica, spesso 
+è un solo utente a svolgere le funzioni, è possibile fare in modo che le relative e-mail vengano 
+automaticamente girate nella mailbox dell'utente.
+ <br>
+<em>etc/postfix/aliases</em> conterrà quindi le voci: 
+<pre>
+  postmaster:   tom
+  abuse:        tom
+  info:	        tom
+  postfix:      root
+  root:	        tom
+ </pre>
+È possibile utilizzare anche alias ricorsivi (Postfix->root->tom).Bisognerà utilizzare il comando 
+<em>/usr/bin/newaliases</em> per rendere effettive le modifiche con conseguente creazione 
+del file aliases.db. 
+<br>
+Per far corrispondere gli indirizzi email agli utenti locali postfix utilizza il 
+file <em>sender_canonical</em> per riscrivere gli indirizzi in uscita, che contiene gli indirizzi 
+che verranno inseriti nel campo from per ogni utente al posto di utente@vostra.macchina
+
+<pre>
+# Synopsis sender_canonical
+
+root    tom@domain.top
+mark    tom@domain.top
+tom     tom@domain.top
+</pre>
+Utilizzando il comando <em>postmap /etc/postfix/sender_canonical</em> verranno rese effettive 
+le modifiche con conseguente creazione del file sender_canonical.db. 
+<br><br>
+Aggiunta SASL
+<pre>
+# SASL
+smtpd_sasl_auth_enable = yes
+broken_sasl_auth_clients = yes
+smtpd_sasl_security_options = noanonymous
+smtpd_recipient_restrictions = permit_mynetworks, permit_sasl_authenticated,reject_unauth_destination
+
+</pre> 
+<br>
+Aggiunta TLS con posizione certificati
+<pre>
+# TLS
+smtpd_use_tls = yes
+smtpd_tls_key_file = /etc/postfix/mailkey.pem
+smtpd_tls_cert_file = /etc/postfix/mail_signed_cert.pem
+smtpd_tls_CAfile = /etc/postfix/cacert.pem
+
+</pre>
+Dopo ogni modifica dovete riavviare postfix con <em>postfix reload</em>.
+</td>
+</tr>
+</table>
+<br><br>
+<table>
+<tr>
+    <td width="50"></td>
+    <td>
+<h2><A NAME="RIF">8. Riferimenti</A></h2>
+<ul type="square">
+<li><a href="http://www.faqs.org/rfcs/rfc2246.html">RFC 2246</a> TLS Protocol</li>
+<li><a href="http://www.faqs.org/rfcs/rfc2487.html">RFC 2487</a> SMTP Service Extension for Secure SMTP over TLS</li> 
+<li><a href="http://www.pluto.linux.it/journal/pj0201/postfix.html">Pluto journal</a></li> Nr. 35 - Gennaio 2002
+<li><a href="http://girafon.org/~code34/index.php/2004/03/30/20-SlackwareInstallerPostfixEtLeSmtpAuthCyrusSasl2">Slackware:</a> installer postfix, et le smtp auth: Cyrus Sasl 2</li>
+<li><a href="http://postfix.state-of-mind.de/patrick.koetter/smtpauth/">Postfix SMTP</a> AUTH (and TLS) HOWTO</li>
+<li><a href="http://www.aet.tu-cottbus.de/personen/jaenicke/postfix_tls/">Postfix/TLS</a> a TLS extension for POSTFIX</li>
+<li><a href="http://www.aet.tu-cottbus.de/personen/jaenicke/pfixtls/doc/myownca.html">Postfix/TLS</a> Lutz's very short course on being your own CA</li>
+<li><a href="http://www.tldp.org/HOWTO/Postfix-Cyrus-Web-cyradm-HOWTO/">Postfix</a>-Cyrus-Web-cyradm-HOWTO</li>
+<li><a href="http://a2.pluto.it/a2592.html#almlindex35674">Appunti di informatica libera</a> 2004 08 30</li>
+</ul>
+</td>
+</tr>
+</table>
+<br><br>
+<h3>Last - karim - 13 aug 04</h3>
+</body>
+</html>

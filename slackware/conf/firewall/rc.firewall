@@ -1,0 +1,28 @@
+#!/bin/bash
+# change to your internet access device:
+#IFACE="ppp0"
+#IFACE="eth0"
+IFACE="eth1"
+case $IFACE in
+ppp0)
+IFACEIP=`getppp0`
+;;
+eth0)
+IFACEIP=`geteth0`
+;;
+eth1)
+IFACEIP=172.18.12.1
+;;
+esac
+# Flush any previous rules
+iptables -F; iptables -t nat -F; iptables -t mangle -F
+# Change packet addresses to the internet address
+iptables -t nat -A POSTROUTING -o $IFACE -j SNAT --to $IFACEIP
+# Accept packets from established or related connections.
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+# Accept all new connections other than from the internet interface
+iptables -A INPUT -m state --state NEW -i ! $IFACE -j ACCEPT
+# If they were not accepted from above rules, drop them.
+iptables -P INPUT DROP
+# Don't forward any packets from the internet to the internet
+iptables -A FORWARD -i $IFACE -o $IFACE -j REJECT

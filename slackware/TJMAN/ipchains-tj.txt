@@ -1,0 +1,65 @@
+ipchains per kernel 2.2  - 9-set-01 -
+
+scopo delle policies è ottenere il masquerading della rete interna,
+tutti possono uscire, in entrata permesso solo ftp causa modalità attiva.
+/etc/ipchains.rules contiene le regole salvate con
+
+ipchains-save > /etc/ipchains.rules
+
+in manuale possono essere ripristinate con 
+
+ipchains-restore < /etc/ipchains.rules
+---------------------------------------------
+oppure ripristino di boot con lo script
+
+/etc/init.d packetfilter
+
+linkato simblicamente in 
+rc2.d et rc3.d 
+ln -s S05packetfilter ../packetfilter
+
+per ftp in modalità attiva bisogna inserire il modulo
+
+modprobe ip_masq_ftp
+
+per l'avvio automatizzato, in fondo a /etc/module.conf inserire
+
+/////////////////////////// module.conf//////
+# aggiunto modulo ip_mask_ftp.o per necessità ipchains
+ alias ip_mask_ftp	  ip_mask_ftp		
+#end insert 23.07.01
+//////////////////////////////////////////////
+
+----------------------------------
+definizione delle rules:
+..................................
+comandi ipchains
+ 
+-P imposta regola base
+
+-A aggiunge regola
+
+-D la elimina per numero
+
+-F elimina tutte
+
+-L le elenca
+
+-M -L visualizza le connessioni in masquerading
+......................................
+commutatori ipchains
+....................................
+
+-p protocollo
+
+-s indirizzi in provenienza [sources]
+
+-d indirizzi interni [destination]
+
+-i interfaccia di rete [eth1 , ppp0]
+
+-j target [ACCEPT,DENY, MASQ]
+
+..........................................
+esempi di impostazione
+........................................

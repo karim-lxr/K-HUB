@@ -1,0 +1,821 @@
+swaret - ChangeLog
+--------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------
+RELEASE DATE: Tuesday, 24th February, 2004 - 7:00 AM
+--------------------------------------------------------------------------------------
+Version 1.6.2
+-------------------
+#1 - Fixed: GPG check (thanks Peter Chou!)
+#2 - Fixed: swaret Slackware Package - Install Script.  Now removes old .cache files
+#3 - Fixed: swaret --set ROOT or REPOS_ROOT now works (adds, does not change)
+#4 - Fixed: FILELIST.TXT changed, so internal code has been changed to reflect this 
+- Added: swaret.lang.ARABIC 
+
+--------------------------------------------------------------------------------------
+RELEASE DATE: Tuesday, 17th February, 2004 - 7:00 AM
+--------------------------------------------------------------------------------------
+Version 1.6.1
+-------------------
+- Fixed: --get -s
+- Fixed: --dep KEYWORD
+- Fixed: User input with Manual mode must be either one of the choices, or <enter> for
+         default.
+- Fixed: --extra action.
+- Fixed: swaret Slackware Package - Install Script.  Moving of swaret.lang.LANGUAGE file
+         removed.
+- Updated: --update (Tweaks)
+- Updated: Dependency Support
+- Updated: --update ; swaret will first Fetch the CHECKSUMS.md5 List File, and will
+           check out wether the other cached List Files are up-to-date are not.
+           This way, swaret will work MUCH faster ;-)
+- Updated: Dependency Support ; swaret will Fetch from now on also the Libraries List
+           on Repositories created with 'swaret-tools'. By this way, we do not need
+           to Download the MANIFEST.bz2 File (Libraries Package) to attach Libraries
+           to Package Names. And if swaret fails with Fetching the Libraries List on
+           any Repository, it will still try to Fetch the Libraries Package.
+- Updated: (/etc/swaret.conf.new) swaret.conf 
+- Updated: (/usr/doc/swaret-1.6.1/HELP) HELP
+- Updated: (/usr/doc/swaret-1.6.1/HOW-TO-USE-SWARET/htus.LANGUAGE) htus.ENGLISH 
+- Updated: (/usr/doc/swaret-1.6.1/README) README
+- Updated: (/usr/man/man8/swaret.8.gz) swaret(8)
+- Updated: (/usr/man/man5/swaret.conf.5.gz) swaret.conf(5)
+- Updated: (/usr/doc/swaret-1.6.1/TODO) TODO
+- Updated: All Language Files found in: /usr/share/swaret-1.6.1
+- Added: --extra -u get ; With this new option for the --extra action you can
+         now get Packages matching Package Names found in any file created with: 
+         --extra -u save
+- Added: Several Language Files:
+         htus.POLISH
+         swaret.lang.BULGARIAN
+         swaret.lang.ESPANOL_MX
+	 swaret.lang.LITHUANIAN
+         swaret.lang.MALAY
+         swaret.lang.POLISH
+	 swaret.lang.PORTUGUES_BR
+         swaret.lang.SLOVAK
+- Added: --compile ; This option is marked *Experimental*.  The download engine for 
+         source code and buildscripts will be rewritten in the next major release.
+
+- Rewritten: swaret(8)
+- Bug Fixes - I think we got all of them. ;-) 
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Friday, 28th November, 2003 - 11:00 PM
+--------------------------------------------------------------------------------------
+Version 1.6.0
+-------------
+#5 - Updated: swaret(8)
+#5 - Fixed: --faq and --htus actions
+#5 - Fixed: Language File: swaret.lang.FRANCAIS
+#5 - Added: Language File: swaret.lang.ESPANOL_MX
+#4 - Fixed: Progress routine.
+#4 - Fixed: --update action.
+#3 - Fixed: Permissions (IMPORTANT)
+#3 - Fixed: List Routine for different Versions of Packages (everywhere)
+#2 - Fixed: Manual Upgrade.
+#2 - Fixed: *create*list* Functions using USEPKGDESC Variable
+            (parsing Package Descriptions)
+- Updated: --update action.
+- Updated: -a option has been re-activated to work from now on
+           with Official and/or Unofficial Slackware Packages.
+- Updated: GPG Support
+- Updated: MD5 Support
+- Updated: FAQ (--faq [KEYWORD])
+- Updated: HOW-TO-USE-SWARET (--htus [KEYWORD])
+- Updated: --extra action. swaret will first start the --update (Update) action,
+           and will continue with the 'extra' option.
+- Updated: Version Checking, should work better then ever before.
+           For the 101th time, version checking cannot work for 100%,
+           since Versions of Packages know a big variation.
+- Updated: --set action.
+           It is now possible, to set ROOT=0 which will disable the ROOT Variables,
+           and when you set ROOT back to 1, all ROOT Variables are ready to be used.
+           You can also disable an individual ROOT Variable.
+           For more information... just use: 'swaret --set' and press ENTER.
+- Updated: Extended REGEXP (Everywhere)
+- Updated: Manual Mode: (y/n) is now: (y/n/A/Q): - y for yes
+                                                 - n for no
+                                                 - A for ALL
+                                                 - Q for QUIT
+- Added: Several Language Files:
+         swaret.lang.CZECH
+         swaret.lang.DANSK
+         swaret.lang.DEUTSCH
+         swaret.lang.ENGLISH
+         swaret.lang.ENGLISH_GB
+         swaret.lang.ESPANOL
+         swaret.lang.FRANCAIS
+         swaret.lang.ITALIANO
+         swaret.lang.NEDERLANDS
+         swaret.lang.NORSK
+         swaret.lang.PORTUGUES
+         swaret.lang.RUSSIAN.cp1251
+         swaret.lang.RUSSIAN.koi8r
+- Removed: --libmaker, --repos and --mirror actions. 
+           You should use 'swaret-tools' for this. 
+           Get swaret-tools at http://www.swaret.org ;-)
+- Fixed: --faq, --htus, ...
+- Fixed: --extra action
+- Fixed: Dependency Check after Upgrading...
+- Fixed: Download Counter when using Repository Packages.
+- Code Cleanup & Review & Tweaking
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Thursday, 21th November, 2003 - 4:00 PM
+--------------------------------------------------------------------------------------
+Version 1.4.0
+-------------
+#3 - Fixed: Patches Support thanks to street-tv.
+#2 - Fixed: Upgrade Engine (Comparisations between Official and Unofficial Packages)
+            Please, remember that version checking is not working 100%, and neither
+            in other package tools, because people use all kind of weird versions,
+            and it's difficult to figure out wether its greater or lesser.
+            If swaret says: 'up-to-date' and you are sure there is a new version
+            out there for a Package, just --get the Package and upgradepkg manually.
+            I don't want people to have Downgrade problems, so this is the best way.
+#2 - Fixed: Dependency Support, skipping Packages
+- Updated: /etc/swaret.conf.new - PLEASE, USE THIS ONE! ;-)
+- Updated: swaret.conf(5) & swaret(8) Manuals
+- Updated: HELP
+- Updated: TODO
+- Updated: README
+- Updated: FAQ
+- Updated: HOW-TO-USE-SWARET
+- Updated: LinuxPackages DOT NET (http://www.linuxpackages.net)
+           is now ready with Packages for Slackware 8.1 and Higher
+           to be used with swaret using Repository Support and
+           also Dependency Support.
+- Updated: Upgrade Engine. Slackware Package Version Checker.
+- Updated: --faq action. Provide a Keyword to Search for Q&A.
+- Updated: --htus action. Provide a Keyword to Search for Examples.
+- Updated: Advanced REGEXP Support for all actions matching a Keyword!
+- Updated: Dependency Support. If the Libraries Package is not up-to-date,
+           swaret will download it again, else if its up-to-date, swaret
+           swaret use the locally cache Libraries Package.
+           The Repository you are using must have a correct FILELIST.TXT
+           List File for realizing.
+- Added: Internationalization (i18n) Support. 
+         Language Files can be copied from /usr/share/swaret-VERSION
+         to /etc/swaret.lang, and start using swaret.
+         If your Language (File) is not available, you can always take
+         a look on the swaret Site at http://www.swaret.org/?menu=i18n
+- Added: Language Files: - swaret.lang.ENGLISH (default)
+                         - swaret.lang.NEDERLANDS
+                         - swaret.lang.FRANCAIS
+                         - swaret.lang.DEUTSCH
+                         - swaret.lang.NORSK
+         Copy /usr/share/swaret-1.4.0/swaret.lang.LANGUAGE to /etc/swaret.lang,
+         and start using swaret.
+- Added: Repository Support, Check latest Questions in F.A.Q. (--faq) 
+         how to use a Remote Repository or a Local Repository.
+         swaret now also works with LinuxPackages DOT NET,
+         with Dependency Support!
+- Added: GPG Support for Repository Packages. Consult F.A.Q. (--faq gpg)
+- Added: Dependency Support for Repository Support.
+- Added: --extra action. Execute the Command: 'swaret --extra', and watch
+         out what swaret can do for you. Save Upgrade List to a File, and
+         Mail the Upgrade List. You can also request 'Extra Commands'
+         which can be implemented in future swaret Versions.
+         Check out the swaret Forum, http://www.swaret.org
+- Added: -u and -au option to the --get action.
+         Get available Packages to Upgrade
+- Added: --check action. Check if swaret is up-to-date.
+         This does not work with prerelease versions!
+- Added: USEPKGDESC Variable to swaret.conf.new
+         If set to 1, swaret will also match Packages whose Description
+         is matching the Keyword you specify after --ACTION.
+         NOTE: swaret will parse all the Package Descriptions for this,
+               and might slow down swaret when using an older System.
+- Removed: DESCRIPTIONS Variable (Descriptions will be fetched when using --update).
+           REVERSEP Variable (swaret will use the ROOT, REPOS_ROOT and DEP_ROOT
+                              Variables by the order found in /etc/swaret.conf).
+           DEP_UPGRADE, DEP_INSTALL and DEP_REINSTALL Variables. swaret will
+           find out wether to Install a new Package, to Re-Install an installed
+           Packages or to Upgrade a Package.
+- Removed: --pgp is now --gpg, and we talk now about GPG and not PGP anymore ;-)
+- Removed: --clear [-l] (Clear Log File) is now --log -c
+- Removed: exclude -gen (Generate Exclude Files), swaret will figure out wether
+           you've made changes to the EXCLUDE Variable(s) in /etc/swaret.conf
+           and start the Exclude function to do it ;-)
+- Rewritten: Dependency Support.
+- Code Review & Tweaks & Cleanup
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Thursday, 30th October, 2003 - 2:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.3.4
+--------------
+#7 - Updated: FAQ (--faq), Questions 8 & 9.
+#7 - Fixed: MAJOR Bug in the PGP Support.
+            (Bug Report by: heguita <higuita@gmx.net>)
+#7 - Fixed: Removed Version Check (which doesnt work properly) from Upgrade Engine,
+            and added a better solution. Downgrade situations can happen when the
+            Slackware distro needs a rollback for some Package, or if you have
+            created your own package (you need to Exclude it in /etc/swaret.conf,
+            by adding -*YOURNAME$ in one of the Exclude Vars), 
+            or you are not using up-to-date Slackware Linux Mirrors.
+#7 - Fixed: Patches Support (Everywhere)
+#7 - Fixed: All kind of little issues
+#6 - Fixed: Package
+#5 - Fixed: RSYNC Bug in update_lists()
+#5 - Updated: Listing Packages/Patches/Sources works much faster now.
+              (--list and --search actions)
+#5 - Updated: Every time you use any actions, swaret will clean up the Packages Cache
+              Directory, so you can get a better view to the Packages found in there,
+              instead of viewing all the garbage swaret has collected to use actions.
+#5 - Updated: Upgrade Engine Supports now Version Checking (it doesnt work 100%, but
+              should work on allmost all Packages). Packages with weird Versions will
+              never get Upgraded, unless you check the ChangeLog yourself.
+              I don't want people to complain about Downgrade 'issues', so I made
+              a Version Check in swaret to satisfy all people using swaret.
+              So remember, if you are sure there are new Versions of some Packages
+              out there, viewed with --changelog, you can --remove the previous
+              Version and --install the new Version of these Packages.
+              Version Check should be a better way, Downgrading stuff *NOT*.
+              As I said before, nobody can make a perfect Version Checker 
+              for Slackware Packages, because the Versions know a great Variation.
+#5 - Note 1:  I've done a fast review of the full swaret code, and looks good now.
+#5 - Note 2:  This is the last buildfix for swaret 134, it has been tested, and should
+              be stable enough. I'll release in the coming days the Repository Support
+              test Versions of swaret. With Repository Support, you can Download and
+              Install Packages from www.linuxpackages.net, and other.
+- Changes: swaret has been completely rewritten, reviewed and debugged.
+           swaret 1.3.4 contains the 'fundamental' code for the Repository Support.
+           ---------------------------------------------------------------------------
+           The upcoming (very soon) swaret test versions with Repository Support,
+           will be able to Download Packages from www.slackwarepackages.net and other.
+           (Packages like: mplayer, firebird, and more).
+           It will also be possible to create your own Slackware Tree with Packages,
+           and tell swaret to use it. There will be only one --install action for all.
+           Please, visit www.swaret.org regularly, to check out for a test version.
+           ---------------------------------------------------------------------------
+           swaret has now about +/- 6500 lines instead of the previous 10.000 lines.
+           It works much faster in comparisation with previous swaret Versions.
+- Fixed: Bug in LibMaker.
+- Fixed: Bug in libraries_create() Function.
+- Fixed: Bugs in update_*lists*() Functions.
+- Fixed: Bug in Resume Support
+- Fixed: Bug in Sources Procedure
+- Updated: Install Procedures (check for previous pkg version)
+- Updated: swaret.conf.new (/usr/doc/swaret-1.3.4/swaret.conf.new)
+           swaret.conf.new MUST be used for this Version, 
+           because I removed lots of Variables which are not usable anymore.
+           Check it out ;-)
+- Updated: FAQ (/usr/doc/swaret-1.3.4/FAQ)
+- Updated: HOW-TO-USE-SWARET (/usr/doc/swaret-1.3.4/HOW-TO-USE-SWARET)
+- Updated: README (/usr/doc/swaret-1.3.4/README)
+- Updated: --download is now --get.
+- Updated: Exclude Method.
+- Updated: Upgrade Engine, which parses also the ChangeLog for the Latest Packages.
+           The parsing is needed for some Security Reasons.
+           If you had previously problems with 'up-to-date' Packages, and you were
+           sure there was a new Version of a Package out there, 
+           then you got lucky from now on, because the Updated Upgrade Engine
+           should solve these Problems ;-)
+- Updated: All the *-all actions have been removed, 
+           it works now with one simple command.
+           Upgrade all Packages automatically will be: swaret --upgrade -a.
+           Install (or try to Upgrade) Patches: swaret --install -ap.
+           If you don't supply a Keyword to some action, 
+           it will be applied on all Packages, Patches or Sources.
+- Added: REGEXP Support for all actions.
+         If you want to Search for KDE Packages, matching the NL Language,
+         use: swaret --search kde.*nl.*, simple as that!
+         A simple Pattern like: swaret --search kde, is also enough.
+         Search on Google how to use REGEXP.
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Thursday, 16th October, 2003 - 1:00 AM
+--------------------------------------------------------------------------------------
+Version: 1.3.3
+--------------
+- Updated: swaret.conf.new! Please use this new Config File, it contains
+           exclude keywords like '-*dl' for Dropline Gnome Packages,
+           kernel, lilo and more.
+- Updated: FAQ
+- Updated: HOW-TO-USE-SWARET
+- Added: DSEARCHM Variable in /etc/swaret.conf,
+         This Variable is only used in the Dependency Check when DSEARCHLIB set to 1
+         which will allow swaret to Search for missing Libraries
+         on your Slackware System, Search can be done either by find or slocate.
+         That's why you can set DSEARCHM to 0 or 1. Check swaret.conf for more info.
+         Set to 1, if you want swaret to use the 'slocate' program
+         to Search for missing Libraries. If set to 0, swaret will
+         use the 'find' program to locate missing Libraries.
+- Added: -v option to the purge action
+         Purge all Packages/Patches/Extra Packages Versions
+         in Cache Directory (default: /var/swaret)
+         but keep the most recent Version
+- Added: Exclude and Keep, implemented in Exclude Method,
+         For Example:
+         EXCLUDE=kernel[kernel-sources,kernel-headers] xfree[docs] 
+         EXCLUDE=kde-i18n[nl,en] koffice-i18n[nl,en]
+         Exclude Kernel, and keep Kernel Sources and Kernel Headers
+         Exclude XFree, and keep XFree docs
+         Exclude kde-i18n and keep nl/en versions
+         Exclude koffice-i18n and keep nl/en versions 
+- Added: set action to set Variables in /etc/swaret.conf using commandline.
+         For example: swaret --set DEPENDENCY=0
+         If you use the command swaret --set, its also possible 
+         to get the Full List of Variables set in /etc/swaret.conf!
+- Added: li-all (List All) and --se-all (Search All) actions  
+         for Packages/Patches/Extra Packages/Sources
+         applicable on the following options: - show available
+                                              - show none installed 
+			                      - show ready for upgrade
+- Added: sh-all (Show All Descriptions) action for Packages/Patches/Extra Packages
+- Added: Multiple Keywords using a command (,)
+         For example: swaret --install gnome,kde,xfree86 -a
+- Added: Slackware Map(s) as Keyword,
+         For example: - swaret --upgrade a/,ap/,xap/
+                      - swaret --install gnome/ 
+                      - swaret --do-all n/ -a
+- Added: exclude action (-on|-off|-gen)
+         Choose wether you want to use EXCLUDE method or not.
+         Else you need to comment the EXCLUDE Variables manually.
+         You need also regenerate (-gen) the Exclude List everytime
+         you've made changes to the EXCLUDE Variables in swaret.conf.
+         Check FAQ and HOW-TO-USE-SWARET about EXCLUDE.
+- Added: REVERSEP Variable in swaret.conf.
+         First use http/ftp/rsync Protocols and then file Protocol,
+         and same for the reverse direction ;-)
+         Lets say you got a Slackware CD-ROM mounted on /mnt/cdrom 
+         (also added to swaret.conf as: ROOT=file:/mnt/cdrom)
+         and you have also http/ftp/rsync Mirrors set,
+         you have to change REVERSEP to 1 in swaret.conf so swaret
+         will first take a look on your CD-ROM and then on the http/ftp/rsync
+         Slackware Linux Mirrors. If you want first use http/ftp/rsync and 
+         then file, set REVERSEP to 0 (default).
+- Changed: DINTERFACE has been renamed to PROGRESS in /etc/swaret.conf
+           The progress bar is also a little bit longer then before.
+- Rewritten: Upgrade engine, WORKS FASTER >3< TIMES FASTER! =)
+- Rewritten: Exclude Method, it works now on all features, 
+             also --list and --search ;-)
+- Removed: ONLY and IMPORTANT feature (*broken*)
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Sunday, 12th October, 2003 - 9:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.3.2
+--------------
+- Added: DINTERFACE can now be changed to 0, 1 and 2.
+         If set to 0, swaret will use the '%' Download Interface
+         (Example: --- [*****     ] 53%/100% [TOTAL: 1%/100%])
+         If set to 1, swaret will use the 'size' Download Interface
+         (Example: --- 1119 kB/1346 kB [TOTAL: 1119 kB/47748 kB] ~ 64 kB/s)
+         If set to 2, swaret will use the 'wget/rsync' Download Interface
+- Added: swaret can work on Slackware based Linux distributions.
+- Added: file & http & ftp & rsync Protocol can now work together.
+	 (Requested by: Mark <mark@givemehelp.co.uk>)
+- Added: EXCLUDE works now on all actions,
+         except list, search and show actions, useless
+- Added: Case Insensitive everywhere.
+- Added: DSEARCHLIB Variable in /etc/swaret.conf.
+         Set to 1 if you want swaret to Search for missing Libraries
+         which could be found on your System, but not tracked by ldconfig.
+	 If swaret doesn't find the missing Libraries,
+         you will need to Search them manually somewhere on the Internet. 
+- Added: WGET_PROXY Variable in /etc/swaret.conf,
+         you won't need to edit /etc/wgetrc anymore! ;-)
+- Added: smirror action to create a Slackware Linux (whatever version) 
+         Mirror using rsync.
+- Added: libmaker action to create the Libraries List.
+- Added: Libraries Creation by Dependency Check.
+         swaret can create the Libraries List itself.
+         Clear all DEP_ROOT Variable(s) and swaret will
+         create it during Dependency Check using
+         the defined ROOT Variable(s) in /etc/swaret.conf.
+         If the DEP_ROOT Variable(s) are defined,
+         swaret will Fetch or Copy the Libraries List.
+         If you want to create the Libraries List yourself,
+         use 'swaret --libmaker'. You can also clear all
+         DEP_ROOT Variable(s), swaret will create it for
+         you during Dependency Check using the defined
+         ROOT Variable(s) found in /etc/swaret.conf.
+- Added: ftp://ftp.swaret.org as DEP_ROOT Mirror for Dependency Check
+- Added: Install/Re-Install/Download/Sources/... 
+         Files with one Command using a point (.) as Keyword!
+         Example: Install ALL Patches manually:
+                  swaret --install . -p
+	 Example: Install ALL Packages, Patches & Extra Packages automatically:
+                  swaret --in-all . -a
+- Added: OVERALL (Total Progress) Counter.
+         (Suggested by: cahe)
+- Added: --purge action to purge/clean Files. You can also Purge Files
+         which are more then # Days or Weeks old.
+         (Suggested by: khujo <james@grickle.org>)
+- Added: --changelog action to Fetch or Copy the Latest ChangeLog!
+- Added: DESCRIPTIONS Variable in swaret.conf to Fetch Descriptions
+- Added: switches added to the show action to show available Descriptions
+         (Packages, Patches, Extra Packages Descriptions)
+- Added: RANDOMR Variable in swaret.conf to randomize 
+         the ROOT and DEP_ROOT Mirrors
+         (Suggested by: kyotou <kyotou@jpchat.net>)
+- Rewritten: Upgrade Support in Dependency Check
+- Rewritten: Log Support EVERYWHERE (Log File: /var/log/swaret)
+- Removed: --clean action. (--purge is the replacement for it.)
+- Removed: duplicated functions/routines have been removed. 
+  swaret has now +/- 9500 lines instead of 11000 lines ;-)
+- Fixed: rsync Support (everywhere).
+         (Bug Report by: Mellen)
+- Fixed: purge action
+- Updated: -A is now -a for ALL actions.
+- Updated: Dependency Support
+  (swaret --faq and swaret --htus for more information)
+- Updated - Rewritten: HOW-TO-USE-SWARET (--htus)
+- Updated - Rewritten: FAQ (--faq)
+- Updated: swaret.conf!
+- Updated: man swaret && man swaret.conf
+- Other little back-end Changes
+- swaret has been optimized and works faster then before.
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Thursday, 25th September, 2003 - 11:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.3.1
+--------------
+- Added: Show size new Package(s) during creation of Upgrade/Install/Download List.
+- Added: SlackBuild script will be downloaded when you download Sources.
+- Added: Local Files Support for Download action.
+- Downloads are from now on available in SWARET_CACHED_DIR/downloads,
+  Sources+Build Scripts in SWARET_CACHED_DIR/sources and cache files,
+  fetched by Upgrade/Install/Dependency Check are available in SWARET_CACHED_DIR/.
+- Added: show action to see Descriptions of installed Packages,...
+- Fixed: doinst.sh script in swaret Slackware Package.
+- Fixed: Bug in the reinstall action.
+- Fixed: CPU 'eating' problem.
+- Fixed: Local Files Support (everywhere)
+- Removed: check action.
+- Removed: Bad Mirror feature.
+- Added: version action
+- Fixed: Install/Re-Install/Upgrade Bug in Dependency Routines
+- Fixed: Bug in sources action
+- Updated: swaret.conf
+- Updated: FAQ (Check out the Q&A about CD-ROM, NFS or Samba Support)
+- Updated: HOW-TO-USE-SWARET
+- Repeating code has been put in functions.
+- Full Code review (ouch! +/- 11.000 lines :P) + Rewrite + Fixes.
+- Other little changes have been done.
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Sunday, 14th September, 2003 - 5:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.3.0
+--------------
+- Merged swaret.important, swaret.only and swaret.exclude File into swaret.conf.
+  Check man swaret.conf or swaret --manual -c for more information.
+- Added: PACKAGES_LOGDIR, REMOVED_PACKAGES_LOGDIR and FORCE_PATH Variables
+  in swaret.conf. If you have a Slackware alike distribution and using the
+  Slackware Package Scheme, you can change these Directories
+- Added: MD5CHECK Variable in swaret.conf,
+  if you want swaret to check the MD5 CHECKSUM of a Package set to 1, else 0.
+- Added: DEP_INSTALL Variable in swaret.conf,
+  if you want swaret to Install new Packages 
+  during Dependency Check, set to 1, else 0.
+- PGP Support
+  Added: PGPCHECK Variable in swaret.conf,
+  if you want swaret to check the PGP Signature of a Package set to 1, else 0.
+  Added: pgp action to import a PGP Public Key.
+- SOURCES Support
+  Added: SOURCES Variable in swaret.conf
+  Added: sources action to download Sources matching a Keyword.
+         You can also use the file: Protocol to copy from a Local Repository.
+  Added: resume, list and search action for Sources.
+- Updated FAQ!
+- Updated swaret.conf!
+- Permission Changes
+- Code Cleanup
+- Code Optimized
+- Faster runtime execution
+- Additional functions have been added.
+- Other little changes have been done.
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Wednesday, 23th July, 2003 - 6:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.2.3
+--------------
+- Added some 'Intelligent' Signal Catcher.
+- Added LOG and LOG_FILE option in swaret.conf for Logging.
+- Added --log action.
+- Added DINTERFACE in swaret.conf.
+  If set to 1, wget or rsync Interface will be shown.
+  Else, if set to 0, swaret % counter will appear.
+- Added: Excluding and Onlying Packages/Patches/Extra Packages will only work
+  when the swaret.exclude and/or swaret.only File are not empty.
+- Added: Important File: All Packages found in /etc/swaret.important
+  will be first upgraded, then other Packages will follow.
+- Added 'resume' support for Local Files.
+- Added '--reinstall' and '--rein-all' actions for reinstalling
+  Packages/Patches/Extra Packages.
+- Added: DEP_UPGRADE option in swaret.conf. May the Dependency Check
+  Upgrade Packages? Or must it Install new Packages and
+  not Upgrade installed Packages?
+  Check 'man swaret' for more information...
+- Added manuals: swaret, swaret.conf, swaret.exclude,
+  swaret.only and swaret.important
+  You can also use --manual [-c|-ex|-on|im].
+- Added --dep action to verify Dependencies of installed Files.
+- Added WARNINGS option in swaret.conf,
+  if you don 't want to see warnings, set it to 0.
+- Added INFORMATION option in swaret.conf,
+  if you don 't want to see warnings, set it to 0.
+- Dependencies Check Support for Packages AND Patches AND Extra Packages
+  It only works on the options --install and --upgrade.
+  Set DEPENDENCY in swaret.conf to 1 if you want to use Dependency Check.
+- Changed DISABLE_BM option to BM option in swaret.conf.
+- Downgrade problem partially solved.
+- Reworked the actions and options, check --help or --morehelp!
+- Optimized swaret code - swaret should work a little bit faster ;-)
+- Updated FAQ - Check out the Questions on top of the FAQ file!
+- Updated README
+- Updated INSTALL
+- Updated install script
+- NEW Upgrade && List && Search Engine (works much faster then previous Engine)!!!
+- Removed locking on swaret.
+- Everytime LILO or Kernel* is upgraded, lilo -v will be started!
+  Errors will appear anyway.
+- Other little changes have been done.
+- Bug Fixes - nothing is bugfree ;-)
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Tuesday, 27th May, 2003 - 1:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.2.2
+--------------
+- Fixed Slackware Linux Version Check (problem caused by Slackware Current upgrades). 
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Monday, 28th April, 2003 - 12:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.2.1
+--------------
+- Added:
+
+  --up-all [-a] 
+  -> Upgrade ALL installed Packages/Patches/Extra Packages
+
+  --up-all KEYWORD [-a]
+  -> Upgrade ALL installed Packages/Patches/Extra Packages matching a Keyword
+
+  --in-all [-a]
+  -> Install ALL Packages/Patches/Extra Packages
+
+  --do-all [-a]
+  -> Download ALL Packages/Patches/Extra Packages
+
+  --re-all
+  -> Resume ALL Packages/Patches/Extra Packages
+
+- Bug Fixes
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Wednesday, 9th April, 2003 - 12:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.2.0
+--------------
+- Fixed the way of updating lists.
+- Added: OFFSET option in swaret.conf to setup the List Offset for --search & --list.
+- Added: Display Package Size (allmost every option has this feature implemented).
+- Bug Fixes
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Sunday, 23th March, 2003 - 2:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.1.3
+--------------
+- Added: New Protocol 'file:' to use Local Files. 
+         You will need a copy of Slackware in a Local Folder!
+         Check example URL in the Config File /etc/swaret.conf or swaret --config.
+
+- Added:
+
+  --list -ip             
+  -> List all installed Patches
+
+  --list -ie             
+  -> List all installed Extra Packages
+
+  --list -np             
+  -> List all none installed Patches
+
+  --list -ne             
+  -> List all none installed Extra Packages
+
+  --search KEYWORD -ip   
+  -> Search for installed Patch(es) matching a Keyword
+
+  --search KEYWORD -ie   
+  -> Search for installed Extra Package(s) matching a Keyword
+
+  --search KEYWORD -np   
+  -> Search for none installed Patches matching a Keyword
+
+  --search KEYWORD -ne   
+  -> Search for none installed Extra Packages matching a Keyword
+
+- Updated: FAQ
+- Updated: HELP
+- Updated: README
+- Updated: Error Messages
+- Fixed *dl, *red & *mybuild problem.
+- Fixed last more bugs in the upgrade, list and search engine.
+--------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------
+Saturday, 15th March, 2003 - 2:30 PM
+--------------------------------------------------------------------------------------
+Version: 1.1.2
+--------------
+- Added DISABLE_BM option in the config file to disable Bad Slackware Linux Mirrors.
+- Added PASSIVE_FTP option in the config file to use FTP traffic behind Firewall.
+- Added:
+
+  swaret --update -e    
+  -> Retrieve the newest Packages/Patches/Extra Packages Lists and
+     exclude Packages/Patches/Extra Packages found in /etc/swaret.exlude
+     (Check swaret.exclude example in the swaret tarball)
+
+  swaret --list [-up|-ue]
+  -> List installed Patches or Extra Packages to Upgrade.
+
+  swaret --search KEYWORD [-up|-ue]
+  -> List installed Patches or Extra Packages matching a Keyword to Upgrade.
+
+- Fixed options in the config file. (no for 0 instead of no for 2).
+- Fixed upgrade, install & download engine. ('Please wait' bug).
+- Fixed a bug in the update packages/patches/extra packages lists functions.
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Saturday, 8th March, 2003 - 4:30 PM
+--------------------------------------------------------------------------------------
+Version: 1.1.1
+--------------
+- Changed the way of Mirror switching. If a Mirror is down, it will be blacklisted.
+  You only need to edit your swaret.conf file to use it back.
+- Added:
+
+  swaret --clear -bm
+  -> Clear all Bad Slackware Linux Mirrors
+
+- Fixed the way of updating the packages/patches/extra packages lists.
+- Fixed rsync problem in the 'update packages/patches/extra packages list' functions.
+- Fixed the '+' bug. Some packages/patches/extra packages are containing a '+' in the 
+  filename, and swaret couldn't handle these packages/patches/extra packages.
+- Fixed a little bug in the upgrade/search/list engine.
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Sunday, 2nd March, 2003 - 22:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.1.0
+--------------
+- Added:
+
+  swaret --upgrade -[a]p 
+  -> Upgrade all Patches man/auto
+
+  swaret --upgrade -[a]e 
+  -> Upgrade all Extra Packages man/auto
+  
+  swaret --upgrade KEYWORD -[a]p 
+  -> Upgrade all Patches man/auto matching Keyword
+  
+  swaret --upgrade KEYWORD -[a]e
+  -> Upgrade all Extra Packages man/auto matching Keyword
+
+  swaret --install KEYWORD -[a]p
+  -> Install all Patches man/auto matching Keyword
+
+  swaret --install KEYWORD -[a]e
+  -> Install all Extra Packages man/auto matching Keyword
+
+  swaret --list -p
+  -> List all Patches
+
+  swaret --list -e
+  -> List all Extra Packages
+
+  swaret --search KEYWORD -p
+  -> Search all Patches matching Keyword
+
+  swaret --search KEYWORD -e
+  -> Search all Extra Packages matching Keyword
+
+  swaret --download KEYWORD -[a]p
+  -> Download all Patches man/auto matching Keyword
+
+  swaret --download KEYWORD -[a]e
+  -> Download all Extra Packages man/auto matching Keyword
+
+  swaret --resume KEYWORD -p
+  -> Resume all Patches matching Keyword
+
+  swaret --resume KEYWORD -e
+  -> Resume all Extra Packages matching Keyword
+
+  swaret --check -[a]
+  -> Install New Version of swaret man/auto
+  
+- Added New Variables in swaret.conf to specify the use of 
+  Packages/Patches/Extra Packages.
+- Bug Fixes
+- Code Cleanup
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Monday, 18th February, 2003 - 12:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.0.4
+--------------
+- Bug Fixes
+- Rewritten Download and Install engine
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Monday, 17th February, 2003 - 12:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.0.3
+--------------
+- Added:
+
+  - lilo will be started automatically when upgrading lilo.
+  - CDIR variable in /etc/swaret.conf to specify the Cache Directory for Packages,...
+  - swaret --check -a, Install a new version of swaret automatically.
+
+- Bug Fixes
+- Rewritten Search and List engine
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Sunday, 9th February, 2003 - 2:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.0.2
+--------------
+- Bug Fixes
+- Rewritten Upgrade engine
+- Added:
+
+  swaret --search KEYWORD -u
+
+  Search for installed Packages ready for Upgrade.
+
+- Code Cleanup
+--------------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------------
+Tuesday, 4th February, 2003 - 3:00 PM
+--------------------------------------------------------------------------------------
+Version: 1.0.1
+--------------
+- Bug Fixes
+- Added:
+  
+  swaret --upgrade KEYWORD 
+  swaret --upgrade KEYWORD -a
+
+  Instead of Upgrading all Packages manually or automatically, 
+  just do it with --upgrade KEYWORD or --upgrade KEYWORD -a!
+--------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------------
+E-Mail: info@swaret.org  -  WWW: www.swaret.org

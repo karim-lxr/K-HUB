@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Script for controlling the smbusers group.
+
+# This program is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+
+# http://www.gnu.org/philosophy/license-list.html
+
+# The Author does not have any responsability on theese scripts 
+
+
+
+
+
+
+GR=`cat /etc/group | grep smbusers`
+
+echo "$GR" > $PWD/control
+
+if [ ! "`cat $PWD/control`" = "`cat /dev/null`" ]; then
+
+echo "ho il file" > tmp.smb
+
+fi
+
+rm $PWD/control

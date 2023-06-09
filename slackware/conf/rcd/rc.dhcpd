@@ -1,0 +1,37 @@
+#!/bin/sh
+# Start/stop/restart the dhcpd server daemon (dhcp).
+
+
+dhcpd_start() {
+  if [ -x /usr/sbin/dhcpd ]; then
+    echo "Starting DHCPD:  /usr/sbin/dhcpd"
+    /usr/sbin/dhcpd
+  fi
+}
+
+# Stop dhcpd:
+dhcpd_stop() {
+  killall dhcpd
+}
+
+# Restart dhcpd:
+bind_restart() {
+  dhcpd_stop
+  sleep 1
+  dhcpd_start
+}
+
+case "$1" in
+'start')
+  dhcpd_start
+  ;;
+'stop')
+  dhcpd_stop
+  ;;
+'restart')
+  dhcpd_restart
+  ;;
+*)
+  echo "usage $0 start|stop|restart"
+esac
+

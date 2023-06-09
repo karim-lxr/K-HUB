@@ -1,0 +1,457 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>Exporting displays</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="The X Window System"
+HREF="c1364.html"><LINK
+REL="PREVIOUS"
+TITLE="Selecting a Desktop"
+HREF="x1637.html"><LINK
+REL="NEXT"
+TITLE="Summary"
+HREF="x1705.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1637.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 6. The X Window System</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1705.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="EXPORTDISPLAY"
+>Exporting displays</A
+></H1
+><P
+>As was previously mentioned, it is possible to run X programs on one computer
+and display them on another.  This is incredibly bandwidth-intensive, so
+you probably won't want to do this over a modem connection or over very
+long distances.  Additionally, there are security considerations: exporting a
+display is not a very secure thing to do, since you'll be letting the
+entire network look at what you're doing.  Still, it can be very useful
+on a local network.</P
+><P
+>An important thing to note here is the use of the words &#8220;client&#8221;
+and &#8220;server&#8221;.  When exporting the display, you may become confused
+as to what's a client and what's a server.  We refer to the machine that
+actually runs the X programs and sends the display information as the
+&#8220;server&#8221;.  The machine that you use to display the remote program
+is called the &#8220;client&#8221;.  When discussing the design of X, this is
+reversed.  The program that displays things is called the &#8220;server&#8221;,
+while the running program is called the &#8220;client&#8221;.  It's not too
+terribly confusing, but worth pointing out.</P
+><P
+>For this example, we'll be making use of two computers: golf is a fairly
+powerful server sitting underneath a desk on one side of a crowded room.
+It has a lot of RAM and a nice processor in it.  In addition,
+it has lots of X programs on it, but no monitor.  On the other side of the
+room is couch, an old machine with little RAM and not much disk.  It is way 
+too weak to run resource-intensive programs like Netscape.  couch has two
+major advantages, though: it has a monitor, and it is sitting right next
+to the couch so you don't even have to get up to use it.  Ideally, you
+would be able to run Netscape without getting off the couch.  Exporting is 
+the answer.</P
+><P
+>First, log in to couch and start up X.  Then open your favorite terminal
+program (xterm, rxvt, eterm, aterm, or a host of others).  The first step
+to remotely displaying X programs is to set up the client machine so that
+other machines are allowed to display to the machine.  This uses the 
+<B
+CLASS="COMMAND"
+>xhost</B
+>
+program to control access.  If you are on a secure internal network, you
+probably don't care who can remotely display programs.  In that case, you
+would just let anyone on the network display:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   couch$ <TT
+CLASS="USERINPUT"
+><B
+>xhost +</B
+></TT
+>
+   access control disabled, clients can connect from any host</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>On the other hand, you might want to do this using machines that are on
+an insecure network (the Internet, a college network, or anything else
+that you don't have control over).  You certainly don't want just anyone
+to connect.  xhost allows you to be selective about who can display:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   couch$ <TT
+CLASS="USERINPUT"
+><B
+>xhost + golf.foc</B
+></TT
+>
+   golf.foc being added to access control list</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Now, only golf.foc (the server mentioned earlier) can display programs to
+couch.  You can see who has access to display programs by running xhost
+with no arguments:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   couch$ <TT
+CLASS="USERINPUT"
+><B
+>xhost</B
+></TT
+>
+   access control enabled, only authorized clients can connect
+   INET:golf.foc
+   INET:localhost
+   INET:couch.foc
+   LOCAL:</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This is all you have to do to set up the client end of things.  The next step
+is to set up the server so that it knows to display programs somewhere other
+than the monitor.  Since the server doesn't have a monitor on it (and therefore
+doesn't have X running), it'll need to know where to display.</P
+><P
+>Setting up the server is not very difficult either.  After connecting, 
+you'll need to modify the <TT
+CLASS="ENVAR"
+>$DISPLAY</TT
+> environment variable.  By 
+default, it will probably not be set to anything.  You'll need to set 
+<TT
+CLASS="ENVAR"
+>$DISPLAY</TT
+> to the value of the remote host, plus a number that 
+represents which X session to display to.  You will almost always have only 
+one X session running, so dealing with that variable shouldn't be an issue.</P
+><P
+>Here's how the <TT
+CLASS="ENVAR"
+>$DISPLAY</TT
+> variable would be set on our example 
+server using Bash as the shell.  Other shells would use a different syntax, 
+but the value should be the same.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   golf$ <TT
+CLASS="USERINPUT"
+><B
+>export DISPLAY=couch.foc:0.0</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>That's all there is to setting up the server side of things.  Now you
+just stay logged into the server and run X programs from there.  All the
+screen output from the program will get sent across the network to the client
+machine, even though it's running on a computer across the room.</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   golf$ <TT
+CLASS="USERINPUT"
+><B
+>netscape &#38;</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This would run <B
+CLASS="COMMAND"
+>netscape</B
+> off the server machine, but since 
+the <TT
+CLASS="ENVAR"
+>DISPLAY</TT
+> variable is set to couch, everything will get 
+displayed there.  You don't even have to get up to run those big X programs 
+on your old terminal.  One important note about this: the server machine will
+have to have all the X libraries and other support files needed to run the 
+program.  However, you won't need an X server or a 
+<TT
+CLASS="FILENAME"
+>/etc/XF86Config</TT
+> file, since nothing is getting displayed 
+to the server.</P
+><P
+>Afterwards, you might want to disable display exporting by removing the server
+from your client's access control list:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   couch$ <TT
+CLASS="USERINPUT"
+><B
+>xhost - golf.foc</B
+></TT
+>
+   golf.foc being removed from access control list
+   couch$</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>You can see how this a great way to share computing resources.  But be careful,
+you may be the host of many X programs for many remote computers and not even 
+know it.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1637.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1705.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Selecting a Desktop</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1364.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Summary</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

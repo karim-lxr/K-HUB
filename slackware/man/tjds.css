@@ -1,0 +1,79 @@
+/*  TJ style on 2003*/
+
+body {
+	font-family:verdana, arial, helvetica, sans-serif;
+	font-size:12px;
+	background-color : White;
+	padding-top: 70px;
+	padding-left: 70px;
+}
+
+h1 {
+	font-family:verdana, arial, helvetica, sans-serif;
+	margin:0px 0px 0px 0px;
+	padding: 0px;
+	font-size:28px;
+	font-weight:900;
+	color:#ccc;
+	/*border H1 */
+	border-style:solid;
+	border-color:#ccc;
+	/*border-color:black;	*/
+	border-width:1px 0px;
+	/* top and bottom borders: 1px;
+	left and right borders: 0px */
+	line-height:35px;
+	background-color:#eeeeee;
+	width: 640px;
+	margin-bottom : 35px;
+}
+	
+	h2 {
+	font-size:16px;
+	margin:20px 0px 20px 60px;
+	font-weight:900;
+	color: Black;
+}
+	
+H3{
+	font-size: 10pt;
+	padding-top: 5px ;
+	padding-left:0px ;
+	padding-bottom: 10px;
+	font-weight : lighter;
+	border-style:solid;
+	border-color:black;
+	border-width: 1px 0px 0px;
+	width: 480px;
+	/* tmargin: 35px auto auto 85px;
+	line-height:15px;
+	/* top and bottom borders: 1px;
+	left and right borders: 0px */
+}
+
+
+/* links */
+A:link,  A:visited {
+text-decoration:none;
+color : #3333FF;
+padding-left :15px;
+}
+
+A:hover{
+	text-decoration:underline;
+	color: White;
+	background :#4040FF;
+	padding-left :15px;
+}
+
+
+/*TABLES*/
+table{
+	border : 1px solid #ccc;
+	width : 640px;
+	line-height: 120%;
+}
+td.lat{	 
+	width : 80px;
+	background: #eeeeee;}
+

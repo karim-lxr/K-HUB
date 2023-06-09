@@ -1,0 +1,106 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% (c) technojuice 2003
+% 
+% LaTeX source sample for internal docs
+% 
+% skills:
+%         - landscape layout
+%         - chapter pers
+%         - output: pdf & HTML
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\documentclass[a4paper,12pt,landscape]{letter}			simple
+%\documentclass[a4paper,12pt,landscape]{article}		long without chapter
+%\documentclass[a4paper,12pt,landscape]{report}			long with chapter
+%\documentclass[a4paper,12pt,landscape]{book}				very long
+
+\documentclass[a4paper,12pt,landscape]{report} 	% landscape for code sample
+\usepackage[latin1]{inputenc}										%	ISO-8859-1 for יא etc..
+\usepackage[italian]{babel}
+% END standard prologue
+%\usepackage[lenny]{fncychap}										% fncychap from U. Lindgren best formatting chapeters, Lenny style
+%\usepackage{graphicx}													% to include img EPS
+
+
+%%%%%%%%%%%%%%VARS DOCUMENT - Manmdatory %%%%%%%%%%%%%
+\title{}
+\author{guido@technojuice.net}
+\date{}
+%%%%%%%%%%%%END VARS DOCUMENT
+
+
+\begin{document}
+% Print TITLE if document is very long
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \maketitle
+%%%%%%%%%%%%%%%%%%%%%%%
+
+% Print INDEX if document is very long
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tableofcontents
+%%%%%%%%%%%%%%%%%%%%%%%
+
+% Print CHAPTER Titles hierarchie
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\part{)
+%\chapter{)
+%\section{)
+%\subsection{)
+%\subsubsection{)
+
+%\subsubsection*{)				* dont make index and No Items
+
+% Print FOOTNOTE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\footnote{)
+
+% REFERS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\label{sez:destination)		sez: is hierarc refer
+%\ref{sez:source}
+%\pageref{sez:source}				refer with page# instead hierarc refer
+
+% env VERBATIM - like <PRE> HTML
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{verbatim}
+%\end{verbatim}
+
+
+% LIST: single env or NESTED lists environnement 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% env ENUMERATE - like <OL> HTML
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{enumerate}
+%\item
+%\end{enumerate}
+
+% env ITEMIZE - like <UL> HTML
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{itemize}
+%\item
+%\end{itemize}
+
+% env DESCRIPTION - bold first word
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{description}
+%\item[first word]
+%\end{description}
+
+
+% Insert IMG eps
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}[htbp]		% env figure
+%\begin{center}					% env center
+
+%\includegraphics [width=3.5cm]{directory/figure.eps}
+
+%\end{center}
+%\caption{title figure}
+%\label{fig:label figure}
+%\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%END img &&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+\end{document}

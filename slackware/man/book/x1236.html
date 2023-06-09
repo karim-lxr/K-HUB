@@ -1,0 +1,411 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>The /etc files</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Network Configuration"
+HREF="c1063.html"><LINK
+REL="PREVIOUS"
+TITLE="Network Utilities"
+HREF="x1100.html"><LINK
+REL="NEXT"
+TITLE="rc.inet1"
+HREF="x1284.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1100.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Chapter 5. Network Configuration</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1284.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="ETCFILES"
+>The /etc files</A
+></H1
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="INETDCONF"
+>/etc/inetd.conf</A
+></H2
+><P
+>On a network-centric operating system, it's not uncommon for a lot of services
+to be running.  Typically for each service that is available a program needs
+to be sitting around listening for connections, which can get a bit burdensome
+on a system that runs a lot of these servers.  In order to reduce overhead,
+inetd was created.  inetd is the &#8220;internet super-server&#8221;-- it 
+sits around and listens for connections on many sockets, and when one comes 
+in inetd fires up the appropriate server to handle it.  Thus the many waiting 
+servers are reduced to one.</P
+><P
+><TT
+CLASS="FILENAME"
+>/etc/inetd.conf</TT
+> is the configuration file for inetd.  It 
+specifies which servers get run for which connections.  The 
+<B
+CLASS="COMMAND"
+>inetd</B
+>(8) man page has more detailed information, of course, 
+but let's take a quick look at a basic service line:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   ftp  stream  tcp  nowait  root  /usr/sbin/tcpd  wu.ftpd -l -i -a</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This is the line for the ftp server.  Note the protocol name 
+(&#8220;ftp&#8221;) first, and last the command to run to respond.  In this 
+case, the program that is run in response to a connection attempt is 
+<TT
+CLASS="FILENAME"
+>/usr/sbin/tcpd</TT
+>; it is a &#8220;wrapper&#8221; program 
+that provides some basic security options for the server it wraps.  
+<B
+CLASS="COMMAND"
+>wu.ftpd</B
+> is our actual ftp server, but tcpd runs that for 
+us.  More information on tcpd is given in <A
+HREF="x1336.html"
+>the section called <I
+>tcp_wrappers</I
+></A
+>.</P
+><P
+>Like many system files, lines in <TT
+CLASS="FILENAME"
+>inetd.conf</TT
+> are 
+commented by the # character; you can add and remove services from inetd 
+simply by commenting their lines in or out and restarting 
+<B
+CLASS="COMMAND"
+>inetd</B
+>.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="RESOLVCONF"
+>/etc/resolv.conf</A
+></H2
+><P
+>This is the file that tells the rest of the system where to get its DNS
+information.  Any name servers you use are listed here, as well as your host's
+domain name.  Here's a sample <TT
+CLASS="FILENAME"
+>resolv.conf</TT
+> (from the laptop 
+I'm typing this on, ninja.tdn):</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   domain tdn
+   nameserver 192.168.1.1
+   search tdn. slackware.com</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The first line describes ninja's domain name; this is everything after the
+hostname in my address.  The second is the DNS server for our house network.
+You can have as many of these as you need; they will be checked in order from
+first to last whenever a program needs to look up a domain name's
+corresponding IP address.</P
+><P
+>The last line is a bit more interesting.  It describes any domain names that
+should be <I
+CLASS="EMPHASIS"
+>assumed</I
+> by my system.  For instance, suppose I 
+have the machines zuul.tdn and hejaz.slackware.com.  I can simply do 
+<TT
+CLASS="USERINPUT"
+><B
+>ping zuul</B
+></TT
+> and <TT
+CLASS="USERINPUT"
+><B
+>ping hejaz</B
+></TT
+> to ping 
+them, respectively.  This is because ping first tries to add 
+&#8220;.tdn&#8221; to zuul's name, and finds a match and goes with it.  In 
+the case of &#8220;hejaz&#8221;, it first tries &#8220;hejaz.tdn&#8221;.  
+There's no match, so it then tries &#8220;hejaz.slackware.com&#8221;-- bingo.
+Note that all domains listed in the <TT
+CLASS="USERINPUT"
+><B
+>search</B
+></TT
+> line need to 
+end with a '.' <I
+CLASS="EMPHASIS"
+>except</I
+> the last one; if there's only one, 
+it is the last one and needs no trailing '.'.</P
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="HOSTS"
+>/etc/hosts</A
+></H2
+><P
+>The <TT
+CLASS="FILENAME"
+>hosts</TT
+> file allows the simplest kind of domain lookup.  
+It is a list of hostnames and their corresponding IPs.  This is useful in a 
+small network where DNS is not worthwhile, in instances where DNS is 
+unreliable, etc. and is used by the machine during boot time when no name 
+servers are accessible.  Mine might look like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   127.0.0.1  localhost
+   192.168.1.32   ninja.tdn ninja</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>The first line should be self-explanatory.  The second, however, may not.  You
+can list as many names and aliases for an address as you like, separated by a
+space.  So I have &#8220;192.168.1.32&#8221; translated to 
+&#8220;ninja.tdn&#8221; (and vice versa), but the alias &#8220;ninja&#8221; 
+can also be used when I'm too lazy to type &#8220;.tdn&#8221; (which is most 
+of the time).</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1100.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1284.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Network Utilities</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="c1063.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>rc.inet1</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>

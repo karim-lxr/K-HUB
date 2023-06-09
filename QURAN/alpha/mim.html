@@ -1,0 +1,84 @@
+
+<HTML>
+<HEAD>
+<link rel="STYLESHEET" type="text/css" href="alpha.css">
+
+<TITLE>Lettera Mim</TITLE>
+<SCRIPT language=JavaScript>
+<!--
+var message="";
+function clickIE() {if (document.all) {(message);return false;}}
+function clickNS(e) {if
+(document.layers||(document.getElementById&&!document.all)) {
+if (e.which==2||e.which==3) {(message);return false;}}}
+if (document.layers)
+{document.captureEvents(Event.MOUSEDOWN);document.onmousedown=clickNS;}
+else{document.onmouseup=clickNS;document.oncontextmenu=clickIE;}
+
+document.oncontextmenu=new Function("return false")
+// -->
+</SCRIPT>
+
+
+<BGSOUND ID="auIEEmb">
+<SCRIPT><!--
+// MouseOver/MouseClick audio.
+var ayAudio = new Array();
+// Source for sound files to be preloaded
+ayAudio[0] = "./snd/mim.wav" ;
+
+function AudioCheck() {
+	var n = navigator.appName
+	if (n=="Netscape") this.ns = true;
+	else if (n=="Microsoft Internet Explorer" && document.all) this.ie = true;
+	else this.noAudio = true;
+}
+onload = function() {
+	is = new AudioCheck()
+	if (is.noAudio) return;
+
+	var s = '';
+	for (i=0; i<ayAudio.length; i++)
+	s += "<EMBED SRC='"+ayAudio[i]+"' AUTOSTART='FALSE' HIDDEN='TRUE'>"
+
+	if (is.ns) {
+		auEmb = new Layer(0);
+		with (auEmb.document) { open();write(s);close() };
+	}
+	else document.body.insertAdjacentHTML("BeforeEnd",s);
+
+	auCon = is.ns? auEmb.document.embeds:auIEEmb;
+	auCon.ctrl = function(au,play) {
+		if (is.ie) this.src = play? ayAudio[au]:'';
+		else eval( "this[au]." + (play? "play()":"stop()") );
+	}
+	is.auDone = true;
+}
+function playAudio(whAu) { if (window.auCon) auCon.ctrl(whAu,1) }
+function stopAudio(whAu) { if (window.auCon) auCon.ctrl(whAu,0) }
+//--></SCRIPT>
+
+
+</HEAD>
+<BODY>
+<BR>	
+<h1>Lettera "mim"</h1>
+<a href="index.html"><img src="img/back.gif" width="33" height="33" border="0" alt="[INDICE]"></a>
+<br>
+<h3>forma isolata</h3>
+<A HREF="javascript:void(0);" onMouseOver="playAudio(0)" 
+onMouseOut="stopAudio(0)">
+<img src="./img/mim.gif" border="0" width="300" height="310" alt="[MIM]"class="imgb">
+</A>
+<h3>provenienza: palato anteriore</h3>
+<br>
+<img src="./img/mim_pos.gif" alt="[POSIZIONI]" width="576" height="186" border="0">
+<table width="580" border="0">
+<tr>
+    <td align="center">finale</td>
+    <td align="center">mediana</td>
+    <td align="center">iniziale</td>
+</tr>
+</table>
+</body>
+</html>

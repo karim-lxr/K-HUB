@@ -1,0 +1,37 @@
+#!/bin/sh
+
+# Script for addind users on a Samba Server used as a PDC.
+# by Lorenzo Allori <lallori@medici.org>
+
+# This program is free software; you can redistribute it
+# and/or modify it under the terms of the GNU General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+
+# http://www.gnu.org/philosophy/license-list.html
+
+# The Author does not have any responsability on theese scripts.
+
+
+
+
+# Starting..
+
+echo
+echo -n "Login name of the user to be deleted []: "
+read USER
+if [ -z "$USER" ]; then
+  echo "Come on, man, you want to delete some user don't u.."
+  exit
+fi
+
+# Deleting UNIX account on the UNIX server
+
+/usr/sbin/userdel $USER
+/bin/rm -rf /home/samba/users/$USER
+
+
+# Creating real account for Samba with password the users will be
+# prompted to change when the first log on the network.
+
+/usr/local/samba/bin/smbpasswd -x $USER

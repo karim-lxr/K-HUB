@@ -1,0 +1,31 @@
+body, ul, td, th {
+	font-family: verdana,arial,helvetica,sans-serif;
+	font-size: 14px;
+}
+
+p {
+	font-family: verdana,arial,helvetica,sans-serif;
+}
+
+em {
+		font-style: italic;
+}
+
+
+
+/* link top */
+A:link, A:visited{
+	text-decoration:none;
+	color : #330099;
+	font-size: 12pt;
+}
+
+/*non supportato da opera 5.02 */
+/* non supportato da Netscape comm 4.72 */
+A:hover{
+	text-decoration: underline;
+	color:#C40000;
+	/*background:blue;
+	*/
+	font-size: 12pt;
+}

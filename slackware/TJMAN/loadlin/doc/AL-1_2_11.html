@@ -1,0 +1,1032 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+    <META NAME="GENERATOR" CONTENT="AppuntiLinux">
+    <TITLE>Appunti Linux: Caricamento del sistema operativo</TITLE>
+</HEAD>
+<BODY>
+<HR>
+<H1>11. Caricamento del sistema operativo</H1>
+
+<A NAME="capitolo-boot"></A>
+<A NAME="boot"></A>
+<A NAME="avvio"></A>
+
+<P>Il caricamento di un sistema operativo avviene perché, all'atto dell'accensione di un computer, il <EM>firmware</EM> (il BIOS dei PC) si occupa di leggere ed eseguire un piccolo programma residente all'inizio del disco fisso o di un dischetto. Nei PC questa parte iniziale del disco fisso è l'MBR o <EM>Master Boot Record</EM> ed è costituita da un singolo settore. Quando si fa riferimento a un dischetto, si parla di settore di avvio o di <EM>boot</EM>.
+
+<P>Questo piccolo programma iniziale si occupa, a sua volta, di avviare il <EM>kernel</EM>.
+
+<P>Nei sistemi con architettura i386, esistono almeno quattro modi per effettuare il caricamento di Linux: un dischetto di avvio, LILO, Loadlin e SYSLINUX.
+
+
+<H2>11.1 Kernel in un dischetto</H2>
+
+<A NAME="boot-kernel-floppy"></A>
+<A NAME="boot!kernel in un dischetto"></A>
+
+<P>Dal punto di vista tecnico, il modo più semplice di avviare Linux è quello di creare un disco di avvio contenente solo il <EM>kernel</EM>. Nell'esempio seguente si copia il <EM>kernel</EM> <CODE>vmlinuz</CODE> nel dischetto contenuto della prima unità.
+
+<P><CODE># </CODE><B><CODE>cp vmlinuz /dev/fd0</CODE></B></P>
+
+<P><TABLE BORDER="3" WIDTH="100%">
+<TR><TD>
+
+<P>La copia fatta in questo modo non è la copia di un file in un dischetto che contiene un <EM>filesystem</EM>: il dischetto diventa il file stesso, e questo tipo di dischetto non può contenere più di un file. Questo particolare è molto importante e deve essere necessariamente compreso.
+</TD></TR>
+</TABLE>
+
+<P><TABLE BORDER="3" WIDTH="100%">
+<TR><TD>
+
+<P>Il file del <EM>kernel</EM> di Linux è qualcosa di molto raffinato: contiene il codice necessario per autoavviarsi dopo essersi decompresso. Infatti, la parte più consistente del <EM>kernel</EM> viene compressa alla fine del procedimento di compilazione. Naturalmente, il <EM>kernel</EM> non ha sempre la necessità di autoavviarsi, ma questa possibilità è importante per facilitare ancora di più l'avvio del sistema.
+</TD></TR>
+</TABLE>
+
+<P>Il <EM>kernel</EM> è così in grado di avviarsi da solo, ma può non essere stato predisposto per utilizzare esattamente il <EM>filesystem</EM> <EM>root</EM> desiderato, così come altri elementi predefiniti potrebbero non corrispondere alla realtà particolare.
+
+<P>Si utilizza il programma <B><CODE>rdev</CODE></B> per alterare questi elementi direttamente nel file del <EM>kernel</EM> o nell'immagine copiata nel dischetto.
+
+
+<H3>11.1.1 # rdev</H3>
+
+<A NAME="utl-rdev"></A>
+<A NAME="rdev"></A>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev [<EM>&lt;opzioni&gt;</EM>] [<EM>&lt;immagine&gt;</EM> [<EM>&lt;altre-opzioni&gt;</EM>]]
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Legge o imposta i parametri di un'immagine di un <EM>kernel</EM>. L'immagine in questione può essere indicata come un nome di file, o un nome di dispositivo (tipicamente <CODE>/dev/fd0</CODE>).
+
+<DL>
+<DT><B>Scomposizione della sintassi in base ad alcune opzioni</B></DT><DD>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev <EM>&lt;immagine&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Visualizza il nome di dispositivo corrispondente al <EM>filesystem</EM> <EM>root</EM> (quello principale) attualmente indicato nell'immagine. Si tratta di visualizzare il nome della partizione che diventerà il <EM>root</EM> del <EM>filesystem</EM>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev <EM>&lt;immagine&gt;</EM> <EM>&lt;dispositivo&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Specifica un nuovo nome di dispositivo da utilizzare come <EM>root</EM> per il <EM>filesystem</EM>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev <CODE>-</CODE>R <EM>&lt;immagine&gt;</EM> 1
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Indica di attivare inizialmente il dispositivo del <EM>filesystem</EM> <EM>root</EM> in sola lettura.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev <CODE>-</CODE>R <EM>&lt;immagine&gt;</EM> 0
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Indica di attivare inizialmente il dispositivo del <EM>filesystem</EM> <EM>root</EM> in lettura e scrittura.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rdev <CODE>-</CODE>s <EM>&lt;immagine&gt;</EM> <EM>&lt;dispositivo&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Indica di utilizzare il dispositivo indicato come area di <EM>swap</EM>.
+</DL>
+
+<DL>
+<DT><B>Esempi</B></DT><DD>
+
+<P><CODE># </CODE><B><CODE>rdev /dev/fd0 /dev/hdb1</CODE></B></P>
+
+<P>Configura l'immagine contenuta nel dischetto inserito nella prima unità, definendo che la partizione da utilizzare come <EM>filesystem</EM> principale (cioè <EM>root</EM>) è la prima del secondo disco fisso.
+
+<P><CODE># </CODE><B><CODE>rdev <CODE>-</CODE>R /dev/fd0 1</CODE></B></P>
+
+<P>Definisce che al momento del <EM>boot</EM> la partizione di <EM>root</EM> sia attivata in sola lettura in modo che il <EM>filesystem</EM> possa essere controllato.
+</DL>
+
+
+<H2>11.2 LILO</H2>
+
+<A NAME="boot-lilo"></A>
+<A NAME="avvio!LILO"></A>
+
+<P>LILO è la procedura standard per il caricamento di Linux nei PC. Permette di avviare anche altri sistemi operativi eventualmente residenti nello stesso computer in cui si usa Linux. In questa sezione si vedono solo alcuni aspetti del suo funzionamento, quelli che dovrebbero bastare nella maggior parte delle situazioni. Per un approfondimento sul suo funzionamento, conviene consultare la documentazione che accompagna questa procedura: <B><CODE>lilo(8)</CODE></B>, quanto contenuto nella directory <CODE>/usr/share/doc/lilo*/</CODE> e il <EM>BootPrompt HOWTO</EM>.
+
+
+<H3>11.2.1 Organizzazione essenziale</H3>
+
+<A NAME="boot-lilo-organizzazione"></A>
+
+<P>La procedura LILO è composta essenzialmente da:
+
+<UL>
+<LI>
+
+<P>la directory <CODE>/boot/</CODE> e dal suo contenuto;
+</LI>
+<LI>
+
+<P>il programma <CODE>/sbin/lilo</CODE>;
+</LI>
+<LI>
+
+<P>il file di configurazione <CODE>/etc/lilo.conf</CODE>.
+</LI>
+</UL>
+
+<P>La directory <CODE>/boot/</CODE> contiene i file utilizzati per effettuare l'avvio del sistema: sia per avviare Linux che gli altri eventuali sistemi operativi. Può contenere anche il/i file del <EM>kernel</EM>, quando per questo non si usa semplicemente la directory radice. Più precisamente, contiene almeno i file seguenti:
+
+<UL>
+<LI>
+
+<P><CODE>boot.b</CODE>;
+</LI>
+<LI>
+
+<P><CODE>map</CODE> che viene creato da <CODE>/sbin/lilo</CODE>;
+</LI>
+<LI>
+
+<P><CODE>boot.</CODE><EM>n</EM>, dove l'estensione è un numero esadecimale, che viene creato da <CODE>/sbin/lilo</CODE>, e contiene il settore di avvio dell'unità rappresentata dal numero stesso (non si tratta necessariamente di un solo file);
+</LI>
+<LI>
+
+<P>il <EM>kernel</EM> se non risiede già nella directory radice.
+</LI>
+</UL>
+
+<P>Nella tabella 
+<A HREF="AL-1.2.11.html#tabella-dispositivi-memorizzazione-esadecimale">11.1</A> sono elencati i codici esadecimali di alcuni dispositivi per le unità di memorizzazione.
+
+<P><TABLE BORDER=1>
+<TR><TD> Dispositivo	</TD><TD> Codice	</TD></TR>
+<TR></TR>
+<TR><TD> /dev/fd0	</TD><TD> 200 </TD></TR>
+<TR><TD> /dev/fd1	</TD><TD> 201 </TD></TR>
+<TR><TD> /dev/hda	</TD><TD> 300 </TD></TR>
+<TR><TD> /dev/hda1	</TD><TD> 301 </TD></TR>
+<TR><TD> /dev/hda2	</TD><TD> 302 </TD></TR>
+<TR><TD> /dev/hdb	</TD><TD> 340 </TD></TR>
+<TR><TD> /dev/hdb1	</TD><TD> 341 </TD></TR>
+<TR><TD> /dev/hdb2	</TD><TD> 342 </TD></TR>
+<TR><TD> /dev/sda	</TD><TD> 800 </TD></TR>
+<TR><TD> /dev/sda1	</TD><TD> 801 </TD></TR>
+<TR><TD> /dev/sda2	</TD><TD> 802 </TD></TR>
+<TR><TD> /dev/sdb	</TD><TD> 800 </TD></TR>
+<TR><TD> /dev/sdb1	</TD><TD> 801 </TD></TR>
+<TR><TD> /dev/sdb2	</TD><TD> 802 </TD></TR>
+</TABLE>
+<BR>
+<B>Tabella 11.1:</B>
+ 
+<A NAME="tabella-dispositivi-memorizzazione-esadecimale"></A>
+ Elenco dei codici esadecimali dei dispositivi di alcune unità di memorizzazione. 
+
+
+<H3>11.2.2 1024 cilindri</H3>
+
+<A NAME="boot-lilo-1024-cilindri"></A>
+<A NAME="dischi!1024 cilindri"></A>
+
+<P>Quando si utilizza l'architettura PC, il <EM>firmware</EM>, cioè il BIOS, solitamente non è in grado di accedere a settori oltre il 1024-esimo cilindro (cioè oltre il cilindro numero 1023). Di conseguenza, il programma che si occupa di caricare il <EM>kernel</EM> di qualunque sistema operativo, si deve avvalere delle funzioni del BIOS (perché non c'è ancora un sistema operativo funzionante) e quindi non può raggiungere file oltre quel limite dei 1024 cilindri.
+
+<P>La directory <CODE>/boot/</CODE> con tutto il suo contenuto, e il <EM>kernel</EM>, devono trovarsi fisicamente entro il 1024-esimo cilindro. Non basta che la partizione inizi prima di quel limite per garantire che questi file si trovino effettivamente in quella zona. In caso di necessità, si può utilizzare una partizione apposita per questi file, nella parte sicura del disco. È poi sufficiente montare questa partizione nel <EM>filesystem</EM> generale, eventualmente riproducendo la directory <CODE>/boot/</CODE> attraverso un semplice <EM>link</EM> simbolico.
+
+
+<H3>11.2.3 Installazione del sistema di boot</H3>
+
+<A NAME="boot-lilo-installazione"></A>
+<A NAME="avvio!settore di"></A>
+
+<P>L'installazione del sistema di caricamento avviene modificando il contenuto di uno di questi settori:
+
+<UL>
+<LI>
+
+<P>MBR o <EM>Master Boot Record</EM>;
+</LI>
+<LI>
+
+<P>il primo settore di una partizione;
+</LI>
+<LI>
+
+<P>il primo settore di un dischetto.
+</LI>
+</UL>
+
+<P>Nel primo caso, LILO ha il controllo su tutti i sistemi operativi per il loro caricamento; nel secondo, LILO dipende da un sistema di avviamento di un altro sistema operativo che, a sua volta, passa a LILO il controllo quando ciò viene richiesto; nel terzo caso si utilizza un dischetto in modo da non alterare il sistema di avvio già presente.
+
+<P>L'installazione avviene per mezzo del programma <CODE>/sbin/lilo</CODE> che a sua volta si basa sulla configurazione stabilita attraverso <CODE>/etc/lilo.conf</CODE>. Ogni volta che si cambia qualcosa all'interno della directory <CODE>/boot/</CODE>, o si modifica, o si sposta il file del <EM>kernel</EM>, è necessario ripetere l'installazione attraverso <CODE>/sbin/lilo</CODE>.
+
+
+<H3>11.2.4 /etc/lilo.conf</H3>
+
+<A NAME="/etc/lilo.conf"></A>
+<A NAME="/etc/lilo.conf"></A>
+
+<P><CODE>/etc/lilo.conf</CODE> è il file di configurazione utilizzato da <CODE>/sbin/lilo</CODE> per installare il sistema di avvio. Si tratta di una sorta di <EM>script</EM> contenente solo assegnamenti a variabili. Ne viene descritto il funzionamento in modo sommario, partendo da un esempio in cui si ha un solo disco fisso, dove la prima partizione è riservata al Dos, e la seconda a Linux. L'esempio permette di avviare Linux e il Dos selezionando la parola <B><CODE>linux</CODE></B> o <B><CODE>dos</CODE></B> al momento dell'avvio. Il simbolo <B><CODE>#</CODE></B> rappresenta l'inizio di un commento e viene ignorato.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+# Prima parte generale
+boot=/dev/hda
+prompt
+timeout=50
+
+# Caricamento di Linux
+image=/boot/vmlinuz
+    label=linux
+    root=/dev/hda2
+    read-only
+
+# Caricamento del Dos
+other=/dev/hda1
+    label=dos
+    table=/dev/hda
+</PRE>
+</TD></TR>
+</TABLE>
+
+<UL>
+<LI>
+
+<P><B><CODE>boot=/dev/hda</CODE></B>
+
+<P>Nella prima parte viene specificato che il settore di <EM>boot</EM> deve essere collocato nel primo disco IDE, di conseguenza nel MBR. Se fosse stata indicata una partizione specifica, si sarebbe trattato del primo settore di quella partizione (per esempio: <B><CODE>boot=/dev/hda2</CODE></B>). Volendo si poteva indicare anche una unità per i dischetti, in modo da installare tale settore di avvio in quel dischetto (per esempio: <B><CODE>boot=/dev/fd0</CODE></B>).
+</LI>
+<LI>
+
+<P><B><CODE>prompt</CODE></B>
+
+<P>Si tratta di un <EM>flag</EM>, la cui presenza fa sì che all'atto del caricamento venga richiesto di inserire il nome del sistema che si desidera avviare.
+</LI>
+<LI>
+
+<P><B><CODE>timeout=50</CODE></B>
+
+<P>Dopo 50 decimi di secondo (5 secondi), senza che sia stato selezionato alcunché, viene avviato il sistema predefinito (in questo caso <B><CODE>linux</CODE></B>).
+</LI>
+<LI>
+
+<P><B><CODE>image=/boot/vmlinuz</CODE></B>
+
+<P>Inizia la definizione di un <EM>kernel</EM> da avviare: <CODE>/boot/vmlinuz</CODE>.
+
+<P><TABLE BORDER="3" WIDTH="100%">
+<TR><TD>
+
+<P>Si tratta del file che si trova nel <EM>filesystem</EM> in funzione nel momento in cui si avvia <CODE>/sbin/lilo</CODE>. Questo particolare potrebbe sembrare ovvio, ma non è proprio così. Se si vuole preparare un sistema di avvio per un Linux residente in un'altra partizione (magari un dischetto), si vuole forse fare riferimento a un <EM>kernel</EM> che si trova lì. La cosa potrebbe non essere tanto intuitiva e viene descritta più avanti.
+</TD></TR>
+</TABLE>
+</LI>
+<LI>
+
+<P><B><CODE>label=linux</CODE></B>
+
+<P>Definisce il nome utilizzato per fare riferimento a questo <EM>kernel</EM>. Poteva essere qualunque cosa, in questo caso, <B><CODE>linux</CODE></B> è utile per ricordare che si tratta dell'avvio di quel sistema operativo.
+</LI>
+<LI>
+
+<P><B><CODE>root=/dev/hda2</CODE></B>
+
+<P>Indica la partizione da utilizzare come <EM>filesystem</EM> principale (<EM>root</EM>).
+</LI>
+<LI>
+
+<P><B><CODE>read-only</CODE></B>
+
+<P>La presenza di questo <EM>flag</EM> fa sì che la partizione specificata venga inizialmente connessa (montata) in sola lettura, in modo da permettere al <EM>kernel</EM> di eseguire un controllo prima di avviare il resto del sistema. Al termine del controllo, la partizione viene collegata regolarmente in lettura e scrittura.
+</LI>
+<LI>
+
+<P><B><CODE>other=/dev/hda1</CODE></B>
+
+<P>Inizia la definizione dell'avvio di un altro sistema operativo, per il quale non è LILO a prendersi cura dell'avvio del <EM>kernel</EM>, ma un altro settore di avvio. In questo caso il settore di avvio deve trovarsi all'inizio della partizione <CODE>/dev/hda1</CODE>.
+</LI>
+<LI>
+
+<P><B><CODE>label=dos</CODE></B>
+
+<P>Definisce il nome utilizzato per fare riferimento a questo sistema operativo. La parola <B><CODE>dos</CODE></B> è utile per ricordare che si tratta dell'avvio di quel sistema operativo.
+</LI>
+<LI>
+
+<P><B><CODE>table=/dev/hda</CODE></B>
+
+<P>Specifica il dispositivo che si riferisce all'unità che contiene l'indicazione della tavola delle partizioni. In effetti, questa è contenuta nella parte iniziale del disco fisso, quindi si fa riferimento all'intera unità <CODE>/dev/hda</CODE>.
+</LI>
+</UL>
+
+<P>Volendo, è possibile avviare lo stesso <EM>filesystem</EM> con <EM>kernel</EM> differenti a seconda delle necessità. In tal caso si possono aggiungere al file <CODE>/etc/lilo.conf</CODE> altri blocchetti come il seguente.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+# Caricamento di Linux con un kernel sperimentale
+image=/boot/vmlinuz-2.1.40
+    label=prova
+    root=/dev/hda2
+    read-only
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Se si vuole la possibilità di utilizzare un <EM>filesystem</EM> <EM>root</EM> differente da quello normale, magari per fare delle prove, o per qualunque altro motivo, si può indicare una voce alternativa come quando si vuole avviare con diversi <EM>kernel</EM> possibili.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+# Caricamento di una partizione alternativa in un disco SCSI
+image=/boot/vmlinuz
+    label=extra
+    root=/dev/sda3
+    read-only
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Quello che conta è comprendere che il sistema di avvio (<EM>boot</EM>) resta nella directory <CODE>/boot/</CODE>, e senza il disco che la contiene, i <EM>filesystem</EM> in <CODE>/dev/hda2</CODE> o <CODE>/dev/sda3</CODE> non possono essere montati. Inoltre, senza <CODE>/dev/hda</CODE> (in questi esempi), non si avvierà alcunché.
+
+<P>Per comprendere meglio il problema, si pensi a questo esempio:
+
+<UL>
+<LI>
+
+<P>Linux sia avviato e stia utilizzando la partizione <CODE>/dev/hda2</CODE> come <EM>filesystem</EM> <EM>root</EM>;
+</LI>
+<LI>
+
+<P>la directory <CODE>/boot/</CODE> sia vuota e sia stata utilizzata per montare un dischetto corrispondente al dispositivo <CODE>/dev/fd0</CODE>;
+</LI>
+<LI>
+
+<P>la directory radice del dischetto corrisponde esattamente a <CODE>/boot/</CODE>;
+</LI>
+<LI>
+
+<P>il dischetto contenga i file già visti, necessari per l'avvio (il <EM>kernel</EM>, <CODE>boot.b</CODE>, <CODE>map</CODE>, ecc.);
+</LI>
+<LI>
+
+<P>il file <CODE>/etc/lilo.conf</CODE> sia come quello visto sopra, per cui il settore di avvio si deve trovare nell'MBR del primo disco fisso (<CODE>/dev/hda</CODE>).
+</LI>
+</UL>
+
+<P>In questo modo, se si esegue il programma <CODE>/sbin/lilo</CODE>, viene creato un settore di avvio nell'MBR di <CODE>/dev/hda</CODE> che fa riferimento ai file di avvio (<EM>kernel</EM> incluso) contenuto nel dischetto. Cioè, senza quel dischetto (proprio quello), il sistema non si avvia. Questo problema viene rivisto più avanti dove viene spiegato come costruire un dischetto contenente sia un settore di avvio che il <EM>kernel</EM> e i file di LILO.
+
+<P>---------
+
+<P>Alle volte è necessario informare il <EM>kernel</EM> di qualche particolarità dell'hardware installato. In tal caso si utilizza la variabile <B><CODE>append</CODE></B> alla quale si assegna la stringa necessaria. Nell'esempio seguente si invia la stringa <B><CODE>cdu31a=0x340,0</CODE></B> necessaria per poter attivare un vecchio lettore CD-ROM Sony.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+# Caricamento di Linux con l'attivazione del CD-ROM
+image=/boot/vmlinuz
+    label=sony
+    root=/dev/hda2
+    append="cdu31a=0x340,0"
+    read-only
+</PRE>
+</TD></TR>
+</TABLE>
+
+
+<H3>11.2.5 # lilo</H3>
+
+<A NAME="utl-lilo"></A>
+<A NAME="lilo"></A>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+lilo [<EM>&lt;opzioni&gt;</EM>]
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P><B><CODE>lilo</CODE></B>, (<CODE>/sbin/lilo</CODE>) permette di installare il sistema di avvio basato sulla procedura LILO. Per farlo, legge il contenuto del file <CODE>/etc/lilo.conf</CODE> o di quello indicato attraverso l'opzione <B><CODE><CODE>-</CODE>C&nbsp;<EM>&lt;file&gt;</EM></CODE></B>.
+
+<DL>
+<DT><B>Alcune opzioni</B></DT><DD>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+<CODE>-</CODE>C <EM>&lt;file-di-configurazione&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di indicare un file di configurazione differente rispetto al solito <CODE>/etc/lilo.conf</CODE>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+<CODE>-</CODE>r <EM>&lt;directory-di-partenza&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di definire una pseudo directory radice in modo da poter utilizzare quanto contenuto in un dischetto o in un altro disco montato da qualche parte.
+<DT><B>Esempi</B></DT><DD>
+
+<P><CODE># </CODE><B><CODE>lilo <CODE>-</CODE>C ./mia.conf</CODE></B></P>
+
+<P>Installa il sistema di avvio utilizzando la configurazione del file <CODE>mia.conf</CODE> contenuto nella directory corrente.
+
+<P><CODE># </CODE><B><CODE>lilo <CODE>-</CODE>r /mnt/floppy</CODE></B></P>
+
+<P>Utilizza la configurazione del file <CODE>/mnt/floppy/etc/lilo.conf</CODE>, facendo riferimento (probabilmente) ai file contenuti in <CODE>/mnt/floppy/boot/</CODE>, utilizzando i file di dispositivo in <CODE>/mnt/floppy/dev/</CODE>.
+</DL>
+
+
+<H3>11.2.6 LILO su un dischetto</H3>
+
+<A NAME="boot-lilo-dischetto"></A>
+
+<P>Se all'interno del file <CODE>/etc/lilo.conf</CODE> si utilizza l'indicazione <CODE>boot=/dev/fd0</CODE>, si ottiene solo di mettere un settore di avvio nel dischetto. Non si afferma implicitamente che il <EM>kernel</EM> deve trovarsi lì.
+
+<P>Per comprendere il problema, e soprattutto per realizzare un dischetto contenente tutto quello che serve ad avviare il sistema, vengono proposti due esempi di soluzioni possibili: una complicata e una ragionevole. Entrambe vanno viste per comprendere il funzionamento di <CODE>/sbin/lilo</CODE> e di LILO in generale.
+
+<P>Si vuole ottenere un dischetto di avvio che permetta di ottenere le stesse scelte dell'esempio riportato nella sezione 
+<A HREF="AL-1.2.11.html#/etc/lilo.conf">11.2.4</A>.
+
+
+<H4>11.2.6.1 Soluzione complicata</H4>
+
+
+<P>La soluzione complicata utilizza un raggiro fatto di <EM>link</EM> simbolici.
+
+<OL>
+<LI>
+
+<P>All'interno di un dischetto inizializzato e contenente un <EM>filesystem</EM> Ext2 si crea la directory <CODE>/boot/</CODE> in cui si copia il contenuto della stessa directory appartenente al <EM>filesystem</EM> generale, insieme al <EM>kernel</EM>. Si suppone di aver montato il dischetto utilizzando la directory <CODE>/mnt/floppy/</CODE> come <EM>mount point</EM>.
+
+<P><CODE># </CODE><B><CODE>fdformat /dev/fd0H1440</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mke2fs /dev/fd0</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mount <CODE>-</CODE>t ext2 /dev/fd0 /mnt/floppy</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>cp <CODE>-</CODE>dpR /boot /mnt/floppy</CODE></B></P>
+</LI>
+<LI>
+
+<P>Si modifica temporaneamente il nome della directory <CODE>/boot/</CODE>.
+
+<P><CODE># </CODE><B><CODE>mv /boot /boot.orig</CODE></B></P>
+</LI>
+<LI>
+
+<P>Si crea un <EM>link</EM> simbolico alla stessa directory del dischetto.
+
+<P><CODE># </CODE><B><CODE>ln <CODE>-</CODE>s /mnt/floppy/boot /boot</CODE></B></P>
+</LI>
+<LI>
+
+<P>Il file <CODE>/etc/lilo.conf</CODE> viene modificato in modo da fare riferimento al dispositivo <CODE>/dev/fd0</CODE>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+boot=/dev/fd0
+</PRE>
+</TD></TR>
+</TABLE>
+</LI>
+<LI>
+
+<P>Si avvia il programma <CODE>/sbin/lilo</CODE>.
+
+<P><CODE># </CODE><B><CODE>lilo</CODE></B></P>
+</LI>
+<LI>
+
+<P>Il dischetto dovrebbe essere sistemato, ma prima di proseguire occorre ripristinare il sistema di avvio normale, altrimenti si potrà avviare il computer solo attraverso il dischetto.
+
+<P><CODE># </CODE><B><CODE>rm /boot</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mv /boot.orig /boot</CODE></B></P>
+
+<P>Si ripristina il file <CODE>/etc/lilo.conf</CODE> in modo da indicare che l'avvio viene eseguito dal disco fisso e non più dal dischetto, quindi si esegue nuovamente <CODE>/sbin/lilo</CODE>.
+
+<P><CODE># </CODE><B><CODE>lilo</CODE></B></P>
+</LI>
+</OL>
+
+
+<H4>11.2.6.2 Soluzione ragionevole</H4>
+
+
+<P>La soluzione ragionevole sfrutta l'opzione <B><CODE><CODE>-</CODE>r</CODE></B> di <CODE>/sbin/lilo</CODE>.
+
+<OL>
+<LI>
+
+<P>All'interno di un dischetto inizializzato e contenente un <EM>filesystem</EM> Ext2 si riproduce tutto quello che serve a <CODE>/sbin/lilo</CODE> per definire il sistema di avvio. Si tratta della directory <CODE>/boot/</CODE> contenente gli stessi file della stessa directory appartenente al <EM>filesystem</EM> generale, insieme al <EM>kernel</EM>; della directory <CODE>/etc/</CODE> con il file <CODE>lilo.conf</CODE>; della directory <CODE>/dev/</CODE> con i file di dispositivo corrispondenti alle unità di memorizzazione cui si fa riferimento. Si suppone di aver montato il dischetto utilizzando la directory <CODE>/mnt/floppy/</CODE> come <EM>mount point</EM>.
+
+<P><CODE># </CODE><B><CODE>fdformat /dev/fd0H1440</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mke2fs /dev/fd0</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mount <CODE>-</CODE>t ext2 /dev/fd0 /mnt/floppy</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>cp <CODE>-</CODE>dpR /boot /mnt/floppy</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mkdir /mnt/floppy/etc</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>cp /etc/lilo.conf /mnt/floppy/etc/lilo.conf</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>mkdir /mnt/floppy/dev</CODE></B></P>
+
+<P><CODE># </CODE><B><CODE>cp /dev/hd* /dev/fd* /dev/sd* /mnt/floppy/dev</CODE></B></P>
+</LI>
+<LI>
+
+<P>Il file <CODE>/mnt/floppy/etc/lilo.conf</CODE> viene modificato in modo da fare riferimento al dispositivo <CODE>/dev/fd0</CODE>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+boot=/dev/fd0
+</PRE>
+</TD></TR>
+</TABLE>
+</LI>
+<LI>
+
+<P>Si utilizza il programma <CODE>/sbin/lilo</CODE> con l'opzione <B><CODE><CODE>-</CODE>r</CODE></B> in modo da fargli usare i file nel dischetto e non quelli contenuti nel <EM>filesystem</EM> <EM>root</EM>.
+
+<P><CODE># </CODE><B><CODE>lilo <CODE>-</CODE>r /mnt/floppy</CODE></B></P>
+</LI>
+</OL>
+
+
+<H3>11.2.7 Boot prompt</H3>
+
+<A NAME="boot-lilo-bootprompt"></A>
+<A NAME="avvio!boot prompt"></A>
+
+<P>Subito dopo la prima fase dell'avvio del sistema, quella gestita da LILO, prima dell'avvio vero e proprio del <EM>kernel</EM>, in presenza di determinate condizioni, viene visualizzato un invito particolare: il <B><CODE>boot prompt</CODE></B>. Questo appare:
+
+<UL>
+<LI>
+
+<P>se era stata indicata l'istruzione <B><CODE>prompt</CODE></B> nel file <CODE>/etc/lilo.conf</CODE>;
+</LI>
+<LI>
+
+<P>se viene premuto il tasto [<EM>Shift</EM>] (maiuscole), oppure [<EM>Ctrl</EM>], oppure [<EM>Alt</EM>];
+</LI>
+<LI>
+
+<P>se il tasto [<EM>Fissamaiuscole</EM>] oppure [<EM>BlocScorr</EM>] risultano inseriti.
+</LI>
+</UL>
+
+<P>Il <EM>boot prompt</EM>, ovvero il <EM>prompt</EM> dell'avvio, ha l'aspetto seguente.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+boot:
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Normalmente si utilizza la riga di comando di <EM>boot</EM> per indicare il nome di una particolare configurazione. In altri casi è il mezzo per specificare un'opzione che per qualche motivo non è attiva automaticamente e si vuole che LILO la passi al <EM>kernel</EM>.
+
+<P>L'<EM>editing</EM> di questa riga di comando è abbastanza intuitivo: per cancellare si possono usare i tasti [<EM>Backspace</EM>], [<EM>Canc</EM>] e le combinazioni [<EM>Ctrl+u</EM>] e [<EM>Ctrl-x</EM>]. Eventualmente, si può ottenere un elenco delle configurazioni, riferite a diverse voci del file <CODE>/etc/lilo.conf</CODE>, attraverso la pressione del tasto [<EM>Tab</EM>]. Si conferma con il tasto [<EM>Invio</EM>].
+
+<P>Il vero problema è la tastiera: si deve considerare che la disposizione dei tasti è quella statunitense.
+
+<P>La sintassi di quanto si può inserire attraverso la riga di comando è la seguente.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+[<EM>&lt;configurazione&gt;</EM> [<EM>&lt;opzione&gt;</EM>... ]]
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Se si preme semplicemente [<EM>Invio</EM>] viene avviata la configurazione predefinita, altrimenti è obbligatorio l'inserimento del nome di questa, eventualmente seguita da altre opzioni.
+
+<P><TABLE BORDER="3" WIDTH="100%">
+<TR><TD>
+
+<P>I vari argomenti inseriti attraverso la riga di comando (il nome della configurazione e le altre opzioni eventuali) sono separati tra loro attraverso uno spazio. Per questo, un argomento non può contenere spazi.
+</TD></TR>
+</TABLE>
+
+<P>Nella sezione 
+<A HREF="AL-1.2.11.html#boot-parametri">11.5</A> vengono descritti alcuni tipi di parametri che possono essere inseriti in una riga di comando di <EM>boot</EM>. Per una descrizione più ampia conviene consultare il capitolo 
+<A HREF="AL-2.4.16.html#capitolo-bootprompt">16</A> ed eventualmente il <EM>BootPrompt HOWTO</EM>.
+
+
+<A NAME="avvio!Loadlin"></A>
+<H2>11.3 Loadlin</H2>
+
+
+
+<P>Se si utilizza ancora il Dos, si può avviare un <EM>kernel</EM> Linux attraverso il programma Loadlin, quando è in funzione il Dos. Loadlin è quindi un programma Dos, e come tale deve poter raggiungere il file del <EM>kernel</EM> all'interno di una partizione Dos.
+
+<P>Per conoscere i dettagli sul funzionamento di Loadlin conviene consultare la documentazione allegata al programma.
+
+
+<H3>11.3.1 Preparazione</H3>
+
+
+<P>Prima di pensare a tutto questo, occorre almeno aver avviato una volta il sistema Linux, e ciò per poter trasferire un <EM>kernel</EM>. Se si aveva deciso di non utilizzare LILO per l'avvio, l'unica possibiltà per avviare Linux è data da un dischetto di avvio, contenente solo il <EM>kernel</EM>.
+
+<P>Attraverso Linux si deve copiare il programma <B><CODE>LOADLIN.EXE</CODE></B> nel disco Dos e con esso anche il file del <EM>kernel</EM>.
+
+<P>A questo punto si può chiudere il sistema nel modo tradizionale e riavviare il computer facendo in modo di mettere in funzione il sistema operativo Dos.
+
+<P><CODE># </CODE><B><CODE>shutdown <CODE>-</CODE>h now</CODE></B></P>
+
+<P>Una volta riavviato il sistema operativo Dos si dovrebbero trovare i due file copiati poco prima attraverso Linux: <CODE>VMLINUZ</CODE> (o qualunque altro nome riferito al file del <EM>kernel</EM> e <CODE>LOADLIN.EXE</CODE>.
+
+
+<H3>11.3.2 Avvio di Linux</H3>
+
+
+<P>Per avviare in modo semplice il sistema Linux mentre è in funzione il Dos, dovrebbe bastare il comando seguente. Si suppone che la partizione dedicata a Linux sia la seconda del primo disco fisso IDE.
+
+<P><CODE>C:\&gt; </CODE><B><CODE>LOADLIN c:\vmlinuz root=/dev/hda2 ro</CODE></B></P>
+
+<P>In pratica, si dice a <B><CODE>LOADLIN.EXE</CODE></B> di caricare il file del <EM>kernel</EM> <CODE>C:\VMLINUZ</CODE> in modo da utilizzare la seconda partizione del primo disco fisso (<CODE>/dev/hda2</CODE>) cominciando con un accesso in sola lettura (in modo da permetterne il controllo prima che il sistema sia messo completamente in funzione).
+
+<P>Prima di avviare <B><CODE>LOADLIN.EXE</CODE></B>, vale forse la pena di disattivare gli eventuali sistemi di <EM>cache</EM> del disco fisso. Se si usa <B><CODE>SMARTDRV.EXE</CODE></B> conviene scaricare la memoria <EM>cache</EM> nel modo seguente.
+
+<P><CODE>C:\&gt; </CODE><B><CODE>SMARTDRV /C</CODE></B></P>
+
+<P>In generale, la cosa migliore dovrebbe essere l'inserimento della chiamata a <B><CODE>LOADLIN.EXE</CODE></B> all'interno di un sistema di file <CODE>AUTOEXEC.BAT</CODE> e <CODE>CONFIG.SYS</CODE> che permetta l'avvio di configurazioni multiple.
+
+
+<H3>11.3.3 Avvio di Linux su un filesystem UMSDOS</H3>
+
+
+<P>L'utilizzo del programma <B><CODE>LOADLIN.EXE</CODE></B> è il modo più ragionevole di avviare un sistema Linux installato in un <EM>filesystem</EM> UMSDOS. Ciò, proprio perché un <EM>filesystem</EM> UMSDOS si trova nella stessa partizione utilizzata per il Dos.
+
+<P><CODE>C:\&gt; </CODE><B><CODE>LOADLIN c:\vmlinuz root=/dev/hda1 rw</CODE></B></P>
+
+<P>In questo caso, si dice a <B><CODE>LOADLIN.EXE</CODE></B> di caricare il file del <EM>kernel</EM> <CODE>C:\VMLINUZ</CODE> in modo da utilizzare la prima partizione del primo disco fisso (<CODE>/dev/hda1</CODE>) cominciando con un accesso sia in lettura che in scrittura.
+
+<P><TABLE BORDER="3" WIDTH="100%">
+<TR><TD>
+
+<P>Con un <EM>filesystem</EM> UMSDOS non è possibile iniziare in sola lettura perché non c'è un programma in grado di eseguire un controllo e la correzione di questo tipo di <EM>filesystem</EM>. Di conseguenza, l'unico modo per controllare e correggere eventuali errori in un <EM>filesystem</EM> UMSDOS è l'uso di programmi Dos quali <B><CODE>CHKDSK.EXE</CODE></B>, <B><CODE>SCANDISK.EXE</CODE></B> e simili.
+</TD></TR>
+</TABLE>
+
+
+<H2>11.4 SYSLINUX</H2>
+
+
+<P>SYSLINUX è un sistema di avvio di Linux basato fondamentalmente su dischetti con <EM>filesystem</EM> Dos-FAT. A prima vista può sembrare qualcosa di superfluo, come una sorta di ulteriore tentativo di far convivere Dos e Linux in un uno stesso disco. In realtà non è così: si tratta di un sistema che facilita notevolmente la realizzazione di dischetti di avvio, e quasi tutte le distribuzioni di Linux utilizzano dischetti di questo tipo.
+
+<P>Lo svantaggio principale nell'uso di un dischetto di avvio di questo tipo, sta nel fatto che si può avviare esclusivamente Linux.
+
+<P>SYSLINUX si può ottenere facendo una ricerca attraverso 
+<A HREF="http://ftpsearch.ntnu.no/ftpsearch/">http://ftpsearch.ntnu.no/ftpsearch/</A> per file il cui nome inizia per <CODE>syslinux</CODE>. Si troveranno una serie di file: <CODE>SYSLINUX.EXE</CODE> e immagini di dischetti già pronte per essere configurate.
+
+<P>La documentazione di SYSLINUX è molto breve; si tratta di un file <CODE>README</CODE> che è opportuno leggere.
+
+
+<H3>11.4.1 Creazione di un dischetto avviabile</H3>
+
+
+<P>SYSLINUX è in realtà un programma Dos, <B><CODE>SYSLINUX.EXE</CODE></B>, che predispone un dischetto precedentemente inizializzato con un <EM>filesystem</EM> Dos-FAT in modo che questo possa avviare un <EM>kernel</EM> Linux. Si procede nel modo seguente, per creare un dischetto di avvio nella prima unità a dischetti.
+
+<P><CODE>C:\&gt; </CODE><B><CODE>SYSLINUX A:</CODE></B></P>
+
+<P>Quello che si ottiene è la creazione di un opportuno settore di avvio che mette in esecuzione il programma <B><CODE>LDLINUX.SYS</CODE></B>, anch'esso inserito nel dischetto con la semplice esecuzione del programma <B><CODE>SYSLINUX.EXE</CODE></B>.
+
+<P>Il minimo indispensabile per avviare il sistema è l'aggiunta nel dischetto (nella directory radice) di un <EM>kernel</EM> Linux denominato convenzionalmente <CODE>LINUX</CODE>. Tuttavia, è conveniente predisporre un file di configurazione, <CODE>SYSLINUX.CFG</CODE>, in modo da poter sfruttare effettivamente i vantaggi di questo sistema di avvio.
+
+<P>Come già accennato, negli FTP che distribuiscono SYSLINUX si trovano anche file di immagine di dischetti di formati diversi, già pronti per l'uso. In generale, è conveniente utilizzare le immagini già pronte.
+
+
+<H3>11.4.2 Configurazione</H3>
+
+
+<P>Si è detto che si può configurare il sistema di avvio attraverso il file <CODE>SYSLINUX.CFG</CODE>. Si tratta di un normale file di testo in cui le righe sono terminate indifferentemente con il carattere &lt;<EM>LF</EM>&gt; o con la sequenza &lt;<EM>CR</EM>&gt;&lt;<EM>LF</EM>&gt; (in pratica, si può creare sia utilizzando strumenti Dos che Unix).
+
+<P>Concettualmente assomiglia al file <CODE>/etc/lilo.conf</CODE>, con il vantaggio di non dover essere lanciato un programma come <B><CODE>lilo</CODE></B> per creare un collegamento tra: settore di avvio, configurazione e <EM>kernel</EM>. Qui tutto viene gestito dal programma <B><CODE>LDLINUX.SYS</CODE></B> che si occupa di leggere la configurazione all'avvio e di agire di conseguenza.
+
+<P>L'esempio seguente mostra le caratteristiche principali di questo file di configurazione. In particolare permette di avviare il <EM>kernel</EM> contenuto nel file <CODE>LINUX</CODE>, con diversi comandi di avvio.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+DEFAULT linux
+TIMEOUT 0
+DISPLAY INTRO.TXT
+PROMPT 1
+
+F1 INTRO.TXT
+F2 VARIE.TXT
+ 
+LABEL linux
+	KERNEL LINUX
+
+LABEL floppy
+	KERNEL LINUX
+	APPEND "ramdisk_start=0 load_ramdisk=1 prompt_ramdisk=1"
+
+LABEL hda1
+	KERNEL LINUX
+	APPEND "root=/dev/hda1 ro"
+</PRE>
+</TD></TR>
+</TABLE>
+
+<UL>
+<LI>
+
+<P><B><CODE>DEFAULT linux</CODE></B>
+
+<P>Specifica di utilizzare in modo predefinito l'impostazione identificata dall'etichetta <B><CODE>linux</CODE></B>. Se questa non fosse stata specificata, significherebbe che si vuole avviare il <EM>kernel</EM> contenuto nel file <CODE>linux</CODE>.
+<SUP><A HREF="#piepagina-1">*1*</A></SUP>
+</LI>
+<LI>
+
+<P><B><CODE>TIMEOUT 50</CODE></B>
+
+<P>Dopo 50 decimi di secondo (5 secondi), senza che sia stato selezionato alcunché, viene avviato il sistema predefinito (in questo caso <B><CODE>linux</CODE></B>). Volendo fare in modo che sia obbligatorio l'intervento dell'utente, si può porre questo valore a zero.
+</LI>
+<LI>
+
+<P><B><CODE>DISPLAY INTRO.TXT</CODE></B>
+
+<P>Visualizza il contenuto del file <CODE>INTRO.TXT</CODE> che si deve trovare nella directory radice del dischetto. Attraverso questo sistema, si possono dare delle istruzioni all'utente sulla scelta delle varie voci di avvio, o sul modo di comporre un comando per il <EM>kernel</EM>.
+</LI>
+<LI>
+
+<P><B><CODE>PROMPT 1</CODE></B>
+
+<P>Fa in modo che venga visualizzato l'invito all'utente a inserire qualcosa: <B><CODE>boot:</CODE></B>. Se il valore abbinato fosse 0, questo invito non verrebbe visualizzato.
+</LI>
+<LI>
+
+<P><B><CODE>F1 INTRO.TXT</CODE></B>
+
+<P>Abbina la visualizzazione del contenuto del file <CODE>INTRO.TXT</CODE> attraverso la pressione del tasto [<EM>F1</EM>].
+</LI>
+<LI>
+
+<P><B><CODE>F2 VARIE.TXT</CODE></B>
+
+<P>Abbina la visualizzazione del contenuto del file <CODE>VARIE.TXT</CODE> attraverso la pressione del tasto [<EM>F2</EM>].
+</LI>
+<LI>
+
+<P><B><CODE>LABEL linux</CODE></B>
+
+<P>Definisce il nome dell'etichetta <B><CODE>linux</CODE></B> utilizzata in questo caso per fare riferimento all'avvio predefinito.
+</LI>
+<LI>
+
+<P><B><CODE>KERNEL LINUX</CODE></B>
+
+<P>Indica di utilizzare il file <CODE>LINUX</CODE>, collocato nella directory radice del dischetto, quando si seleziona l'etichetta <B><CODE>linux</CODE></B>.
+</LI>
+<LI>
+
+<P><B><CODE>LABEL floppy</CODE></B>
+
+<P>Definisce il nome dell'etichetta <B><CODE>floppy</CODE></B> utilizzata in questo caso per fare avviare un sistema a partire da una immagine contenuta in un floppy, caricandola in un <EM>ramdisk</EM>. Come è già stato visto, viene sempre utilizzato il <EM>kernel</EM> contenuto nel file <CODE>LINUX</CODE>; ma qui si definiscono alcuni parametri di avvio, specifici per il caricamento in un <EM>ramdisk</EM>, attraverso l'istruzione <B><CODE>APPEND</CODE></B>.
+</LI>
+<LI>
+
+<P><B><CODE>LABEL hda1</CODE></B>
+
+<P>Definisce il nome dell'etichetta <B><CODE>hda1</CODE></B> utilizzata in questo caso per fare avviare un sistema a partire dalla prima partizione del primo disco fisso. Come è già stato visto, viene sempre utilizzato il <EM>kernel</EM> contenuto nel file <CODE>LINUX</CODE>; ma qui si definiscono i parametri di avvio necessari al caricamento del <EM>filesystem</EM> principale da <CODE>/dev/hda1</CODE>, in sola lettura.
+</LI>
+</UL>
+
+
+<H3>11.4.3 File di aiuto</H3>
+
+
+<P>SYSLINUX ha una caratteristica importante: consente di predisporre diversi file di aiuto selezionabili dall'utente, prima dell'avvio del <EM>kernel</EM>. Questi file possono essere visualizzati premendo i tasti funzionali, secondo quanto definito all'interno del file di configurazione.
+
+<P>Dal momento che SYSLINUX non visualizza l'elenco dei tasti utilizzabili, è opportuno che uno di questi file sia visualizzato inizialmente, attraverso l'istruzione <B><CODE>DISPLAY</CODE></B>, e su questo, come su tutti gli altri, ci sia il riepilogo dei vari tasti che possono essere premuti.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+Dischetto di avvio multiuso.
+
+	"linux"  avvia il kernel nel modo predefinito
+	"floppy" avvia un dischetto come ramdisk
+	"hda1"   avvia il filesystem contenuto nella partizione /dev/hda1
+
+Per ulteriori informazioni si può leggere la guida abbinata al tasto F2.
+
+F1=INTRO  F2=VARIE
+</PRE>
+</TD></TR>
+</TABLE>
+
+
+<H2>11.5 Parametri di boot</H2>
+
+<A NAME="boot-parametri"></A>
+<A NAME="avvio!parametri di"></A>
+
+<P>Il <EM>kernel</EM> non è sempre in grado di individuare da solo tutti i dispositivi fisici installati e a volte si desidera comunque di potergli dare delle istruzioni prima del suo avvio. Si tratta di parametri che gli possono essere passati in vari modi:
+
+<UL>
+<LI>
+
+<P>per mezzo del <EM>boot prompt</EM> quando si avvia attraverso LILO o attraverso SYSLINUX;
+</LI>
+<LI>
+
+<P>per mezzo di un'istruzione <B><CODE>append</CODE></B>, contenuta nel file <CODE>/etc/lilo.conf</CODE> quando si avvia attraverso LILO, oppure nel file <CODE>SYSLINUX.CFG</CODE> quando si avvia attraverso SYSLINUX;
+</LI>
+<LI>
+
+<P>attraverso gli argomenti di Loadlin.
+</LI>
+</UL>
+
+<P>Questi parametri, quando sono forniti, vengono indicati tutti insieme, separati da uno spazio. Ogni parametro non può contenere spazi.
+
+<P>Nella sezione seguente vengono indicati solo alcuni tipi di questi parametri. In particolare, non vengono descritti quelli specifici per i vari tipi di hardware. Il capitolo 
+<A HREF="AL-2.4.16.html#capitolo-bootprompt">16</A> raccoglie più dettagli sui parametri di avvio.
+
+
+<H3>11.5.1 Opzioni generali</H3>
+
+<A NAME="boot-parametri-generali"></A>
+
+<P>Si tratta di indicazioni date al <EM>kernel</EM> senza riferimenti a particolari tipi di hardware.
+
+<DL>
+<DT><B>Filesystem root</B></DT><DD>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+root=<EM>&lt;dispositivo&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di definire un dispositivo differente da quello predefinito per montare il <EM>filesystem</EM> <EM>root</EM>.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+ro
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di definire un accesso iniziale al <EM>filesystem</EM> <EM>root</EM> in sola lettura. Questa è la condizione necessaria per poter eseguire un controllo dell'integrità del <EM>filesystem</EM> prima di passare alla gestione normale.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+rw
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di definire un accesso iniziale al <EM>filesystem</EM> <EM>root</EM> in lettura-scrittura.
+<DT><B>Memoria</B></DT><DD>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+mem=<EM>&lt;dimensione&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>In caso di necessità, permette di definire la dimensione di memoria RAM effettivamente a disposizione. Si può indicare un numero esadecimale nella forma <B><CODE>0x...</CODE></B>, oppure un numero decimale normale, eventualmente seguito dalla lettera <B><CODE>k</CODE></B>, che sta a indicare Kilobyte, oppure dalla lettera <B><CODE>M</CODE></B>, che sta a indicare Megabyte.
+<DT><B>Varie</B></DT><DD>
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+init=<EM>&lt;programma-iniziale&gt;</EM>
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di definire il nome, completo di percorso, del programma che deve svolgere le funzioni di <B><CODE>init</CODE></B>. Il <EM>kernel</EM> provvede da solo a cercare <CODE>/sbin/init</CODE>, e in alternativa <CODE>/etc/init</CODE>. Come ultima risorsa tenta di avviare <CODE>/bin/sh</CODE>. Se per qualunque motivo non funziona il programma <B><CODE>init</CODE></B>, si può tentare di avviare il sistema facendo partire la <EM>shell</EM> al suo posto.
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0">
+<TR><TD>
+<PRE>
+reserve=<EM>&lt;indirizzo-I/O&gt;</EM>,<EM>&lt;estensione&gt;</EM>[,<EM>&lt;indirizzo-I/O&gt;</EM>,<EM>&lt;estensione&gt;</EM>]...
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Permette di isolare una o più zone di indirizzi di I/O in modo che il <EM>kernel</EM> non esegua alcun tentativo di identificazione di componenti in quella zona. Di solito, dopo una opzione del genere, si inseriscono le dichiarazioni esplicite dei dispositivi che ci sono effettivamente. Il primo valore, quello che esprime l'indirizzo, viene espresso attraverso una notazione esadecimale del tipo consueto (<B><CODE>0x...</CODE></B>), mentre il secondo è un numero decimale.
+</DL>
+
+
+<H3>11.5.2 Esempi</H3>
+
+<A NAME="boot-parametri-esempi"></A>
+
+<P>Come è stato accennato nella sezione 
+<A HREF="AL-1.2.11.html#boot-parametri">11.5</A>, esistono diversi modi per fornire al <EM>kernel</EM> delle opzioni di avvio (o di <EM>boot</EM>). Questi esempi dovrebbero chiarire le possibilità che ci sono a disposizione.
+
+<P>---------
+
+<P><CODE>boot: </CODE><B><CODE>linux1 root=/dev/hda1 ro</CODE></B></P>
+
+<P>Attraverso la riga di comando di <EM>boot</EM> di LILO, oppure di SYSLINUX, si avvia la configurazione identificata dal nome <B><CODE>linux1</CODE></B>, si indica la partizione che si vuole montare come <EM>filesystem</EM> <EM>root</EM> e l'accesso iniziale in sola lettura.
+
+<P>---------
+
+<P><CODE>C:\&gt; </CODE><B><CODE>LOADLIN C:\VMLINUZ root=/dev/hda1 ro</CODE></B></P>
+
+<P>Come nell'esempio precedente, ma si avvia il sistema attraverso il programma Loadlin utilizzando il <EM>kernel</EM> <CODE>C:\VMLINUZ</CODE>.
+
+<P>---------
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+append="reserve=0x300,64 ether=11,0x300,eth0 ether=12,0x320,eth1"
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Attraverso l'istruzione <B><CODE>append</CODE></B> del file <CODE>/etc/lilo.conf</CODE> si riserva la zona di indirizzi I/O tra 0x300 e 0x33F e di seguito si specificano due schede di rete Ethernet che utilizzano proprio quella zona di indirizzi.
+
+<P>---------
+
+<P><TABLE BORDER="0" BGCOLOR="#E0E0E0" WIDTH="100%">
+<TR><TD>
+<PRE>
+APPEND "reserve=0x300,64 ether=11,0x300,eth0 ether=12,0x320,eth1"
+</PRE>
+</TD></TR>
+</TABLE>
+
+<P>Si tratta dello stesso esempio mostrato poco sopra, utilizzando però SYSLINUX e mettendo l'istruzione nel file <CODE>SYSLINUX.CFG</CODE>.
+
+
+<H2>11.6 Riferimenti</H2>
+
+
+<UL>
+<LI>
+
+<P>Werner Almesberger, <EM>LILO Generic boot loader for Linux - User's guide</EM>
+</LI>
+<LI>
+
+<P>Paul Gortmaker, <EM>Linux BootPrompt HOWTO</EM>
+</LI>
+</UL>
+
+<P>---------------------------
+
+<P>AppuntiLinux 1998.09.14 --- <EM>Copyright &copy; 1997-1998 Daniele Giacomini - daniele@calion.com</EM>
+
+
+<P><HR>
+
+
+<P><A NAME="piepagina-1"></A>
+1.)  Dal momento che in un <EM>filesystem</EM> Dos-FAT non conta la differenza tra maiuscole e minuscole tra i nomi dei file, in pratica si tratta del file <CODE>LINUX</CODE>. </P>
+<HR>
+</BODY>
+</HTML>

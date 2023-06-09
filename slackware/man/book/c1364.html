@@ -1,0 +1,994 @@
+
+
+<HTML>
+<TITLE>
+The Slackware Linux Project: Slackware Linux Essentials</TITLE>
+<BODY BACKGROUND="grfx-shared/background.jpg" BGCOLOR="#fefefe"
+		         TEXT="#000000" LINK="#000000" VLINK="#000000"
+		         ALINK="#000000">
+<CENTER>
+
+<TABLE BORDER="0" WIDTH="85%" CELLSPACING="0" CELLPADDING="0">
+<TR>
+	<TD COLSPAN="3">
+		<TABLE WIDTH="95%" CELLSPACING="0" CELLPADDING="0">
+		<TR>
+			<TD ALIGN="center" VALIGN="bottom" WIDTH="55%">
+				<TABLE WIDTH="80%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="6">
+	      <TR><TD BGCOLOR="#fefefe">
+				<CENTER><B>
+				Slackware Linux Essentials				</B></CENTER>
+				</TD></TR></TABLE>
+</TD></TR></TABLE>			</TD>
+			<TD VALIGN="bottom" ALIGN="right">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="##000000">
+				<TABLE CELLPADDING="0"><TR><TD BGCOLOR="#ffffff">
+				<A HREF="http://www.slackware.com/index.php3"><IMG SRC="grfx-shared/logo.jpg" ALT="Slackware Logo" BORDER="0"></A>				</TD></TR></TABLE>
+				</TD></TR></TABLE>
+			</TD>
+		</TR>
+      <TR>
+         <TD COLSPAN="2"><BR></TD>
+      </TR>
+		</TABLE>
+	</TD>
+</TR>
+<TR VALIGN="top">
+	<TD WIDTH="10%">
+		<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/index.php3">News</A><P>
+<A HREF="http://www.slackware.com/forum/">Forum</A><P><A HREF="http://www.slackware.com/faq/">FAQ</A><P></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<A HREF="http://www.slackware.com/book/">Book</A></B></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<FONT SIZE="-1"><B>
+<P><A HREF="http://www.slackware.com/info/">General Info</A><P><A HREF="http://www.slackware.com/getslack/">Get Slack</A><P><A HREF="http://www.slackware.com/zipslack/">ZipSlack</A><P><A HREF="http://www.slackware.com/install/">Install Help</A><P><A HREF="http://www.slackware.com/config/">Configuration</A><P><A HREF="http://www.slackware.com/packages/">Packages</A><P><A HREF="http://www.slackware.com/changelog/">ChangeLogs</A><P><A HREF="http://www.slackware.com/links/">Other Sites</A><P><A HREF="http://www.slackware.com/search/">Search</A><P><A HREF="http://www.slackware.com/booth/">Booth!</A><P><A HREF="http://www.slackware.com/support/">Support</A><P><A HREF="http://www.slackware.com/contact/">Contact</A><P><A HREF="http://www.slackware.com/lists/">Mailing Lists</A><P><A HREF="http://www.slackware.com/about/">About</A></B></FONT>
+</TD></TR></TABLE>
+</TD></TR></TABLE><P>	</TD>
+	<TD> &nbsp; </TD>
+	<TD>
+<TABLE WIDTH="100%" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="14">
+	      <TR><TD BGCOLOR="#fefefe">
+<!DOCTYPE HTML PUBLIC "-//Norman Walsh//DTD DocBook HTML 1.0//EN">
+<HTML
+><HEAD
+><TITLE
+>The X Window System</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet"><LINK
+REL="HOME"
+TITLE="Slackware Linux Essentials"
+HREF="book1.html"><LINK
+REL="UP"
+TITLE="Configuration"
+HREF="p621.html"><LINK
+REL="PREVIOUS"
+TITLE="Summary"
+HREF="x1360.html"><LINK
+REL="NEXT"
+TITLE="XF86Setup"
+HREF="x1559.html"></HEAD
+><BODY
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>Slackware Linux Essentials</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="x1360.html"
+>Prev</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="x1559.html"
+>Next</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="XWINDOWSYSTEM"
+>Chapter 6. The X Window System</A
+></H1
+><DIV
+CLASS="TOC"
+><DL
+><DT
+><B
+>Table of Contents</B
+></DT
+><DT
+><A
+HREF="c1364.html#XF86CONFIG"
+>xf86config</A
+></DT
+><DT
+><A
+HREF="x1559.html"
+>XF86Setup</A
+></DT
+><DT
+><A
+HREF="x1580.html"
+>Session Configuration Files</A
+></DT
+><DT
+><A
+HREF="x1630.html"
+>Servers and Window Managers</A
+></DT
+><DT
+><A
+HREF="x1637.html"
+>Selecting a Desktop</A
+></DT
+><DT
+><A
+HREF="x1659.html"
+>Exporting displays</A
+></DT
+><DT
+><A
+HREF="x1705.html"
+>Summary</A
+></DT
+></DL
+></DIV
+><P
+>The X Window System is the standard GUI for all UNIX platforms, and this
+includes Linux.  Unlike Windows and MacOS, in Linux and Unix the GUI is 
+separate from the main operating system kernel.  This adds stability to the 
+system: if the GUI crashes, it doesn't take out the entire system.</P
+><P
+>One problem with X is that it has traditionally been very hard to configure
+for a system.  However, Slackware 7 introduced a configure-less X setup
+that uses the framebuffer driver.  This means that you don't have to go
+through the procedures described in <A
+HREF="c1364.html#XF86CONFIG"
+>the section called <I
+>xf86config</I
+></A
+> and 
+<A
+HREF="x1559.html"
+>the section called <I
+>XF86Setup</I
+></A
+>.  The framebuffer will also work on any 
+VESA 2.0-compliant video cards.  This means that just about any modern video 
+card will work under X.  However, the framebuffer is noticeably slower than 
+using an X configuration tailored to your system.</P
+><P
+>If you choose to use the framebuffer server, you should install the 
+<TT
+CLASS="FILENAME"
+>xxfb.tgz</TT
+> package from the X software series.  You should 
+also choose one of the console resolutions during the configuration section 
+of the installer.  The recommended option for X is probably best for most 
+people.</P
+><P
+>If you choose to configure X for your system, you'll need to follow the
+instructions in <A
+HREF="c1364.html#XF86CONFIG"
+>the section called <I
+>xf86config</I
+></A
+> or <A
+HREF="x1559.html"
+>the section called <I
+>XF86Setup</I
+></A
+>.  
+The first section describes using <B
+CLASS="COMMAND"
+>xf86config</B
+>(1), a 
+commandline-based program for configuring X.  The second section describes 
+<B
+CLASS="COMMAND"
+>XF86Setup</B
+>(1), a graphical version of the configuration 
+program.</P
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="XF86CONFIG"
+>xf86config</A
+></H1
+><P
+><B
+CLASS="COMMAND"
+>xf86config</B
+> is one of two programs that can be used to 
+configure X on your system.  The basic idea is simple: you will be presented 
+with a series of questions and multiple choice answers.  Choose the answer 
+that best fits your system.  After proceeding through the entire program, the 
+<TT
+CLASS="FILENAME"
+>/etc/XF86Config</TT
+>(5) file will be written and you will be 
+ready to use X.  If you mess up at some point, you'll have to kill the program 
+using <TT
+CLASS="USERINPUT"
+><B
+>control-c</B
+></TT
+> and start over from the beginning.</P
+><P
+>It helps to know as much as possible about your monitor and video card
+before using <B
+CLASS="COMMAND"
+>xf86config</B
+>.  You can get information about your 
+video card using the <B
+CLASS="COMMAND"
+>SuperProbe</B
+> program:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>SuperProbe</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This will give you a warning about possibly locking up the system.  If this
+scares you off, quit using <TT
+CLASS="USERINPUT"
+><B
+>control-c</B
+></TT
+> before the five 
+second time limit is up.  Otherwise, you'll get some information about your 
+video setup:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>        First video: Super-VGA
+        Chipset: ATI 264GT3 (3D Rage Pro) (Port Probed)
+        Memory: 4096 Kbytes
+        RAMDAC: ATI Mach64 integrated 15/16/24/32-bit 
+                DAC w/ clock
+                (with 8-bit wide lookup tables)
+                (programmable for 6/8-bit wide lookup tables)
+        Attached graphics coprocessor:
+                Chipset: ATI Mach64
+                Memory: 4096 Kbytes</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>That's what the information for an ATI Rage Pro video card looks like.  Write
+down the information for you card, or switch over to another virtual terminal
+(using the <TT
+CLASS="USERINPUT"
+><B
+>alt-function key</B
+></TT
+> combinations) and run 
+<B
+CLASS="COMMAND"
+>xf86config</B
+>
+from there.  You'll need your video card's information later.  
+<B
+CLASS="COMMAND"
+>xf86config</B
+> must be run as root, since it will be writing 
+files and making symbolic links in places only root is allowed to:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   # <TT
+CLASS="USERINPUT"
+><B
+>xf86config</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Once you start <B
+CLASS="COMMAND"
+>xf86config</B
+>, it will present a screen full of 
+text telling you what it is going to do.  Remember, there is no way to go back 
+to the previous screen if you make a mistake, so pick carefully.  Otherwise, 
+you might have to do this a few times.  Press <TT
+CLASS="USERINPUT"
+><B
+>enter</B
+></TT
+>, 
+like it prompts you to do.</P
+><P
+></P
+><DL
+><DT
+>Mouse protocol</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.mouse.gif"></P
+></FONT
+><P
+>Choose the kind of mouse you have from the list.  These days, most mice will
+be PS/2 or a Microsoft Intellimouse.  Older mice will probably require one of 
+the other types listed.</P
+></DD
+><DT
+>Emulate3Buttons</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.emul3btns.gif"></P
+></FONT
+><P
+>If your mouse has only two buttons on it, you can choose to emulate a third
+button.  Clicking both the left and right mouse buttons at the same time
+will be interpreted as a third button click.  As many programs will make
+use of a third button, enabling it is recommended.  If you have a three
+button mouse, this won't do anything.</P
+></DD
+><DT
+>Mouse device name</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.mousedevice.gif"></P
+></FONT
+><P
+>The default of <TT
+CLASS="FILENAME"
+>/dev/mouse</TT
+> is usually acceptable.  However, 
+if you have your mouse plugged into some strange port, you might need to change 
+this.  For most serial mice and PS/2 mice, the default is fine.</P
+></DD
+><DT
+>XKEYBOARD extension</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.xkb.gif"></P
+></FONT
+><P
+>You will probably want to use the X keyboard extensions.  Not choosing this
+will cause some strange behavior with the backspace and delete keys.  Choosing
+the keyboard extensions will cause keys to behave like they should.</P
+></DD
+><DT
+>Bindings for alt keys</DT
+><DD
+><P
+>If you want to enter characters from different languages, you should enable 
+the bindings for alt keys.  If you're only going to be typing in English,
+you don't need to enable these bindings.</P
+></DD
+><DT
+>Horizontal sync range</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.horizsync.gif"></P
+></FONT
+><P
+>This is the first of the questions relating to the monitor.  It is important
+that you choose wisely here.  Don't pick a range that is outside of your
+monitor's specifications.  This is less important on newer monitors, as they
+will not attempt to do something outside of their specifications.  Older
+monitors might be damaged, though.  When in doubt, pick a conservative
+range.</P
+><P
+>Having your monitor's documentation would be a good reference for these next
+few questions.  For most newer monitors, you can probably pick 31.5-48.5 or 
+31.5-57.0.  Those of you will high-end monitors can choose one of the larger 
+ranges.  Or, you can enter your own horizontal sync range if you don't see one 
+that fits quite right.</P
+></DD
+><DT
+>Vertical sync range</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.vertsync.gif"></P
+></FONT
+><P
+>Once again, you'll need to know the specifications of your monitor to answer
+this question.  When in doubt, go for a narrow range.  A safe choice would
+probably be 50-90 or 50-100.  If you don't see one that fits your monitor, you 
+can choose to enter your own range.</P
+></DD
+><DT
+>Identification strings</DT
+><DD
+><P
+>You are now presented with three questions asking for identification strings
+for your monitor.  These are not terribly important.  You can just hit enter
+for all three of them if you'd like.  Or, you can name them with whatever
+you want.  These strings will be used in the configuration file for
+identification purposes.</P
+></DD
+><DT
+>Video card database</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.carddatabase.gif"></P
+></FONT
+><P
+>The next large section of configuring X deals with your video card.  Your
+card's documentation and the information from <B
+CLASS="COMMAND"
+>SuperProbe</B
+>
+will both prove handy right now.  You will want to look through the card
+database to pick out your card, so answer &#8220;y&#8221; to the question.
+Just hitting enter will take you past the card database and into the next
+section.</P
+><P
+>There are over 800 cards in the database.  The left column contains a number
+for each card and the card's name.  The right column contains the chipset
+for that card.  Keep hitting enter until you find your video card in the list.
+When you've found your card, enter the number and hit enter.  If you don't 
+know what kind of video card you have, there are a few options.  First, you 
+could look at the &#8220;Chipset&#8221; line from 
+<B
+CLASS="COMMAND"
+>SuperProbe</B
+> and look for a card matching that chipset in the 
+database.  Or, you could use a generic SVGA card type.  Many cards that do not 
+have their own server are supported by the SVGA server, so this could be a safe 
+choice.</P
+><P
+>After picking a card, it will give you some more information.  Following the
+ATI Rage Pro example from above, it would give this kind of information:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   Your selected card definition:
+
+   Identifier: ATI Mach64
+   Chipset:    ATI-Mach64
+   Server:     XF86_Mach64
+   Do NOT probe clocks or use any Clocks line.</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>At this point, you should check to make sure that you installed the server
+package.  The XF86_Mach64 server is in the <TT
+CLASS="FILENAME"
+>xma64.tgz</TT
+> 
+package.  Make sure that the correct server package is installed, or X will 
+not be able to run.</P
+></DD
+><DT
+>Which server to run?</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.server.gif"></P
+></FONT
+><P
+>This next question presents several servers that you can use.  If you've 
+selected your video card correctly, you can safely hit Enter.  That will tell 
+X to use the server that the card specified.  Otherwise, you can pick to use 
+the Mono server, VGA16 server, SVGA server, or an accelerated server.  The best
+choice is to use the server that the card specified.</P
+></DD
+><DT
+>Setting the symbolic link</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.symlink.gif"></P
+></FONT
+><P
+>Select &#8220;y&#8221; for setting the symbolic link.  This will set up a 
+link to the appropriate X server.</P
+></DD
+><DT
+>Video memory</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.videoram.gif"></P
+></FONT
+><P
+>Select the amount of memory that your card has.  <B
+CLASS="COMMAND"
+>SuperProbe</B
+> 
+can be used to give this information as well.  If you've got something other 
+than one of the choices, you can select &#8220;Other&#8221; and enter in a 
+different amount.  Make sure that you specify the amount of memory in 
+kilobytes.</P
+></DD
+><DT
+>Identification strings</DT
+><DD
+><P
+>You'll be prompted to enter three more identification strings.  These
+apply to your video card.  As with the monitor strings, it is safe to hit
+enter for all three, unless you'd like to name your video card.</P
+></DD
+><DT
+>RAMDAC</DT
+><DD
+><P
+>You'll only need to choose a RAMDAC setting if you're using the S3, AGX, or
+W32 servers.  <B
+CLASS="COMMAND"
+>SuperProbe</B
+> will tell you what kind of RAMDAC 
+chip is present on your video card.  Go through the list until you've found the 
+correct chip, then enter the corresponding number.  If you're not using the S3, 
+AGX, or W32 servers, enter a &#8220;q&#8221; to continue without selecting a 
+RAMDAC.</P
+></DD
+><DT
+>Clockchip setting</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.clockchip.gif"></P
+></FONT
+><P
+>If your card has a programmable clockchip, you'll want to select one from
+this next listing.  Keep in mind that most cards do not have a programmable
+clockchip, so you should be safe by just hitting enter.  
+<B
+CLASS="COMMAND"
+>SuperProbe</B
+> should report if your card has a clockchip.</P
+></DD
+><DT
+>Clocks line</DT
+><DD
+><P
+>The next screenful of text talks about what a clocks line is.  As it
+explains, you won't want one on most modern configurations.  It will then
+prompt you, asking if it should probe for a clock.  It will also tell you
+if the card needs to be probed or not.  In the case of the ATI card,
+<B
+CLASS="COMMAND"
+>xf86config</B
+> would say:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   The card definition says to NOT probe clocks.</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>If it says something like that, choose &#8220;n&#8221; to the question of 
+probing the card for clocks.  Very old graphics cards will need to be probed.
+<B
+CLASS="COMMAND"
+>xf86config</B
+> will tell you what needs to be done.</P
+></DD
+><DT
+>Video modes</DT
+><DD
+><FONT
+COLOR="RED"
+><P
+><IMG
+SRC="grfx/xf86config.modes.gif"></P
+></FONT
+><P
+>Now it's time to select the video modes that your X server will use.  You
+will see four different color depths - 8bpp, 16bpp, 24bpp, and 32bpp.  Each
+will have a listing of the various video modes that can be run at that
+color depth.  When you start up X, it will enter a default color depth and
+run at the first resolution listed for that color depth.  If you'd like
+X to start up in a different resolution by default, now is the time to do
+that.</P
+><P
+>If the ordering of the video modes is fine, you can select &#8220;OK&#8221;, 
+which will continue on with the configuration process.  Otherwise, select the 
+color depth that you'd like to change.  For example, suppose you were presented
+with the following choices:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   "640x480" "800x600" "1024x768" "1280x1024" for 8bpp
+   "640x480" "800x600" "1024x768" "1280x1024" for 16bpp
+   "640x480" "800x600" "1024x768" "1280x1024" for 24bpp
+   "640x480" "800x600" "1024x768" for 32bpp</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>If you'd like X to start up in a different resolution by default, you would
+first select a color depth to change.  Then you would follow the directions
+given by <B
+CLASS="COMMAND"
+>xf86config</B
+>.  It will prompt you to enter the 
+digits that correspond to the order of the resolutions.  If you simply wanted 
+to reverse the order of the resolutions, you could answer like so:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   Which modes? <TT
+CLASS="USERINPUT"
+><B
+>5432</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>This also allows you to delete resolutions.  If your video card cannot run
+at 1280x1024, there's no reason to have it try.  You could remove that line
+by answering with the following digits:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   Which modes? <TT
+CLASS="USERINPUT"
+><B
+>432</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>After selecting your modes at that color depth, you will be asked if you'd
+like a virtual screen that is bigger than the physical screen.  A virtual
+screen is a screen that is bigger than the actual monitor.  When you move
+the mouse around on the virtual screen, it will scroll a bit before coming
+to the edge.  This allows you to fit more windows onto your monitor.  However,
+because you will not be able to see everything at once, the virtual screen
+can be a bit annoying.  It is still an interesting thing to play with,
+so you might want to try it out.</P
+><P
+>Then you'll be sent back to the list of video modes.  After altering the
+video modes for the 24bpp color depth, it would look like this:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="90%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   "640x480" "800x600" "1024x768" "1280x1024" for 8bpp
+   "640x480" "800x600" "1024x768" "1280x1024" for 16bpp
+   "1280x1024" "1024x768" "800x600" "640x480" for 24bpp
+   "640x480" "800x600" "1024x768" for 32bpp</TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>Continue altering the video modes until you are satisfied with them.  When
+you're done with this section, select &#8220;OK&#8221; to continue on.</P
+></DD
+><DT
+>Write the config file</DT
+><DD
+><P
+>At this point, configuration of X is complete.  <B
+CLASS="COMMAND"
+>xf86config</B
+>
+will ask if it should write the config file to 
+<TT
+CLASS="FILENAME"
+>/etc/XF86Config</TT
+>.  If you'd like to be able to run X, you 
+should answer &#8220;y&#8221; to that question, as that is where X will look 
+for its configuration file.</P
+></DD
+></DL
+><P
+>Assuming that you answered all the questions correctly and have the X server
+package installed, you should now be able to start up X as follows:</P
+><TABLE
+BORDER="0"
+BGCOLOR="#E0E0E0"
+WIDTH="100%"
+><TR
+><TD
+><PRE
+CLASS="SCREEN"
+><TT
+CLASS="COMPUTEROUTPUT"
+>   $ <TT
+CLASS="USERINPUT"
+><B
+>startx</B
+></TT
+></TT
+></PRE
+></TD
+></TR
+></TABLE
+><P
+>If you've installed KDE or GNOME, it should come up at this time.  Otherwise,
+you might want to run <B
+CLASS="COMMAND"
+>xwmconfig</B
+> and select the window 
+manager that you want to use by default.  Window managers will be 
+described later on in this chapter.  <B
+CLASS="COMMAND"
+>xwmconfig</B
+> sets up the 
+default window manager only for the user who runs it.  If you have several 
+users on your system, each will need to select their own window manager.</P
+><P
+>There are a few special keystrokes that might come in handy when using X.
+If you need to quit X at some point and you cannot close it down properly,
+there is a force-quit combination.  
+<TT
+CLASS="USERINPUT"
+><B
+>control-alt-backspace</B
+></TT
+> will kill X and dump you back to 
+a command line.  You can switch back to the command line terminals while 
+running X by pressing <TT
+CLASS="USERINPUT"
+><B
+>control-alt-function key</B
+></TT
+>, which 
+is similar to switching virtual terminals at the console.  The X session is 
+located on terminal 7, so you can get back into X with 
+<TT
+CLASS="USERINPUT"
+><B
+>alt-F7</B
+></TT
+>.  Finally, you can change video modes while 
+running X.  <TT
+CLASS="USERINPUT"
+><B
+>control-alt-numeric keypad +</B
+></TT
+> will switch 
+to the next highest resolution, while 
+<TT
+CLASS="USERINPUT"
+><B
+>control-alt-numeric keypad -</B
+></TT
+> will switch to the next 
+lowest resolution.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="x1360.html"
+>Prev</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="book1.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="x1559.html"
+>Next</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Summary</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="p621.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>XF86Setup</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+></TD></TR></TABLE>
+</TD></TR></TABLE>   </TD>
+</TR>
+<TR VALIGN="top">
+      <BR><BR><BR>
+
+<TD COLSPAN="3" ALIGN="right"><TABLE WIDTH="" CELLPADDING="0"><TR><TD BGCOLOR="#000000">
+
+	      <TABLE WIDTH="100%" CELLPADDING="4">
+	      <TR><TD BGCOLOR="#fefefe">
+
+<FONT SIZE="-2">
+Slackware&reg; is a registered trademark of
+<A HREF="http://www.cdrom.com">Walnut Creek CDROM</A>
+and <A HREF="mailto:volkerdi@slackware.com">Patrick Volkerding</A>.
+</FONT>
+
+</TD></TR></TABLE>
+</TD></TR></TABLE>
+   </TD>
+</TR>
+</TABLE>
+
+</CENTER>
+
+</HTML>
